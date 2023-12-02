@@ -4,14 +4,25 @@
     "dev": "turbo run dev",
     "build": "turbo run build",
     "clean": "turbo run clean && rm -rf node_modules",
-    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\" --ignore-path .gitignore"
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\" --ignore-path .gitignore",
+    "prepare": "husky install",
+    "test": "turbo run test",
+    "lint": "turbo run lint"
   },
   "devDependencies": {
+    "eslint-config-turbo": "^1.10.16",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.1.0",
     "prettier": "^3.1.0",
     "turbo": "latest"
   },
   "engines": {
     "node": ">=18"
   },
-  "packageManager": "pnpm@8.7.4"
+  "packageManager": "pnpm@8.7.4",
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "prettier --write"
+    ]
+  }
 }
