@@ -5,16 +5,17 @@ import {
   GestureResponderEvent,
   Text,
 } from "react-native";
+import { ReactNode } from "react";
 
 export interface ButtonProps {
-  text: string;
+  children: ReactNode;
   onClick?: (event: GestureResponderEvent) => void;
 }
 
-export function Button({ text, onClick }: ButtonProps) {
+export function Button({ children, onClick }: ButtonProps) {
   return (
     <TouchableOpacity style={styles.button} onPress={onClick}>
-      <Text style={styles.text}>{text}</Text>
+      <Text style={styles.text}>{children}</Text>
     </TouchableOpacity>
   );
 }
