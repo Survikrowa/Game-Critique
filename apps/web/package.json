@@ -13,10 +13,10 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-native-web": "^0.19.9",
-    "@repo/ui": "workspace:*"
+    "@repo/ui": "*"
   },
   "devDependencies": {
-    "@repo/typescript-config": "workspace:*",
+    "@repo/typescript-config": "*",
     "@types/node": "^20.10.0",
     "@types/react": "^18.2.38",
     "@types/react-dom": "^18.2.17",
