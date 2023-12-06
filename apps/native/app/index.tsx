@@ -1,5 +1,11 @@
+import { Link } from "expo-router";
 import { Text } from "react-native";
 
 export default function Page() {
-  return <Text>Home page</Text>;
+  return (
+    <Text>
+      Auth Page
+      <Link href="/home">Zaloguj się</Link>
+    </Text>
+  );
 }
