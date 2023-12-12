@@ -1,17 +1,18 @@
 version: '3.8'
 
 services:
-  database:
+  database-game-critique:
     image: postgres:16.1
+    container_name: game-critique-db
     ports:
       - '5432:5432'
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: game-critique
-      PGDATA: /var/lib/postgresql/data/pgdata
+      PGDATA: ./data:/var/lib/postgresql/data
     volumes:
-      - pgdata:/var/lib/postgresql/data/pgdata
+      - ./data:/var/lib/postgresql/data
 
 volumes:
   pgdata:
