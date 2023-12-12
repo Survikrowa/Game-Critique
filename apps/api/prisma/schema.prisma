@@ -9,3 +9,46 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model IGBDBAuth {
+  id        Int     @id @default(autoincrement())
+  token     String
+
+  @@map("igdb_auth")
+}
+
+model Game {
+  id          Int     @id @default(autoincrement())
+  igdbId     Int     @unique @map("igdb_id")
+  name        String
+  slug        String
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+  genres      GamesGenre[]
+
+  @@map("games")
+}
+
+model Genre {
+  id          Int     @id @default(autoincrement())
+  igdbId     Int     @unique @map("igdb_id")
+  name        String
+  slug        String
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+  games       GamesGenre[]
+
+  @@map("genres")
+}
+
+model GamesGenre {
+  gameId     Int @map("game_id")
+  genreId    Int @map("genre_id")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+  game Game @relation(fields: [gameId], references: [id])
+  genre Genre @relation(fields: [genreId], references: [id])
+  @@id([gameId, genreId])
+
+  @@map("game_genre")
+}
