@@ -2231,6 +2231,11 @@
     hey-listen "^1.0.8"
     tslib "^2.3.1"
 
+"@narando/nest-axios-interceptor@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@narando/nest-axios-interceptor/-/nest-axios-interceptor-3.0.0.tgz#1d40035c6d8f53e8421a5c233aa692618d034521"
+  integrity sha512-E7ISRej8j5N1lNOX2VCeTdvvNwKN4aQAAT2xnV2xQ6mLn3l9X5rA7Qs2qU9F3tLRnLyseh1JM8RaU5Ml3Yybfw==
+
 "@nestjs/axios@^3.0.1":
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/@nestjs/axios/-/axios-3.0.1.tgz#b006f81dd54a49def92cfaf9a8970434567e75ce"

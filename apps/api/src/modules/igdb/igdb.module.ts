@@ -3,6 +3,7 @@ import { HttpModule } from '@nestjs/axios';
 import { IgdbService } from './igdb.service';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from '../database/database.module';
+import { IgdbAxiosInterceptor } from './igbd.axios_interceptor';
 
 @Module({
   imports: [
@@ -12,7 +13,7 @@ import { DatabaseModule } from '../database/database.module';
     ConfigModule,
     DatabaseModule,
   ],
-  providers: [IgdbService],
+  providers: [IgdbService, IgdbAxiosInterceptor],
   exports: [IgdbService],
 })
 export class IgdbModule {}
