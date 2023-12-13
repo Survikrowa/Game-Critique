@@ -1,73 +1,33 @@
 import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-import { OAuthTokenDto } from './igdb.dto';
 import { firstValueFrom } from 'rxjs';
-import { AxiosResponse } from 'axios';
 import { ConfigService } from '@nestjs/config';
-import { PrismaService } from '../database/prisma.service';
+import { igdbGamesSchema } from './dtos/igdb_games.dto';
+import { IgdbAuthService } from './igdb_auth/igdb_auth.service';
 
 @Injectable()
 export class IgdbService {
   constructor(
     private readonly httpService: HttpService,
     private readonly configService: ConfigService,
-    private readonly prismaService: PrismaService,
+    private readonly igdbAuthService: IgdbAuthService,
   ) {}
-  async getTokenFromOAuth(): Promise<OAuthTokenDto> {
-    const { data } = await firstValueFrom<AxiosResponse<OAuthTokenDto>>(
+
+  async getGamesBySearch(search: string) {
+    const token = await this.igdbAuthService.getTokenFromDatabase();
+    const { data } = await firstValueFrom(
       this.httpService.post(
-        '/token',
-        {
-          client_id: this.configService.get('IGDB_CLIENT_ID'),
-          client_secret: this.configService.get('IGDB_CLIENT_SECRET'),
-          grant_type: 'client_credentials',
-        },
+        '/games',
+        `search "${search}"; fields name,first_release_date,slug,cover.*,release_dates.date, genres.name, genres.slug, url, id, slug, platforms.name, platforms.slug;`,
         {
           headers: {
-            'Content-Type': 'application/json',
+            'Client-ID': this.configService.get('IGDB_CLIENT_ID'),
+            Authorization: `Bearer ${token}`,
           },
         },
       ),
     );
-    if (data.access_token) {
-      const token = await this.getTokenFromDatabase();
-      if (token) {
-        await this.updateTokenInDatabase(data.access_token);
-      } else {
-        await this.saveTokenToDatabase(data.access_token);
-      }
-    }
-    return data;
-  }
-
-  async updateTokenInDatabase(
-    token: OAuthTokenDto['access_token'],
-  ): Promise<void> {
-    await this.prismaService.iGBDBAuth.update({
-      where: {
-        id: 1,
-      },
-      data: {
-        token,
-      },
-    });
-  }
-
-  async getTokenFromDatabase(): Promise<OAuthTokenDto['access_token'] | null> {
-    const data = await this.prismaService.iGBDBAuth.findFirst();
-    if (!data) {
-      return null;
-    }
-    return data.token;
-  }
-
-  async saveTokenToDatabase(
-    token: OAuthTokenDto['access_token'],
-  ): Promise<void> {
-    await this.prismaService.iGBDBAuth.create({
-      data: {
-        token,
-      },
-    });
+    console.log(data);
+    return igdbGamesSchema.safeParse(data);
   }
 }

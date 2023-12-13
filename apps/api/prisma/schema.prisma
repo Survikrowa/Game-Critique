@@ -11,44 +11,94 @@ datasource db {
 }
 
 model IGBDBAuth {
-  id        Int     @id @default(autoincrement())
-  token     String
+  id    Int    @id @default(autoincrement())
+  token String
 
   @@map("igdb_auth")
 }
 
 model Game {
-  id          Int     @id @default(autoincrement())
-  igdbId     Int     @unique @map("igdb_id")
-  name        String
-  slug        String
-  createdAt  DateTime @default(now()) @map("created_at")
-  updatedAt  DateTime @updatedAt @map("updated_at")
-  genres      GamesGenre[]
+  id              Int               @id @default(autoincrement())
+  igdbId          Int               @unique @map("igdb_id")
+  name            String
+  slug            String
+  createdAt       DateTime          @default(now()) @map("created_at")
+  updatedAt       DateTime          @updatedAt @map("updated_at")
+  genres          GamesGenre[]
+  cover           Cover?
+  release         Release?
+  platformForGame PlatformForGame[]
 
   @@map("games")
 }
 
 model Genre {
-  id          Int     @id @default(autoincrement())
-  igdbId     Int     @unique @map("igdb_id")
-  name        String
-  slug        String
-  createdAt  DateTime @default(now()) @map("created_at")
-  updatedAt  DateTime @updatedAt @map("updated_at")
-  games       GamesGenre[]
+  id        Int          @id @default(autoincrement())
+  igdbId    Int          @unique @map("igdb_id")
+  name      String
+  slug      String
+  createdAt DateTime     @default(now()) @map("created_at")
+  updatedAt DateTime     @updatedAt @map("updated_at")
+  games     GamesGenre[]
 
   @@map("genres")
 }
 
+model Cover {
+  id        Int      @id @default(autoincrement())
+  igdbId    Int      @unique @map("igdb_id")
+  url       String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  gameId    Int      @unique @map("game_id")
+  games     Game     @relation(fields: [gameId], references: [id])
+
+  @@map("cover")
+}
+
 model GamesGenre {
-  gameId     Int @map("game_id")
-  genreId    Int @map("genre_id")
+  gameId    Int      @map("game_id")
+  genreId   Int      @map("genre_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  game      Game     @relation(fields: [gameId], references: [id])
+  genre     Genre    @relation(fields: [genreId], references: [id])
+
+  @@id([gameId, genreId])
+  @@map("game_genre")
+}
+
+model Release {
+  id        Int      @id @default(autoincrement())
+  date      Int?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  gameId    Int      @unique @map("game_id")
+  game      Game     @relation(fields: [gameId], references: [id])
+
+  @@map("release")
+}
+
+model PlatformForGame {
+  gameId     Int      @map("game_id")
+  platformId Int      @map("platform_id")
   createdAt  DateTime @default(now()) @map("created_at")
   updatedAt  DateTime @updatedAt @map("updated_at")
-  game Game @relation(fields: [gameId], references: [id])
-  genre Genre @relation(fields: [genreId], references: [id])
-  @@id([gameId, genreId])
+  game       Game     @relation(fields: [gameId], references: [id])
+  platform   Platform @relation(fields: [platformId], references: [id])
 
-  @@map("game_genre")
+  @@id([gameId, platformId])
+  @@map("game_platform")
+}
+
+model Platform {
+  id              Int               @id @default(autoincrement())
+  igdbId          Int               @unique @map("igdb_id")
+  name            String
+  slug            String
+  createdAt       DateTime          @default(now()) @map("created_at")
+  updatedAt       DateTime          @updatedAt @map("updated_at")
+  PlatformForGame PlatformForGame[]
+
+  @@map("platform")
 }

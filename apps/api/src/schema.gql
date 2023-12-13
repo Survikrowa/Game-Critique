@@ -1,0 +1,42 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Cover {
+  id: ID!
+  url: String!
+}
+
+type Genre {
+  id: ID!
+  igdbId: Float!
+  name: String!
+  slug: String!
+}
+
+type IgdbGame {
+  cover: Cover!
+  first_release_date: Float
+  genres: [Genre!]
+  id: ID!
+  name: String!
+  platforms: [Platform!]
+  slug: String!
+  url: String!
+}
+
+type Platform {
+  id: ID!
+  igdbId: Float!
+  name: String!
+  slug: String!
+}
+
+type Query {
+  search(input: String!): SearchResult!
+}
+
+"""Search result"""
+type SearchResult {
+  games: [IgdbGame!]!
+}

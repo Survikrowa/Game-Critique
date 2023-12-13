@@ -3,17 +3,18 @@ import { HttpModule } from '@nestjs/axios';
 import { IgdbService } from './igdb.service';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from '../database/database.module';
-import { IgdbAxiosInterceptor } from './igbd.axios_interceptor';
+import { IgdbAuthModule } from './igdb_auth/igdb_auth.module';
 
 @Module({
   imports: [
     HttpModule.register({
-      baseURL: 'https://id.twitch.tv/oauth2',
+      baseURL: 'https://api.igdb.com/v4/',
     }),
     ConfigModule,
     DatabaseModule,
+    IgdbAuthModule,
   ],
-  providers: [IgdbService, IgdbAxiosInterceptor],
+  providers: [IgdbService],
   exports: [IgdbService],
 })
 export class IgdbModule {}
