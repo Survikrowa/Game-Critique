@@ -1,6 +1,7 @@
 {
   "extends": "@repo/typescript-config/nestjs.json",
   "compilerOptions": {
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
   }
 }

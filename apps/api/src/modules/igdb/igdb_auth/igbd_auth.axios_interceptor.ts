@@ -5,14 +5,14 @@ import {
   AxiosRejectedInterceptor,
 } from '@narando/nest-axios-interceptor';
 import { isAxiosError } from 'axios';
-import { IgdbService } from './igdb.service';
+import { IgdbAuthService } from './igdb_auth.service';
 
 @Injectable()
 export class IgdbAxiosInterceptor extends AxiosInterceptor {
   private readonly logger = new Logger(IgdbAxiosInterceptor.name);
   constructor(
     httpService: HttpService,
-    private readonly igdbService: IgdbService,
+    private readonly igdbAuthService: IgdbAuthService,
   ) {
     super(httpService);
   }
@@ -21,7 +21,7 @@ export class IgdbAxiosInterceptor extends AxiosInterceptor {
     return async (error) => {
       if (isAxiosError(error) && error.response?.status === 401) {
         this.logger.error(error.response.data);
-        await this.igdbService.getTokenFromOAuth();
+        await this.igdbAuthService.getTokenFromOAuth();
       }
     };
   }
