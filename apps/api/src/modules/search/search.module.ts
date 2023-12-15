@@ -1,6 +1,5 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { IgdbModule } from '../igdb/igdb.module';
-import { SearchController } from './search.controller';
 import { DatabaseModule } from '../database/database.module';
 import { SearchResolver } from './search.resolver';
 import { SearchService } from './search.service';
@@ -14,6 +13,5 @@ import { GamesModule } from '../games/games.module';
   ],
   providers: [SearchResolver, SearchService],
   exports: [],
-  controllers: [SearchController],
 })
 export class SearchModule {}

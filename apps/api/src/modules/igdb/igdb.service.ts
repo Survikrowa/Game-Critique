@@ -27,7 +27,6 @@ export class IgdbService {
         },
       ),
     );
-    console.log(data);
     return igdbGamesSchema.safeParse(data);
   }
 }

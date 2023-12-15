@@ -13,6 +13,7 @@ export class SearchResolver {
   @Query(() => SearchResult)
   async search(@Args('input') input: string) {
     const games = await this.searchService.search(input);
+    await this.gamesService.addGamesToDatabase(games);
     return { games };
   }
 }
