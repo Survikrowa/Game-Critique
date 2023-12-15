@@ -14,6 +14,7 @@ export const igdbGamesSchema = z.array(
     platforms: z
       .array(z.object({ name: z.string(), id: z.number(), slug: z.string() }))
       .nullish(),
+    parent_game: z.number().nullish(),
   }),
 );
 

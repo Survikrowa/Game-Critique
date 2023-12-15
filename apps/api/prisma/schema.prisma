@@ -25,6 +25,7 @@ model Game {
   createdAt       DateTime          @default(now()) @map("created_at")
   updatedAt       DateTime          @updatedAt @map("updated_at")
   genres          GamesGenre[]
+  parentGameId    Int?              @map("parent_game_id")
   cover           Cover?
   release         Release?
   platformForGame PlatformForGame[]
