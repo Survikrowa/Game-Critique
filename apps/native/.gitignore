@@ -12,3 +12,7 @@ web-build/
 
 # macOS
 .DS_Store
+
+
+# GENERATED GRAPHQL
+__generated__/*

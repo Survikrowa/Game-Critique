@@ -1,0 +1,11 @@
+query SearchGames($search: String!) {
+    search(input: $search) {
+      games {
+        id
+        name
+        cover {
+          url
+        }
+      }
+    }
+  }
