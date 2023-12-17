@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Spinner, YStack } from "tamagui";
+import { useDebounce } from "use-debounce";
 
 import { SearchInput } from "./search_input/search_input";
 import { useSearch } from "./search_input/use_search/use_search";
@@ -7,9 +8,10 @@ import { Text } from "../../ui/typography/text";
 
 export const SearchScreen = () => {
   const [input, setInput] = useState("");
+  const [debouncedInput] = useDebounce(input, 1000);
 
-  const { loading, data, error } = useSearch({
-    input,
+  const { loading, data } = useSearch({
+    input: debouncedInput,
   });
   return (
     <YStack padding={8} gap={6}>
