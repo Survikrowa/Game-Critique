@@ -1,11 +1,12 @@
-import { Menu, Search, User } from "@tamagui/lucide-icons";
-import { Link, router } from "expo-router";
+import { Menu, User } from "@tamagui/lucide-icons";
+import { Link } from "expo-router";
 import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { XStack } from "tamagui";
 
-import { ButtonIcon } from "../../ui/forms/button_icon";
-import { Text } from "../../ui/typography/text";
+import { SearchButton } from "./search/search_button";
+import { ButtonIcon } from "../../../ui/forms/button_icon";
+import { Text } from "../../../ui/typography/text";
 
 export const Header = () => {
   const insets = useSafeAreaInsets();
@@ -26,13 +27,7 @@ export const Header = () => {
         </Link>
 
         <XStack gap={8}>
-          <ButtonIcon
-            onPress={() => {
-              router.push("search");
-            }}
-          >
-            <Search color="$purple1" />
-          </ButtonIcon>
+          <SearchButton />
           <ButtonIcon
             onPress={() => {
               console.log("pressed");
