@@ -4,6 +4,7 @@ import { useDebounce } from "use-debounce";
 
 import { SearchInput } from "./search_input/search_input";
 import { useSearch } from "./search_input/use_search/use_search";
+import { SearchResults } from "./search_results/search_results";
 import { Text } from "../../ui/typography/text";
 
 export const SearchScreen = () => {
@@ -22,15 +23,10 @@ export const SearchScreen = () => {
       <Text size="small" weight="normal" color="secondary">
         Używając powyższego inputa możesz wyszukać dowolną grą z naszej bazy.
       </Text>
-      <YStack>
-        {loading ? (
-          <Spinner />
-        ) : (
-          data?.search.games.map((game) => (
-            <Text size="medium" color="secondary" weight="normal" key={game.id}>
-              {game.name}
-            </Text>
-          ))
+      <YStack marginTop={8}>
+        {loading && <Spinner size="large" />}
+        {data && data.search.games.length > 0 && (
+          <SearchResults results={data.search.games} />
         )}
       </YStack>
     </YStack>
