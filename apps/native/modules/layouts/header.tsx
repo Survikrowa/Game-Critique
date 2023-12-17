@@ -1,4 +1,5 @@
-import { Menu, User } from "@tamagui/lucide-icons";
+import { Menu, Search, User } from "@tamagui/lucide-icons";
+import { Link, router } from "expo-router";
 import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { XStack } from "tamagui";
@@ -18,10 +19,20 @@ export const Header = () => {
         alignItems="center"
         justifyContent="space-between"
       >
-        <Text size="medium" color="primary" weight="semiBold">
-          GC
-        </Text>
+        <Link href="/">
+          <Text size="medium" color="primary" weight="semiBold">
+            GC
+          </Text>
+        </Link>
+
         <XStack gap={8}>
+          <ButtonIcon
+            onPress={() => {
+              router.push("search");
+            }}
+          >
+            <Search color="$purple1" />
+          </ButtonIcon>
           <ButtonIcon
             onPress={() => {
               console.log("pressed");
