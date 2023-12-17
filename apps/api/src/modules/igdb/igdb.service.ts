@@ -18,7 +18,7 @@ export class IgdbService {
     const { data } = await firstValueFrom(
       this.httpService.post(
         '/games',
-        `search "${search}"; fields name,first_release_date,slug,cover.*,release_dates.date, genres.name, genres.slug, url, id, slug, platforms.name, platforms.slug;`,
+        `search "${search}"; fields name,first_release_date,slug,cover.*,release_dates.date, genres.name, genres.slug, url, id, slug, platforms.name, platforms.slug; limit 5;`,
         {
           headers: {
             'Client-ID': this.configService.get('IGDB_CLIENT_ID'),
