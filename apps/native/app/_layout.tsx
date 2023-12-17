@@ -1,3 +1,4 @@
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { useFonts } from "expo-font";
 import { Slot, SplashScreen } from "expo-router";
 import { useCallback } from "react";
@@ -8,6 +9,11 @@ import { Header } from "../modules/layouts/header";
 import tamaguiConfig from "../tamagui.config";
 
 SplashScreen.preventAutoHideAsync();
+
+const apolloClient = new ApolloClient({
+  uri: "http://localhost:3000/graphql",
+  cache: new InMemoryCache(),
+});
 
 const RootLayout = () => {
   const [fontsLoaded] = useFonts({
@@ -26,8 +32,10 @@ const RootLayout = () => {
   return (
     <SafeAreaProvider onLayout={onLayoutRootView}>
       <TamaguiProvider config={tamaguiConfig}>
-        <Header />
-        <Slot />
+        <ApolloProvider client={apolloClient}>
+          <Header />
+          <Slot />
+        </ApolloProvider>
       </TamaguiProvider>
     </SafeAreaProvider>
   );
