@@ -20,14 +20,14 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.gamecritique.native"
+      "bundleIdentifier": "com.gamecritique.mobile"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.gamecritique.native"
+      "package": "com.gamecritique.mobile"
     },
     "plugins": [
       "expo-router",
@@ -37,6 +37,14 @@
           "domain": "dev-3gebv0fjdsc0gf5g.us.auth0.com"
         }
       ]
-    ]
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "721093c7-a08f-4258-aad8-eac3c10e49cb"
+      }
+    }
   }
 }

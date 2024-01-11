@@ -28,7 +28,13 @@
         <key>CFBundleURLSchemes</key>
         <array>
           <string>acme</string>
-          <string>com.gamecritique.native</string>
+          <string>com.gamecritique.mobile</string>
+        </array>
+      </dict>
+      <dict>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <string>exp+native</string>
         </array>
       </dict>
       <dict>
@@ -36,7 +42,7 @@
         <string>auth0</string>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>com.gamecritique.native.auth0</string>
+          <string>com.gamecritique.mobile.auth0</string>
         </array>
       </dict>
     </array>
