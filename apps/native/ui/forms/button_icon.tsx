@@ -1,28 +1,23 @@
 import { ReactNode } from "react";
 import { PressableProps } from "react-native";
-import { Stack, styled } from "tamagui";
-
-const ButtonBase = styled(Stack, {
-  name: "Button",
-  backgroundColor: "$chromeless",
-  alignItems: "center",
-  flexDirection: "row",
-
-  hoverStyle: {
-    backgroundColor: "$backgroundHover",
-  },
-
-  pressStyle: {
-    backgroundColor: "rgba(11, 92, 167, 0.3)",
-    opacity: 1,
-  },
-});
+import { Button, ButtonIcon, ButtonProps } from "tamagui";
 
 type ButtonIconProps = {
-  children: ReactNode;
+  children?: ReactNode;
   onPress: PressableProps["onPress"];
-};
+  icon: ReactNode;
+} & ButtonProps;
 
-export const ButtonIcon = ({ children, onPress }: ButtonIconProps) => {
-  return <ButtonBase onPress={onPress}>{children}</ButtonBase>;
+export const ButtonWithIcon = ({
+  children,
+  onPress,
+  icon,
+  ...props
+}: ButtonIconProps) => {
+  return (
+    <Button onPress={onPress} {...props}>
+      <ButtonIcon>{icon}</ButtonIcon>
+      {children}
+    </Button>
+  );
 };
