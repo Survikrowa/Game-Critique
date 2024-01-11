@@ -1,4 +1,4 @@
-package com.gamecritique.native;
+package com.gamecritique.mobile;
 
 import android.os.Build;
 import android.os.Bundle;

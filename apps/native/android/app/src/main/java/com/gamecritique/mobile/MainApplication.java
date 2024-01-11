@@ -1,4 +1,4 @@
-package com.gamecritique.native;
+package com.gamecritique.mobile;
 
 import android.app.Application;
 import android.content.res.Configuration;
