@@ -81,12 +81,12 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace 'com.gamecritique.native'
+    namespace 'com.gamecritique.mobile'
     defaultConfig {
-// @generated begin react-native-auth0-manifest-placeholder - expo prebuild (DO NOT MODIFY) sync-92b5ba595fe06b8b3e3938820e8648eaedf8c9af
-manifestPlaceholders = [auth0Domain: "dev-3gebv0fjdsc0gf5g.us.auth0.com", auth0Scheme: "com.gamecritique.native.auth0"]
+// @generated begin react-native-auth0-manifest-placeholder - expo prebuild (DO NOT MODIFY) sync-c6a12499470bf5024c597e244da4343834c13caf
+manifestPlaceholders = [auth0Domain: "dev-3gebv0fjdsc0gf5g.us.auth0.com", auth0Scheme: "com.gamecritique.mobile.auth0"]
 // @generated end react-native-auth0-manifest-placeholder
-        applicationId 'com.gamecritique.native'
+        applicationId 'com.gamecritique.mobile'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

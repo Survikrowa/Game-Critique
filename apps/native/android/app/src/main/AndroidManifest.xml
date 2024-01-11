@@ -26,7 +26,8 @@
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="acme"/>
-        <data android:scheme="com.gamecritique.native"/>
+        <data android:scheme="com.gamecritique.mobile"/>
+        <data android:scheme="exp+native"/>
       </intent-filter>
     </activity>
     <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" android:exported="false"/>
