@@ -2,6 +2,10 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type AuthUserVerification {
+  authorized: Boolean!
+}
+
 type Cover {
   id: ID!
   url: String!
@@ -34,6 +38,7 @@ type Platform {
 
 type Query {
   search(input: String!): SearchResult!
+  verify: AuthUserVerification!
 }
 
 """Search result"""

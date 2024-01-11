@@ -19,6 +19,11 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export type AuthUserVerification = {
+  __typename?: 'AuthUserVerification';
+  authorized: Scalars['Boolean']['output'];
+};
+
 export type Cover = {
   __typename?: 'Cover';
   id: Scalars['ID']['output'];
@@ -56,6 +61,7 @@ export type Platform = {
 export type Query = {
   __typename?: 'Query';
   search: SearchResult;
+  verify: AuthUserVerification;
 };
 
 

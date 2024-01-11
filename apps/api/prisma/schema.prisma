@@ -17,6 +17,15 @@ model IGBDBAuth {
   @@map("igdb_auth")
 }
 
+model User {
+  id        Int      @id @default(autoincrement())
+  oauthId     String   @unique @map("oauth_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
 model Game {
   id              Int               @id @default(autoincrement())
   igdbId          Int               @unique @map("igdb_id")
