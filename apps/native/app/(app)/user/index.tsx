@@ -1,11 +1,7 @@
-import { Text } from "../../../ui/typography/text";
+import { ProfilePage } from "../../../modules/profile/profile_page";
 
 const UserProfileScreen = () => {
-  return (
-    <Text size="medium" weight="normal" color="secondary">
-      Witaj userze
-    </Text>
-  );
+  return <ProfilePage />;
 };
 
 export default UserProfileScreen;

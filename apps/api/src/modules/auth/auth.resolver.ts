@@ -14,7 +14,8 @@ export class AuthResolver {
   @Query(() => AuthUserVerification)
   async verify(@User() user: UserDTO) {
     try {
-      await this.authService.createUser(user.sub);
+      const { id } = await this.authService.createUser(user.sub);
+      await this.authService.addUserCreatedEvent(id);
       return {
         authorized: true,
       };
