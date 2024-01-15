@@ -19,11 +19,25 @@ model IGBDBAuth {
 
 model User {
   id        Int      @id @default(autoincrement())
-  oauthId     String   @unique @map("oauth_id")
+  oauthId   String   @unique @map("oauth_id")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
+  profile   Profile?
 
   @@map("users")
+}
+
+model Profile {
+  id        Int      @id @default(autoincrement())
+  name      String?
+  email     String?   @unique
+  avatarUrl String   @map("avatar_url")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  userId    Int      @unique @map("user_id")
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@map("profiles")
 }
 
 model Game {

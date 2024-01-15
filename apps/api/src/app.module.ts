@@ -10,6 +10,8 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { GamesModule } from './modules/games/games.module';
 import { BullModule } from '@nestjs/bull';
 import { AuthModule } from './modules/auth/auth.module';
+import { ImagesModule } from './modules/images/images.module';
+import { ProfilesModule } from './modules/profiles/profiles.module';
 
 @Module({
   imports: [
@@ -30,6 +32,8 @@ import { AuthModule } from './modules/auth/auth.module';
     SearchModule,
     GamesModule,
     AuthModule,
+    ImagesModule,
+    ProfilesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
