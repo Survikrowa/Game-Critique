@@ -7,7 +7,7 @@ import { useVerifyOrCreateLazyQuery } from "./auth_verify_graphql/auth_verify.ge
 
 export const useAuth = () => {
   const { authorize, getCredentials } = useAuth0();
-  const [verifyOrCreateUser] = useVerifyOrCreateLazyQuery();
+  const [verifyOrCreateUser, { loading }] = useVerifyOrCreateLazyQuery();
   const toastController = useToastController();
   const onPress = async () => {
     try {
@@ -44,5 +44,6 @@ export const useAuth = () => {
 
   return {
     onLogin: onPress,
+    isLoading: loading,
   };
 };
