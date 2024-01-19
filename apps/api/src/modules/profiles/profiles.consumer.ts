@@ -7,7 +7,10 @@ export class ProfilesConsumer {
   constructor(private readonly profilesRepository: ProfilesRepository) {}
 
   @Process('userCreated')
-  async userCreated(job: Job<number>) {
-    await this.profilesRepository.createProfile(job.data);
+  async userCreated(job: Job<{ userId: number; username: string }>) {
+    await this.profilesRepository.createProfile(
+      job.data.userId,
+      job.data.username,
+    );
   }
 }

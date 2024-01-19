@@ -7,6 +7,7 @@ import { AuthService } from './auth.service';
 import { AuthRepository } from './auth.repository';
 import { DatabaseModule } from '../database/database.module';
 import { BullModule } from '@nestjs/bull';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
   imports: [
@@ -14,6 +15,9 @@ import { BullModule } from '@nestjs/bull';
     BullModule.registerQueue({ name: 'user_created' }),
     ConfigModule,
     DatabaseModule,
+    HttpModule.register({
+      baseURL: process.env.AUTH0_ISSUER_URL,
+    }),
   ],
   providers: [OAuthJwtStrategy, AuthResolver, AuthService, AuthRepository],
   exports: [PassportModule],

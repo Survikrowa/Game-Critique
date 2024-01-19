@@ -5,7 +5,7 @@ const variantBackground = {
   error: "$red8",
 } as const;
 
-const variantTextColor = { success: "$green0", error: "$green0" } as const;
+const variantTextColor = { success: "$green1", error: "$green1" } as const;
 
 export const Toast = () => {
   const toastState = useToastState();
