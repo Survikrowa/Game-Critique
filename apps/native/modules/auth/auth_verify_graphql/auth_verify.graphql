@@ -1,5 +1,5 @@
 query VerifyOrCreate {
-  verify {
-    authorized
-  }
+    verify {
+            authorized
+    }
 }

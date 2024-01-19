@@ -6,18 +6,19 @@ import { useAuth0 } from "react-native-auth0";
 import { useVerifyOrCreateLazyQuery } from "./auth_verify_graphql/auth_verify.generated";
 
 export const useAuth = () => {
-  const { authorize, getCredentials } = useAuth0();
-  const [verifyOrCreateUser, { loading }] = useVerifyOrCreateLazyQuery();
+  const { authorize, clearSession } = useAuth0();
+  const [verifyOrCreateUser, { loading }] = useVerifyOrCreateLazyQuery({
+    fetchPolicy: "no-cache",
+  });
   const toastController = useToastController();
   const onPress = async () => {
     try {
-      await authorize({
+      const authResponse = await authorize({
         scope: "openid profile email",
         audience: "https://gamecritique.homa-server.eu",
       });
-      const token = (await getCredentials())?.accessToken;
-      if (token) {
-        await SecureStore.setItemAsync("oauthToken", token);
+      if (authResponse && authResponse.accessToken) {
+        await SecureStore.setItemAsync("oauthToken", authResponse.accessToken);
         const { data } = await verifyOrCreateUser();
         if (data?.verify.authorized) {
           toastController.show("Witaj.", {
@@ -27,6 +28,7 @@ export const useAuth = () => {
           return router.replace("/");
         }
         await SecureStore.deleteItemAsync("oauthToken");
+        await clearSession();
         toastController.show("OAuthError", {
           description:
             "Coś poszło nie tak przy logowaniu za pomocą konta Google.",
@@ -34,6 +36,7 @@ export const useAuth = () => {
         });
       }
     } catch (_) {
+      await clearSession();
       toastController.show("OAuthError", {
         description:
           "Coś poszło nie tak przy logowaniu za pomocą konta Google.",
