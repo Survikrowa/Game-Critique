@@ -6,6 +6,7 @@ import { AuthUserVerification } from './auth.model';
 import { JwtAuthGuard } from './guards/auth-jwt.guard';
 import { User } from './auth.decorators';
 import { UserDTO } from './auth.dto';
+import * as process from 'process';
 
 @Resolver()
 export class AuthResolver {
@@ -14,6 +15,7 @@ export class AuthResolver {
   @Query(() => AuthUserVerification)
   async verify(@User() user: UserDTO, @Context() context: any) {
     try {
+      console.log(process.env.AUTH0_ISSUER_URL);
       const userInfo = await this.authService.getUserInfoFromAuth0(
         context.req.headers.authorization,
       );
@@ -23,6 +25,7 @@ export class AuthResolver {
         authorized: true,
       };
     } catch (e) {
+      console.log(e);
       if (
         e instanceof Prisma.PrismaClientKnownRequestError &&
         e.code === 'P2002'

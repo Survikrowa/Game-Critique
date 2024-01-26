@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.8.8",
+    "@hookform/resolvers": "^3.3.4",
     "@react-native-community/slider": "4.4.2",
     "@react-navigation/drawer": "^6.6.6",
     "@repo/ui": "*",
@@ -26,6 +27,7 @@
     "expo-constants": "~14.4.2",
     "expo-dev-client": "~2.4.12",
     "expo-font": "~11.4.0",
+    "expo-image-picker": "~14.3.2",
     "expo-linking": "~5.0.2",
     "expo-router": "^2.0.0",
     "expo-secure-store": "~12.3.1",
@@ -34,6 +36,7 @@
     "graphql": "^16.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.49.3",
     "react-native": "0.72.6",
     "react-native-auth0": "^3.1.0",
     "react-native-gesture-handler": "~2.12.0",
@@ -44,7 +47,8 @@
     "react-native-svg": "13.9.0",
     "react-native-web": "^0.19.9",
     "tamagui": "^1.79.6",
-    "use-debounce": "^10.0.0"
+    "use-debounce": "^10.0.0",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@babel/core": "^7.23.3",

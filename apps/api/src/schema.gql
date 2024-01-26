@@ -36,7 +36,15 @@ type Platform {
   slug: String!
 }
 
+"""User profile info"""
+type ProfileInfoDTO {
+  """User's avatar URL from Cloudinary"""
+  avatarUrl: String!
+  name: String!
+}
+
 type Query {
+  profileInfo: ProfileInfoDTO!
   search(input: String!): SearchResult!
   verify: AuthUserVerification!
 }
