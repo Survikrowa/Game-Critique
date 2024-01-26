@@ -34,8 +34,8 @@ model Profile {
   avatarUrl String   @map("avatar_url")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
-  userId    Int      @unique @map("user_id")
-  user      User     @relation(fields: [userId], references: [id])
+  oauthId    String      @unique @map("oauth_id")
+  user      User     @relation(fields: [oauthId], references: [oauthId], onDelete: Cascade)
 
   @@map("profiles")
 }

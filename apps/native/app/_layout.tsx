@@ -1,14 +1,13 @@
 import { ApolloProvider } from "@apollo/client";
 import { ToastProvider } from "@tamagui/toast";
 import { useFonts } from "expo-font";
-import { Slot, SplashScreen, Stack } from "expo-router";
+import { Slot, SplashScreen } from "expo-router";
 import { useCallback } from "react";
 import { Auth0Provider } from "react-native-auth0";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { TamaguiProvider, Theme } from "tamagui";
 
 import { apolloClient } from "../modules/graphql/apollo_client";
-import { Header } from "../modules/layouts/header/header";
 import { SafeToastViewport } from "../modules/layouts/safe_toast_viewport/safe_toast_viewport";
 import tamaguiConfig from "../tamagui.config";
 import { Toast } from "../ui/feedback/toast/toast";

@@ -84,48 +84,49 @@ export type SearchResult = {
   games: Array<IgdbGame>;
 };
 
-export type VerifyOrCreateQueryVariables = Types.Exact<{ [key: string]: never; }>;
+export type ProfileInfoQueryVariables = Types.Exact<{ [key: string]: never; }>;
 
 
-export type VerifyOrCreateQuery = { __typename?: 'Query', verify: { __typename?: 'AuthUserVerification', authorized: boolean } };
+export type ProfileInfoQuery = { __typename?: 'Query', profileInfo: { __typename?: 'ProfileInfoDTO', avatarUrl: string, name: string } };
 
 
-export const VerifyOrCreateDocument = gql`
-    query VerifyOrCreate {
-  verify {
-    authorized
+export const ProfileInfoDocument = gql`
+    query ProfileInfo {
+  profileInfo {
+    avatarUrl
+    name
   }
 }
     `;
 
 /**
- * __useVerifyOrCreateQuery__
+ * __useProfileInfoQuery__
  *
- * To run a query within a React component, call `useVerifyOrCreateQuery` and pass it any options that fit your needs.
- * When your component renders, `useVerifyOrCreateQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useProfileInfoQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProfileInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useVerifyOrCreateQuery({
+ * const { data, loading, error } = useProfileInfoQuery({
  *   variables: {
  *   },
  * });
  */
-export function useVerifyOrCreateQuery(baseOptions?: Apollo.QueryHookOptions<VerifyOrCreateQuery, VerifyOrCreateQueryVariables>) {
+export function useProfileInfoQuery(baseOptions?: Apollo.QueryHookOptions<ProfileInfoQuery, ProfileInfoQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<VerifyOrCreateQuery, VerifyOrCreateQueryVariables>(VerifyOrCreateDocument, options);
+        return Apollo.useQuery<ProfileInfoQuery, ProfileInfoQueryVariables>(ProfileInfoDocument, options);
       }
-export function useVerifyOrCreateLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<VerifyOrCreateQuery, VerifyOrCreateQueryVariables>) {
+export function useProfileInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProfileInfoQuery, ProfileInfoQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<VerifyOrCreateQuery, VerifyOrCreateQueryVariables>(VerifyOrCreateDocument, options);
+          return Apollo.useLazyQuery<ProfileInfoQuery, ProfileInfoQueryVariables>(ProfileInfoDocument, options);
         }
-export function useVerifyOrCreateSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<VerifyOrCreateQuery, VerifyOrCreateQueryVariables>) {
+export function useProfileInfoSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<ProfileInfoQuery, ProfileInfoQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<VerifyOrCreateQuery, VerifyOrCreateQueryVariables>(VerifyOrCreateDocument, options);
+          return Apollo.useSuspenseQuery<ProfileInfoQuery, ProfileInfoQueryVariables>(ProfileInfoDocument, options);
         }
-export type VerifyOrCreateQueryHookResult = ReturnType<typeof useVerifyOrCreateQuery>;
-export type VerifyOrCreateLazyQueryHookResult = ReturnType<typeof useVerifyOrCreateLazyQuery>;
-export type VerifyOrCreateSuspenseQueryHookResult = ReturnType<typeof useVerifyOrCreateSuspenseQuery>;
-export type VerifyOrCreateQueryResult = Apollo.QueryResult<VerifyOrCreateQuery, VerifyOrCreateQueryVariables>;
+export type ProfileInfoQueryHookResult = ReturnType<typeof useProfileInfoQuery>;
+export type ProfileInfoLazyQueryHookResult = ReturnType<typeof useProfileInfoLazyQuery>;
+export type ProfileInfoSuspenseQueryHookResult = ReturnType<typeof useProfileInfoSuspenseQuery>;
+export type ProfileInfoQueryResult = Apollo.QueryResult<ProfileInfoQuery, ProfileInfoQueryVariables>;

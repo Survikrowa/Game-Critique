@@ -1,13 +1,18 @@
 import { View } from "react-native";
+import { Avatar } from "tamagui";
 
 import { Text } from "../../../ui/typography/text";
 
-export const UserAvatar = () => {
+type UserAvatarProps = {
+  avatarUrl: string;
+};
+
+export const UserAvatar = ({ avatarUrl }: UserAvatarProps) => {
   return (
     <View>
-      <Text size="medium" weight="semiBold" color="secondary">
-        Avatar
-      </Text>
+      <Avatar circular size="$9">
+        <Avatar.Image src={avatarUrl} />
+      </Avatar>
     </View>
   );
 };

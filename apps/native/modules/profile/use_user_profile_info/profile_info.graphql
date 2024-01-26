@@ -1,0 +1,6 @@
+query ProfileInfo {
+  profileInfo{
+    avatarUrl
+    name
+  }
+}

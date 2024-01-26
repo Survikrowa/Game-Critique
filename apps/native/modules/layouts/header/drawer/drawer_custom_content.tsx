@@ -7,11 +7,13 @@ import {
 import { useAuth0 } from "react-native-auth0";
 
 export const DrawerCustomContent = (props: DrawerContentComponentProps) => {
-  const { clearSession } = useAuth0();
+  const { clearSession, user } = useAuth0();
   return (
     <DrawerContentScrollView>
       <DrawerItemList {...props} />
-      <DrawerItem label="Wyloguj się" onPress={() => clearSession()} />
+      {user && (
+        <DrawerItem label="Wyloguj się" onPress={() => clearSession()} />
+      )}
     </DrawerContentScrollView>
   );
 };

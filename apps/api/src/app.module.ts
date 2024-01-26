@@ -15,6 +15,7 @@ import { ProfilesModule } from './modules/profiles/profiles.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     BullModule.forRoot({
       redis: {
         host: 'localhost',
@@ -28,7 +29,6 @@ import { ProfilesModule } from './modules/profiles/profiles.module';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
     }),
-    ConfigModule.forRoot(),
     SearchModule,
     GamesModule,
     AuthModule,

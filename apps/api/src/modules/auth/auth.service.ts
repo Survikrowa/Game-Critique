@@ -24,7 +24,7 @@ export class AuthService {
 
   async getUserInfoFromAuth0(accessToken: string): Promise<UserAuth0InfoDTO> {
     const { data } = await firstValueFrom(
-      this.httpService.get('userinfo', {
+      this.httpService.get('/userinfo', {
         headers: {
           Authorization: accessToken,
         },

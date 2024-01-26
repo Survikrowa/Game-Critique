@@ -58,8 +58,17 @@ export type Platform = {
   slug: Scalars['String']['output'];
 };
 
+/** User profile info */
+export type ProfileInfoDto = {
+  __typename?: 'ProfileInfoDTO';
+  /** User's avatar URL from Cloudinary */
+  avatarUrl: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+};
+
 export type Query = {
   __typename?: 'Query';
+  profileInfo: ProfileInfoDto;
   search: SearchResult;
   verify: AuthUserVerification;
 };

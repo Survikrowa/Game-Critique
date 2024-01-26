@@ -16,7 +16,7 @@ import { HttpModule } from '@nestjs/axios';
     ConfigModule,
     DatabaseModule,
     HttpModule.register({
-      baseURL: process.env.AUTH0_ISSUER_URL,
+      baseURL: 'https://dev-3gebv0fjdsc0gf5g.us.auth0.com/',
     }),
   ],
   providers: [OAuthJwtStrategy, AuthResolver, AuthService, AuthRepository],
