@@ -1,9 +1,6 @@
 import {
   Body,
   Controller,
-  FileTypeValidator,
-  MaxFileSizeValidator,
-  ParseFilePipe,
   Post,
   UploadedFile,
   UseGuards,
@@ -19,34 +16,25 @@ import {
   TransformOptionsDTO,
   TransformOptionsSchema,
 } from './images.dto';
+import { ParseFilePipe } from './images.pipe';
 
 @Controller('images')
 export class ImagesController {
   constructor(private readonly imagesService: ImagesService) {}
 
   @Post('upload')
-  // @UseGuards(JwtAuthGuard)
-  // @UseInterceptors(FileInterceptor('file'))
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(FileInterceptor('file'))
   @UsePipes(new ZodValidationPipe(TransformOptionsSchema))
   async upload(
-    // @UploadedFile() // new ParseFilePipe({
-    // //   validators: [
-    // file //     new MaxFileSizeValidator({ maxSize: 4000 }),
-    // //     new FileTypeValidator({ fileType: 'image/jpeg' }),
-    // //   ],
-    // // }),
-    // : Express.Multer.File,
+    @UploadedFile(ParseFilePipe) file: Express.Multer.File,
     @Body() body: TransformOptionsDTO,
   ): Promise<ImageUploadDTO> {
-    // const { url } = await this.imagesService.uploadImage(file);
-    // const [firstPartOfUrl, secondPartOfUrl] = url.split('upload/');
-    // const transformedUrl = `${firstPartOfUrl}w_${body.transformOptions.width},h_${body.transformOptions.height}/${secondPartOfUrl}`;
-    // return {
-    //   photo_url: transformedUrl,
-    // };
-
+    const { url } = await this.imagesService.uploadImage(file);
+    const [firstPartOfUrl, secondPartOfUrl] = url.split('upload/');
+    const transformedUrl = `${firstPartOfUrl}upload/w_${body.transformOptions.width},h_${body.transformOptions.height}/${secondPartOfUrl}`;
     return {
-      photo_url: '',
+      photo_url: transformedUrl,
     };
   }
 }
