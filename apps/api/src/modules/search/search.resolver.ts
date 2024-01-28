@@ -14,6 +14,13 @@ export class SearchResolver {
   async search(@Args('input') input: string) {
     const games = await this.searchService.search(input);
     await this.gamesService.addGamesToDatabase(games);
-    return { games };
+    return {
+      games: games.map((game) => ({
+        ...game,
+        cover: {
+          small_url: game.coverSmallUrl,
+        },
+      })),
+    };
   }
 }

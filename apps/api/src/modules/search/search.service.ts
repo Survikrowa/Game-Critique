@@ -1,22 +1,29 @@
 import { Injectable } from '@nestjs/common';
-import { IgdbService } from '../igdb/igdb.service';
-import { IGDBGamesDto } from '../igdb/dtos/igdb_games.dto';
+import { HowLongToBeatService } from '../howlongtobeat_parser/howlongtobeat_parser.service';
+import { SearchGameResultDtoType } from './search.dto';
 
 @Injectable()
 export class SearchService {
-  constructor(private readonly igdbService: IgdbService) {}
+  constructor(private readonly hltbParserService: HowLongToBeatService) {}
 
-  async search(input: string): Promise<IGDBGamesDto> {
-    const games = await this.igdbService.getGamesBySearch(input);
-    if (games.success) {
-      return games.data.map((game) => ({
-        ...game,
-        cover: {
-          ...game.cover,
-          url: `https:${game.cover.url.replace('t_thumb', 't_cover_big')}`,
-        },
-      }));
+  async search(input: string): Promise<SearchGameResultDtoType[]> {
+    try {
+      const games = await this.hltbParserService.search(input);
+      return games.hltbSearchResult.map((game) => {
+        return {
+          id: game.game_id,
+          name: game.game_name,
+          coverBigUrl: game.coverBigUrl,
+          coverSmallUrl: game.coverSmallUrl,
+          coverMediumUrl: game.coverMediumUrl,
+          firstReleaseDate: game.release_world,
+          platforms: game.platforms,
+          genres: game.genres,
+        };
+      });
+    } catch (error) {
+      console.log(error);
+      return [];
     }
-    return [];
   }
 }

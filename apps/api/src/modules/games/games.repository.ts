@@ -1,28 +1,31 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../database/prisma.service';
-import { IGDBGamesDto } from '../igdb/dtos/igdb_games.dto';
+import { HowLongToBeatService } from '../howlongtobeat_parser/howlongtobeat_parser.service';
+import { SearchGameResultDtoType } from '../search/search.dto';
 
 @Injectable()
 export class GamesRepository {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly hltbParserService: HowLongToBeatService,
+  ) {}
 
-  async createGame(game: IGDBGamesDto[number]) {
+  async createGame(game: SearchGameResultDtoType) {
+    const slug = this.hltbParserService.transformToHltbSlug(game.name);
     await this.prismaService.game.create({
       data: {
-        igdbId: game.id,
+        hltbId: game.id,
         name: game.name,
-        slug: game.slug,
-        parentGameId: game.parent_game,
+        slug,
         platformForGame: {
           create: game.platforms
             ? game.platforms.map((platform) => ({
                 platform: {
                   connectOrCreate: {
                     where: {
-                      igdbId: platform.id,
+                      slug: platform.slug,
                     },
                     create: {
-                      igdbId: platform.id,
                       name: platform.name,
                       slug: platform.slug,
                     },
@@ -34,10 +37,9 @@ export class GamesRepository {
                   platform: {
                     connectOrCreate: {
                       where: {
-                        igdbId: 999999,
+                        slug: 'brak-informacji',
                       },
                       create: {
-                        igdbId: 999999,
                         name: 'Brak informacji',
                         slug: 'brak-informacji',
                       },
@@ -52,10 +54,9 @@ export class GamesRepository {
                 genre: {
                   connectOrCreate: {
                     where: {
-                      igdbId: genre.id,
+                      slug: genre.slug,
                     },
                     create: {
-                      igdbId: genre.id,
                       name: genre.name,
                       slug: genre.slug,
                     },
@@ -67,10 +68,9 @@ export class GamesRepository {
                   genre: {
                     connectOrCreate: {
                       where: {
-                        igdbId: 999999,
+                        slug: 'brak-informacji',
                       },
                       create: {
-                        igdbId: 999999,
                         name: 'Brak informacji',
                         slug: 'brak-informacji',
                       },
@@ -81,13 +81,14 @@ export class GamesRepository {
         },
         cover: {
           create: {
-            igdbId: game.cover.id,
-            url: game.cover.url,
+            bigUrl: game.coverBigUrl,
+            smallUrl: game.coverSmallUrl,
+            mediumUrl: game.coverMediumUrl,
           },
         },
         release: {
           create: {
-            date: game.first_release_date,
+            date: game.firstReleaseDate,
           },
         },
       },

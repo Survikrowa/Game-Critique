@@ -17,7 +17,7 @@ export const SearchResult = ({ result }: SearchResultProps) => {
       <XStack maxWidth={80} maxHeight={100}>
         <Image
           source={{
-            uri: result.cover.url,
+            uri: result.cover.small_url,
           }}
           width={80}
           height={100}

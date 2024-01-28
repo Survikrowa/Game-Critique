@@ -7,33 +7,9 @@ type AuthUserVerification {
 }
 
 type Cover {
-  id: ID!
-  url: String!
-}
-
-type Genre {
-  id: ID!
-  igdbId: Float!
-  name: String!
-  slug: String!
-}
-
-type IgdbGame {
-  cover: Cover!
-  first_release_date: Float
-  genres: [Genre!]
-  id: ID!
-  name: String!
-  platforms: [Platform!]
-  slug: String!
-  url: String!
-}
-
-type Platform {
-  id: ID!
-  igdbId: Float!
-  name: String!
-  slug: String!
+  big_url: String!
+  medium_url: String!
+  small_url: String!
 }
 
 """User profile info"""
@@ -49,7 +25,14 @@ type Query {
   verify: AuthUserVerification!
 }
 
+"""Search Games Result"""
+type SearchGamesResult {
+  cover: Cover!
+  id: Float!
+  name: String!
+}
+
 """Search result"""
 type SearchResult {
-  games: [IgdbGame!]!
+  games: [SearchGamesResult!]!
 }

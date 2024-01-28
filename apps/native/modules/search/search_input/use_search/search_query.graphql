@@ -4,7 +4,7 @@ query SearchGames($search: String!) {
         id
         name
         cover {
-          url
+          small_url
         }
       }
     }
