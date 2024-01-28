@@ -42,13 +42,12 @@ model Profile {
 
 model Game {
   id              Int               @id @default(autoincrement())
-  igdbId          Int               @unique @map("igdb_id")
+  hltbId          Int               @unique @map("hltb_id")
   name            String
   slug            String
   createdAt       DateTime          @default(now()) @map("created_at")
   updatedAt       DateTime          @updatedAt @map("updated_at")
   genres          GamesGenre[]
-  parentGameId    Int?              @map("parent_game_id")
   cover           Cover?
   release         Release?
   platformForGame PlatformForGame[]
@@ -58,9 +57,8 @@ model Game {
 
 model Genre {
   id        Int          @id @default(autoincrement())
-  igdbId    Int          @unique @map("igdb_id")
   name      String
-  slug      String
+  slug      String       @unique
   createdAt DateTime     @default(now()) @map("created_at")
   updatedAt DateTime     @updatedAt @map("updated_at")
   games     GamesGenre[]
@@ -70,8 +68,9 @@ model Genre {
 
 model Cover {
   id        Int      @id @default(autoincrement())
-  igdbId    Int      @unique @map("igdb_id")
-  url       String
+  smallUrl       String
+  mediumUrl      String
+  bigUrl         String
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
   gameId    Int      @unique @map("game_id")
@@ -82,13 +81,13 @@ model Cover {
 
 model GamesGenre {
   gameId    Int      @map("game_id")
-  genreId   Int      @map("genre_id")
+  genreSlug   String      @map("genre_slug")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
   game      Game     @relation(fields: [gameId], references: [id])
-  genre     Genre    @relation(fields: [genreId], references: [id])
+  genre     Genre    @relation(fields: [genreSlug], references: [slug])
 
-  @@id([gameId, genreId])
+  @@id([gameId, genreSlug])
   @@map("game_genre")
 }
 
@@ -105,21 +104,20 @@ model Release {
 
 model PlatformForGame {
   gameId     Int      @map("game_id")
-  platformId Int      @map("platform_id")
+  platformSlug String      @map("platform_slug")
   createdAt  DateTime @default(now()) @map("created_at")
   updatedAt  DateTime @updatedAt @map("updated_at")
   game       Game     @relation(fields: [gameId], references: [id])
-  platform   Platform @relation(fields: [platformId], references: [id])
+  platform   Platform @relation(fields: [platformSlug], references: [slug])
 
-  @@id([gameId, platformId])
+  @@id([gameId, platformSlug])
   @@map("game_platform")
 }
 
 model Platform {
   id              Int               @id @default(autoincrement())
-  igdbId          Int               @unique @map("igdb_id")
   name            String
-  slug            String
+  slug            String            @unique
   createdAt       DateTime          @default(now()) @map("created_at")
   updatedAt       DateTime          @updatedAt @map("updated_at")
   PlatformForGame PlatformForGame[]

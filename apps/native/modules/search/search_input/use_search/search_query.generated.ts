@@ -26,36 +26,9 @@ export type AuthUserVerification = {
 
 export type Cover = {
   __typename?: 'Cover';
-  id: Scalars['ID']['output'];
-  url: Scalars['String']['output'];
-};
-
-export type Genre = {
-  __typename?: 'Genre';
-  id: Scalars['ID']['output'];
-  igdbId: Scalars['Float']['output'];
-  name: Scalars['String']['output'];
-  slug: Scalars['String']['output'];
-};
-
-export type IgdbGame = {
-  __typename?: 'IgdbGame';
-  cover: Cover;
-  first_release_date?: Maybe<Scalars['Float']['output']>;
-  genres?: Maybe<Array<Genre>>;
-  id: Scalars['ID']['output'];
-  name: Scalars['String']['output'];
-  platforms?: Maybe<Array<Platform>>;
-  slug: Scalars['String']['output'];
-  url: Scalars['String']['output'];
-};
-
-export type Platform = {
-  __typename?: 'Platform';
-  id: Scalars['ID']['output'];
-  igdbId: Scalars['Float']['output'];
-  name: Scalars['String']['output'];
-  slug: Scalars['String']['output'];
+  big_url: Scalars['String']['output'];
+  medium_url: Scalars['String']['output'];
+  small_url: Scalars['String']['output'];
 };
 
 /** User profile info */
@@ -78,10 +51,18 @@ export type QuerySearchArgs = {
   input: Scalars['String']['input'];
 };
 
+/** Search Games Result */
+export type SearchGamesResult = {
+  __typename?: 'SearchGamesResult';
+  cover: Cover;
+  id: Scalars['Float']['output'];
+  name: Scalars['String']['output'];
+};
+
 /** Search result */
 export type SearchResult = {
   __typename?: 'SearchResult';
-  games: Array<IgdbGame>;
+  games: Array<SearchGamesResult>;
 };
 
 export type SearchGamesQueryVariables = Types.Exact<{
@@ -89,7 +70,7 @@ export type SearchGamesQueryVariables = Types.Exact<{
 }>;
 
 
-export type SearchGamesQuery = { __typename?: 'Query', search: { __typename?: 'SearchResult', games: Array<{ __typename?: 'IgdbGame', id: string, name: string, cover: { __typename?: 'Cover', url: string } }> } };
+export type SearchGamesQuery = { __typename?: 'Query', search: { __typename?: 'SearchResult', games: Array<{ __typename?: 'SearchGamesResult', id: number, name: string, cover: { __typename?: 'Cover', small_url: string } }> } };
 
 
 export const SearchGamesDocument = gql`
@@ -99,7 +80,7 @@ export const SearchGamesDocument = gql`
       id
       name
       cover {
-        url
+        small_url
       }
     }
   }

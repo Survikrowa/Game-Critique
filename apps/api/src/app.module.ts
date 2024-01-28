@@ -12,6 +12,7 @@ import { BullModule } from '@nestjs/bull';
 import { AuthModule } from './modules/auth/auth.module';
 import { ImagesModule } from './modules/images/images.module';
 import { ProfilesModule } from './modules/profiles/profiles.module';
+import { HowLongToBeatModule } from './modules/howlongtobeat/howlongtobeat.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { ProfilesModule } from './modules/profiles/profiles.module';
     AuthModule,
     ImagesModule,
     ProfilesModule,
+    HowLongToBeatModule,
   ],
   controllers: [AppController],
   providers: [AppService],
