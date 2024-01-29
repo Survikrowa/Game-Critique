@@ -24,17 +24,27 @@ export class ImagesController {
 
   @Post('upload')
   @UseGuards(JwtAuthGuard)
-  @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(
+    FileInterceptor('file', {
+      limits: {
+        fieldSize: 25 * 1024 * 1024,
+      },
+    }),
+  )
   @UsePipes(new ZodValidationPipe(TransformOptionsSchema))
   async upload(
     @UploadedFile(ParseFilePipe) file: Express.Multer.File,
     @Body() body: TransformOptionsDTO,
-  ): Promise<ImageUploadDTO> {
-    const { url } = await this.imagesService.uploadImage(file);
-    const [firstPartOfUrl, secondPartOfUrl] = url.split('upload/');
-    const transformedUrl = `${firstPartOfUrl}upload/w_${body.transformOptions.width},h_${body.transformOptions.height}/${secondPartOfUrl}`;
-    return {
-      photo_url: transformedUrl,
-    };
+  ): Promise<ImageUploadDTO | undefined> {
+    try {
+      const { url } = await this.imagesService.uploadImage(file);
+      const [firstPartOfUrl, secondPartOfUrl] = url.split('upload/');
+      const transformedUrl = `${firstPartOfUrl}upload/w_${body.transformOptions.width},h_${body.transformOptions.height}/${secondPartOfUrl}`;
+      return {
+        photo_url: transformedUrl,
+      };
+    } catch (e) {
+      console.log(e);
+    }
   }
 }

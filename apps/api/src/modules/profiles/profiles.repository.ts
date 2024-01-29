@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../database/prisma.service';
+import { ProfileInfoUpdateArgsDTO } from './profiles.dto';
 
 @Injectable()
 export class ProfilesRepository {
@@ -24,6 +25,21 @@ export class ProfilesRepository {
     return this.prismaService.profile.findFirst({
       where: {
         oauthId: oauthUserId,
+      },
+    });
+  }
+
+  async updateProfile(
+    oauthUserId: string,
+    profileInfo: ProfileInfoUpdateArgsDTO,
+  ) {
+    return this.prismaService.profile.update({
+      where: {
+        oauthId: oauthUserId,
+      },
+      data: {
+        name: profileInfo.name,
+        avatarUrl: profileInfo.avatarUrl,
       },
     });
   }

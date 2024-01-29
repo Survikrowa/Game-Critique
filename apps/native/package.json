@@ -22,6 +22,7 @@
     "@tamagui/config": "^1.79.6",
     "@tamagui/lucide-icons": "^1.79.6",
     "@tamagui/toast": "1.79.6",
+    "axios": "^1.6.7",
     "burnt": "^0.12.2",
     "expo": "^49.0.20",
     "expo-constants": "~14.4.2",

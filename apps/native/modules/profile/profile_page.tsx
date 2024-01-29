@@ -18,7 +18,10 @@ export const ProfilePage = () => {
       <YStack display="flex" alignItems="center" padding="$4" gap={16}>
         <ProfileEditorForm
           onSubmit={handleProfileViewChange}
-          defaultValues={{ name: userProfileInfo.data.profileInfo.name }}
+          defaultValues={{
+            name: userProfileInfo.data.profileInfo.name,
+            avatar: userProfileInfo.data.profileInfo.avatarUrl,
+          }}
         />
       </YStack>
     );

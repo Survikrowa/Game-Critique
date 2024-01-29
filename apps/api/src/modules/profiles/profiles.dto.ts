@@ -1,4 +1,4 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, InputType, ObjectType } from '@nestjs/graphql';
 
 @ObjectType({ description: 'User profile info' })
 export class ProfileInfoDTO {
@@ -7,4 +7,19 @@ export class ProfileInfoDTO {
 
   @Field(() => String, { description: "User's avatar URL from Cloudinary" })
   avatarUrl: string;
+}
+
+@InputType({ description: 'User profile info required to update profile' })
+export class ProfileInfoUpdateArgsDTO {
+  @Field(() => String)
+  name: string;
+
+  @Field(() => String, { description: "User's avatar URL from Cloudinary" })
+  avatarUrl: string;
+}
+
+@ObjectType({ description: 'Response for updating profile info' })
+export class ProfileInfoUpdateResponseDTO {
+  @Field(() => Boolean)
+  success: boolean;
 }

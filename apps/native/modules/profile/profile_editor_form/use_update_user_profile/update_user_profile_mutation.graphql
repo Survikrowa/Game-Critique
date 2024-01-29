@@ -1,0 +1,5 @@
+mutation updateUserProfile($input: ProfileInfoUpdateArgsDTO!) {
+    updateProfileInfo(profileInfo: $input) {
+        success
+    }
+}

@@ -31,12 +31,35 @@ export type Cover = {
   small_url: Scalars['String']['output'];
 };
 
+export type Mutation = {
+  __typename?: 'Mutation';
+  updateProfileInfo: ProfileInfoUpdateResponseDto;
+};
+
+
+export type MutationUpdateProfileInfoArgs = {
+  profileInfo: ProfileInfoUpdateArgsDto;
+};
+
 /** User profile info */
 export type ProfileInfoDto = {
   __typename?: 'ProfileInfoDTO';
   /** User's avatar URL from Cloudinary */
   avatarUrl: Scalars['String']['output'];
   name: Scalars['String']['output'];
+};
+
+/** User profile info required to update profile */
+export type ProfileInfoUpdateArgsDto = {
+  /** User's avatar URL from Cloudinary */
+  avatarUrl: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+};
+
+/** Response for updating profile info */
+export type ProfileInfoUpdateResponseDto = {
+  __typename?: 'ProfileInfoUpdateResponseDTO';
+  success: Scalars['Boolean']['output'];
 };
 
 export type Query = {
