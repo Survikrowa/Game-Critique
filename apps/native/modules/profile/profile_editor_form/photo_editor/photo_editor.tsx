@@ -1,13 +1,22 @@
 import { useToastController } from "@tamagui/toast";
 import * as ImagePicker from "expo-image-picker";
 import { useState } from "react";
+import { useFormContext } from "react-hook-form";
 import { Button, Image } from "tamagui";
 
 import { Text } from "../../../../ui/typography/text";
+import { getFileInfo } from "../../../files/get_file_info";
+import { useUploadPhoto } from "../../../photos/use_upload_photo/use_upload_photo";
+import { UserAvatar } from "../../user_avatar/user_avatar";
 
 export const PhotoEditor = () => {
-  const [image, setImage] = useState<string | null>(null);
+  const { setError, formState, clearErrors, setValue, getValues } =
+    useFormContext<{
+      avatar: string;
+    }>();
+  const [image, setImage] = useState<string | null>(getValues("avatar"));
   const toast = useToastController();
+  const { uploadPhoto } = useUploadPhoto();
 
   const selectPhoto = async () => {
     try {
@@ -18,9 +27,34 @@ export const PhotoEditor = () => {
         quality: 1,
       });
       if (result.canceled) return;
-      console.log(result.assets);
-      setImage(result.assets.at(0)?.uri || null);
+      const photo = result.assets.at(0);
+      if (!photo) {
+        setError("avatar", { message: "Nie udało się wybrać zdjęcia" });
+        return;
+      }
+      const photoInfo = await getFileInfo(photo.uri);
+      console.log(
+        photoInfo.exists && photoInfo.size,
+        photoInfo.exists && photoInfo.size / 1000,
+      );
+      if (photoInfo.exists && Math.floor(photoInfo.size / 1024) > 3096) {
+        setError("avatar", { message: "Zdjęcie jest za duże" });
+        return;
+      }
+      clearErrors("avatar");
+      const res = await uploadPhoto({
+        photo: {
+          uri: photo.uri,
+          name: photo.fileName || "",
+          type: photo.type || "",
+        },
+        transformOptions: { width: "300", height: "300" },
+      });
+      console.log(res);
+      setImage(res.photo_url);
+      setValue("avatar", res.photo_url);
     } catch (e) {
+      console.log({ error: e });
       toast.show("Nie udało się wybrać zdjęcia", {
         description: "Prawdopodobnie brakuje odpowiednich uprawnien",
         variant: "error",
@@ -31,12 +65,15 @@ export const PhotoEditor = () => {
   return (
     <>
       <Button onPress={selectPhoto}>Wybierz zdjęcie na twój nowy avatar</Button>
+      <Text size="medium" weight="bold" color="secondary">
+        {formState.errors.avatar && formState.errors.avatar.message}
+      </Text>
       {image && (
         <>
           <Text size="medium" weight="bold" color="primary">
-            Twój nowy avatar będzie wyglądał następująco
+            Twój avatar wygląda tak:
           </Text>
-          <Image source={{ width: 100, height: 120, uri: image }} />
+          <UserAvatar avatarUrl={image} />
         </>
       )}
     </>

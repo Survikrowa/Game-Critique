@@ -1,9 +1,8 @@
 import { HttpStatus, ParseFilePipeBuilder } from '@nestjs/common';
 
 export const ParseFilePipe = new ParseFilePipeBuilder()
-  .addFileTypeValidator({ fileType: 'image/jpeg' })
-  .addFileTypeValidator({ fileType: 'image/png' })
-  .addMaxSizeValidator({ maxSize: 4000 })
+  .addFileTypeValidator({ fileType: /(jpg|jpeg|png|gif)$/ })
+  .addMaxSizeValidator({ maxSize: 4_000_000 })
   .build({
     errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
   });

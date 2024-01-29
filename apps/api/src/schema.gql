@@ -12,11 +12,27 @@ type Cover {
   small_url: String!
 }
 
+type Mutation {
+  updateProfileInfo(profileInfo: ProfileInfoUpdateArgsDTO!): ProfileInfoUpdateResponseDTO!
+}
+
 """User profile info"""
 type ProfileInfoDTO {
   """User's avatar URL from Cloudinary"""
   avatarUrl: String!
   name: String!
+}
+
+"""User profile info required to update profile"""
+input ProfileInfoUpdateArgsDTO {
+  """User's avatar URL from Cloudinary"""
+  avatarUrl: String!
+  name: String!
+}
+
+"""Response for updating profile info"""
+type ProfileInfoUpdateResponseDTO {
+  success: Boolean!
 }
 
 type Query {

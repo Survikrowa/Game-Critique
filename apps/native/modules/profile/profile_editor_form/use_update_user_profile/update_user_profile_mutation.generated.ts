@@ -1,4 +1,4 @@
-import * as Types from '../../../__generated__/types';
+import * as Types from '../../../../__generated__/types';
 
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
@@ -88,49 +88,44 @@ export type SearchResult = {
   games: Array<SearchGamesResult>;
 };
 
-export type ProfileInfoQueryVariables = Types.Exact<{ [key: string]: never; }>;
+export type UpdateUserProfileMutationVariables = Types.Exact<{
+  input: Types.ProfileInfoUpdateArgsDto;
+}>;
 
 
-export type ProfileInfoQuery = { __typename?: 'Query', profileInfo: { __typename?: 'ProfileInfoDTO', avatarUrl: string, name: string } };
+export type UpdateUserProfileMutation = { __typename?: 'Mutation', updateProfileInfo: { __typename?: 'ProfileInfoUpdateResponseDTO', success: boolean } };
 
 
-export const ProfileInfoDocument = gql`
-    query ProfileInfo {
-  profileInfo {
-    avatarUrl
-    name
+export const UpdateUserProfileDocument = gql`
+    mutation updateUserProfile($input: ProfileInfoUpdateArgsDTO!) {
+  updateProfileInfo(profileInfo: $input) {
+    success
   }
 }
     `;
+export type UpdateUserProfileMutationFn = Apollo.MutationFunction<UpdateUserProfileMutation, UpdateUserProfileMutationVariables>;
 
 /**
- * __useProfileInfoQuery__
+ * __useUpdateUserProfileMutation__
  *
- * To run a query within a React component, call `useProfileInfoQuery` and pass it any options that fit your needs.
- * When your component renders, `useProfileInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
+ * To run a mutation, you first call `useUpdateUserProfileMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateUserProfileMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
  *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const { data, loading, error } = useProfileInfoQuery({
+ * const [updateUserProfileMutation, { data, loading, error }] = useUpdateUserProfileMutation({
  *   variables: {
+ *      input: // value for 'input'
  *   },
  * });
  */
-export function useProfileInfoQuery(baseOptions?: Apollo.QueryHookOptions<ProfileInfoQuery, ProfileInfoQueryVariables>) {
+export function useUpdateUserProfileMutation(baseOptions?: Apollo.MutationHookOptions<UpdateUserProfileMutation, UpdateUserProfileMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ProfileInfoQuery, ProfileInfoQueryVariables>(ProfileInfoDocument, options);
+        return Apollo.useMutation<UpdateUserProfileMutation, UpdateUserProfileMutationVariables>(UpdateUserProfileDocument, options);
       }
-export function useProfileInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProfileInfoQuery, ProfileInfoQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ProfileInfoQuery, ProfileInfoQueryVariables>(ProfileInfoDocument, options);
-        }
-export function useProfileInfoSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<ProfileInfoQuery, ProfileInfoQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<ProfileInfoQuery, ProfileInfoQueryVariables>(ProfileInfoDocument, options);
-        }
-export type ProfileInfoQueryHookResult = ReturnType<typeof useProfileInfoQuery>;
-export type ProfileInfoLazyQueryHookResult = ReturnType<typeof useProfileInfoLazyQuery>;
-export type ProfileInfoSuspenseQueryHookResult = ReturnType<typeof useProfileInfoSuspenseQuery>;
-export type ProfileInfoQueryResult = Apollo.QueryResult<ProfileInfoQuery, ProfileInfoQueryVariables>;
+export type UpdateUserProfileMutationHookResult = ReturnType<typeof useUpdateUserProfileMutation>;
+export type UpdateUserProfileMutationResult = Apollo.MutationResult<UpdateUserProfileMutation>;
+export type UpdateUserProfileMutationOptions = Apollo.BaseMutationOptions<UpdateUserProfileMutation, UpdateUserProfileMutationVariables>;
