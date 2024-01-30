@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { SearchModule } from './modules/search/search.module';
 import { GraphQLModule } from '@nestjs/graphql';
@@ -12,11 +10,12 @@ import { BullModule } from '@nestjs/bull';
 import { AuthModule } from './modules/auth/auth.module';
 import { ImagesModule } from './modules/images/images.module';
 import { ProfilesModule } from './modules/profiles/profiles.module';
-import { HowLongToBeatModule } from './modules/howlongtobeat/howlongtobeat.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     BullModule.forRoot({
       redis: {
         host: 'localhost',
@@ -35,9 +34,6 @@ import { HowLongToBeatModule } from './modules/howlongtobeat/howlongtobeat.modul
     AuthModule,
     ImagesModule,
     ProfilesModule,
-    HowLongToBeatModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}

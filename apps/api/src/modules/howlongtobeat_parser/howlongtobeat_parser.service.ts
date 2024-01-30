@@ -4,7 +4,7 @@ import UserAgent from 'user-agents';
 import { firstValueFrom } from 'rxjs';
 import { HowLongToBeatSearchResponse } from './howlongtobeat_parser.types';
 import { AxiosResponse } from 'axios';
-import { HowLongToBeatScrapperService } from './howlongtobeat_parser_scrapper/howlongtobeat_parser_scrapper.service';
+import { HowLongToBeatScrapperService } from './howlongtobeat_scrapper/howlongtobeat_scrapper.service';
 
 @Injectable()
 export class HowLongToBeatService {

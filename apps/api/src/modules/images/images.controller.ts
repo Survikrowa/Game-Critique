@@ -44,7 +44,7 @@ export class ImagesController {
         photo_url: transformedUrl,
       };
     } catch (e) {
-      console.log(e);
+      //REPORT-TO-SENTRY
     }
   }
 }

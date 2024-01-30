@@ -23,7 +23,7 @@ const AppLayout = () => {
           }}
         />
         <Drawer.Screen
-          name="user/index"
+          name="user"
           options={{
             drawerLabel: "Profil",
             title: "overview",
