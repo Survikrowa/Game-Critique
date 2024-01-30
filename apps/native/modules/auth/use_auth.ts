@@ -25,7 +25,7 @@ export const useAuth = () => {
             description: "Zalogowano pomyślnie!",
             variant: "success",
           });
-          return router.push("/");
+          return router.push("/home");
         }
         await SecureStore.deleteItemAsync("oauthToken");
         await clearSession();

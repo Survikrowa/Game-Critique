@@ -22,7 +22,7 @@ export const Header = () => {
       >
         <DrawerToggleButton />
 
-        <Link href="/">
+        <Link href="/home">
           <Text size="medium" color="primary" weight="semiBold">
             <AppLogo width={48} height={48} style={{ color: "white" }} />
           </Text>

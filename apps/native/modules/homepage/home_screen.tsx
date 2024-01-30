@@ -1,9 +1,9 @@
 import { YStack } from "tamagui";
 
-import { IncomingGamesCarousel } from "../../modules/homepage/incoming_games_carousel/incoming_games_carousel";
+import { IncomingGamesCarousel } from "./incoming_games_carousel/incoming_games_carousel";
 import { Text } from "../../ui/typography/text";
 
-export default function Page() {
+export const HomeScreen = () => {
   return (
     <YStack flex={1}>
       <YStack gap={8} padding={8}>
@@ -14,4 +14,4 @@ export default function Page() {
       </YStack>
     </YStack>
   );
-}
+};
