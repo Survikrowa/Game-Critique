@@ -1,31 +1,36 @@
 import { Context, Query, Resolver } from '@nestjs/graphql';
 import { AuthService } from './auth.service';
 import { Prisma } from '@prisma/client';
-import { UseGuards } from '@nestjs/common';
+import { UseGuards, Headers, ContextType } from '@nestjs/common';
 import { AuthUserVerification } from './auth.model';
 import { JwtAuthGuard } from './guards/auth-jwt.guard';
 import { User } from './auth.decorators';
 import { UserDTO } from './auth.dto';
-import * as process from 'process';
 
 @Resolver()
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
   @UseGuards(JwtAuthGuard)
   @Query(() => AuthUserVerification)
-  async verify(@User() user: UserDTO, @Context() context: any) {
+  async verify(
+    @User() user: UserDTO,
+    @Context() ctx: { req: { headers?: { authorization: string } } },
+  ) {
     try {
-      console.log(process.env.AUTH0_ISSUER_URL);
-      const userInfo = await this.authService.getUserInfoFromAuth0(
-        context.req.headers.authorization,
-      );
+      const authorizationHeader = ctx.req.headers?.authorization;
+      if (!authorizationHeader) {
+        return {
+          authorized: false,
+        };
+      }
+      const userInfo =
+        await this.authService.getUserInfoFromAuth0(authorizationHeader);
       const { id } = await this.authService.createUser(user.sub);
       await this.authService.addUserCreatedEvent(id, userInfo.nickname);
       return {
         authorized: true,
       };
     } catch (e) {
-      console.log(e);
       if (
         e instanceof Prisma.PrismaClientKnownRequestError &&
         e.code === 'P2002'
