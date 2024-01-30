@@ -1,4 +1,4 @@
-import { AuthPage } from "../../../modules/auth/auth_page";
+import { AuthPage } from "../../../../modules/auth/auth_page";
 
 const AuthScreen = () => {
   return <AuthPage />;
