@@ -1,8 +1,9 @@
 import { BookOpen } from "@tamagui/lucide-icons";
 import { Tabs } from "expo-router";
 import { useAuth0 } from "react-native-auth0";
-import { XStack } from "tamagui";
 
+import { GoBackHeader } from "../../../../modules/layouts/go_back_header/go_back_header";
+import { Header } from "../../../../modules/layouts/header/header";
 import { Text } from "../../../../ui/typography/text";
 
 const TabsLayout = () => {
@@ -10,7 +11,6 @@ const TabsLayout = () => {
   return (
     <Tabs
       screenOptions={({ route }) => ({
-        headerShown: false,
         tabBarStyle: {
           height: 64,
           display: user ? "flex" : "none",
@@ -21,6 +21,21 @@ const TabsLayout = () => {
       <Tabs.Screen
         name="home"
         options={{
+          header: Header,
+          headerShown: true,
+          tabBarItemStyle: {
+            display: "none",
+          },
+        }}
+      />
+      <Tabs.Screen
+        name="(authorized)/collection/new_collection"
+        options={{
+          header: () => <GoBackHeader goBackUrl="/collection/" />,
+          headerShown: true,
+          tabBarStyle: {
+            display: "none",
+          },
           tabBarItemStyle: {
             display: "none",
           },
@@ -29,6 +44,8 @@ const TabsLayout = () => {
       <Tabs.Screen
         name="(authorized)/collection/index"
         options={{
+          header: Header,
+          headerShown: true,
           title: "Kolekcja",
           tabBarIcon: () => <BookOpen width={16} height={16} color="white" />,
           tabBarLabel: ({ focused, children }) => {

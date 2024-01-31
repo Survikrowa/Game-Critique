@@ -37,7 +37,7 @@ export const ProfileEditorForm = ({
               return (
                 <>
                   <Label htmlFor="name" color="white">
-                    Twoja nickname
+                    Twój nickname
                   </Label>
                   <Input onChangeText={onChange} value={value} flex={1} />
                 </>

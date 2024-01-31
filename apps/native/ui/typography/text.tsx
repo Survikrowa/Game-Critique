@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { Text as TamaguiText } from "tamagui";
 
 type TextProps = {
-  size: "small" | "medium" | "large";
+  size: "small" | "medium" | "large" | "extraLarge";
   weight: "normal" | "semiBold" | "bold";
   color: "primary" | "secondary" | "tertiary" | "active";
   children: ReactNode;
@@ -12,6 +12,7 @@ const TEXT_SIZE = {
   small: 12,
   medium: 14,
   large: 16,
+  extraLarge: 22,
 } as const;
 
 const TEXT_WEIGHT = {

@@ -7,15 +7,12 @@ import { Header } from "../../../modules/layouts/header/header";
 const AppLayout = () => {
   const { user } = useAuth0();
   return (
-    <Drawer
-      screenOptions={{
-        header: Header,
-      }}
-      drawerContent={DrawerCustomContent}
-    >
+    <Drawer drawerContent={DrawerCustomContent}>
       <Drawer.Screen
         name="(authorized)/user"
         options={{
+          headerShown: true,
+          header: Header,
           title: "Profil",
           drawerItemStyle: {
             display: user ? "flex" : "none",
@@ -27,6 +24,8 @@ const AppLayout = () => {
         name="auth"
         options={{
           title: "Zaloguj się",
+          header: Header,
+          headerShown: true,
           drawerItemStyle: {
             display: !user ? "flex" : "none",
           },
@@ -35,6 +34,7 @@ const AppLayout = () => {
       <Drawer.Screen
         name="(tabs)"
         options={{
+          headerShown: false,
           drawerItemStyle: {
             display: "none",
           },
@@ -44,6 +44,8 @@ const AppLayout = () => {
       <Drawer.Screen
         name="search/index"
         options={{
+          headerShown: true,
+          header: Header,
           drawerItemStyle: {
             display: "none",
           },
