@@ -4,7 +4,7 @@ import { Text as TamaguiText } from "tamagui";
 type TextProps = {
   size: "small" | "medium" | "large" | "extraLarge";
   weight: "normal" | "semiBold" | "bold";
-  color: "primary" | "secondary" | "tertiary" | "active" | "warning";
+  color: "primary" | "secondary" | "tertiary" | "active" | "warning" | "white";
   children: ReactNode;
 };
 
@@ -22,11 +22,12 @@ const TEXT_WEIGHT = {
 } as const;
 
 const TEXT_COLOR = {
-  primary: "$purple1",
-  secondary: "$purple12",
+  primary: "black",
+  secondary: "gray",
   tertiary: "$green8",
   active: "$blue8",
   warning: "$red10",
+  white: "white",
 } as const;
 
 export const Text = ({ size, weight, children, color }: TextProps) => {

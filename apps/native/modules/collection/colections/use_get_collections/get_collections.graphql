@@ -1,0 +1,8 @@
+query GetCollections {
+    getProfileCollections {
+        id,
+        name,
+        description,
+        counter
+    }
+}

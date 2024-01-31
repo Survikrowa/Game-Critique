@@ -1,4 +1,4 @@
-import * as Types from '../../../__generated__/types';
+import * as Types from '../../../../../__generated__/types';
 
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
@@ -110,48 +110,45 @@ export type SearchResult = {
   games: Array<SearchGamesResult>;
 };
 
-export type VerifyOrCreateQueryVariables = Types.Exact<{ [key: string]: never; }>;
+export type CreateCollectionMutationVariables = Types.Exact<{
+  collection: Types.NewCollectionDto;
+}>;
 
 
-export type VerifyOrCreateQuery = { __typename?: 'Query', verify: { __typename?: 'AuthUserVerification', authorized: boolean } };
+export type CreateCollectionMutation = { __typename?: 'Mutation', createNewCollection: { __typename?: 'CollectionDTO', name: string, description: string } };
 
 
-export const VerifyOrCreateDocument = gql`
-    query VerifyOrCreate {
-  verify {
-    authorized
+export const CreateCollectionDocument = gql`
+    mutation CreateCollection($collection: NewCollectionDTO!) {
+  createNewCollection(collection: $collection) {
+    name
+    description
   }
 }
     `;
+export type CreateCollectionMutationFn = Apollo.MutationFunction<CreateCollectionMutation, CreateCollectionMutationVariables>;
 
 /**
- * __useVerifyOrCreateQuery__
+ * __useCreateCollectionMutation__
  *
- * To run a query within a React component, call `useVerifyOrCreateQuery` and pass it any options that fit your needs.
- * When your component renders, `useVerifyOrCreateQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
+ * To run a mutation, you first call `useCreateCollectionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateCollectionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
  *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const { data, loading, error } = useVerifyOrCreateQuery({
+ * const [createCollectionMutation, { data, loading, error }] = useCreateCollectionMutation({
  *   variables: {
+ *      collection: // value for 'collection'
  *   },
  * });
  */
-export function useVerifyOrCreateQuery(baseOptions?: Apollo.QueryHookOptions<VerifyOrCreateQuery, VerifyOrCreateQueryVariables>) {
+export function useCreateCollectionMutation(baseOptions?: Apollo.MutationHookOptions<CreateCollectionMutation, CreateCollectionMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<VerifyOrCreateQuery, VerifyOrCreateQueryVariables>(VerifyOrCreateDocument, options);
+        return Apollo.useMutation<CreateCollectionMutation, CreateCollectionMutationVariables>(CreateCollectionDocument, options);
       }
-export function useVerifyOrCreateLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<VerifyOrCreateQuery, VerifyOrCreateQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<VerifyOrCreateQuery, VerifyOrCreateQueryVariables>(VerifyOrCreateDocument, options);
-        }
-export function useVerifyOrCreateSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<VerifyOrCreateQuery, VerifyOrCreateQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<VerifyOrCreateQuery, VerifyOrCreateQueryVariables>(VerifyOrCreateDocument, options);
-        }
-export type VerifyOrCreateQueryHookResult = ReturnType<typeof useVerifyOrCreateQuery>;
-export type VerifyOrCreateLazyQueryHookResult = ReturnType<typeof useVerifyOrCreateLazyQuery>;
-export type VerifyOrCreateSuspenseQueryHookResult = ReturnType<typeof useVerifyOrCreateSuspenseQuery>;
-export type VerifyOrCreateQueryResult = Apollo.QueryResult<VerifyOrCreateQuery, VerifyOrCreateQueryVariables>;
+export type CreateCollectionMutationHookResult = ReturnType<typeof useCreateCollectionMutation>;
+export type CreateCollectionMutationResult = Apollo.MutationResult<CreateCollectionMutation>;
+export type CreateCollectionMutationOptions = Apollo.BaseMutationOptions<CreateCollectionMutation, CreateCollectionMutationVariables>;
