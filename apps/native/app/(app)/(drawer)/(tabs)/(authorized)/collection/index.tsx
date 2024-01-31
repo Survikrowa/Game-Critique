@@ -1,11 +1,7 @@
-import { View, Text } from "react-native";
+import { CollectionPage } from "../../../../../../modules/collection/collection_page";
 
 const CollectionScreen = () => {
-  return (
-    <View>
-      <Text>Collection</Text>
-    </View>
-  );
+  return <CollectionPage />;
 };
 
 export default CollectionScreen;
