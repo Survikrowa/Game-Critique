@@ -24,6 +24,15 @@ export type AuthUserVerification = {
   authorized: Scalars['Boolean']['output'];
 };
 
+/** Single Collection */
+export type CollectionDto = {
+  __typename?: 'CollectionDTO';
+  counter: Scalars['Float']['output'];
+  description: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+};
+
 export type Cover = {
   __typename?: 'Cover';
   big_url: Scalars['String']['output'];
@@ -33,12 +42,24 @@ export type Cover = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createNewCollection: CollectionDto;
   updateProfileInfo: ProfileInfoUpdateResponseDto;
+};
+
+
+export type MutationCreateNewCollectionArgs = {
+  collection: NewCollectionDto;
 };
 
 
 export type MutationUpdateProfileInfoArgs = {
   profileInfo: ProfileInfoUpdateArgsDto;
+};
+
+/** New Collection */
+export type NewCollectionDto = {
+  description: Scalars['String']['input'];
+  name: Scalars['String']['input'];
 };
 
 /** User profile info */
@@ -64,6 +85,7 @@ export type ProfileInfoUpdateResponseDto = {
 
 export type Query = {
   __typename?: 'Query';
+  getProfileCollections: Array<CollectionDto>;
   profileInfo: ProfileInfoDto;
   search: SearchResult;
   verify: AuthUserVerification;

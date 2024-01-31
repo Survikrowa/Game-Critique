@@ -6,6 +6,14 @@ type AuthUserVerification {
   authorized: Boolean!
 }
 
+"""Single Collection"""
+type CollectionDTO {
+  counter: Float!
+  description: String!
+  id: ID!
+  name: String!
+}
+
 type Cover {
   big_url: String!
   medium_url: String!
@@ -13,7 +21,14 @@ type Cover {
 }
 
 type Mutation {
+  createNewCollection(collection: NewCollectionDTO!): CollectionDTO!
   updateProfileInfo(profileInfo: ProfileInfoUpdateArgsDTO!): ProfileInfoUpdateResponseDTO!
+}
+
+"""New Collection"""
+input NewCollectionDTO {
+  description: String!
+  name: String!
 }
 
 """User profile info"""
@@ -36,6 +51,7 @@ type ProfileInfoUpdateResponseDTO {
 }
 
 type Query {
+  getProfileCollections: [CollectionDTO!]!
   profileInfo: ProfileInfoDTO!
   search(input: String!): SearchResult!
   verify: AuthUserVerification!

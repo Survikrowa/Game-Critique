@@ -36,7 +36,7 @@ model Profile {
   updatedAt DateTime @updatedAt @map("updated_at")
   oauthId    String      @unique @map("oauth_id")
   user      User     @relation(fields: [oauthId], references: [oauthId], onDelete: Cascade)
-
+  collections Collection[]
   @@map("profiles")
 }
 
@@ -51,6 +51,7 @@ model Game {
   cover           Cover?
   release         Release?
   platformForGame PlatformForGame[]
+  gamesCollection GamesCollection[]
 
   @@map("games")
 }
@@ -123,4 +124,31 @@ model Platform {
   PlatformForGame PlatformForGame[]
 
   @@map("platform")
+}
+
+model GamesCollection {
+    gameId       Int      @map("game_id")
+    collectionId Int      @map("collection_id")
+    createdAt    DateTime @default(now()) @map("created_at")
+    updatedAt    DateTime @updatedAt @map("updated_at")
+    game         Game     @relation(fields: [gameId], references: [id])
+    collection   Collection @relation(fields: [collectionId], references: [id])
+
+    @@id([gameId, collectionId])
+    @@map("game_collection")
+}
+
+
+model Collection {
+    id        Int      @id @default(autoincrement())
+    name      String
+    description String
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+    gamesCollection     GamesCollection[]
+    profileId    Int       @map("profile_id")
+    profile      Profile     @relation(fields: [profileId], references: [id], onDelete: Cascade)
+    counter   Int      @default(0)
+
+    @@map("collection")
 }

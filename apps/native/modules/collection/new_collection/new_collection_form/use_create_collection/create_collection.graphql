@@ -1,0 +1,6 @@
+mutation CreateCollection($collection: NewCollectionDTO!) {
+    createNewCollection(collection: $collection) {
+        name
+        description
+    }
+}

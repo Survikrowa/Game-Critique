@@ -53,7 +53,7 @@ const TabsLayout = () => {
               <Text
                 size="small"
                 weight="bold"
-                color={focused ? "active" : "primary"}
+                color={focused ? "active" : "white"}
               >
                 {children}
               </Text>

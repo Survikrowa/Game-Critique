@@ -7,7 +7,7 @@ import { Auth0Provider } from "react-native-auth0";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { TamaguiProvider, Theme } from "tamagui";
 
-import { apolloClient } from "../modules/graphql/apollo_client";
+import { useNewApolloClient } from "../modules/graphql/apollo_client";
 import { SafeToastViewport } from "../modules/layouts/safe_toast_viewport/safe_toast_viewport";
 import tamaguiConfig from "../tamagui.config";
 import { Toast } from "../ui/feedback/toast/toast";
@@ -18,6 +18,7 @@ const AUTH0_DOMAIN = "dev-3gebv0fjdsc0gf5g.us.auth0.com";
 const AUTH0_CLIENT_ID = "1H6FuOM2QcwiG8ZdQQJOdy6PL2r3ERQ6";
 
 const RootLayout = () => {
+  const apolloClient = useNewApolloClient();
   const [fontsLoaded] = useFonts({
     Inter: require("@tamagui/font-inter/otf/Inter-Medium.otf"),
     InterBold: require("@tamagui/font-inter/otf/Inter-Bold.otf"),

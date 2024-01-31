@@ -5,6 +5,7 @@ import { BullModule } from '@nestjs/bull';
 import { DatabaseModule } from '../database/database.module';
 import { ProfilesResolver } from './profiles.resolver';
 import { AuthModule } from '../auth/auth.module';
+import { ProfilesService } from './profiles.service';
 
 @Module({
   imports: [
@@ -12,7 +13,12 @@ import { AuthModule } from '../auth/auth.module';
     BullModule.registerQueue({ name: 'user_created' }),
     forwardRef(() => AuthModule),
   ],
-  providers: [ProfilesConsumer, ProfilesRepository, ProfilesResolver],
-  exports: [],
+  providers: [
+    ProfilesConsumer,
+    ProfilesRepository,
+    ProfilesResolver,
+    ProfilesService,
+  ],
+  exports: [ProfilesService],
 })
 export class ProfilesModule {}
