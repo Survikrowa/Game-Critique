@@ -1,5 +1,8 @@
 import { Controller, FormProvider } from "react-hook-form";
-import { Button, Form, Input, Label, TextArea, XStack, YStack } from "tamagui";
+import { Button, Form, YStack } from "tamagui";
+import { Input } from "ui/forms/input";
+import { TextArea } from "ui/forms/text_area";
+import { Text } from "ui/typography/text";
 
 import { useNewCollectionForm } from "./use_new_collection_form";
 
@@ -17,21 +20,12 @@ export const NewCollectionForm = () => {
           <Controller
             render={({ field: { onChange, value } }) => {
               return (
-                <YStack
-                  width="100%"
-                  justifyContent="center"
-                  alignItems="center"
-                >
-                  <Label htmlFor="name" color="black">
-                    Nazwa
-                  </Label>
-                  <Input
-                    onChangeText={onChange}
-                    value={value}
-                    minHeight={32}
-                    width="100%"
-                  />
-                </YStack>
+                <Input
+                  onChange={onChange}
+                  value={value}
+                  label="Nazwa*"
+                  errorMessage={methods.formState.errors.name?.message}
+                />
               );
             }}
             name="name"
@@ -40,21 +34,7 @@ export const NewCollectionForm = () => {
           <Controller
             render={({ field: { onChange, value } }) => {
               return (
-                <YStack
-                  width="100%"
-                  justifyContent="center"
-                  alignItems="center"
-                >
-                  <Label htmlFor="description" color="black">
-                    Opis
-                  </Label>
-                  <TextArea
-                    onChangeText={onChange}
-                    value={value}
-                    minHeight={32}
-                    width="100%"
-                  />
-                </YStack>
+                <TextArea onChange={onChange} value={value} label="Opis" />
               );
             }}
             name="description"
@@ -68,10 +48,14 @@ export const NewCollectionForm = () => {
               themeInverse
               width="100%"
               marginTop={8}
+              marginBottom={4}
             >
               Utwórz
             </Button>
           </Form.Trigger>
+          <Text size="small" weight="normal" color="secondary">
+            Pola oznaczone gwiazdką są wymagane
+          </Text>
         </YStack>
       </Form>
     </FormProvider>
