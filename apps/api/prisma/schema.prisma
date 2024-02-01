@@ -148,7 +148,6 @@ model Collection {
     gamesCollection     GamesCollection[]
     profileId    Int       @map("profile_id")
     profile      Profile     @relation(fields: [profileId], references: [id], onDelete: Cascade)
-    counter   Int      @default(0)
 
     @@map("collection")
 }
