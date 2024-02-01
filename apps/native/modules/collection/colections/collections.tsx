@@ -1,3 +1,4 @@
+import { useHeaderHeight } from "@react-navigation/elements";
 import { ScrollView, Spinner, XStack, YStack } from "tamagui";
 import { Text } from "ui/typography/text";
 
@@ -6,6 +7,7 @@ import { useGetCollections } from "./use_get_collections/use_get_collections";
 
 export const Collections = () => {
   const query = useGetCollections();
+  const headerHeight = useHeaderHeight();
   if (query.loading || !query.data) {
     return (
       <XStack>
@@ -18,7 +20,7 @@ export const Collections = () => {
   }
   return (
     <ScrollView maxHeight="90%">
-      <YStack padding={8} gap={8} height="100%">
+      <YStack padding={8} gap={8} height="100%" marginBottom={headerHeight}>
         {query.data.getProfileCollections.map((collection) => (
           <CollectionCard
             key={collection.id}

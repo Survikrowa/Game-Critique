@@ -31,7 +31,12 @@ const TabsLayout = () => {
       <Tabs.Screen
         name="(authorized)/collection/new_collection"
         options={{
-          header: () => <GoBackHeader goBackUrl="/collection/" />,
+          header: () => (
+            <GoBackHeader
+              goBackUrl="/collection/"
+              text="Tworzenie nowej kolekcji"
+            />
+          ),
           headerShown: true,
           tabBarStyle: {
             display: "none",

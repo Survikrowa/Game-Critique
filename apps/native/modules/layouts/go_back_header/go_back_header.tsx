@@ -9,9 +9,10 @@ import { Text } from "../../../ui/typography/text";
 
 type GoBackHeaderProps = {
   goBackUrl: string;
+  text: string;
 };
 
-export const GoBackHeader = ({ goBackUrl }: GoBackHeaderProps) => {
+export const GoBackHeader = ({ goBackUrl, text }: GoBackHeaderProps) => {
   const insets = useSafeAreaInsets();
   return (
     <>
@@ -30,7 +31,7 @@ export const GoBackHeader = ({ goBackUrl }: GoBackHeaderProps) => {
         />
         <XStack paddingRight={12}>
           <Text size="large" weight="bold" color="primary">
-            Tworzenie nowej kolekcji
+            {text}
           </Text>
         </XStack>
       </XStack>
