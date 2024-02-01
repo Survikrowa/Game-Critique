@@ -40,12 +40,6 @@ export class CollectionsResolver {
   @UseGuards(JwtAuthGuard)
   @Query(() => [CollectionDTO])
   async getProfileCollections(@User() user: UserDTO) {
-    const collections = await this.collectionsService.getProfileCollections(
-      user.sub,
-    );
-    if (collections && collections.collections) {
-      return collections.collections;
-    }
-    return [];
+    return this.collectionsService.getProfileCollections(user.sub);
   }
 }

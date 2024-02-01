@@ -19,6 +19,22 @@ export class CollectionsService {
   }
 
   async getProfileCollections(oauthUserId: string) {
-    return this.collectionsRepository.getProfileCollections(oauthUserId);
+    const collections =
+      await this.collectionsRepository.getProfileCollections(oauthUserId);
+    if (!collections) {
+      return [];
+    }
+    return Promise.all(
+      collections.collections.map(async (collection) => {
+        const countOfGames =
+          await this.collectionsRepository.countGamesInCollection(
+            collection.id,
+          );
+        return {
+          ...collection,
+          counter: countOfGames,
+        };
+      }),
+    );
   }
 }

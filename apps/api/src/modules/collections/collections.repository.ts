@@ -34,4 +34,12 @@ export class CollectionsRepository {
       },
     });
   }
+
+  async countGamesInCollection(collectionId: number) {
+    return this.prismaService.gamesCollection.count({
+      where: {
+        collectionId,
+      },
+    });
+  }
 }
