@@ -1,4 +1,4 @@
-import * as Types from '../../../../../__generated__/types';
+import * as Types from '../../../../__generated__/types';
 
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
@@ -127,45 +127,44 @@ export type SearchResult = {
   games: Array<SearchGamesResult>;
 };
 
-export type CreateCollectionMutationVariables = Types.Exact<{
-  collection: Types.NewCollectionDto;
+export type RemoveCollectionMutationVariables = Types.Exact<{
+  collection: Types.RemoveCollectionArgsDto;
 }>;
 
 
-export type CreateCollectionMutation = { __typename?: 'Mutation', createNewCollection: { __typename?: 'CollectionDTO', name: string, description: string } };
+export type RemoveCollectionMutation = { __typename?: 'Mutation', removeCollection: { __typename?: 'RemovedCollectionResponseDTO', success: boolean } };
 
 
-export const CreateCollectionDocument = gql`
-    mutation CreateCollection($collection: NewCollectionDTO!) {
-  createNewCollection(collection: $collection) {
-    name
-    description
+export const RemoveCollectionDocument = gql`
+    mutation RemoveCollection($collection: RemoveCollectionArgsDTO!) {
+  removeCollection(collection: $collection) {
+    success
   }
 }
     `;
-export type CreateCollectionMutationFn = Apollo.MutationFunction<CreateCollectionMutation, CreateCollectionMutationVariables>;
+export type RemoveCollectionMutationFn = Apollo.MutationFunction<RemoveCollectionMutation, RemoveCollectionMutationVariables>;
 
 /**
- * __useCreateCollectionMutation__
+ * __useRemoveCollectionMutation__
  *
- * To run a mutation, you first call `useCreateCollectionMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateCollectionMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useRemoveCollectionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveCollectionMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [createCollectionMutation, { data, loading, error }] = useCreateCollectionMutation({
+ * const [removeCollectionMutation, { data, loading, error }] = useRemoveCollectionMutation({
  *   variables: {
  *      collection: // value for 'collection'
  *   },
  * });
  */
-export function useCreateCollectionMutation(baseOptions?: Apollo.MutationHookOptions<CreateCollectionMutation, CreateCollectionMutationVariables>) {
+export function useRemoveCollectionMutation(baseOptions?: Apollo.MutationHookOptions<RemoveCollectionMutation, RemoveCollectionMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateCollectionMutation, CreateCollectionMutationVariables>(CreateCollectionDocument, options);
+        return Apollo.useMutation<RemoveCollectionMutation, RemoveCollectionMutationVariables>(RemoveCollectionDocument, options);
       }
-export type CreateCollectionMutationHookResult = ReturnType<typeof useCreateCollectionMutation>;
-export type CreateCollectionMutationResult = Apollo.MutationResult<CreateCollectionMutation>;
-export type CreateCollectionMutationOptions = Apollo.BaseMutationOptions<CreateCollectionMutation, CreateCollectionMutationVariables>;
+export type RemoveCollectionMutationHookResult = ReturnType<typeof useRemoveCollectionMutation>;
+export type RemoveCollectionMutationResult = Apollo.MutationResult<RemoveCollectionMutation>;
+export type RemoveCollectionMutationOptions = Apollo.BaseMutationOptions<RemoveCollectionMutation, RemoveCollectionMutationVariables>;

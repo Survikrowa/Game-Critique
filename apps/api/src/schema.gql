@@ -22,6 +22,7 @@ type Cover {
 
 type Mutation {
   createNewCollection(collection: NewCollectionDTO!): CollectionDTO!
+  removeCollection(collection: RemoveCollectionArgsDTO!): RemovedCollectionResponseDTO!
   updateProfileInfo(profileInfo: ProfileInfoUpdateArgsDTO!): ProfileInfoUpdateResponseDTO!
 }
 
@@ -55,6 +56,16 @@ type Query {
   profileInfo: ProfileInfoDTO!
   search(input: String!): SearchResult!
   verify: AuthUserVerification!
+}
+
+"""Required arguments to remove a collection"""
+input RemoveCollectionArgsDTO {
+  collectionId: Float!
+}
+
+"""Collection removed"""
+type RemovedCollectionResponseDTO {
+  success: Boolean!
 }
 
 """Search Games Result"""

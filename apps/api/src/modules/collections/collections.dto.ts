@@ -20,6 +20,18 @@ export class NewCollectionDTO {
   description: string;
 }
 
+@InputType({ description: 'Required arguments to remove a collection' })
+export class RemoveCollectionArgsDTO {
+  @Field(() => Number)
+  collectionId: number;
+}
+
+@ObjectType({ description: 'Collection removed' })
+export class RemovedCollectionResponseDTO {
+  @Field(() => Boolean)
+  success: boolean;
+}
+
 export type NewCollectionRequiredFields = {
   name: string;
   description: string;

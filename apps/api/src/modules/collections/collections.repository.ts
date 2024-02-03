@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../database/prisma.service';
 import { NewCollectionRequiredFields } from './collections.dto';
+import { CollectionStatus } from '@prisma/client';
 
 @Injectable()
 export class CollectionsRepository {
@@ -30,7 +31,11 @@ export class CollectionsRepository {
         oauthId: oauthUserId,
       },
       select: {
-        collections: true,
+        collections: {
+          where: {
+            status: 'ACTIVE',
+          },
+        },
       },
     });
   }
@@ -39,6 +44,17 @@ export class CollectionsRepository {
     return this.prismaService.gamesCollection.count({
       where: {
         collectionId,
+      },
+    });
+  }
+
+  async updateCollectionStatus(collectionId: number, status: CollectionStatus) {
+    return this.prismaService.collection.update({
+      where: {
+        id: collectionId,
+      },
+      data: {
+        status,
       },
     });
   }
