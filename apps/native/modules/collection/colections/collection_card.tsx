@@ -13,6 +13,7 @@ import { Card, XStack } from "tamagui";
 import { Text } from "ui/typography/text";
 
 import { RemoveCollectionConfirmationModal } from "./remove_collection_confirmation_modal/remove_collection_confirmation_modal";
+import { truncateString } from "../../strings/truncate_string";
 
 type CollectionCardProps = {
   name: string;
@@ -75,7 +76,7 @@ export const CollectionCard = ({
           >
             <Folder size="$3" />
             <Text size="large" weight="bold" color="primary">
-              {name.length > 20 ? `${name.slice(0, 20)}...` : name}
+              {truncateString(name, 20)}
             </Text>
           </Card.Header>
           <XStack
@@ -84,9 +85,7 @@ export const CollectionCard = ({
             display="flex"
           >
             <Text size="medium" weight="bold" color="secondary">
-              {description.length > 50
-                ? `${description.slice(0, 40)}...`
-                : description}
+              {truncateString(description, 40)}
             </Text>
           </XStack>
           <Text size="medium" weight="bold" color="secondary">

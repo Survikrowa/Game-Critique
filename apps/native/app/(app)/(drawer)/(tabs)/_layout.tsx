@@ -74,6 +74,21 @@ const TabsLayout = () => {
           },
         }}
       />
+      <Tabs.Screen
+        name="(authorized)/collection/[id]/index"
+        options={{
+          header: ({ options }) => (
+            <GoBackHeader goBackUrl="/collection/" text={options.title || ""} />
+          ),
+          headerShown: true,
+          tabBarStyle: {
+            display: "none",
+          },
+          tabBarItemStyle: {
+            display: "none",
+          },
+        }}
+      />
     </Tabs>
   );
 };

@@ -6,6 +6,7 @@ import { XStack } from "tamagui";
 
 import { ButtonWithIcon } from "../../../ui/forms/button_icon";
 import { Text } from "../../../ui/typography/text";
+import { truncateString } from "../../strings/truncate_string";
 
 type GoBackHeaderProps = {
   goBackUrl: string;
@@ -30,8 +31,8 @@ export const GoBackHeader = ({ goBackUrl, text }: GoBackHeaderProps) => {
           icon={<ArrowLeft width={32} height={32} size="$2" color="white" />}
         />
         <XStack paddingRight={12}>
-          <Text size="large" weight="bold" color="primary">
-            {text}
+          <Text size="large" weight="bold" color="white">
+            {truncateString(text, 20)}
           </Text>
         </XStack>
       </XStack>
