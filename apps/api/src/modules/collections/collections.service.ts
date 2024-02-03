@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CollectionsRepository } from './collections.repository';
 import { NewCollectionRequiredFields } from './collections.dto';
 import { CollectionStatus } from '@prisma/client';
@@ -47,5 +47,27 @@ export class CollectionsService {
       collectionId,
       status,
     );
+  }
+
+  async getCollectionById(collectionId: number) {
+    const collection =
+      await this.collectionsRepository.getCollectionById(collectionId);
+    if (!collection) {
+      throw new HttpException(
+        { status: HttpStatus.NOT_FOUND, message: 'Collection not found' },
+        HttpStatus.NOT_FOUND,
+      );
+    }
+    const { gamesCollection, ...restCollection } = collection;
+    return {
+      ...restCollection,
+      games: gamesCollection.map(({ game }) => ({
+        name: game.name,
+        id: game.id,
+        slug: game.slug,
+        hltbId: game.hltbId,
+        bigUrl: game.cover?.bigUrl || '',
+      })),
+    };
   }
 }

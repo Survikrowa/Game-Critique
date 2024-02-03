@@ -58,4 +58,27 @@ export class CollectionsRepository {
       },
     });
   }
+
+  async getCollectionById(collectionId: number) {
+    return this.prismaService.collection.findUnique({
+      where: {
+        id: collectionId,
+      },
+      include: {
+        gamesCollection: {
+          select: {
+            game: {
+              include: {
+                cover: {
+                  select: {
+                    bigUrl: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+  }
 }

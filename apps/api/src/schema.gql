@@ -14,10 +14,35 @@ type CollectionDTO {
   name: String!
 }
 
+"""Single Collection with added items"""
+type CollectionWithGamesDTO {
+  description: String!
+  games: [GameWithCoversDTO!]!
+  id: ID!
+  name: String!
+}
+
 type Cover {
   big_url: String!
   medium_url: String!
   small_url: String!
+}
+
+"""Single Cover"""
+type CoverDTO {
+  id: Float!
+  largeUrl: String!
+  mediumUrl: String!
+  smallUrl: String!
+}
+
+"""Single Game with covers"""
+type GameWithCoversDTO {
+  covers: [CoverDTO!]!
+  hltbId: String!
+  id: Float!
+  name: String!
+  slug: String!
 }
 
 type Mutation {
@@ -52,6 +77,7 @@ type ProfileInfoUpdateResponseDTO {
 }
 
 type Query {
+  collection(id: Float!): CollectionWithGamesDTO!
   getProfileCollections: [CollectionDTO!]!
   profileInfo: ProfileInfoDTO!
   search(input: String!): SearchResult!
