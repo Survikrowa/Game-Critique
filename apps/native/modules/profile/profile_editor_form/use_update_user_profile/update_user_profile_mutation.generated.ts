@@ -43,12 +43,18 @@ export type Cover = {
 export type Mutation = {
   __typename?: 'Mutation';
   createNewCollection: CollectionDto;
+  removeCollection: RemovedCollectionResponseDto;
   updateProfileInfo: ProfileInfoUpdateResponseDto;
 };
 
 
 export type MutationCreateNewCollectionArgs = {
   collection: NewCollectionDto;
+};
+
+
+export type MutationRemoveCollectionArgs = {
+  collection: RemoveCollectionArgsDto;
 };
 
 
@@ -94,6 +100,17 @@ export type Query = {
 
 export type QuerySearchArgs = {
   input: Scalars['String']['input'];
+};
+
+/** Required arguments to remove a collection */
+export type RemoveCollectionArgsDto = {
+  collectionId: Scalars['Float']['input'];
+};
+
+/** Collection removed */
+export type RemovedCollectionResponseDto = {
+  __typename?: 'RemovedCollectionResponseDTO';
+  success: Scalars['Boolean']['output'];
 };
 
 /** Search Games Result */

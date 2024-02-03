@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CollectionsRepository } from './collections.repository';
 import { NewCollectionRequiredFields } from './collections.dto';
+import { CollectionStatus } from '@prisma/client';
 
 @Injectable()
 export class CollectionsService {
@@ -35,6 +36,16 @@ export class CollectionsService {
           counter: countOfGames,
         };
       }),
+    );
+  }
+
+  async updateUserCollectionStatus(
+    collectionId: number,
+    status: CollectionStatus,
+  ) {
+    return this.collectionsRepository.updateCollectionStatus(
+      collectionId,
+      status,
     );
   }
 }

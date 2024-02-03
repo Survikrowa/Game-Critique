@@ -1,5 +1,6 @@
 import { useHeaderHeight } from "@react-navigation/elements";
-import { ScrollView, Spinner, XStack, YStack } from "tamagui";
+import { FlatList } from "react-native";
+import { ScrollView, Spinner, XStack, View } from "tamagui";
 import { Text } from "ui/typography/text";
 
 import { CollectionCard } from "./collection_card";
@@ -19,18 +20,28 @@ export const Collections = () => {
     );
   }
   return (
-    <ScrollView maxHeight="90%">
-      <YStack padding={8} gap={8} height="100%" marginBottom={headerHeight}>
-        {query.data.getProfileCollections.map((collection) => (
-          <CollectionCard
-            key={collection.id}
-            name={collection.name}
-            description={collection.description}
-            count={collection.counter}
-            id={collection.id}
-          />
-        ))}
-      </YStack>
-    </ScrollView>
+    <FlatList
+      data={query.data.getProfileCollections}
+      contentContainerStyle={{
+        alignItems: "center",
+        gap: 8,
+        display: "flex",
+        height: "100%",
+        marginTop: 16,
+      }}
+      columnWrapperStyle={{ gap: 16, maxHeight: 200, width: "100%" }}
+      key="collection"
+      numColumns={2}
+      initialNumToRender={2}
+      renderItem={({ item }) => (
+        <CollectionCard
+          key={item.id}
+          name={item.name}
+          description={item.description}
+          count={item.counter}
+          id={item.id}
+        />
+      )}
+    />
   );
 };

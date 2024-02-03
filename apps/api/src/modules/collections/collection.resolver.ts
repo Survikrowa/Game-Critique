@@ -1,7 +1,12 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { HttpException, HttpStatus, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/auth-jwt.guard';
-import { CollectionDTO, NewCollectionDTO } from './collections.dto';
+import {
+  CollectionDTO,
+  NewCollectionDTO,
+  RemoveCollectionArgsDTO,
+  RemovedCollectionResponseDTO,
+} from './collections.dto';
 import { UserDTO } from '../auth/auth.dto';
 import { User } from '../auth/auth.decorators';
 import { ProfilesService } from '../profiles/profiles.service';
@@ -41,5 +46,29 @@ export class CollectionsResolver {
   @Query(() => [CollectionDTO])
   async getProfileCollections(@User() user: UserDTO) {
     return this.collectionsService.getProfileCollections(user.sub);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Mutation(() => RemovedCollectionResponseDTO)
+  async removeCollection(
+    @Args('collection') collection: RemoveCollectionArgsDTO,
+  ) {
+    const updatedCollection =
+      await this.collectionsService.updateUserCollectionStatus(
+        collection.collectionId,
+        'REMOVED',
+      );
+    if (updatedCollection) {
+      return {
+        success: true,
+      };
+    }
+    throw new HttpException(
+      {
+        status: HttpStatus.NOT_FOUND,
+        message: 'Collection not found',
+      },
+      HttpStatus.NOT_FOUND,
+    );
   }
 }
