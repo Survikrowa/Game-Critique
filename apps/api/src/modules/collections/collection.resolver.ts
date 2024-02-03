@@ -3,6 +3,7 @@ import { HttpException, HttpStatus, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/auth-jwt.guard';
 import {
   CollectionDTO,
+  CollectionWithGamesDTO,
   NewCollectionDTO,
   RemoveCollectionArgsDTO,
   RemovedCollectionResponseDTO,
@@ -70,5 +71,11 @@ export class CollectionsResolver {
       },
       HttpStatus.NOT_FOUND,
     );
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Query(() => CollectionWithGamesDTO, { name: 'collection' })
+  async getCollectionById(@Args('id') id: number) {
+    return this.collectionsService.getCollectionById(id);
   }
 }
