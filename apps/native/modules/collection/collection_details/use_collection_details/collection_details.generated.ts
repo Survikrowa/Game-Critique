@@ -1,4 +1,4 @@
-import * as Types from '../../../__generated__/types';
+import * as Types from '../../../../__generated__/types';
 
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
@@ -161,49 +161,60 @@ export type SearchResult = {
   games: Array<SearchGamesResult>;
 };
 
-export type ProfileInfoQueryVariables = Types.Exact<{ [key: string]: never; }>;
+export type CollectionDetailsQueryVariables = Types.Exact<{
+  id: Types.Scalars['Float']['input'];
+}>;
 
 
-export type ProfileInfoQuery = { __typename?: 'Query', profileInfo: { __typename?: 'ProfileInfoDTO', avatarUrl: string, name: string } };
+export type CollectionDetailsQuery = { __typename?: 'Query', collection: { __typename?: 'CollectionWithGamesDTO', id: string, name: string, description: string, games: Array<{ __typename?: 'GameWithCoversDTO', id: number, name: string, covers: Array<{ __typename?: 'CoverDTO', largeUrl: string }> }> } };
 
 
-export const ProfileInfoDocument = gql`
-    query ProfileInfo {
-  profileInfo {
-    avatarUrl
+export const CollectionDetailsDocument = gql`
+    query CollectionDetails($id: Float!) {
+  collection(id: $id) {
+    id
     name
+    description
+    games {
+      id
+      name
+      covers {
+        largeUrl
+      }
+    }
   }
 }
     `;
 
 /**
- * __useProfileInfoQuery__
+ * __useCollectionDetailsQuery__
  *
- * To run a query within a React component, call `useProfileInfoQuery` and pass it any options that fit your needs.
- * When your component renders, `useProfileInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useCollectionDetailsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCollectionDetailsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useProfileInfoQuery({
+ * const { data, loading, error } = useCollectionDetailsQuery({
  *   variables: {
+ *      id: // value for 'id'
  *   },
  * });
  */
-export function useProfileInfoQuery(baseOptions?: Apollo.QueryHookOptions<ProfileInfoQuery, ProfileInfoQueryVariables>) {
+export function useCollectionDetailsQuery(baseOptions: Apollo.QueryHookOptions<CollectionDetailsQuery, CollectionDetailsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ProfileInfoQuery, ProfileInfoQueryVariables>(ProfileInfoDocument, options);
+        return Apollo.useQuery<CollectionDetailsQuery, CollectionDetailsQueryVariables>(CollectionDetailsDocument, options);
       }
-export function useProfileInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProfileInfoQuery, ProfileInfoQueryVariables>) {
+export function useCollectionDetailsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CollectionDetailsQuery, CollectionDetailsQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ProfileInfoQuery, ProfileInfoQueryVariables>(ProfileInfoDocument, options);
+          return Apollo.useLazyQuery<CollectionDetailsQuery, CollectionDetailsQueryVariables>(CollectionDetailsDocument, options);
         }
-export function useProfileInfoSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<ProfileInfoQuery, ProfileInfoQueryVariables>) {
+export function useCollectionDetailsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<CollectionDetailsQuery, CollectionDetailsQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<ProfileInfoQuery, ProfileInfoQueryVariables>(ProfileInfoDocument, options);
+          return Apollo.useSuspenseQuery<CollectionDetailsQuery, CollectionDetailsQueryVariables>(CollectionDetailsDocument, options);
         }
-export type ProfileInfoQueryHookResult = ReturnType<typeof useProfileInfoQuery>;
-export type ProfileInfoLazyQueryHookResult = ReturnType<typeof useProfileInfoLazyQuery>;
-export type ProfileInfoSuspenseQueryHookResult = ReturnType<typeof useProfileInfoSuspenseQuery>;
-export type ProfileInfoQueryResult = Apollo.QueryResult<ProfileInfoQuery, ProfileInfoQueryVariables>;
+export type CollectionDetailsQueryHookResult = ReturnType<typeof useCollectionDetailsQuery>;
+export type CollectionDetailsLazyQueryHookResult = ReturnType<typeof useCollectionDetailsLazyQuery>;
+export type CollectionDetailsSuspenseQueryHookResult = ReturnType<typeof useCollectionDetailsSuspenseQuery>;
+export type CollectionDetailsQueryResult = Apollo.QueryResult<CollectionDetailsQuery, CollectionDetailsQueryVariables>;

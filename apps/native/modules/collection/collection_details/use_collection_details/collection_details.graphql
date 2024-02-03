@@ -1,0 +1,14 @@
+query CollectionDetails($id: Float!) {
+  collection(id: $id) {
+    id
+    name
+    description,
+    games {
+      id
+      name
+      covers {
+        largeUrl
+      }
+    }
+  }
+}

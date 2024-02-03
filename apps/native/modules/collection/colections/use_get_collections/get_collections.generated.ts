@@ -33,11 +33,39 @@ export type CollectionDto = {
   name: Scalars['String']['output'];
 };
 
+/** Single Collection with added items */
+export type CollectionWithGamesDto = {
+  __typename?: 'CollectionWithGamesDTO';
+  description: Scalars['String']['output'];
+  games: Array<GameWithCoversDto>;
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+};
+
 export type Cover = {
   __typename?: 'Cover';
   big_url: Scalars['String']['output'];
   medium_url: Scalars['String']['output'];
   small_url: Scalars['String']['output'];
+};
+
+/** Single Cover */
+export type CoverDto = {
+  __typename?: 'CoverDTO';
+  id: Scalars['Float']['output'];
+  largeUrl: Scalars['String']['output'];
+  mediumUrl: Scalars['String']['output'];
+  smallUrl: Scalars['String']['output'];
+};
+
+/** Single Game with covers */
+export type GameWithCoversDto = {
+  __typename?: 'GameWithCoversDTO';
+  covers: Array<CoverDto>;
+  hltbId: Scalars['String']['output'];
+  id: Scalars['Float']['output'];
+  name: Scalars['String']['output'];
+  slug: Scalars['String']['output'];
 };
 
 export type Mutation = {
@@ -91,10 +119,16 @@ export type ProfileInfoUpdateResponseDto = {
 
 export type Query = {
   __typename?: 'Query';
+  collection: CollectionWithGamesDto;
   getProfileCollections: Array<CollectionDto>;
   profileInfo: ProfileInfoDto;
   search: SearchResult;
   verify: AuthUserVerification;
+};
+
+
+export type QueryCollectionArgs = {
+  id: Scalars['Float']['input'];
 };
 
 
