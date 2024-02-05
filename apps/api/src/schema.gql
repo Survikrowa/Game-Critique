@@ -2,6 +2,11 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input AddGameToCollectionDTO {
+  collectionId: Float!
+  hltbGameId: Float!
+}
+
 type AuthUserVerification {
   authorized: Boolean!
 }
@@ -14,11 +19,16 @@ type CollectionDTO {
   name: String!
 }
 
+"""Collection Mutation success"""
+type CollectionMutationResponseDTO {
+  success: Boolean!
+}
+
 """Single Collection with added items"""
 type CollectionWithGamesDTO {
   description: String!
   games: [GameWithCoversDTO!]!
-  id: ID!
+  id: Float!
   name: String!
 }
 
@@ -30,22 +40,48 @@ type Cover {
 
 """Single Cover"""
 type CoverDTO {
+  bigUrl: String!
   id: Float!
-  largeUrl: String!
   mediumUrl: String!
   smallUrl: String!
 }
 
+"""Single Game Release(Year) Date"""
+type GameReleaseDTO {
+  date: Float
+  id: Float!
+}
+
+"""Game with all linked data"""
+type GameWithAllDataDTO {
+  covers: CoverDTO
+  genres: [GenresDto!]!
+  hltbId: Float!
+  id: Float!
+  name: String!
+  platforms: [PlatformDTO!]!
+  releases: GameReleaseDTO
+  slug: String!
+}
+
 """Single Game with covers"""
 type GameWithCoversDTO {
-  covers: [CoverDTO!]!
-  hltbId: String!
+  covers: CoverDTO!
+  hltbId: Float!
+  id: Float!
+  name: String!
+  slug: String!
+}
+
+"""Single Platform"""
+type GenresDto {
   id: Float!
   name: String!
   slug: String!
 }
 
 type Mutation {
+  addGameToCollection(collection: AddGameToCollectionDTO!): CollectionMutationResponseDTO!
   createNewCollection(collection: NewCollectionDTO!): CollectionDTO!
   removeCollection(collection: RemoveCollectionArgsDTO!): RemovedCollectionResponseDTO!
   updateProfileInfo(profileInfo: ProfileInfoUpdateArgsDTO!): ProfileInfoUpdateResponseDTO!
@@ -55,6 +91,13 @@ type Mutation {
 input NewCollectionDTO {
   description: String!
   name: String!
+}
+
+"""Single Platform"""
+type PlatformDTO {
+  id: Float!
+  name: String!
+  slug: String!
 }
 
 """User profile info"""
@@ -78,6 +121,7 @@ type ProfileInfoUpdateResponseDTO {
 
 type Query {
   collection(id: Float!): CollectionWithGamesDTO!
+  game(hltbId: Float!): GameWithAllDataDTO!
   getProfileCollections: [CollectionDTO!]!
   profileInfo: ProfileInfoDTO!
   search(input: String!): SearchResult!

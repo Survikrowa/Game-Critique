@@ -1,0 +1,19 @@
+query GameInfo($hltbId: Float!) {
+    game(hltbId: $hltbId) {
+        id,
+        name,
+        covers {
+            mediumUrl
+        }
+        platforms {
+            name
+            id
+        }
+        genres {
+            name
+        }
+        releases {
+            date
+        }
+    }
+}

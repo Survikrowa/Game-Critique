@@ -1,0 +1,5 @@
+mutation AddGameToCollection($input: AddGameToCollectionDTO!) {
+  addGameToCollection(collection: $input) {
+    success
+  }
+}

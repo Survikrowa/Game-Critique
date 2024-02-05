@@ -1,16 +1,16 @@
 import { BookOpen } from "@tamagui/lucide-icons";
 import { Tabs } from "expo-router";
 import { useAuth0 } from "react-native-auth0";
+import { Text } from "ui/typography/text";
 
 import { GoBackHeader } from "../../../../modules/layouts/go_back_header/go_back_header";
 import { Header } from "../../../../modules/layouts/header/header";
-import { Text } from "../../../../ui/typography/text";
 
 const TabsLayout = () => {
   const { user } = useAuth0();
   return (
     <Tabs
-      screenOptions={({ route }) => ({
+      screenOptions={() => ({
         tabBarStyle: {
           height: 64,
           display: user ? "flex" : "none",
@@ -84,6 +84,28 @@ const TabsLayout = () => {
           tabBarStyle: {
             display: "none",
           },
+          tabBarItemStyle: {
+            display: "none",
+          },
+        }}
+      />
+      <Tabs.Screen
+        name="game/[game_id]/index"
+        options={{
+          header: Header,
+          headerShown: true,
+
+          tabBarItemStyle: {
+            display: "none",
+          },
+        }}
+      />
+      <Tabs.Screen
+        name="(authorized)/collection/collection_add_form/[id]/index"
+        options={{
+          header: Header,
+          headerShown: true,
+
           tabBarItemStyle: {
             display: "none",
           },

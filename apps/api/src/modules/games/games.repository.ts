@@ -94,4 +94,26 @@ export class GamesRepository {
       },
     });
   }
+
+  async getGameById(hltbId: number) {
+    return this.prismaService.game.findUnique({
+      where: {
+        hltbId,
+      },
+      include: {
+        cover: true,
+        platformForGame: {
+          include: {
+            platform: true,
+          },
+        },
+        genres: {
+          include: {
+            genre: true,
+          },
+        },
+        release: true,
+      },
+    });
+  }
 }

@@ -19,6 +19,11 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export type AddGameToCollectionDto = {
+  collectionId: Scalars['Float']['input'];
+  hltbGameId: Scalars['Float']['input'];
+};
+
 export type AuthUserVerification = {
   __typename?: 'AuthUserVerification';
   authorized: Scalars['Boolean']['output'];
@@ -33,12 +38,18 @@ export type CollectionDto = {
   name: Scalars['String']['output'];
 };
 
+/** Collection Mutation success */
+export type CollectionMutationResponseDto = {
+  __typename?: 'CollectionMutationResponseDTO';
+  success: Scalars['Boolean']['output'];
+};
+
 /** Single Collection with added items */
 export type CollectionWithGamesDto = {
   __typename?: 'CollectionWithGamesDTO';
   description: Scalars['String']['output'];
   games: Array<GameWithCoversDto>;
-  id: Scalars['ID']['output'];
+  id: Scalars['Float']['output'];
   name: Scalars['String']['output'];
 };
 
@@ -52,17 +63,45 @@ export type Cover = {
 /** Single Cover */
 export type CoverDto = {
   __typename?: 'CoverDTO';
+  bigUrl: Scalars['String']['output'];
   id: Scalars['Float']['output'];
-  largeUrl: Scalars['String']['output'];
   mediumUrl: Scalars['String']['output'];
   smallUrl: Scalars['String']['output'];
+};
+
+/** Single Game Release(Year) Date */
+export type GameReleaseDto = {
+  __typename?: 'GameReleaseDTO';
+  date?: Maybe<Scalars['Float']['output']>;
+  id: Scalars['Float']['output'];
+};
+
+/** Game with all linked data */
+export type GameWithAllDataDto = {
+  __typename?: 'GameWithAllDataDTO';
+  covers?: Maybe<CoverDto>;
+  genres: Array<GenresDto>;
+  hltbId: Scalars['Float']['output'];
+  id: Scalars['Float']['output'];
+  name: Scalars['String']['output'];
+  platforms: Array<PlatformDto>;
+  releases?: Maybe<GameReleaseDto>;
+  slug: Scalars['String']['output'];
 };
 
 /** Single Game with covers */
 export type GameWithCoversDto = {
   __typename?: 'GameWithCoversDTO';
-  covers: Array<CoverDto>;
-  hltbId: Scalars['String']['output'];
+  covers: CoverDto;
+  hltbId: Scalars['Float']['output'];
+  id: Scalars['Float']['output'];
+  name: Scalars['String']['output'];
+  slug: Scalars['String']['output'];
+};
+
+/** Single Platform */
+export type GenresDto = {
+  __typename?: 'GenresDto';
   id: Scalars['Float']['output'];
   name: Scalars['String']['output'];
   slug: Scalars['String']['output'];
@@ -70,9 +109,15 @@ export type GameWithCoversDto = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addGameToCollection: CollectionMutationResponseDto;
   createNewCollection: CollectionDto;
   removeCollection: RemovedCollectionResponseDto;
   updateProfileInfo: ProfileInfoUpdateResponseDto;
+};
+
+
+export type MutationAddGameToCollectionArgs = {
+  collection: AddGameToCollectionDto;
 };
 
 
@@ -94,6 +139,14 @@ export type MutationUpdateProfileInfoArgs = {
 export type NewCollectionDto = {
   description: Scalars['String']['input'];
   name: Scalars['String']['input'];
+};
+
+/** Single Platform */
+export type PlatformDto = {
+  __typename?: 'PlatformDTO';
+  id: Scalars['Float']['output'];
+  name: Scalars['String']['output'];
+  slug: Scalars['String']['output'];
 };
 
 /** User profile info */
@@ -120,6 +173,7 @@ export type ProfileInfoUpdateResponseDto = {
 export type Query = {
   __typename?: 'Query';
   collection: CollectionWithGamesDto;
+  game: GameWithAllDataDto;
   getProfileCollections: Array<CollectionDto>;
   profileInfo: ProfileInfoDto;
   search: SearchResult;
@@ -129,6 +183,11 @@ export type Query = {
 
 export type QueryCollectionArgs = {
   id: Scalars['Float']['input'];
+};
+
+
+export type QueryGameArgs = {
+  hltbId: Scalars['Float']['input'];
 };
 
 
@@ -166,7 +225,7 @@ export type CollectionDetailsQueryVariables = Types.Exact<{
 }>;
 
 
-export type CollectionDetailsQuery = { __typename?: 'Query', collection: { __typename?: 'CollectionWithGamesDTO', id: string, name: string, description: string, games: Array<{ __typename?: 'GameWithCoversDTO', id: number, name: string, covers: Array<{ __typename?: 'CoverDTO', largeUrl: string }> }> } };
+export type CollectionDetailsQuery = { __typename?: 'Query', collection: { __typename?: 'CollectionWithGamesDTO', id: number, name: string, description: string, games: Array<{ __typename?: 'GameWithCoversDTO', id: number, name: string, covers: { __typename?: 'CoverDTO', bigUrl: string } }> } };
 
 
 export const CollectionDetailsDocument = gql`
@@ -179,7 +238,7 @@ export const CollectionDetailsDocument = gql`
       id
       name
       covers {
-        largeUrl
+        bigUrl
       }
     }
   }

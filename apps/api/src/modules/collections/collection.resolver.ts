@@ -2,7 +2,9 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { HttpException, HttpStatus, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/auth-jwt.guard';
 import {
+  AddGameToCollectionDTO,
   CollectionDTO,
+  CollectionMutationResponseDTO,
   CollectionWithGamesDTO,
   NewCollectionDTO,
   RemoveCollectionArgsDTO,
@@ -75,7 +77,29 @@ export class CollectionsResolver {
 
   @UseGuards(JwtAuthGuard)
   @Query(() => CollectionWithGamesDTO, { name: 'collection' })
-  async getCollectionById(@Args('id') id: number) {
+  async getCollectionById(
+    @Args('id') id: number,
+  ): Promise<CollectionWithGamesDTO> {
     return this.collectionsService.getCollectionById(id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Mutation(() => CollectionMutationResponseDTO)
+  async addGameToCollection(
+    @Args('collection') collection: AddGameToCollectionDTO,
+  ) {
+    try {
+      await this.collectionsService.addGameToCollection(
+        collection.collectionId,
+        collection.hltbGameId,
+      );
+      return {
+        success: true,
+      };
+    } catch (e) {
+      return {
+        success: false,
+      };
+    }
   }
 }

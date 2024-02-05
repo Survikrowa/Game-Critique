@@ -1,4 +1,4 @@
-import * as Types from '../../../../__generated__/types';
+import * as Types from '../../../__generated__/types';
 
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
@@ -220,57 +220,65 @@ export type SearchResult = {
   games: Array<SearchGamesResult>;
 };
 
-export type SearchGamesQueryVariables = Types.Exact<{
-  search: Types.Scalars['String']['input'];
+export type GameInfoQueryVariables = Types.Exact<{
+  hltbId: Types.Scalars['Float']['input'];
 }>;
 
 
-export type SearchGamesQuery = { __typename?: 'Query', search: { __typename?: 'SearchResult', games: Array<{ __typename?: 'SearchGamesResult', id: number, name: string, cover: { __typename?: 'Cover', small_url: string } }> } };
+export type GameInfoQuery = { __typename?: 'Query', game: { __typename?: 'GameWithAllDataDTO', id: number, name: string, covers?: { __typename?: 'CoverDTO', mediumUrl: string } | null, platforms: Array<{ __typename?: 'PlatformDTO', name: string, id: number }>, genres: Array<{ __typename?: 'GenresDto', name: string }>, releases?: { __typename?: 'GameReleaseDTO', date?: number | null } | null } };
 
 
-export const SearchGamesDocument = gql`
-    query SearchGames($search: String!) {
-  search(input: $search) {
-    games {
-      id
+export const GameInfoDocument = gql`
+    query GameInfo($hltbId: Float!) {
+  game(hltbId: $hltbId) {
+    id
+    name
+    covers {
+      mediumUrl
+    }
+    platforms {
       name
-      cover {
-        small_url
-      }
+      id
+    }
+    genres {
+      name
+    }
+    releases {
+      date
     }
   }
 }
     `;
 
 /**
- * __useSearchGamesQuery__
+ * __useGameInfoQuery__
  *
- * To run a query within a React component, call `useSearchGamesQuery` and pass it any options that fit your needs.
- * When your component renders, `useSearchGamesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGameInfoQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGameInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useSearchGamesQuery({
+ * const { data, loading, error } = useGameInfoQuery({
  *   variables: {
- *      search: // value for 'search'
+ *      hltbId: // value for 'hltbId'
  *   },
  * });
  */
-export function useSearchGamesQuery(baseOptions: Apollo.QueryHookOptions<SearchGamesQuery, SearchGamesQueryVariables>) {
+export function useGameInfoQuery(baseOptions: Apollo.QueryHookOptions<GameInfoQuery, GameInfoQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<SearchGamesQuery, SearchGamesQueryVariables>(SearchGamesDocument, options);
+        return Apollo.useQuery<GameInfoQuery, GameInfoQueryVariables>(GameInfoDocument, options);
       }
-export function useSearchGamesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchGamesQuery, SearchGamesQueryVariables>) {
+export function useGameInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GameInfoQuery, GameInfoQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<SearchGamesQuery, SearchGamesQueryVariables>(SearchGamesDocument, options);
+          return Apollo.useLazyQuery<GameInfoQuery, GameInfoQueryVariables>(GameInfoDocument, options);
         }
-export function useSearchGamesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<SearchGamesQuery, SearchGamesQueryVariables>) {
+export function useGameInfoSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GameInfoQuery, GameInfoQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<SearchGamesQuery, SearchGamesQueryVariables>(SearchGamesDocument, options);
+          return Apollo.useSuspenseQuery<GameInfoQuery, GameInfoQueryVariables>(GameInfoDocument, options);
         }
-export type SearchGamesQueryHookResult = ReturnType<typeof useSearchGamesQuery>;
-export type SearchGamesLazyQueryHookResult = ReturnType<typeof useSearchGamesLazyQuery>;
-export type SearchGamesSuspenseQueryHookResult = ReturnType<typeof useSearchGamesSuspenseQuery>;
-export type SearchGamesQueryResult = Apollo.QueryResult<SearchGamesQuery, SearchGamesQueryVariables>;
+export type GameInfoQueryHookResult = ReturnType<typeof useGameInfoQuery>;
+export type GameInfoLazyQueryHookResult = ReturnType<typeof useGameInfoLazyQuery>;
+export type GameInfoSuspenseQueryHookResult = ReturnType<typeof useGameInfoSuspenseQuery>;
+export type GameInfoQueryResult = Apollo.QueryResult<GameInfoQuery, GameInfoQueryVariables>;

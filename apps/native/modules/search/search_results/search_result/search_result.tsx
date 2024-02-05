@@ -1,7 +1,7 @@
 import { router } from "expo-router";
 import { Image, XStack, YStack } from "tamagui";
+import { Text } from "ui/typography/text";
 
-import { Text } from "../../../../ui/typography/text";
 import { SearchGamesQuery } from "../../search_input/use_search/search_query.generated";
 
 type SearchResultProps = {
@@ -10,7 +10,7 @@ type SearchResultProps = {
 export const SearchResult = ({ result }: SearchResultProps) => {
   return (
     <XStack
-      onPress={() => router.push(`/games/${result.id}`)}
+      onPress={() => router.push(`/game/${result.id}`)}
       gap={8}
       maxWidth="100%"
     >
