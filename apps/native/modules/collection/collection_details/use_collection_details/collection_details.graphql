@@ -7,7 +7,7 @@ query CollectionDetails($id: Float!) {
       id
       name
       covers {
-        largeUrl
+        bigUrl
       }
     }
   }

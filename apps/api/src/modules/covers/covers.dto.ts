@@ -3,11 +3,11 @@ import { Field, ObjectType } from '@nestjs/graphql';
 @ObjectType({ description: 'Single Cover' })
 export class CoverDTO {
   @Field(() => Number)
-  id: string;
+  id: number;
   @Field(() => String)
   smallUrl: string;
   @Field(() => String)
   mediumUrl: string;
   @Field(() => String)
-  largeUrl: string;
+  bigUrl: string;
 }

@@ -1,14 +1,12 @@
-import { useHeaderHeight } from "@react-navigation/elements";
 import { FlatList } from "react-native";
-import { ScrollView, Spinner, XStack, View } from "tamagui";
+import { Spinner, XStack } from "tamagui";
 import { Text } from "ui/typography/text";
 
 import { CollectionCard } from "./collection_card";
-import { useGetCollections } from "./use_get_collections/use_get_collections";
+import { useGetCollections } from "../use_get_collections/use_get_collections";
 
 export const Collections = () => {
   const query = useGetCollections();
-  const headerHeight = useHeaderHeight();
   if (query.loading || !query.data) {
     return (
       <XStack>

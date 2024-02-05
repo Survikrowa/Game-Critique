@@ -15,8 +15,8 @@ export class CollectionDTO {
 
 @ObjectType({ description: 'Single Collection with added items' })
 export class CollectionWithGamesDTO {
-  @Field(() => ID)
-  id: string;
+  @Field(() => Number)
+  id: number;
   @Field(() => String)
   name: string;
   @Field(() => String)
@@ -30,6 +30,19 @@ export class NewCollectionDTO {
   name: string;
   @Field(() => String)
   description: string;
+}
+
+@ObjectType({ description: 'Collection Mutation success' })
+export class CollectionMutationResponseDTO {
+  @Field(() => Boolean)
+  success: boolean;
+}
+@InputType()
+export class AddGameToCollectionDTO {
+  @Field(() => Number)
+  collectionId: number;
+  @Field(() => Number)
+  hltbGameId: number;
 }
 
 @InputType({ description: 'Required arguments to remove a collection' })

@@ -15,6 +15,7 @@ type GoBackHeaderProps = {
 
 export const GoBackHeader = ({ goBackUrl, text }: GoBackHeaderProps) => {
   const insets = useSafeAreaInsets();
+  console.log(text);
   return (
     <>
       <View style={{ paddingTop: insets.top }} />

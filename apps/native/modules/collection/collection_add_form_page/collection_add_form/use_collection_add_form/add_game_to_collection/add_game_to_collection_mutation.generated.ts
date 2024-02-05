@@ -1,4 +1,4 @@
-import * as Types from '../../../../__generated__/types';
+import * as Types from '../../../../../../__generated__/types';
 
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
@@ -220,57 +220,44 @@ export type SearchResult = {
   games: Array<SearchGamesResult>;
 };
 
-export type SearchGamesQueryVariables = Types.Exact<{
-  search: Types.Scalars['String']['input'];
+export type AddGameToCollectionMutationVariables = Types.Exact<{
+  input: Types.AddGameToCollectionDto;
 }>;
 
 
-export type SearchGamesQuery = { __typename?: 'Query', search: { __typename?: 'SearchResult', games: Array<{ __typename?: 'SearchGamesResult', id: number, name: string, cover: { __typename?: 'Cover', small_url: string } }> } };
+export type AddGameToCollectionMutation = { __typename?: 'Mutation', addGameToCollection: { __typename?: 'CollectionMutationResponseDTO', success: boolean } };
 
 
-export const SearchGamesDocument = gql`
-    query SearchGames($search: String!) {
-  search(input: $search) {
-    games {
-      id
-      name
-      cover {
-        small_url
-      }
-    }
+export const AddGameToCollectionDocument = gql`
+    mutation AddGameToCollection($input: AddGameToCollectionDTO!) {
+  addGameToCollection(collection: $input) {
+    success
   }
 }
     `;
+export type AddGameToCollectionMutationFn = Apollo.MutationFunction<AddGameToCollectionMutation, AddGameToCollectionMutationVariables>;
 
 /**
- * __useSearchGamesQuery__
+ * __useAddGameToCollectionMutation__
  *
- * To run a query within a React component, call `useSearchGamesQuery` and pass it any options that fit your needs.
- * When your component renders, `useSearchGamesQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
+ * To run a mutation, you first call `useAddGameToCollectionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddGameToCollectionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
  *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const { data, loading, error } = useSearchGamesQuery({
+ * const [addGameToCollectionMutation, { data, loading, error }] = useAddGameToCollectionMutation({
  *   variables: {
- *      search: // value for 'search'
+ *      input: // value for 'input'
  *   },
  * });
  */
-export function useSearchGamesQuery(baseOptions: Apollo.QueryHookOptions<SearchGamesQuery, SearchGamesQueryVariables>) {
+export function useAddGameToCollectionMutation(baseOptions?: Apollo.MutationHookOptions<AddGameToCollectionMutation, AddGameToCollectionMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<SearchGamesQuery, SearchGamesQueryVariables>(SearchGamesDocument, options);
+        return Apollo.useMutation<AddGameToCollectionMutation, AddGameToCollectionMutationVariables>(AddGameToCollectionDocument, options);
       }
-export function useSearchGamesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchGamesQuery, SearchGamesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<SearchGamesQuery, SearchGamesQueryVariables>(SearchGamesDocument, options);
-        }
-export function useSearchGamesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<SearchGamesQuery, SearchGamesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<SearchGamesQuery, SearchGamesQueryVariables>(SearchGamesDocument, options);
-        }
-export type SearchGamesQueryHookResult = ReturnType<typeof useSearchGamesQuery>;
-export type SearchGamesLazyQueryHookResult = ReturnType<typeof useSearchGamesLazyQuery>;
-export type SearchGamesSuspenseQueryHookResult = ReturnType<typeof useSearchGamesSuspenseQuery>;
-export type SearchGamesQueryResult = Apollo.QueryResult<SearchGamesQuery, SearchGamesQueryVariables>;
+export type AddGameToCollectionMutationHookResult = ReturnType<typeof useAddGameToCollectionMutation>;
+export type AddGameToCollectionMutationResult = Apollo.MutationResult<AddGameToCollectionMutation>;
+export type AddGameToCollectionMutationOptions = Apollo.BaseMutationOptions<AddGameToCollectionMutation, AddGameToCollectionMutationVariables>;

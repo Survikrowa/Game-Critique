@@ -59,6 +59,23 @@ export class CollectionsRepository {
     });
   }
 
+  async addGameToCollection(collectionId: number, hltbGameId: number) {
+    return this.prismaService.gamesCollection.create({
+      data: {
+        collection: {
+          connect: {
+            id: collectionId,
+          },
+        },
+        game: {
+          connect: {
+            hltbId: hltbGameId,
+          },
+        },
+      },
+    });
+  }
+
   async getCollectionById(collectionId: number) {
     return this.prismaService.collection.findUnique({
       where: {
@@ -69,11 +86,7 @@ export class CollectionsRepository {
           select: {
             game: {
               include: {
-                cover: {
-                  select: {
-                    bigUrl: true,
-                  },
-                },
+                cover: true,
               },
             },
           },

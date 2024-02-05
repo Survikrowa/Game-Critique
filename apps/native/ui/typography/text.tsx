@@ -36,6 +36,7 @@ export const Text = ({ size, weight, children, color }: TextProps) => {
       fontSize={TEXT_SIZE[size]}
       fontWeight={TEXT_WEIGHT[weight]}
       color={TEXT_COLOR[color]}
+      wordWrap="break-word"
     >
       {children}
     </TamaguiText>
