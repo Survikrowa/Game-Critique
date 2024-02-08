@@ -17,6 +17,7 @@ export const Collections = () => {
       </XStack>
     );
   }
+
   return (
     <FlatList
       data={query.data.getProfileCollections}

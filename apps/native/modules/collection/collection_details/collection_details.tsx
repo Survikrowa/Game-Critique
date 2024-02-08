@@ -11,6 +11,7 @@ import {
 } from "tamagui";
 import { Text } from "ui/typography/text";
 
+import { CollectionDetailsEmpty } from "./collection_details_empty/collection_details_empty";
 import { CollectionDetailsFab } from "./collection_details_fab/collection_details_fab";
 import { useCollectionDetails } from "./use_collection_details/use_collection_details";
 import { useResetCollectionHeaderTitle } from "./use_reset_collection_header_title";
@@ -38,6 +39,10 @@ export const CollectionDetails = () => {
 
   if (collectionDetailQuery.loading || !collectionDetailQuery.data) {
     return <Spinner size="large" />;
+  }
+
+  if (collectionDetailQuery.data.collection.games.length === 0) {
+    return <CollectionDetailsEmpty />;
   }
 
   const collection = collectionDetailQuery.data.collection;
@@ -69,11 +74,7 @@ export const CollectionDetails = () => {
         })}
       </ScrollView>
 
-      <XStack flex={1} justifyContent="center" alignItems="center">
-        <XStack position="absolute" bottom={10} right={10}>
-          <CollectionDetailsFab />
-        </XStack>
-      </XStack>
+      <CollectionDetailsFab />
     </YStack>
   );
 };
