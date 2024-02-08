@@ -65,14 +65,19 @@ export const RemoveCollectionConfirmationModal = ({
               Po usunięciu kolekcji nie będzie można jej przywrócić.
             </AlertDialog.Description>
 
-            <XStack space="$3" justifyContent="flex-end">
+            <XStack space="$3" justifyContent="flex-end" gap={8}>
               {loading ? (
                 <Spinner size="large" />
               ) : (
                 <>
                   <Button onPress={() => onOpen(false)}>Nie</Button>
                   <AlertDialog.Action asChild>
-                    <Button theme="active" onPress={handleRemoveCollection}>
+                    <Button
+                      theme="active"
+                      backgroundColor="black"
+                      color="white"
+                      onPress={handleRemoveCollection}
+                    >
                       Tak
                     </Button>
                   </AlertDialog.Action>

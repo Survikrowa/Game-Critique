@@ -1,15 +1,10 @@
-import { Folder } from "@tamagui/lucide-icons";
+import { Folder, Trash2 } from "@tamagui/lucide-icons";
 import { router } from "expo-router";
 import { useState } from "react";
 import { Dimensions } from "react-native";
-import ContextMenu from "react-native-context-menu-view";
-import {
-  HandlerStateChangeEvent,
-  State,
-  TapGestureHandler,
-  TapGestureHandlerEventPayload,
-} from "react-native-gesture-handler";
-import { Card, XStack } from "tamagui";
+import { RectButton } from "react-native-gesture-handler";
+import Swipeable from "react-native-gesture-handler/Swipeable";
+import { Card, XStack, YStack } from "tamagui";
 import { Text } from "ui/typography/text";
 
 import { RemoveCollectionConfirmationModal } from "./remove_collection_confirmation_modal/remove_collection_confirmation_modal";
@@ -32,39 +27,32 @@ export const CollectionCard = ({
 }: CollectionCardProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const cardWidth = (Dimensions.get("window").width - cardGap * 3) / 2;
-  const onSingleTapEvent = (
-    event: HandlerStateChangeEvent<TapGestureHandlerEventPayload>,
-  ) => {
-    if (event.nativeEvent.state === State.ACTIVE) {
-      router.push(`/collection/${id}`);
-    }
+  const renderLeftItems = () => {
+    return (
+      <YStack borderWidth={1} padding={16}>
+        <RectButton onPress={() => setIsModalOpen(true)}>
+          <XStack>
+            <Trash2 />
+          </XStack>
+        </RectButton>
+      </YStack>
+    );
+  };
+  const onSingleTapEvent = () => {
+    router.push(`/collection/${id}`);
   };
   return (
-    <ContextMenu
-      actions={[
-        {
-          title: "Usuń",
-          systemIcon: "trash",
-          destructive: true,
-        },
-      ]}
-      previewBackgroundColor="black"
-      onPress={async (e) => {
-        if (e.nativeEvent.index === 0) {
-          setIsModalOpen(true);
-        }
-      }}
-    >
-      <TapGestureHandler onHandlerStateChange={onSingleTapEvent}>
+    <>
+      <Swipeable renderLeftActions={renderLeftItems}>
         <Card
           padding={8}
-          elevate
           bordered
           width={cardWidth}
           height="100%"
           display="flex"
           flexDirection="column"
           justifyContent="space-between"
+          onPress={onSingleTapEvent}
         >
           <Card.Background />
           <Card.Header
@@ -92,12 +80,12 @@ export const CollectionCard = ({
             Ilość w kolekcji: {count}
           </Text>
         </Card>
-      </TapGestureHandler>
+      </Swipeable>
       <RemoveCollectionConfirmationModal
         open={isModalOpen}
         onOpen={setIsModalOpen}
         collectionId={id}
       />
-    </ContextMenu>
+    </>
   );
 };

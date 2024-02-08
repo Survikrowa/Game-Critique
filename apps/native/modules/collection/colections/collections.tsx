@@ -27,7 +27,7 @@ export const Collections = () => {
         height: "100%",
         marginTop: 16,
       }}
-      columnWrapperStyle={{ gap: 16, maxHeight: 200, width: "100%" }}
+      columnWrapperStyle={{ gap: 8, maxHeight: 200, width: "100%" }}
       key="collection"
       numColumns={2}
       initialNumToRender={2}

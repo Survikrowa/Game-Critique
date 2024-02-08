@@ -41,7 +41,6 @@ export const CollectionDetails = () => {
   }
 
   const collection = collectionDetailQuery.data.collection;
-  console.log(collection.games);
   return (
     <YStack height="100%" padding={16}>
       <ScrollView maxHeight="90%">
@@ -50,18 +49,19 @@ export const CollectionDetails = () => {
             <Card key={game.id} bordered marginBottom={8}>
               <Card.Background />
               <Card.Header>
-                <XStack gap={8}>
-                  <View maxHeight={200} maxWidth={200} height="100%">
+                <XStack gap={8} alignItems="center">
+                  <View maxHeight={50} maxWidth={50} height="100%">
                     <Image
                       resizeMode="contain"
                       source={{ uri: game.covers.bigUrl }}
-                      style={{ width: 120, height: 120 }}
+                      style={{ width: 50, height: 50 }}
                     />
                   </View>
-
-                  <Text size="medium" weight="bold" color="primary">
-                    {game.name}
-                  </Text>
+                  <View maxWidth={220}>
+                    <Text size="medium" weight="bold" color="primary">
+                      {game.name}
+                    </Text>
+                  </View>
                 </XStack>
               </Card.Header>
             </Card>
