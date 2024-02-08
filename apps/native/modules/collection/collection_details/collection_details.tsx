@@ -47,7 +47,7 @@ export const CollectionDetails = () => {
 
   const collection = collectionDetailQuery.data.collection;
   return (
-    <YStack height="100%" padding={16}>
+    <YStack height="100%">
       <ScrollView maxHeight="90%">
         {collection.games.map((game) => {
           return (
