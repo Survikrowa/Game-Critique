@@ -6,11 +6,11 @@ import { useCallback } from "react";
 import { Auth0Provider } from "react-native-auth0";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { TamaguiProvider, Theme } from "tamagui";
+import { Toast } from "ui/feedback/toast/toast";
 
 import { useNewApolloClient } from "../modules/graphql/apollo_client";
 import { SafeToastViewport } from "../modules/layouts/safe_toast_viewport/safe_toast_viewport";
 import tamaguiConfig from "../tamagui.config";
-import { Toast } from "../ui/feedback/toast/toast";
 
 SplashScreen.preventAutoHideAsync();
 

@@ -14006,11 +14006,6 @@ react-native-auth0@^3.1.0:
     prop-types "^15.8.1"
     url "^0.11.0"
 
-react-native-context-menu-view@^1.14.1:
-  version "1.14.1"
-  resolved "https://registry.yarnpkg.com/react-native-context-menu-view/-/react-native-context-menu-view-1.14.1.tgz#ce8465534a8a7556de3abf0fb8092f3ebbb7a333"
-  integrity sha512-rPtC6RCbEVismTQ6M7WSt1HisNvgbS9bWqWX4RQXNXHKOKsVvXpI+bWRypFAjeBN/P+winn6Dxn1+meLBMrjmQ==
-
 react-native-floating-action@^1.22.0:
   version "1.22.0"
   resolved "https://registry.yarnpkg.com/react-native-floating-action/-/react-native-floating-action-1.22.0.tgz#7ec476f320e16855ad4077a3a9f36511d1718a52"
@@ -14171,10 +14166,10 @@ react-native@^0.72.7:
     ws "^6.2.2"
     yargs "^17.6.2"
 
-react-refresh@^0.4.0, react-refresh@~0.14.0:
-  version "0.14.0"
-  resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.14.0.tgz#4e02825378a5f227079554d4284889354e5f553e"
-  integrity sha512-wViHqhAd8OHeLS/IRMJjTSDHF3U9eWi62F/MledQGPdJGDhodXJ9PBLNGr6WWL7qlH12Mt3TyTpbS+hGXMjCzQ==
+react-refresh@^0.4.0:
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.4.3.tgz#966f1750c191672e76e16c2efa569150cc73ab53"
+  integrity sha512-Hwln1VNuGl/6bVwnd0Xdn1e84gT/8T9aYNL+HAKDArLCS7LWjwr7StE30IEYbIkx0Vi3vs+coQxe+SQDbGbbpA==
 
 react-remove-scroll-bar@^2.3.4:
   version "2.3.4"
