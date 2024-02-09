@@ -14,6 +14,10 @@ export const GameTabs = ({ game }: GameTabsProps) => {
   const redirectToCollectionAddForm = () => {
     router.push(`/collection/collection_add_form/${game.hltbId}`);
   };
+
+  const redirectToGamesStatusAddForm = () => {
+    router.push(`/games/games_status_add_form/${game.hltbId}`);
+  };
   return (
     <Card
       maxWidth="100%"
@@ -40,7 +44,7 @@ export const GameTabs = ({ game }: GameTabsProps) => {
         </YStack>
       </View>
       <Separator vertical />
-      <View alignItems="center" flex={1}>
+      <View alignItems="center" flex={1} onPress={redirectToGamesStatusAddForm}>
         <Check size="$2" color="black" />
         <YStack alignItems="center">
           <Text size="small" weight="semiBold" color="primary">

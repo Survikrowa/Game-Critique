@@ -156,3 +156,9 @@ enum CollectionStatus {
     ACTIVE
     REMOVED
 }
+
+enum GameStatus {
+    COMPLETED
+    RETIRED
+    IN_PROGRESS
+}
