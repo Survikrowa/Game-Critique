@@ -5,7 +5,7 @@ type SelectProps = {
   defaultValue?: string;
   placeholder: string;
   label: string;
-  items: SelectItem[];
+  items: Readonly<SelectItem[]>;
   onChange: (value: string) => void;
   value: string;
   icon?: ReactNode;

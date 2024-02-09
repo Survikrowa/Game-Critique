@@ -1,4 +1,4 @@
-import { BookOpen } from "@tamagui/lucide-icons";
+import { BookOpen, Gamepad2 } from "@tamagui/lucide-icons";
 import { Tabs } from "expo-router";
 import { useAuth0 } from "react-native-auth0";
 import { Text } from "ui/typography/text";
@@ -75,6 +75,34 @@ const TabsLayout = () => {
         }}
       />
       <Tabs.Screen
+        name="(authorized)/games/index"
+        options={{
+          header: Header,
+          headerShown: true,
+          title: "Gry",
+          tabBarIcon: () => <Gamepad2 width={16} height={16} color="white" />,
+          tabBarLabel: ({ focused, children }) => {
+            return (
+              <Text
+                size="small"
+                weight="bold"
+                color={focused ? "active" : "white"}
+              >
+                {children}
+              </Text>
+            );
+          },
+          tabBarItemStyle: {
+            padding: 8,
+          },
+          tabBarLabelStyle: {
+            color: "white",
+            fontWeight: "bold",
+            fontSize: 12,
+          },
+        }}
+      />
+      <Tabs.Screen
         name="(authorized)/collection/[id]/index"
         options={{
           header: ({ options }) => (
@@ -102,6 +130,17 @@ const TabsLayout = () => {
       />
       <Tabs.Screen
         name="(authorized)/collection/collection_add_form/[id]/index"
+        options={{
+          header: Header,
+          headerShown: true,
+
+          tabBarItemStyle: {
+            display: "none",
+          },
+        }}
+      />
+      <Tabs.Screen
+        name="(authorized)/games/games_status_add_form/[hltb_id]/index"
         options={{
           header: Header,
           headerShown: true,

@@ -7,9 +7,16 @@ type InputProps = {
   value: string;
   label: string;
   errorMessage?: string;
+  inputMode?: "text" | "numeric";
 };
 
-export const Input = ({ onChange, value, label, errorMessage }: InputProps) => {
+export const Input = ({
+  onChange,
+  value,
+  label,
+  errorMessage,
+  inputMode = "text",
+}: InputProps) => {
   return (
     <YStack width="100%" justifyContent="center" alignItems="center" gap={4}>
       <Label color="black">{label}</Label>
@@ -19,6 +26,7 @@ export const Input = ({ onChange, value, label, errorMessage }: InputProps) => {
         minHeight={32}
         width="100%"
         borderColor={errorMessage ? "$red8" : "black"}
+        inputMode={inputMode}
       />
       {Boolean(errorMessage) && (
         <Text size="small" weight="semiBold" color="warning">
