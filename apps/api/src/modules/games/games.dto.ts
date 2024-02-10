@@ -26,8 +26,8 @@ export class GameWithCoversDTO {
   slug: string;
   @Field(() => Number)
   hltbId: number;
-  @Field(() => CoverDTO)
-  covers: CoverDTO;
+  @Field(() => CoverDTO, { nullable: true })
+  cover?: CoverDTO | null;
 }
 
 @ObjectType({ description: 'Game with all linked data' })

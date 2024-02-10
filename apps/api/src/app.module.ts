@@ -11,6 +11,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { ImagesModule } from './modules/images/images.module';
 import { ProfilesModule } from './modules/profiles/profiles.module';
 import { CollectionsModule } from './modules/collections/collections.module';
+import { GamesStatusModule } from './modules/games_status/games_status.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { CollectionsModule } from './modules/collections/collections.module';
     ImagesModule,
     ProfilesModule,
     CollectionsModule,
+    GamesStatusModule,
   ],
 })
 export class AppModule {}

@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Spinner, YStack } from "tamagui";
+import { Text } from "ui/typography/text";
 import { useDebounce } from "use-debounce";
 
 import { SearchInput } from "./search_input/search_input";
 import { useSearch } from "./search_input/use_search/use_search";
 import { SearchResults } from "./search_results/search_results";
-import { Text } from "../../ui/typography/text";
 
 export const SearchScreen = () => {
   const [input, setInput] = useState("");

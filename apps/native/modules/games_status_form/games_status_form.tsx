@@ -1,5 +1,7 @@
 import { ErrorMessage } from "@hookform/error-message";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useToastController } from "@tamagui/toast";
+import { router } from "expo-router";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import { Button, Form, Separator, View, XStack, YStack } from "tamagui";
 import { Checkbox } from "ui/forms/checkbox";
@@ -12,21 +14,38 @@ import { z } from "zod";
 import { GAMES_SCORES } from "./games_scores";
 import { GAMES_STATUSES } from "./games_statuses";
 import { GameInfoQuery } from "../game/use_get_game_info/game_info.generated";
+import { GameStatus } from "../games_status_add_form/use_create_new_games_status/create_new_games_status_mutation.generated";
 
 const NUMBERS_ONLY_REGEX = /^\d+$/;
 
 const GamesStatusAddFormSchema = z
   .object({
     hours: z.string().optional(),
-    minutes: z.string().max(60, "W godzinie występuje tylko 60 minut."),
-    seconds: z.string().max(100, "W minucie jest tylko 100 sekund"),
+    minutes: z.string().optional(),
+    seconds: z.string().optional(),
     platform: z.string().min(1, "Platforma jest wymagana"),
     score: z.string().optional(),
-    status: z.string().min(1, "Status jest wymagany"),
+    status: z
+      .nativeEnum(GameStatus)
+      .and(z.string().min(1, "Status jest wymagany")),
     review: z.string().optional(),
     platinium: z.boolean(),
   })
   .superRefine((data, ctx) => {
+    if (data.minutes && Number(data.minutes) > 60) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["minutes"],
+        message: "W godzinie występuje tylko 60 minut.",
+      });
+    }
+    if (data.seconds && Number(data.seconds) > 100) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["seconds"],
+        message: "W minucie występuje tylko 100 sekund.",
+      });
+    }
     if (data.hours && !NUMBERS_ONLY_REGEX.test(data.hours)) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
@@ -49,7 +68,7 @@ const GamesStatusAddFormSchema = z
       });
     }
 
-    if (data.status === "completed" && data.score?.length === 0) {
+    if (data.status === "COMPLETED" && data.score?.length === 0) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         path: ["score"],
@@ -67,11 +86,14 @@ type GamesStatusFormProps = {
     seconds?: string;
     platform: string;
     score?: string;
-    status: string;
+    status: GameStatus;
     review?: string;
     platinium?: boolean;
   };
   game: GameInfoQuery["game"];
+  onSuccessSubmit: (
+    data: GamesStatusAddFormFields,
+  ) => Promise<{ submitFailed: boolean }>;
 };
 
 const DEFAULT_VALUES = {
@@ -80,7 +102,7 @@ const DEFAULT_VALUES = {
   seconds: "",
   platform: "",
   score: "",
-  status: "",
+  status: undefined,
   review: "",
   platinium: false,
 };
@@ -104,12 +126,27 @@ const getInitialValues = (
 export const GamesStatusForm = ({
   initialValues,
   game,
+  onSuccessSubmit,
 }: GamesStatusFormProps) => {
   const methods = useForm<GamesStatusAddFormFields>({
     resolver: zodResolver(GamesStatusAddFormSchema),
     defaultValues: getInitialValues(initialValues),
   });
-  const { control, handleSubmit, reset, watch } = methods;
+  const {
+    control,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { isSubmitting },
+  } = methods;
+
+  const toastController = useToastController();
+  const displaySuccessToast = () => {
+    toastController.show("Gra została dodana do kolekcji", {
+      description: "",
+      variant: "success",
+    });
+  };
 
   const sonyConsolesIds = game.platforms.flatMap((platform) => {
     if (platform.name.includes("PlayStation")) {
@@ -121,13 +158,19 @@ export const GamesStatusForm = ({
   const isSonyPlayStationConsole = sonyConsolesIds.includes(
     Number(watch("platform")),
   );
-  const onSubmit = handleSubmit((data) => {
+  const onSubmit = handleSubmit(async (data) => {
     const gameData = {
       ...data,
       platinium: isSonyPlayStationConsole ? data.platinium : false,
     };
-    console.log(gameData);
-    reset();
+
+    const { submitFailed } = await onSuccessSubmit(gameData);
+
+    if (!submitFailed) {
+      reset(DEFAULT_VALUES);
+      displaySuccessToast();
+      router.push("/games/");
+    }
   });
 
   return (
@@ -205,7 +248,7 @@ export const GamesStatusForm = ({
                   return (
                     <Input
                       onChange={onChange}
-                      value={value}
+                      value={value || DEFAULT_VALUES.minutes}
                       label="M"
                       errorMessage={error?.message}
                       inputMode="numeric"
@@ -225,7 +268,7 @@ export const GamesStatusForm = ({
                   return (
                     <Input
                       onChange={onChange}
-                      value={value}
+                      value={value || DEFAULT_VALUES.seconds}
                       label="S"
                       errorMessage={error?.message}
                       inputMode="numeric"
@@ -368,7 +411,7 @@ export const GamesStatusForm = ({
 
           <Form.Trigger asChild marginTop={16}>
             <Button theme="active" backgroundColor="black" color="white">
-              Dodaj
+              {isSubmitting ? "Trwa dodawanie..." : "Dodaj"}
             </Button>
           </Form.Trigger>
         </Form>

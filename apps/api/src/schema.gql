@@ -46,10 +46,46 @@ type CoverDTO {
   smallUrl: String!
 }
 
+input CreateGameStatusArgsDTO {
+  achievementsCompleted: Boolean!
+  completedIn: GameStatusCompletedInArgDTO!
+  gameId: Float!
+  gameStatus: GameStatus!
+  gamesStatusId: Float
+  platformId: Float!
+  score: String
+}
+
 """Single Game Release(Year) Date"""
 type GameReleaseDTO {
   date: Float
   id: Float!
+}
+
+"""GameStatus Enum"""
+enum GameStatus {
+  COMPLETED
+  IN_PROGRESS
+  RETIRED
+}
+
+"""GameStatus CompletedIn Arg"""
+input GameStatusCompletedInArgDTO {
+  hours: String
+  minutes: String
+  seconds: String
+}
+
+"""GameStatus CompletedIn"""
+type GameStatusCompletedInDTO {
+  hours: Float
+  minutes: Float
+  seconds: Float
+}
+
+"""GameStatus Success Response"""
+type GameStatusSuccessResponseDTO {
+  message: String!
 }
 
 """Game with all linked data"""
@@ -66,7 +102,7 @@ type GameWithAllDataDTO {
 
 """Single Game with covers"""
 type GameWithCoversDTO {
-  covers: CoverDTO!
+  cover: CoverDTO
   hltbId: Float!
   id: Float!
   name: String!
@@ -82,6 +118,7 @@ type GenresDto {
 
 type Mutation {
   addGameToCollection(collection: AddGameToCollectionDTO!): CollectionMutationResponseDTO!
+  createGameStatus(createGameStatusArgs: CreateGameStatusArgsDTO!): GameStatusSuccessResponseDTO!
   createNewCollection(collection: NewCollectionDTO!): CollectionDTO!
   removeCollection(collection: RemoveCollectionArgsDTO!): RemovedCollectionResponseDTO!
   updateProfileInfo(profileInfo: ProfileInfoUpdateArgsDTO!): ProfileInfoUpdateResponseDTO!
@@ -104,6 +141,7 @@ type PlatformDTO {
 type ProfileInfoDTO {
   """User's avatar URL from Cloudinary"""
   avatarUrl: String!
+  id: Float!
   name: String!
 }
 
@@ -125,6 +163,8 @@ type Query {
   getProfileCollections: [CollectionDTO!]!
   profileInfo: ProfileInfoDTO!
   search(input: String!): SearchResult!
+  userGameStatus(gameStatusId: Float!): UserGamesStatusResponseDTO!
+  userGamesStatus: [UserGamesStatusResponseDTO!]!
   verify: AuthUserVerification!
 }
 
@@ -148,4 +188,16 @@ type SearchGamesResult {
 """Search result"""
 type SearchResult {
   games: [SearchGamesResult!]!
+}
+
+"""UserGamesStatus Response"""
+type UserGamesStatusResponseDTO {
+  achievementsCompleted: Boolean!
+  completedIn: GameStatusCompletedInDTO
+  game: GameWithCoversDTO!
+  id: Float!
+  platform: PlatformDTO!
+  review: String
+  score: String
+  status: GameStatus!
 }

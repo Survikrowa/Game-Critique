@@ -1,14 +1,14 @@
 export const GAMES_STATUSES = [
   {
     name: "Ukończona",
-    value: "completed",
+    value: "COMPLETED",
   },
   {
-    value: "in_progress",
+    value: "IN_PROGRESS",
     name: "W trakcie",
   },
   {
     name: "Porzucona",
-    value: "retired",
+    value: "RETIRED",
   },
 ] as const;
