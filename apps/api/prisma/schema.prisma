@@ -23,6 +23,7 @@ model User {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
   profile   Profile?
+  GamesStatus GamesStatus[]
 
   @@map("users")
 }
@@ -52,6 +53,7 @@ model Game {
   release         Release?
   platformForGame PlatformForGame[]
   gamesCollection GamesCollection[]
+  gamesStatus     GamesStatus[]
 
   @@map("games")
 }
@@ -122,6 +124,7 @@ model Platform {
   createdAt       DateTime          @default(now()) @map("created_at")
   updatedAt       DateTime          @updatedAt @map("updated_at")
   PlatformForGame PlatformForGame[]
+  GamesStatus     GamesStatus[]
 
   @@map("platform")
 }
@@ -161,4 +164,32 @@ enum GameStatus {
     COMPLETED
     RETIRED
     IN_PROGRESS
+}
+
+model GamesStatus {
+    id       Int      @id @default(autoincrement())
+    oauthId  String      @map("oauth_id")
+    user      User     @relation(fields: [oauthId], references: [oauthId], onDelete: Cascade)
+    completedIn GamesStatusCompletion?
+    score   String?
+    platformId Int @map("platform_id")
+    platform   Platform @relation(fields: [platformId], references: [id])
+    status   GameStatus
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+    gameId   Int      @map("game_id")
+    game     Game     @relation(fields: [gameId], references: [id])
+    achievementsCompleted Boolean @map("achievements_completed")
+    review String?
+    @@map("games_status")
+}
+
+model GamesStatusCompletion {
+    id      Int      @id @default(autoincrement())
+    hours  Int?
+    minutes Int?
+    seconds Int?
+    gamesStatusId Int @map("games_status_id") @unique
+    gamesStatus   GamesStatus @relation(fields: [gamesStatusId], references: [id])
+    @@map("games_status_completion")
 }

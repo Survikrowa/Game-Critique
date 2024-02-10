@@ -150,6 +150,21 @@ const TabsLayout = () => {
           },
         }}
       />
+      <Tabs.Screen
+        name="(authorized)/games/games_status_info/[games_status_id]"
+        options={{
+          header: () => (
+            <GoBackHeader goBackUrl="/games/" text="Szczegóły gry" />
+          ),
+          headerShown: true,
+          tabBarStyle: {
+            display: "none",
+          },
+          tabBarItemStyle: {
+            display: "none",
+          },
+        }}
+      />
     </Tabs>
   );
 };

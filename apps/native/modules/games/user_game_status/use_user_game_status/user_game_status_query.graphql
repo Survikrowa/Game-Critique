@@ -1,0 +1,25 @@
+query UserGameStatus($gameStatusId: Float!) {
+    userGameStatus(gameStatusId: $gameStatusId) {
+        id,
+        completedIn {
+            hours
+            minutes
+            seconds
+        }
+        achievementsCompleted
+        platform {
+            id
+            name
+        }
+        game {
+            id
+            name
+            cover {
+                bigUrl
+            }
+        }
+        status
+        score
+        review
+    }
+}

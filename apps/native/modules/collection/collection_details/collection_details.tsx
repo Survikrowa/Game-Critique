@@ -58,7 +58,7 @@ export const CollectionDetails = () => {
                   <View maxHeight={50} maxWidth={50} height="100%">
                     <Image
                       resizeMode="contain"
-                      source={{ uri: game.covers.bigUrl }}
+                      source={{ uri: game?.cover?.bigUrl }}
                       style={{ width: 50, height: 50 }}
                     />
                   </View>

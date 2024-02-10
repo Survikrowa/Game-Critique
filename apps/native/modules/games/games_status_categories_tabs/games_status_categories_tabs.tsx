@@ -1,14 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Separator, Tabs } from "tamagui";
 import { Text } from "ui/typography/text";
 
-import { GameStatusCompletedTabContent } from "./game_status_completed_tab_content/game_status_completed_tab_content";
-import { GamesStatusCategoriesFab } from "./games_status_categories_fab/games_status_categories_fab";
+import { GameStatusTabContent } from "./game_status_tab_content/game_status_tab_content";
+import { GameStatus } from "../../../__generated__/types";
+
+function isGameStatus(input: string): input is GameStatus {
+  return (Object.keys(GameStatus) as (keyof typeof GameStatus)[]).some(
+    (k) => GameStatus[k] === input,
+  );
+}
 
 export const GamesStatusCategoriesTabs = () => {
-  const [selectedTab, setSelectedTab] = useState<
-    "completed" | "in-progress" | "retirted" | string
-  >("completed");
+  const [selectedTab, setSelectedTab] = useState<GameStatus>(
+    GameStatus.Completed,
+  );
+
   return (
     <Tabs
       defaultValue={selectedTab}
@@ -20,38 +27,46 @@ export const GamesStatusCategoriesTabs = () => {
       overflow="hidden"
       alignItems="center"
       gap={16}
-      onValueChange={setSelectedTab}
+      onValueChange={(value) => isGameStatus(value) && setSelectedTab(value)}
     >
       <Tabs.List
         separator={<Separator vertical />}
         disablePassBorderRadius="bottom"
       >
         <Tabs.Tab
-          value="completed"
-          backgroundColor={selectedTab === "completed" ? "black" : "gray"}
+          value={GameStatus.Completed}
+          backgroundColor={
+            selectedTab === GameStatus.Completed ? "black" : "gray"
+          }
         >
           <Text size="medium" weight="bold" color="white">
             Ukończone
           </Text>
         </Tabs.Tab>
         <Tabs.Tab
-          value="in-progress"
-          backgroundColor={selectedTab === "in-progress" ? "black" : "gray"}
+          value={GameStatus.InProgress}
+          backgroundColor={
+            selectedTab === GameStatus.InProgress ? "black" : "gray"
+          }
         >
           <Text size="medium" weight="bold" color="white">
             W trakcie
           </Text>
         </Tabs.Tab>
         <Tabs.Tab
-          value="retired"
-          backgroundColor={selectedTab === "retirted" ? "black" : "gray"}
+          value={GameStatus.Retired}
+          backgroundColor={
+            selectedTab === GameStatus.Retired ? "black" : "gray"
+          }
         >
           <Text size="medium" weight="bold" color="white">
             Porzucone
           </Text>
         </Tabs.Tab>
       </Tabs.List>
-      <GameStatusCompletedTabContent />
+      <GameStatusTabContent selectedTab={GameStatus.Completed} />
+      <GameStatusTabContent selectedTab={GameStatus.InProgress} />
+      <GameStatusTabContent selectedTab={GameStatus.Retired} />
     </Tabs>
   );
 };

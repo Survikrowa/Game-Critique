@@ -2,5 +2,6 @@ query ProfileInfo {
   profileInfo{
     avatarUrl
     name
+    id
   }
 }

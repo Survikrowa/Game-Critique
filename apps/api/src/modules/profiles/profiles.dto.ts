@@ -7,6 +7,9 @@ export class ProfileInfoDTO {
 
   @Field(() => String, { description: "User's avatar URL from Cloudinary" })
   avatarUrl: string;
+
+  @Field(() => Number)
+  id: number;
 }
 
 @InputType({ description: 'User profile info required to update profile' })

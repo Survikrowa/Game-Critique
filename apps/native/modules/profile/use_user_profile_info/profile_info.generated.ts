@@ -69,11 +69,49 @@ export type CoverDto = {
   smallUrl: Scalars['String']['output'];
 };
 
+export type CreateGameStatusArgsDto = {
+  achievementsCompleted: Scalars['Boolean']['input'];
+  completedIn: GameStatusCompletedInArgDto;
+  gameId: Scalars['Float']['input'];
+  gameStatus: GameStatus;
+  gamesStatusId?: InputMaybe<Scalars['Float']['input']>;
+  platformId: Scalars['Float']['input'];
+  score?: InputMaybe<Scalars['String']['input']>;
+};
+
 /** Single Game Release(Year) Date */
 export type GameReleaseDto = {
   __typename?: 'GameReleaseDTO';
   date?: Maybe<Scalars['Float']['output']>;
   id: Scalars['Float']['output'];
+};
+
+/** GameStatus Enum */
+export enum GameStatus {
+  Completed = 'COMPLETED',
+  InProgress = 'IN_PROGRESS',
+  Retired = 'RETIRED'
+}
+
+/** GameStatus CompletedIn Arg */
+export type GameStatusCompletedInArgDto = {
+  hours?: InputMaybe<Scalars['String']['input']>;
+  minutes?: InputMaybe<Scalars['String']['input']>;
+  seconds?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** GameStatus CompletedIn */
+export type GameStatusCompletedInDto = {
+  __typename?: 'GameStatusCompletedInDTO';
+  hours?: Maybe<Scalars['Float']['output']>;
+  minutes?: Maybe<Scalars['Float']['output']>;
+  seconds?: Maybe<Scalars['Float']['output']>;
+};
+
+/** GameStatus Success Response */
+export type GameStatusSuccessResponseDto = {
+  __typename?: 'GameStatusSuccessResponseDTO';
+  message: Scalars['String']['output'];
 };
 
 /** Game with all linked data */
@@ -92,7 +130,7 @@ export type GameWithAllDataDto = {
 /** Single Game with covers */
 export type GameWithCoversDto = {
   __typename?: 'GameWithCoversDTO';
-  covers: CoverDto;
+  cover?: Maybe<CoverDto>;
   hltbId: Scalars['Float']['output'];
   id: Scalars['Float']['output'];
   name: Scalars['String']['output'];
@@ -110,6 +148,7 @@ export type GenresDto = {
 export type Mutation = {
   __typename?: 'Mutation';
   addGameToCollection: CollectionMutationResponseDto;
+  createGameStatus: GameStatusSuccessResponseDto;
   createNewCollection: CollectionDto;
   removeCollection: RemovedCollectionResponseDto;
   updateProfileInfo: ProfileInfoUpdateResponseDto;
@@ -118,6 +157,11 @@ export type Mutation = {
 
 export type MutationAddGameToCollectionArgs = {
   collection: AddGameToCollectionDto;
+};
+
+
+export type MutationCreateGameStatusArgs = {
+  createGameStatusArgs: CreateGameStatusArgsDto;
 };
 
 
@@ -154,6 +198,7 @@ export type ProfileInfoDto = {
   __typename?: 'ProfileInfoDTO';
   /** User's avatar URL from Cloudinary */
   avatarUrl: Scalars['String']['output'];
+  id: Scalars['Float']['output'];
   name: Scalars['String']['output'];
 };
 
@@ -177,6 +222,8 @@ export type Query = {
   getProfileCollections: Array<CollectionDto>;
   profileInfo: ProfileInfoDto;
   search: SearchResult;
+  userGameStatus: UserGamesStatusResponseDto;
+  userGamesStatus: Array<UserGamesStatusResponseDto>;
   verify: AuthUserVerification;
 };
 
@@ -193,6 +240,11 @@ export type QueryGameArgs = {
 
 export type QuerySearchArgs = {
   input: Scalars['String']['input'];
+};
+
+
+export type QueryUserGameStatusArgs = {
+  gameStatusId: Scalars['Float']['input'];
 };
 
 /** Required arguments to remove a collection */
@@ -220,10 +272,23 @@ export type SearchResult = {
   games: Array<SearchGamesResult>;
 };
 
+/** UserGamesStatus Response */
+export type UserGamesStatusResponseDto = {
+  __typename?: 'UserGamesStatusResponseDTO';
+  achievementsCompleted: Scalars['Boolean']['output'];
+  completedIn?: Maybe<GameStatusCompletedInDto>;
+  game: GameWithCoversDto;
+  id: Scalars['Float']['output'];
+  platform: PlatformDto;
+  review?: Maybe<Scalars['String']['output']>;
+  score?: Maybe<Scalars['String']['output']>;
+  status: GameStatus;
+};
+
 export type ProfileInfoQueryVariables = Types.Exact<{ [key: string]: never; }>;
 
 
-export type ProfileInfoQuery = { __typename?: 'Query', profileInfo: { __typename?: 'ProfileInfoDTO', avatarUrl: string, name: string } };
+export type ProfileInfoQuery = { __typename?: 'Query', profileInfo: { __typename?: 'ProfileInfoDTO', avatarUrl: string, name: string, id: number } };
 
 
 export const ProfileInfoDocument = gql`
@@ -231,6 +296,7 @@ export const ProfileInfoDocument = gql`
   profileInfo {
     avatarUrl
     name
+    id
   }
 }
     `;

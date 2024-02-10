@@ -59,7 +59,6 @@ export class CollectionsService {
       );
     }
     const { gamesCollection, ...restCollection } = collection;
-    console.log(collection.gamesCollection.map(({ game }) => game));
     return {
       ...restCollection,
       games: gamesCollection.map(({ game }) => ({
@@ -68,7 +67,7 @@ export class CollectionsService {
         slug: game.slug,
         hltbId: game.hltbId,
         bigUrl: game.cover?.bigUrl || '',
-        covers: {
+        cover: {
           id: game.cover?.id || 0,
           bigUrl: game.cover?.bigUrl || '',
           smallUrl: game.cover?.smallUrl || '',

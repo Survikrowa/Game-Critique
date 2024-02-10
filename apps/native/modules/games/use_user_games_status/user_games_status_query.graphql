@@ -1,0 +1,15 @@
+query UserGamesStatusQuery {
+  userGamesStatus {
+    id
+    game {
+      name
+      cover {
+        bigUrl
+      }
+    }
+    status
+    platform {
+      name
+    }
+  }
+}
