@@ -6,6 +6,14 @@ import { UpsertGameStatusArgsDTO } from './games_status.dto';
 export class GamesStatusRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
+  removeGameStatus(gameStatusId: number) {
+    return this.prismaService.gamesStatus.delete({
+      where: {
+        id: gameStatusId,
+      },
+    });
+  }
+
   getAllUserGamesStatus(oauthId: string) {
     return this.prismaService.gamesStatus.findMany({
       where: {

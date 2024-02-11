@@ -110,6 +110,7 @@ type Mutation {
   addGameToCollection(collection: AddGameToCollectionDTO!): CollectionMutationResponseDTO!
   createNewCollection(collection: NewCollectionDTO!): CollectionDTO!
   removeCollection(collection: RemoveCollectionArgsDTO!): RemovedCollectionResponseDTO!
+  removeGameStatus(gameStatusId: Float!): GameStatusSuccessResponseDTO!
   updateProfileInfo(profileInfo: ProfileInfoUpdateArgsDTO!): ProfileInfoUpdateResponseDTO!
   upsertGameStatus(upsertGameStatusArgs: UpsertGameStatusArgsDTO!): GameStatusSuccessResponseDTO!
 }
