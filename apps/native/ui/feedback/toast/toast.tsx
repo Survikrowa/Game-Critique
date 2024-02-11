@@ -25,9 +25,11 @@ export const Toast = () => {
       <TamaguiToast.Title color={variantTextColor[toastState.variant]}>
         {toastState.title}
       </TamaguiToast.Title>
-      <TamaguiToast.Description color={variantTextColor[toastState.variant]}>
-        {toastState.description}
-      </TamaguiToast.Description>
+      {toastState.description && (
+        <TamaguiToast.Description color={variantTextColor[toastState.variant]}>
+          {toastState.description}
+        </TamaguiToast.Description>
+      )}
       <TamaguiToast.Close />
     </TamaguiToast>
   );
@@ -35,7 +37,7 @@ export const Toast = () => {
 
 declare module "@tamagui/toast" {
   interface CustomData {
-    description: string;
+    description?: string;
     variant: "success" | "error";
   }
 }

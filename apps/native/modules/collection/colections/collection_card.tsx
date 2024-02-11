@@ -5,6 +5,7 @@ import { Dimensions } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { Card, XStack, YStack } from "tamagui";
+import { useDisclosure } from "ui/hooks/use_disclosure";
 import { Text } from "ui/typography/text";
 
 import { RemoveCollectionConfirmationModal } from "./remove_collection_confirmation_modal/remove_collection_confirmation_modal";
@@ -25,12 +26,12 @@ export const CollectionCard = ({
   count,
   description,
 }: CollectionCardProps) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { onClose, onOpen, isOpen } = useDisclosure();
   const cardWidth = (Dimensions.get("window").width - cardGap * 3) / 2;
   const renderLeftItems = () => {
     return (
       <YStack borderWidth={1} padding={16}>
-        <RectButton onPress={() => setIsModalOpen(true)}>
+        <RectButton onPress={onOpen}>
           <XStack>
             <Trash2 />
           </XStack>
@@ -82,8 +83,9 @@ export const CollectionCard = ({
         </Card>
       </Swipeable>
       <RemoveCollectionConfirmationModal
-        open={isModalOpen}
-        onOpen={setIsModalOpen}
+        open={isOpen}
+        onOpen={onOpen}
+        onClose={onClose}
         collectionId={id}
       />
     </>

@@ -81,4 +81,8 @@ export class GamesStatusService {
       oauthId,
     );
   }
+
+  async removeGameStatus(gameStatusId: number) {
+    return this.gamesStatusRepository.removeGameStatus(gameStatusId);
+  }
 }

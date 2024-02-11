@@ -73,4 +73,25 @@ export class GamesStatusResolver {
     }
     return userGameStatus;
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Mutation(() => GameStatusSuccessResponseDTO)
+  async removeGameStatus(@Args('gameStatusId') gameStatusId: number) {
+    const removedGameStatus =
+      await this.gamesStatusService.removeGameStatus(gameStatusId);
+
+    if (!removedGameStatus) {
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          message: 'Nie znaleziono statusu gry o podanym id',
+        },
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    return {
+      message: 'Pomyślnie usunięto status gry',
+    };
+  }
 }

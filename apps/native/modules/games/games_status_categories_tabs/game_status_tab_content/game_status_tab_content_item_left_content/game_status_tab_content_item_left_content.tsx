@@ -1,6 +1,8 @@
-import { Edit3, Trash } from "@tamagui/lucide-icons";
+import { Edit3 } from "@tamagui/lucide-icons";
 import { router } from "expo-router";
 import { View, YStack } from "tamagui";
+
+import { RemoveGameStatusAction } from "./remove_game_status_action/remove_game_status_action";
 
 type GameStatusTabContentItemLeftContentProps = {
   gameStatusId: number;
@@ -18,9 +20,7 @@ export const GameStatusTabContentItemLeftContent = ({
       >
         <Edit3 />
       </View>
-      <View>
-        <Trash />
-      </View>
+      <RemoveGameStatusAction gameStatusId={gameStatusId} />
     </YStack>
   );
 };

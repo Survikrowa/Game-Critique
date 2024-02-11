@@ -1,0 +1,5 @@
+mutation RemoveGameStatus($gameStatusId: Float!) {
+  removeGameStatus(gameStatusId: $gameStatusId) {
+    message
+  }
+}
