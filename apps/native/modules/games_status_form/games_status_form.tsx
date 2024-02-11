@@ -13,8 +13,8 @@ import { z } from "zod";
 
 import { GAMES_SCORES } from "./games_scores";
 import { GAMES_STATUSES } from "./games_statuses";
+import { GameStatus } from "../../__generated__/types";
 import { GameInfoQuery } from "../game/use_get_game_info/game_info.generated";
-import { GameStatus } from "../games_status_add_form/use_create_new_games_status/create_new_games_status_mutation.generated";
 
 const NUMBERS_ONLY_REGEX = /^\d+$/;
 
