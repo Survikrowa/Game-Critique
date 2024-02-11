@@ -32,7 +32,7 @@ export class GamesService {
 
     return {
       ...baseGame,
-      covers: cover,
+      cover: cover,
       platforms: platformForGame.map(({ platform }) => platform),
       releases: release,
       genres: genres.map(({ genre }) => genre),

@@ -46,16 +46,6 @@ type CoverDTO {
   smallUrl: String!
 }
 
-input CreateGameStatusArgsDTO {
-  achievementsCompleted: Boolean!
-  completedIn: GameStatusCompletedInArgDTO!
-  gameId: Float!
-  gameStatus: GameStatus!
-  gamesStatusId: Float
-  platformId: Float!
-  score: String
-}
-
 """Single Game Release(Year) Date"""
 type GameReleaseDTO {
   date: Float
@@ -90,7 +80,7 @@ type GameStatusSuccessResponseDTO {
 
 """Game with all linked data"""
 type GameWithAllDataDTO {
-  covers: CoverDTO
+  cover: CoverDTO
   genres: [GenresDto!]!
   hltbId: Float!
   id: Float!
@@ -118,10 +108,10 @@ type GenresDto {
 
 type Mutation {
   addGameToCollection(collection: AddGameToCollectionDTO!): CollectionMutationResponseDTO!
-  createGameStatus(createGameStatusArgs: CreateGameStatusArgsDTO!): GameStatusSuccessResponseDTO!
   createNewCollection(collection: NewCollectionDTO!): CollectionDTO!
   removeCollection(collection: RemoveCollectionArgsDTO!): RemovedCollectionResponseDTO!
   updateProfileInfo(profileInfo: ProfileInfoUpdateArgsDTO!): ProfileInfoUpdateResponseDTO!
+  upsertGameStatus(upsertGameStatusArgs: UpsertGameStatusArgsDTO!): GameStatusSuccessResponseDTO!
 }
 
 """New Collection"""
@@ -190,11 +180,22 @@ type SearchResult {
   games: [SearchGamesResult!]!
 }
 
+input UpsertGameStatusArgsDTO {
+  achievementsCompleted: Boolean!
+  completedIn: GameStatusCompletedInArgDTO!
+  gameId: Float!
+  gameStatus: GameStatus!
+  gamesStatusId: Float
+  isEditing: Boolean!
+  platformId: Float!
+  score: String
+}
+
 """UserGamesStatus Response"""
 type UserGamesStatusResponseDTO {
   achievementsCompleted: Boolean!
   completedIn: GameStatusCompletedInDTO
-  game: GameWithCoversDTO!
+  game: GameWithAllDataDTO!
   id: Float!
   platform: PlatformDTO!
   review: String

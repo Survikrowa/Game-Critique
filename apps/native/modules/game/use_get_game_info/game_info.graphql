@@ -2,7 +2,7 @@ query GameInfo($hltbId: Float!) {
     game(hltbId: $hltbId) {
         id,
         name,
-        covers {
+        cover {
             mediumUrl
         }
         platforms {

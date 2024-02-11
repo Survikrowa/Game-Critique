@@ -165,6 +165,21 @@ const TabsLayout = () => {
           },
         }}
       />
+      <Tabs.Screen
+        name="(authorized)/games/games_status_edit_form/[game_status_id]/index"
+        options={{
+          header: () => (
+            <GoBackHeader goBackUrl="/games/" text="Edytujesz grę" />
+          ),
+          headerShown: true,
+          tabBarStyle: {
+            display: "none",
+          },
+          tabBarItemStyle: {
+            display: "none",
+          },
+        }}
+      />
     </Tabs>
   );
 };

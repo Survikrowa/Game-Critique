@@ -1,6 +1,6 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import {
-  CreateGameStatusArgsDTO,
+  UpsertGameStatusArgsDTO,
   GameStatusSuccessResponseDTO,
   UserGamesStatusResponseDTO,
 } from './games_status.dto';
@@ -15,32 +15,32 @@ export class GamesStatusResolver {
   constructor(private readonly gamesStatusService: GamesStatusService) {}
   @UseGuards(JwtAuthGuard)
   @Mutation(() => GameStatusSuccessResponseDTO)
-  async createGameStatus(
+  async upsertGameStatus(
     @User() user: UserDTO,
-    @Args('createGameStatusArgs') createGameStatusArgs: CreateGameStatusArgsDTO,
+    @Args('upsertGameStatusArgs') upsertGameStatusArgs: UpsertGameStatusArgsDTO,
   ) {
     const userHasGameStatusWithPlatformId =
       await this.gamesStatusService.userHasGameStatusWithPlatformId(
         user.sub,
-        createGameStatusArgs.gameId,
-        createGameStatusArgs.platformId,
+        upsertGameStatusArgs.gameId,
+        upsertGameStatusArgs.platformId,
       );
-    if (userHasGameStatusWithPlatformId) {
+    if (userHasGameStatusWithPlatformId && !upsertGameStatusArgs.isEditing) {
       throw new HttpException(
         {
           status: HttpStatus.BAD_REQUEST,
-          message: 'Posiadasz już status gry na tym koncie i platformie',
+          message: 'Posiadasz już taki status gry na tym koncie i platformie',
         },
         HttpStatus.BAD_REQUEST,
       );
     }
-    await this.gamesStatusService.createGameStatus(
-      createGameStatusArgs,
+    await this.gamesStatusService.upsertGameStatus(
+      upsertGameStatusArgs,
       user.sub,
     );
 
     return {
-      message: 'GameStatus Created Successfully',
+      message: 'GameStatus Upserted Successfully',
     };
   }
 

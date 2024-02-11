@@ -13,12 +13,11 @@ export const GameScreen = () => {
     return <Spinner size="large" />;
   }
   const game = gameQuery.data.game;
-  console.log(game);
   return (
     <ScrollView padding={16} height="100%">
       <YStack alignItems="center" gap={16} height="100%">
         <YStack alignItems="center" gap={64}>
-          <GameImage uri={game.covers?.mediumUrl} />
+          <GameImage uri={game.cover?.mediumUrl} />
           <GameTabs game={{ name: game.name, hltbId: game_id }} />
         </YStack>
 
