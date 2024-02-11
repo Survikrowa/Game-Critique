@@ -1,5 +1,0 @@
-mutation CreateNewGamesStatus($input: CreateGameStatusArgsDTO!) {
-  createGameStatus(createGameStatusArgs: $input) {
-   message
-  }
-}

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../database/prisma.service';
-import { CreateGameStatusArgsDTO } from './games_status.dto';
+import { UpsertGameStatusArgsDTO } from './games_status.dto';
 
 @Injectable()
 export class GamesStatusRepository {
@@ -18,6 +18,17 @@ export class GamesStatusRepository {
         game: {
           include: {
             cover: true,
+            platformForGame: {
+              include: {
+                platform: true,
+              },
+            },
+            genres: {
+              include: {
+                genre: true,
+              },
+            },
+            release: true,
           },
         },
         completedIn: true,
@@ -38,9 +49,23 @@ export class GamesStatusRepository {
         game: {
           include: {
             cover: true,
+            platformForGame: {
+              include: {
+                platform: true,
+              },
+            },
+            genres: {
+              include: {
+                genre: true,
+              },
+            },
+            release: true,
           },
         },
         completedIn: true,
+      },
+      orderBy: {
+        createdAt: 'desc',
       },
     });
   }
@@ -60,8 +85,8 @@ export class GamesStatusRepository {
       },
     });
   }
-  createGameStatus(
-    createGameStatusArgs: CreateGameStatusArgsDTO,
+  upsertGameStatus(
+    createGameStatusArgs: UpsertGameStatusArgsDTO,
     oauthId: string,
   ) {
     return this.prismaService.gamesStatus.upsert({

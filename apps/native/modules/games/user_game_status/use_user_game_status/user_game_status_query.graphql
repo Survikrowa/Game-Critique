@@ -16,6 +16,19 @@ query UserGameStatus($gameStatusId: Float!) {
             name
             cover {
                 bigUrl
+                mediumUrl
+            }
+            platforms {
+                id
+                name
+            }
+            genres {
+                id
+                name
+            }
+            releases {
+                id
+                date
             }
         }
         status

@@ -1,0 +1,5 @@
+mutation UpsertGameStatus($input: UpsertGameStatusArgsDTO!) {
+  upsertGameStatus(upsertGameStatusArgs: $input) {
+   message
+  }
+}

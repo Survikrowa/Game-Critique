@@ -1,14 +1,14 @@
 import { useToastController } from "@tamagui/toast";
 
-import { useCreateNewGamesStatusMutation } from "./create_new_games_status_mutation.generated";
+import { useUpsertGameStatusMutation } from "./use_upsert_game_status_mutation.generated";
 
-export const useCreateNewGamesStatus = () => {
+export const useUpsertGameStatus = () => {
   const toastController = useToastController();
-  return useCreateNewGamesStatusMutation({
+  return useUpsertGameStatusMutation({
     refetchQueries: ["UserGamesStatusQuery"],
     onError: (error) => {
       toastController.show(error.message, {
-        description: "Wystąpił błąd podczas tworzenia nowego statusu gry",
+        description: "Wystąpił błąd podczas zapisywania statusu gry",
         variant: "error",
       });
     },

@@ -8,7 +8,7 @@ export type GameInfoQueryVariables = Types.Exact<{
 }>;
 
 
-export type GameInfoQuery = { __typename?: 'Query', game: { __typename?: 'GameWithAllDataDTO', id: number, name: string, covers?: { __typename?: 'CoverDTO', mediumUrl: string } | null, platforms: Array<{ __typename?: 'PlatformDTO', name: string, id: number }>, genres: Array<{ __typename?: 'GenresDto', name: string }>, releases?: { __typename?: 'GameReleaseDTO', date?: number | null } | null } };
+export type GameInfoQuery = { __typename?: 'Query', game: { __typename?: 'GameWithAllDataDTO', id: number, name: string, cover?: { __typename?: 'CoverDTO', mediumUrl: string } | null, platforms: Array<{ __typename?: 'PlatformDTO', name: string, id: number }>, genres: Array<{ __typename?: 'GenresDto', name: string }>, releases?: { __typename?: 'GameReleaseDTO', date?: number | null } | null } };
 
 
 export const GameInfoDocument = gql`
@@ -16,7 +16,7 @@ export const GameInfoDocument = gql`
   game(hltbId: $hltbId) {
     id
     name
-    covers {
+    cover {
       mediumUrl
     }
     platforms {

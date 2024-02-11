@@ -190,6 +190,6 @@ model GamesStatusCompletion {
     minutes Int?
     seconds Int?
     gamesStatusId Int @map("games_status_id") @unique
-    gamesStatus   GamesStatus @relation(fields: [gamesStatusId], references: [id])
+    gamesStatus   GamesStatus @relation(fields: [gamesStatusId], references: [id], onDelete: Cascade)
     @@map("games_status_completion")
 }

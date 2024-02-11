@@ -41,7 +41,7 @@ export class GameWithAllDataDTO {
   @Field(() => Number)
   hltbId: number;
   @Field(() => CoverDTO, { nullable: true })
-  covers: CoverDTO | null;
+  cover: CoverDTO | null;
   @Field(() => [PlatformDTO])
   platforms: PlatformDTO[];
   @Field(() => GameReleaseDTO, { nullable: true })

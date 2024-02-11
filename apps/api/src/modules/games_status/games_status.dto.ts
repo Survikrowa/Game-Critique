@@ -1,5 +1,4 @@
 import {
-  ArgsType,
   Field,
   InputType,
   ObjectType,
@@ -7,7 +6,7 @@ import {
 } from '@nestjs/graphql';
 import { GameStatus } from '@prisma/client';
 import { PlatformDTO } from '../platforms/platforms.dto';
-import { GameWithCoversDTO } from '../games/games.dto';
+import { GameWithAllDataDTO } from '../games/games.dto';
 
 registerEnumType(GameStatus, {
   name: 'GameStatus',
@@ -34,7 +33,7 @@ export class GameStatusCompletedInDTO {
 }
 
 @InputType()
-export class CreateGameStatusArgsDTO {
+export class UpsertGameStatusArgsDTO {
   @Field(() => GameStatusCompletedInArgDTO)
   completedIn: GameStatusCompletedInArgDTO;
 
@@ -55,6 +54,9 @@ export class CreateGameStatusArgsDTO {
 
   @Field(() => Number, { nullable: true })
   gamesStatusId?: number;
+
+  @Field(() => Boolean)
+  isEditing: boolean;
 }
 
 @ObjectType({ description: 'GameStatus Success Response' })
@@ -85,6 +87,6 @@ export class UserGamesStatusResponseDTO {
   completedIn: GameStatusCompletedInDTO | null;
   @Field(() => String, { nullable: true })
   review: string | null;
-  @Field(() => GameWithCoversDTO)
-  game: GameWithCoversDTO;
+  @Field(() => GameWithAllDataDTO)
+  game: GameWithAllDataDTO;
 }

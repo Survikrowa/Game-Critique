@@ -6,7 +6,7 @@ const defaultOptions = {} as const;
 export type UserGamesStatusQueryQueryVariables = Types.Exact<{ [key: string]: never; }>;
 
 
-export type UserGamesStatusQueryQuery = { __typename?: 'Query', userGamesStatus: Array<{ __typename?: 'UserGamesStatusResponseDTO', id: number, status: Types.GameStatus, game: { __typename?: 'GameWithCoversDTO', name: string, cover?: { __typename?: 'CoverDTO', bigUrl: string } | null }, platform: { __typename?: 'PlatformDTO', name: string } }> };
+export type UserGamesStatusQueryQuery = { __typename?: 'Query', userGamesStatus: Array<{ __typename?: 'UserGamesStatusResponseDTO', id: number, status: Types.GameStatus, game: { __typename?: 'GameWithAllDataDTO', name: string, cover?: { __typename?: 'CoverDTO', bigUrl: string } | null }, platform: { __typename?: 'PlatformDTO', name: string } }> };
 
 
 export const UserGamesStatusQueryDocument = gql`

@@ -13,6 +13,7 @@ import { z } from "zod";
 
 import { GAMES_SCORES } from "./games_scores";
 import { GAMES_STATUSES } from "./games_statuses";
+import { useUpsertGameStatus } from "./use_upsert_game_status/use_upsert_game_status";
 import { GameStatus } from "../../__generated__/types";
 import { GameInfoQuery } from "../game/use_get_game_info/game_info.generated";
 
@@ -85,15 +86,13 @@ type GamesStatusFormProps = {
     minutes?: string;
     seconds?: string;
     platform: string;
-    score?: string;
+    score?: string | null;
     status: GameStatus;
-    review?: string;
+    review?: string | null;
     platinium?: boolean;
   };
+  gameStatusId?: number;
   game: GameInfoQuery["game"];
-  onSuccessSubmit: (
-    data: GamesStatusAddFormFields,
-  ) => Promise<{ submitFailed: boolean }>;
 };
 
 const DEFAULT_VALUES = {
@@ -110,6 +109,7 @@ const DEFAULT_VALUES = {
 const getInitialValues = (
   initialValues: GamesStatusFormProps["initialValues"],
 ) => {
+  console.log("initialValues", initialValues);
   if (!initialValues) return DEFAULT_VALUES;
   return {
     hours: initialValues?.hours || DEFAULT_VALUES.hours,
@@ -126,7 +126,7 @@ const getInitialValues = (
 export const GamesStatusForm = ({
   initialValues,
   game,
-  onSuccessSubmit,
+  gameStatusId,
 }: GamesStatusFormProps) => {
   const methods = useForm<GamesStatusAddFormFields>({
     resolver: zodResolver(GamesStatusAddFormSchema),
@@ -140,9 +140,11 @@ export const GamesStatusForm = ({
     formState: { isSubmitting },
   } = methods;
 
+  const [upsertGameStatus] = useUpsertGameStatus();
+
   const toastController = useToastController();
   const displaySuccessToast = () => {
-    toastController.show("Gra została dodana do kolekcji", {
+    toastController.show("Zapisano status gry", {
       description: "",
       variant: "success",
     });
@@ -160,13 +162,27 @@ export const GamesStatusForm = ({
   );
   const onSubmit = handleSubmit(async (data) => {
     const gameData = {
-      ...data,
-      platinium: isSonyPlayStationConsole ? data.platinium : false,
+      achievementsCompleted: isSonyPlayStationConsole ? data.platinium : false,
+      completedIn: {
+        hours: data.hours,
+        minutes: data.minutes,
+        seconds: data.seconds,
+      },
+      gameStatus: data.status,
+      gameId: game.id,
+      score: data.score,
+      platformId: Number(data.platform),
+      isEditing: Boolean(initialValues),
+      gamesStatusId: gameStatusId,
     };
 
-    const { submitFailed } = await onSuccessSubmit(gameData);
+    const { errors } = await upsertGameStatus({
+      variables: {
+        input: gameData,
+      },
+    });
 
-    if (!submitFailed) {
+    if (!errors || errors.length === 0) {
       reset(DEFAULT_VALUES);
       displaySuccessToast();
       router.push("/games/");
@@ -290,9 +306,19 @@ export const GamesStatusForm = ({
                 fieldState: { error },
                 field: { onChange, value },
               }) => {
+                console.log(
+                  "platform",
+                  game.platforms.map((platform) => ({
+                    name: platform.name,
+                    value: String(platform.id),
+                  })),
+                  "id",
+                  value,
+                );
                 return (
                   <>
                     <Select
+                      defaultValue={initialValues?.platform || ""}
                       placeholder="Wybierz platforme..."
                       onChange={onChange}
                       value={value}
@@ -411,7 +437,7 @@ export const GamesStatusForm = ({
 
           <Form.Trigger asChild marginTop={16}>
             <Button theme="active" backgroundColor="black" color="white">
-              {isSubmitting ? "Trwa dodawanie..." : "Dodaj"}
+              {isSubmitting ? "Trwa zapisywanie..." : "Zapisz"}
             </Button>
           </Form.Trigger>
         </Form>

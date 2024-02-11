@@ -1,6 +1,7 @@
 import { ChevronRight } from "@tamagui/lucide-icons";
 import { router } from "expo-router";
 import { Fragment } from "react";
+import Swipeable from "react-native-gesture-handler/Swipeable";
 import {
   Image,
   ScrollView,
@@ -14,6 +15,7 @@ import {
 import { Text } from "ui/typography/text";
 
 import { GamesStatusEmptyTab } from "./game_status_empty_tab/games_status_empty_tab";
+import { GameStatusTabContentItemLeftContent } from "./game_status_tab_content_item_left_content/game_status_tab_content_item_left_content";
 import { GameStatus } from "../../../../__generated__/types";
 import { truncateString } from "../../../strings/truncate_string";
 import { useUserGamesStatus } from "../../use_user_games_status/use_user_games_status";
@@ -82,7 +84,14 @@ export const GameStatusTabContent = ({
       <ScrollView>
         {filteredGames.map((gameStatus, index) => {
           return (
-            <Fragment key={gameStatus.id}>
+            <Swipeable
+              key={gameStatus.id}
+              renderLeftActions={() => (
+                <GameStatusTabContentItemLeftContent
+                  gameStatusId={gameStatus.id}
+                />
+              )}
+            >
               <XStack
                 alignItems="center"
                 justifyContent="space-between"
@@ -115,7 +124,7 @@ export const GameStatusTabContent = ({
               {filteredGames.length - 1 !== index && (
                 <Separator marginVertical={8} />
               )}
-            </Fragment>
+            </Swipeable>
           );
         })}
       </ScrollView>
