@@ -10,18 +10,24 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: game-critique
-      PGDATA: ./data:/var/lib/postgresql/data
+      PGDATA: game-critique-db-data:/var/lib/postgresql/data
     volumes:
+      - game-critique-db-data:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
   redis:
     image: redis:7.2.3
     restart: always
     ports:
       - "6379:6379"
     volumes:
-      - ./dаta:/root/redis
-      - ./dаta/redis.conf:/usr/local/etc/redis/redis.conf
+      - redis-data:/root/redis
+      - redis-data/redis.conf:/usr/local/etc/redis/redis.conf
     environment:
       - REDIS_PASSWORD=redis
       - REDIS_PORT=6379
       - REDIS_DATABASES=16
+
+volumes:
+  game-critique-db-data:
+  redis-data:
