@@ -1,0 +1,45 @@
+name: game-critique-api
+
+x-pg-db-credentials: &pg-db-credentials
+  POSTGRES_USER: ${DB_USER:-postgres}
+  POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+  POSTGRES_DB: ${DB_NAME:-game-critique}
+
+x-redis-credentials: &redis-credentials
+  REDIS_PASSWORD: ${REDIS_PASSWORD:-redis}
+  REDIS_PORT: ${REDIS_PORT:-6379}
+  REDIS_DATABASES: ${REDIS_DATABASES:-1}
+
+services:
+  database-game-critique:
+    image: postgres:16.1
+    container_name: game-critique-db
+    ports:
+      - '5432:5432'
+    environment:
+      <<: *pg-db-credentials
+    volumes:
+      - game-critique-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d $${DB_NAME:-game-critique} -U $${DB_USER:-postgres}"]
+      interval: 3s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7.2.3
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/root/redis
+    environment: *redis-credentials
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+      interval: 3s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  game-critique-db-data:
+  redis-data:
