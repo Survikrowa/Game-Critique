@@ -1,0 +1,50 @@
+services:
+  database-game-critique:
+    restart: unless-stopped
+    ports: !reset []
+    expose: 
+      - "5432"
+   
+  redis:
+    restart: unless-stopped
+    ports: !reset []
+    expose: 
+      - "6379"
+  
+  game-critique-api:
+    restart: unless-stopped
+    container_name: game-critique-api
+    pull_policy: build
+    image: game-critique-api:v0.0.1
+    build: 
+      context: .
+      dockerfile: apps/api/Dockerfile
+      
+    environment:
+      - PORT=${API_PORT:-3000}
+      - DATABASE_URL=${DATABASE_URL:-postgres://postgres:postgres@database-game-critique:5432/game-critique}
+    ports:
+      - "${API_PORT:-3000}:${API_PORT:-3000}"
+    
+    depends_on:
+      database-game-critique:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  game-critique-web:
+    restart: unless-stopped
+    container_name: game-critique-web
+    pull_policy: build
+    image: game-critique-web:v1.0.0
+    build: 
+      context: .
+      dockerfile: apps/web/Dockerfile
+    environment:
+      - PORT=${WEB_PORT:-3001}
+      - API_URL=${API_URL:-http://game-critique-api:3000}
+    ports:
+      - "${WEB_PORT:-3001}:${WEB_PORT:-3001}"
+    
+    depends_on:
+      - game-critique-api
