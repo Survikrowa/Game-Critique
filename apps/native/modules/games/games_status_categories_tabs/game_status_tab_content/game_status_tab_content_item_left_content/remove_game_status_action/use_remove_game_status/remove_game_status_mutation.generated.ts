@@ -1,31 +1,24 @@
-import { gql } from "@apollo/client";
-import * as Apollo from "@apollo/client";
+import * as Types from '../../../../../../../__generated__/types';
 
-import * as Types from "../../../../../../../__generated__/types";
+import { gql } from '@apollo/client';
+import * as Apollo from '@apollo/client';
 const defaultOptions = {} as const;
 export type RemoveGameStatusMutationVariables = Types.Exact<{
-  gameStatusId: Types.Scalars["Float"]["input"];
+  gameStatusId: Types.Scalars['Float']['input'];
 }>;
 
-export type RemoveGameStatusMutation = {
-  __typename?: "Mutation";
-  removeGameStatus: {
-    __typename?: "GameStatusSuccessResponseDTO";
-    message: string;
-  };
-};
+
+export type RemoveGameStatusMutation = { __typename?: 'Mutation', removeGameStatus: { __typename?: 'GameStatusSuccessResponseDTO', message: string } };
+
 
 export const RemoveGameStatusDocument = gql`
-  mutation RemoveGameStatus($gameStatusId: Float!) {
-    removeGameStatus(gameStatusId: $gameStatusId) {
-      message
-    }
+    mutation RemoveGameStatus($gameStatusId: Float!) {
+  removeGameStatus(gameStatusId: $gameStatusId) {
+    message
   }
-`;
-export type RemoveGameStatusMutationFn = Apollo.MutationFunction<
-  RemoveGameStatusMutation,
-  RemoveGameStatusMutationVariables
->;
+}
+    `;
+export type RemoveGameStatusMutationFn = Apollo.MutationFunction<RemoveGameStatusMutation, RemoveGameStatusMutationVariables>;
 
 /**
  * __useRemoveGameStatusMutation__
@@ -44,24 +37,10 @@ export type RemoveGameStatusMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useRemoveGameStatusMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    RemoveGameStatusMutation,
-    RemoveGameStatusMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    RemoveGameStatusMutation,
-    RemoveGameStatusMutationVariables
-  >(RemoveGameStatusDocument, options);
-}
-export type RemoveGameStatusMutationHookResult = ReturnType<
-  typeof useRemoveGameStatusMutation
->;
-export type RemoveGameStatusMutationResult =
-  Apollo.MutationResult<RemoveGameStatusMutation>;
-export type RemoveGameStatusMutationOptions = Apollo.BaseMutationOptions<
-  RemoveGameStatusMutation,
-  RemoveGameStatusMutationVariables
->;
+export function useRemoveGameStatusMutation(baseOptions?: Apollo.MutationHookOptions<RemoveGameStatusMutation, RemoveGameStatusMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RemoveGameStatusMutation, RemoveGameStatusMutationVariables>(RemoveGameStatusDocument, options);
+      }
+export type RemoveGameStatusMutationHookResult = ReturnType<typeof useRemoveGameStatusMutation>;
+export type RemoveGameStatusMutationResult = Apollo.MutationResult<RemoveGameStatusMutation>;
+export type RemoveGameStatusMutationOptions = Apollo.BaseMutationOptions<RemoveGameStatusMutation, RemoveGameStatusMutationVariables>;

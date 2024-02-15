@@ -1,0 +1,11 @@
+query UsersSearch($input: String!) {
+    usersSearch(input: $input ) {
+        oauthId
+        profile {
+            id
+            name
+            avatarUrl
+        }
+        isFriendRequestSent
+    }
+}

@@ -1,0 +1,9 @@
+query FriendsList {
+    friendsList {
+        friends {
+            id
+            name
+            avatarUrl
+        }
+    }
+}

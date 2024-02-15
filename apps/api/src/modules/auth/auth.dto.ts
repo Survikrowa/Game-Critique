@@ -4,7 +4,7 @@ export const UserSchema = z.object({
   sub: z.string(),
 });
 
-export type UserDTO = z.infer<typeof UserSchema>;
+export type UserAuthDTO = z.infer<typeof UserSchema>;
 
 export const UserAuth0InfoSchema = z.object({ nickname: z.string() });
 

@@ -10,7 +10,7 @@ import {
   RemoveCollectionArgsDTO,
   RemovedCollectionResponseDTO,
 } from './collections.dto';
-import { UserDTO } from '../auth/auth.dto';
+import { UserAuthDTO } from '../auth/auth.dto';
 import { User } from '../auth/auth.decorators';
 import { ProfilesService } from '../profiles/profiles.service';
 import { CollectionsService } from './collections.service';
@@ -24,7 +24,7 @@ export class CollectionsResolver {
   @UseGuards(JwtAuthGuard)
   @Mutation(() => CollectionDTO)
   async createNewCollection(
-    @User() user: UserDTO,
+    @User() user: UserAuthDTO,
     @Args('collection') collection: NewCollectionDTO,
   ) {
     const profile = await this.profilesService.getProfileInfo(user.sub);
@@ -47,7 +47,7 @@ export class CollectionsResolver {
 
   @UseGuards(JwtAuthGuard)
   @Query(() => [CollectionDTO])
-  async getProfileCollections(@User() user: UserDTO) {
+  async getProfileCollections(@User() user: UserAuthDTO) {
     return this.collectionsService.getProfileCollections(user.sub);
   }
 

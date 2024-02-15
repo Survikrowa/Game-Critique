@@ -7,7 +7,7 @@ import {
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/auth-jwt.guard';
 import { User } from '../auth/auth.decorators';
-import { UserDTO } from '../auth/auth.dto';
+import { UserAuthDTO } from '../auth/auth.dto';
 import { ProfilesRepository } from './profiles.repository';
 
 @Resolver()
@@ -15,26 +15,24 @@ export class ProfilesResolver {
   constructor(private readonly profilesRepository: ProfilesRepository) {}
   @UseGuards(JwtAuthGuard)
   @Query(() => ProfileInfoDTO)
-  async profileInfo(@User() user: UserDTO) {
+  async profileInfo(@User() user: UserAuthDTO) {
     return this.profilesRepository.getProfileInfo(user.sub);
   }
 
   @UseGuards(JwtAuthGuard)
   @Mutation(() => ProfileInfoUpdateResponseDTO)
   async updateProfileInfo(
-    @User() user: UserDTO,
+    @User() user: UserAuthDTO,
     @Args({ name: 'profileInfo', type: () => ProfileInfoUpdateArgsDTO })
     profileInfo: ProfileInfoUpdateArgsDTO,
   ) {
-    try {
-      await this.profilesRepository.updateProfile(user.sub, profileInfo);
-      return {
-        success: true,
-      };
-    } catch (e) {
-      return {
-        success: false,
-      };
-    }
+    await this.profilesRepository.updateProfile({
+      oauthId: user.sub,
+      name: profileInfo.name,
+      avatarUrl: profileInfo.avatarUrl,
+    });
+    return {
+      success: true,
+    };
   }
 }
