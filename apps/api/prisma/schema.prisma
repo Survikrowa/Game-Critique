@@ -26,6 +26,7 @@ model User {
   friends   Friend[]
   friendsList   FriendsList?
   GamesStatus GamesStatus[]
+  userActivity UserActivity[]
   FriendsRequestsForUsersOwner FriendsRequestsForUsers[] @relation(name: "FriendRequestOwner")
   FriendsRequestsForUsersReceiver FriendsRequestsForUsers[] @relation(name: "FriendRequestReceiver")
 
@@ -58,6 +59,7 @@ model Game {
   platformForGame PlatformForGame[]
   gamesCollection GamesCollection[]
   gamesStatus     GamesStatus[]
+  userActivity    UserActivity[]
 
   @@map("games")
 }
@@ -239,4 +241,16 @@ model FriendsRequestsForUsers {
     updatedAt DateTime @updatedAt @map("updated_at")
     @@id([ownerId, receiverId])
     @@map("friends_requests_for_users")
+}
+
+model UserActivity {
+    id       Int      @id @default(autoincrement())
+    oauthId String      @map("oauth_id")
+    user   User     @relation(fields: [oauthId], references: [oauthId], onDelete: Cascade)
+    gameId   Int      @map("game_id")
+    game     Game     @relation(fields: [gameId], references: [id])
+    activityType GameStatus
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+    @@map("user_activity")
 }
