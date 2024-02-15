@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../database/prisma.service';
-import { ProfileInfoUpdateArgsDTO } from './profiles.dto';
 
 @Injectable()
 export class ProfilesRepository {
@@ -11,7 +10,7 @@ export class ProfilesRepository {
       data: {
         avatarUrl:
           'http://res.cloudinary.com/survikrowa/image/upload/v1705345880/y5oklavnu42orgau8cyc.png',
-        name: username,
+        name: username.toLowerCase(),
         user: {
           connect: {
             id: userId,
@@ -29,18 +28,21 @@ export class ProfilesRepository {
     });
   }
 
-  async updateProfile(
-    oauthUserId: string,
-    profileInfo: ProfileInfoUpdateArgsDTO,
-  ) {
+  async updateProfile({ oauthId, name, avatarUrl }: UpdateProfileArgs) {
     return this.prismaService.profile.update({
       where: {
-        oauthId: oauthUserId,
+        oauthId,
       },
       data: {
-        name: profileInfo.name,
-        avatarUrl: profileInfo.avatarUrl,
+        name: name.toLowerCase(),
+        avatarUrl: avatarUrl,
       },
     });
   }
 }
+
+type UpdateProfileArgs = {
+  name: string;
+  avatarUrl: string;
+  oauthId: string;
+};

@@ -3,7 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
 import { passportJwtSecret } from 'jwks-rsa';
-import { UserDTO } from '../auth.dto';
+import { UserAuthDTO } from '../auth.dto';
 
 type OAuthPayload = {
   sub: string;
@@ -32,7 +32,7 @@ export class OAuthJwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: OAuthPayload): Promise<UserDTO> {
+  async validate(payload: OAuthPayload): Promise<UserAuthDTO> {
     return {
       sub: payload.sub,
     };

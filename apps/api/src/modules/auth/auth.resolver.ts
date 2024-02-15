@@ -5,7 +5,7 @@ import { UseGuards, Headers, ContextType } from '@nestjs/common';
 import { AuthUserVerification } from './auth.model';
 import { JwtAuthGuard } from './guards/auth-jwt.guard';
 import { User } from './auth.decorators';
-import { UserDTO } from './auth.dto';
+import { UserAuthDTO } from './auth.dto';
 
 @Resolver()
 export class AuthResolver {
@@ -13,7 +13,7 @@ export class AuthResolver {
   @UseGuards(JwtAuthGuard)
   @Query(() => AuthUserVerification)
   async verify(
-    @User() user: UserDTO,
+    @User() user: UserAuthDTO,
     @Context() ctx: { req: { headers?: { authorization: string } } },
   ) {
     try {

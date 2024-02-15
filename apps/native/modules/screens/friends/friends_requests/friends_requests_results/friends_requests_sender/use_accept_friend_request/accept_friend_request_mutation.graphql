@@ -1,0 +1,5 @@
+mutation AcceptFriendRequest($senderOauthId: String!) {
+    acceptFriendRequest(senderOauthId: $senderOauthId) {
+        receiverId
+    }
+}

@@ -8,7 +8,7 @@ import { GamesStatusService } from './games_status.service';
 import { HttpException, HttpStatus, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/auth-jwt.guard';
 import { User } from '../auth/auth.decorators';
-import { UserDTO } from '../auth/auth.dto';
+import { UserAuthDTO } from '../auth/auth.dto';
 
 @Resolver()
 export class GamesStatusResolver {
@@ -16,7 +16,7 @@ export class GamesStatusResolver {
   @UseGuards(JwtAuthGuard)
   @Mutation(() => GameStatusSuccessResponseDTO)
   async upsertGameStatus(
-    @User() user: UserDTO,
+    @User() user: UserAuthDTO,
     @Args('upsertGameStatusArgs') upsertGameStatusArgs: UpsertGameStatusArgsDTO,
   ) {
     const userHasGameStatusWithPlatformId =
@@ -47,7 +47,7 @@ export class GamesStatusResolver {
   @UseGuards(JwtAuthGuard)
   @Query(() => [UserGamesStatusResponseDTO], { name: 'userGamesStatus' })
   async getAllUserGamesStatus(
-    @User() user: UserDTO,
+    @User() user: UserAuthDTO,
   ): Promise<UserGamesStatusResponseDTO[]> {
     return this.gamesStatusService.getAllUserGamesStatus(user.sub);
   }
@@ -55,7 +55,7 @@ export class GamesStatusResolver {
   @UseGuards(JwtAuthGuard)
   @Query(() => UserGamesStatusResponseDTO, { name: 'userGameStatus' })
   async getUserGameStatus(
-    @User() user: UserDTO,
+    @User() user: UserAuthDTO,
     @Args('gameStatusId') gameStatusId: number,
   ): Promise<UserGamesStatusResponseDTO> {
     const userGameStatus = await this.gamesStatusService.getUserGameStatusById(

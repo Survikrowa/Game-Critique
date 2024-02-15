@@ -12,7 +12,7 @@ export class GamesConsumer {
 
   @Process('createGame')
   async createGame(job: Job<SearchGameResultDtoType[]>) {
-    job.data.map(async (game) => {
+    for (const game of job.data) {
       try {
         await this.gamesRepository.createGame(game);
       } catch (e) {
@@ -22,8 +22,7 @@ export class GamesConsumer {
         ) {
           return;
         }
-        //TODO: Report to sentry otherwise
       }
-    });
+    }
   }
 }

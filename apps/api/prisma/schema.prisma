@@ -23,7 +23,11 @@ model User {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
   profile   Profile?
+  friends   Friend[]
+  friendsList   FriendsList?
   GamesStatus GamesStatus[]
+  FriendsRequestsForUsersOwner FriendsRequestsForUsers[] @relation(name: "FriendRequestOwner")
+  FriendsRequestsForUsersReceiver FriendsRequestsForUsers[] @relation(name: "FriendRequestReceiver")
 
   @@map("users")
 }
@@ -192,4 +196,47 @@ model GamesStatusCompletion {
     gamesStatusId Int @map("games_status_id") @unique
     gamesStatus   GamesStatus @relation(fields: [gamesStatusId], references: [id], onDelete: Cascade)
     @@map("games_status_completion")
+}
+
+model FriendsList {
+    id       Int      @id @default(autoincrement())
+    ownerId  String      @map("owner_id") @unique
+    owner    User     @relation(fields: [ownerId], references: [oauthId], onDelete: Cascade)
+    FriendsListForFriends FriendsListForFriends[]
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@map("friends_list")
+}
+
+model FriendsListForFriends {
+    friendsListId Int @map("friends_list_id")
+    friendId Int @map("friend_id")
+    friend   Friend     @relation(fields: [friendId], references: [id], onDelete: Cascade)
+    friendsList   FriendsList @relation(fields: [friendsListId], references: [id], onDelete: Cascade)
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+    @@id([friendsListId, friendId])
+    @@map("friends_list_for_friends")
+}
+
+model Friend {
+    id       Int      @id @default(autoincrement())
+    oauthId String      @map("friend_id") @unique
+    user   User     @relation(fields: [oauthId], references: [oauthId], onDelete: Cascade)
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+    FriendsListForFriends FriendsListForFriends[]
+    @@map("friends")
+}
+
+model FriendsRequestsForUsers {
+    ownerId  String      @map("owner_id")
+    owner    User     @relation(name: "FriendRequestOwner" ,fields: [ownerId], references: [oauthId], onDelete: Cascade)
+    receiverId String      @map("receiver_id")
+    receiver   User     @relation(name: "FriendRequestReceiver", fields: [receiverId], references: [oauthId], onDelete: Cascade)
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+    @@id([ownerId, receiverId])
+    @@map("friends_requests_for_users")
 }

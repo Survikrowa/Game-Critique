@@ -46,6 +46,21 @@ type CoverDTO {
   smallUrl: String!
 }
 
+"""Friend request response"""
+type FriendRequestResponseDTO {
+  receiverId: String!
+}
+
+type FriendSingleEntry {
+  avatarUrl: String
+  id: String!
+  name: String
+}
+
+type FriendsList {
+  friends: [FriendSingleEntry!]!
+}
+
 """Single Game Release(Year) Date"""
 type GameReleaseDTO {
   date: Float
@@ -106,11 +121,19 @@ type GenresDto {
   slug: String!
 }
 
+"""Get Friend Requests response"""
+type GetFriendRequestsResponseDTO {
+  senderOauthId: String!
+  senderProfile: ProfileInfoDTO
+}
+
 type Mutation {
+  acceptFriendRequest(senderOauthId: String!): FriendRequestResponseDTO!
   addGameToCollection(collection: AddGameToCollectionDTO!): CollectionMutationResponseDTO!
   createNewCollection(collection: NewCollectionDTO!): CollectionDTO!
   removeCollection(collection: RemoveCollectionArgsDTO!): RemovedCollectionResponseDTO!
   removeGameStatus(gameStatusId: Float!): GameStatusSuccessResponseDTO!
+  sendFriendRequest(receiverOauthId: String!): FriendRequestResponseDTO!
   updateProfileInfo(profileInfo: ProfileInfoUpdateArgsDTO!): ProfileInfoUpdateResponseDTO!
   upsertGameStatus(upsertGameStatusArgs: UpsertGameStatusArgsDTO!): GameStatusSuccessResponseDTO!
 }
@@ -133,7 +156,7 @@ type ProfileInfoDTO {
   """User's avatar URL from Cloudinary"""
   avatarUrl: String!
   id: Float!
-  name: String!
+  name: String
 }
 
 """User profile info required to update profile"""
@@ -150,12 +173,15 @@ type ProfileInfoUpdateResponseDTO {
 
 type Query {
   collection(id: Float!): CollectionWithGamesDTO!
+  friendsList: FriendsList!
+  friendsRequests: [GetFriendRequestsResponseDTO!]!
   game(hltbId: Float!): GameWithAllDataDTO!
   getProfileCollections: [CollectionDTO!]!
   profileInfo: ProfileInfoDTO!
   search(input: String!): SearchResult!
   userGameStatus(gameStatusId: Float!): UserGamesStatusResponseDTO!
   userGamesStatus: [UserGamesStatusResponseDTO!]!
+  usersSearch(input: String!): [UserDTO!]!
   verify: AuthUserVerification!
 }
 
@@ -190,6 +216,14 @@ input UpsertGameStatusArgsDTO {
   isEditing: Boolean!
   platformId: Float!
   score: String
+}
+
+"""User"""
+type UserDTO {
+  id: Float!
+  isFriendRequestSent: Boolean!
+  oauthId: String!
+  profile: ProfileInfoDTO
 }
 
 """UserGamesStatus Response"""

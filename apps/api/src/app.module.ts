@@ -12,6 +12,7 @@ import { ImagesModule } from './modules/images/images.module';
 import { ProfilesModule } from './modules/profiles/profiles.module';
 import { CollectionsModule } from './modules/collections/collections.module';
 import { GamesStatusModule } from './modules/games_status/games_status.module';
+import { FriendsModule } from './modules/friends/friends.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { GamesStatusModule } from './modules/games_status/games_status.module';
     ProfilesModule,
     CollectionsModule,
     GamesStatusModule,
+    FriendsModule,
   ],
 })
 export class AppModule {}

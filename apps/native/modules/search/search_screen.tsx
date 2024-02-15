@@ -15,7 +15,7 @@ export const SearchScreen = () => {
     input: debouncedInput,
   });
   return (
-    <YStack padding={8} gap={6}>
+    <YStack padding={16} gap={6}>
       <Text size="large" weight="normal" color="secondary">
         Wyszukiwarka
       </Text>

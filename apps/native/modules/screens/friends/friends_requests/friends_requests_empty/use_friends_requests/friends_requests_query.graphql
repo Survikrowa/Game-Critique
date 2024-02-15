@@ -1,0 +1,9 @@
+query FriendsRequests {
+    friendsRequests {
+    senderOauthId
+        senderProfile {
+            name
+            avatarUrl
+        }
+    }
+}
