@@ -1,9 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { GamesStatusRepository } from './games_status.repository';
 import { UpsertGameStatusArgsDTO } from './games_status.dto';
+import { UsersActivityService } from '../users/users_activity/users_activity.service';
+import { PrismaService } from '../database/prisma.service';
 @Injectable()
 export class GamesStatusService {
-  constructor(private readonly gamesStatusRepository: GamesStatusRepository) {}
+  constructor(
+    private readonly gamesStatusRepository: GamesStatusRepository,
+    private readonly usersActivityService: UsersActivityService,
+    private readonly prismaService: PrismaService,
+  ) {}
 
   async getAllUserGamesStatus(oauthId: string) {
     const userGameStatus =
@@ -76,10 +82,17 @@ export class GamesStatusService {
     createGameStatusArgs: UpsertGameStatusArgsDTO,
     oauthId: string,
   ) {
-    return this.gamesStatusRepository.upsertGameStatus(
-      createGameStatusArgs,
-      oauthId,
-    );
+    return this.prismaService.$transaction(async () => {
+      await this.usersActivityService.registerNewUserActivity({
+        oauthId,
+        activity: createGameStatusArgs.gameStatus,
+        gameId: createGameStatusArgs.gameId,
+      });
+      return this.gamesStatusRepository.upsertGameStatus(
+        createGameStatusArgs,
+        oauthId,
+      );
+    });
   }
 
   async removeGameStatus(gameStatusId: number) {
