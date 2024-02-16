@@ -100,7 +100,6 @@ export class FriendsRequestsService {
           },
         },
       });
-    console.log(friendRequests);
     return friendRequests.map((request) => {
       return {
         senderOauthId: request.owner.oauthId,

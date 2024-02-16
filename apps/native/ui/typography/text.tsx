@@ -6,6 +6,7 @@ type TextProps = {
   weight: "normal" | "semiBold" | "bold";
   color: keyof typeof TEXT_COLOR;
   children: ReactNode;
+  transform?: "uppercase" | "lowercase" | "capitalize";
 };
 
 const TEXT_SIZE = {
@@ -33,12 +34,19 @@ const TEXT_COLOR = {
   red: "$red10",
 } as const;
 
-export const Text = ({ size, weight, children, color }: TextProps) => {
+export const Text = ({
+  size,
+  weight,
+  children,
+  color,
+  transform,
+}: TextProps) => {
   return (
     <TamaguiText
       fontSize={TEXT_SIZE[size]}
       fontWeight={TEXT_WEIGHT[weight]}
       color={TEXT_COLOR[color]}
+      textTransform={transform}
       wordWrap="break-word"
     >
       {children}

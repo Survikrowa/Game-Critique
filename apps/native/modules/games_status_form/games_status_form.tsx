@@ -109,7 +109,6 @@ const DEFAULT_VALUES = {
 const getInitialValues = (
   initialValues: GamesStatusFormProps["initialValues"],
 ) => {
-  console.log("initialValues", initialValues);
   if (!initialValues) return DEFAULT_VALUES;
   return {
     hours: initialValues?.hours || DEFAULT_VALUES.hours,
@@ -306,15 +305,6 @@ export const GamesStatusForm = ({
                 fieldState: { error },
                 field: { onChange, value },
               }) => {
-                console.log(
-                  "platform",
-                  game.platforms.map((platform) => ({
-                    name: platform.name,
-                    value: String(platform.id),
-                  })),
-                  "id",
-                  value,
-                );
                 return (
                   <>
                     <Select

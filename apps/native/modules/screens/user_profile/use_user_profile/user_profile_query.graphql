@@ -1,0 +1,21 @@
+query UserProfile($oauthId: String!) {
+    user(oauthId: $oauthId) {
+        id,
+        oauthId,
+        profile {
+            name,
+            avatarUrl
+        }
+        gamesStatus {
+            achievementsCompleted
+        }
+        userActivity {
+            activityType
+            game {
+                name
+            }
+            updatedAt
+            formattedUpdatedAt
+        }
+    }
+}

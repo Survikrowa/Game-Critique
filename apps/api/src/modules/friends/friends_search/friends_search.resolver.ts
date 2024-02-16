@@ -4,18 +4,18 @@ import { JwtAuthGuard } from '../../auth/guards/auth-jwt.guard';
 import { User } from '../../auth/auth.decorators';
 import { UserAuthDTO } from '../../auth/auth.dto';
 import { UsersService } from '../../users/users.service';
-import { UserDTO } from '../../users/users.dto';
+import { UserSearchResultDTO } from './friends_resolver.dto';
 
 @Injectable()
 export class FriendsSearchResolver {
   constructor(private readonly usersService: UsersService) {}
 
   @UseGuards(JwtAuthGuard)
-  @Query(() => [UserDTO], { name: 'usersSearch' })
+  @Query(() => [UserSearchResultDTO], { name: 'usersSearch' })
   async usersSearch(
     @User() user: UserAuthDTO,
     @Args('input') input: string,
-  ): Promise<UserDTO[]> {
+  ): Promise<UserSearchResultDTO[]> {
     if (input === '') {
       return [];
     }

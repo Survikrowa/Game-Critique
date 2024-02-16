@@ -8,7 +8,6 @@ import { FriendsRequestsResults } from "./friends_requests_results/friends_reque
 export const FriendsRequestsScreen = () => {
   const [refreshing, setRefreshing] = useState(false);
   const friendsRequestsQuery = useFriendsRequests();
-  console.log(friendsRequestsQuery.data?.friendsRequests);
 
   if (
     friendsRequestsQuery.loading ||

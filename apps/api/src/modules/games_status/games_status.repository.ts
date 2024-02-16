@@ -107,9 +107,9 @@ export class GamesStatusRepository {
         score: createGameStatusArgs.score,
         completedIn: {
           update: {
-            hours: Number(createGameStatusArgs.completedIn.hours),
-            minutes: Number(createGameStatusArgs.completedIn.minutes),
-            seconds: Number(createGameStatusArgs.completedIn.seconds),
+            hours: Number(createGameStatusArgs.completedIn?.hours || 0),
+            minutes: Number(createGameStatusArgs.completedIn?.minutes || 0),
+            seconds: Number(createGameStatusArgs.completedIn?.seconds || 0),
           },
         },
       },
@@ -134,9 +134,9 @@ export class GamesStatusRepository {
         score: createGameStatusArgs.score,
         completedIn: {
           create: {
-            hours: Number(createGameStatusArgs.completedIn.hours),
-            minutes: Number(createGameStatusArgs.completedIn.minutes),
-            seconds: Number(createGameStatusArgs.completedIn.seconds),
+            hours: Number(createGameStatusArgs.completedIn?.hours || 0),
+            minutes: Number(createGameStatusArgs.completedIn?.minutes || 0),
+            seconds: Number(createGameStatusArgs.completedIn?.seconds || 0),
           },
         },
       },

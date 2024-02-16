@@ -63,7 +63,6 @@ export const useProfileEditorForm = ({
       description: "Nie udało się zaktualizować Twoich danych",
       variant: "error",
     });
-    console.log(data);
   });
   return {
     methods,

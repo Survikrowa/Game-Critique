@@ -12,7 +12,6 @@ type GamesStatusEditFormProps = {
 export const GamesStatusEditForm = ({
   gameStatus,
 }: GamesStatusEditFormProps) => {
-  console.log(gameStatus.platform.id);
   return (
     <KeyboardAvoidingView behavior="position">
       <ScrollView>

@@ -19,7 +19,6 @@ type UploadPhotoArgs = {
 export const useUploadPhoto = () => {
   const uploadPhoto = async ({ photo, transformOptions }: UploadPhotoArgs) => {
     const token = await SecureStore.getItemAsync("oauthToken");
-    console.log({ photo, transformOptions });
     const data = await FileSystem.uploadAsync(
       "http://localhost:3000/images/upload",
       photo.uri,

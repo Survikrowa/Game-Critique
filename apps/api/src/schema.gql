@@ -46,6 +46,11 @@ type CoverDTO {
   smallUrl: String!
 }
 
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 """Friend request response"""
 type FriendRequestResponseDTO {
   receiverId: String!
@@ -59,6 +64,14 @@ type FriendSingleEntry {
 
 type FriendsList {
   friends: [FriendSingleEntry!]!
+}
+
+"""Single Game"""
+type GameDTO {
+  hltbId: Float!
+  id: Float!
+  name: String!
+  slug: String!
 }
 
 """Single Game Release(Year) Date"""
@@ -75,10 +88,10 @@ enum GameStatus {
 }
 
 """GameStatus CompletedIn Arg"""
-input GameStatusCompletedInArgDTO {
-  hours: String
-  minutes: String
-  seconds: String
+type GameStatusCompletedInArgDTO {
+  hours: Float
+  minutes: Float
+  seconds: Float
 }
 
 """GameStatus CompletedIn"""
@@ -86,6 +99,17 @@ type GameStatusCompletedInDTO {
   hours: Float
   minutes: Float
   seconds: Float
+}
+
+"""GameStatus"""
+type GameStatusDTO {
+  achievementsCompleted: Boolean!
+  completedIn: GameStatusCompletedInArgDTO
+  gameId: Float!
+  gameStatus: GameStatus!
+  gamesStatusId: Float
+  platformId: Float!
+  score: String
 }
 
 """GameStatus Success Response"""
@@ -179,9 +203,10 @@ type Query {
   getProfileCollections: [CollectionDTO!]!
   profileInfo: ProfileInfoDTO!
   search(input: String!): SearchResult!
+  user(oauthId: String!): UserDataDTO!
   userGameStatus(gameStatusId: Float!): UserGamesStatusResponseDTO!
   userGamesStatus: [UserGamesStatusResponseDTO!]!
-  usersSearch(input: String!): [UserDTO!]!
+  usersSearch(input: String!): [UserSearchResultDTO!]!
   verify: AuthUserVerification!
 }
 
@@ -208,22 +233,30 @@ type SearchResult {
 }
 
 input UpsertGameStatusArgsDTO {
-  achievementsCompleted: Boolean!
-  completedIn: GameStatusCompletedInArgDTO!
-  gameId: Float!
-  gameStatus: GameStatus!
-  gamesStatusId: Float
   isEditing: Boolean!
-  platformId: Float!
-  score: String
 }
 
-"""User"""
-type UserDTO {
+"""User activity"""
+type UserActivityDTO {
+  activityType: GameStatus!
+
+  """
+  Formatted date of the activity update. Example: '2 dni temu' or 'wczoraj' etc.
+  """
+  formattedUpdatedAt: String!
+  game: GameDTO
   id: Float!
-  isFriendRequestSent: Boolean!
+  oauthId: String!
+  updatedAt: DateTime!
+}
+
+"""User i dont know how to name it"""
+type UserDataDTO {
+  gamesStatus: [GameStatusDTO!]
+  id: Float!
   oauthId: String!
   profile: ProfileInfoDTO
+  userActivity: [UserActivityDTO!]
 }
 
 """UserGamesStatus Response"""
@@ -236,4 +269,12 @@ type UserGamesStatusResponseDTO {
   review: String
   score: String
   status: GameStatus!
+}
+
+"""User Search Result"""
+type UserSearchResultDTO {
+  id: Float!
+  isFriendRequestSent: Boolean!
+  oauthId: String!
+  profile: ProfileInfoDTO
 }

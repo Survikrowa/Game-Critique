@@ -11,7 +11,6 @@ import { useAuth0 } from "react-native-auth0";
 export const DrawerCustomContent = (props: DrawerContentComponentProps) => {
   const { clearSession, user } = useAuth0();
   const client = useApolloClient();
-  console.log(user);
   return (
     <DrawerContentScrollView>
       <DrawerItemList {...props} />

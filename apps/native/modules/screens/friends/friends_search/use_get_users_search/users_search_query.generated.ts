@@ -8,7 +8,7 @@ export type UsersSearchQueryVariables = Types.Exact<{
 }>;
 
 
-export type UsersSearchQuery = { __typename?: 'Query', usersSearch: Array<{ __typename?: 'UserDTO', oauthId: string, isFriendRequestSent: boolean, profile?: { __typename?: 'ProfileInfoDTO', id: number, name?: string | null, avatarUrl: string } | null }> };
+export type UsersSearchQuery = { __typename?: 'Query', usersSearch: Array<{ __typename?: 'UserSearchResultDTO', oauthId: string, isFriendRequestSent: boolean, profile?: { __typename?: 'ProfileInfoDTO', id: number, name?: string | null, avatarUrl: string } | null }> };
 
 
 export const UsersSearchDocument = gql`
