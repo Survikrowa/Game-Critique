@@ -11,7 +11,6 @@ export const useSendFriendRequest = () => {
       });
     },
     onError: (error) => {
-      console.log(error);
       toastController.show("Użytkownik już dostał zaproszenie!", {
         variant: "error",
       });

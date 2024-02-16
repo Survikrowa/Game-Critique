@@ -23,7 +23,6 @@ export const useCollectionAddForm = (gameId: string) => {
   const toastController = useToastController();
 
   const onSubmit = handleSubmit(async (data) => {
-    console.log(data);
     try {
       await addGameToCollection({
         variables: {

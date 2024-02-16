@@ -33,10 +33,7 @@ export const PhotoEditor = () => {
         return;
       }
       const photoInfo = await getFileInfo(photo.uri);
-      console.log(
-        photoInfo.exists && photoInfo.size,
-        photoInfo.exists && photoInfo.size / 1000,
-      );
+
       if (photoInfo.exists && Math.floor(photoInfo.size / 1024) > 3096) {
         setError("avatar", { message: "Zdjęcie jest za duże" });
         return;
@@ -50,11 +47,9 @@ export const PhotoEditor = () => {
         },
         transformOptions: { width: "300", height: "300" },
       });
-      console.log(res);
       setImage(res.photo_url);
       setValue("avatar", res.photo_url);
     } catch (e) {
-      console.log({ error: e });
       toast.show("Nie udało się wybrać zdjęcia", {
         description: "Prawdopodobnie brakuje odpowiednich uprawnien",
         variant: "error",

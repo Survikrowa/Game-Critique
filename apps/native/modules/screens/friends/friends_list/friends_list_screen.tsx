@@ -1,5 +1,6 @@
 import { ChevronRight } from "@tamagui/lucide-icons";
-import { useState } from "react";
+import { router } from "expo-router";
+import { Fragment, useState } from "react";
 import { RefreshControl } from "react-native-gesture-handler";
 import {
   Card,
@@ -48,8 +49,12 @@ export const FriendsListScreen = () => {
             </View>
             <YStack>
               {friends.map((friend) => (
-                <>
-                  <XStack justifyContent="space-between" alignItems="center">
+                <Fragment key={friend.id}>
+                  <XStack
+                    justifyContent="space-between"
+                    alignItems="center"
+                    onPress={() => router.push(`/user_profile/${friend.id}`)}
+                  >
                     <XStack key={friend.id} alignItems="center" gap={8}>
                       <UserAvatar
                         avatarUrl={friend.avatarUrl || ""}
@@ -66,7 +71,7 @@ export const FriendsListScreen = () => {
                     friend.id !== friends[friends.length - 1].id && (
                       <Separator marginVertical={16} />
                     )}
-                </>
+                </Fragment>
               ))}
             </YStack>
           </Card.Header>

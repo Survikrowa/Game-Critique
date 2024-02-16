@@ -9,21 +9,11 @@ import { PlatformDTO } from '../platforms/platforms.dto';
 import { GameWithAllDataDTO } from '../games/games.dto';
 
 registerEnumType(GameStatus, {
-  name: 'GameStatus',
+  name: 'gameStatus',
   description: 'GameStatus Enum',
 });
-@InputType({ description: 'GameStatus CompletedIn Arg' })
+@ObjectType({ description: 'GameStatus CompletedIn Arg' })
 export class GameStatusCompletedInArgDTO {
-  @Field(() => String, { nullable: true })
-  hours?: string;
-  @Field(() => String, { nullable: true })
-  minutes?: string;
-  @Field(() => String, { nullable: true })
-  seconds?: string;
-}
-
-@ObjectType({ description: 'GameStatus CompletedIn' })
-export class GameStatusCompletedInDTO {
   @Field(() => Number, { nullable: true })
   hours: number | null;
   @Field(() => Number, { nullable: true })
@@ -32,13 +22,13 @@ export class GameStatusCompletedInDTO {
   seconds: number | null;
 }
 
-@InputType()
-export class UpsertGameStatusArgsDTO {
-  @Field(() => GameStatusCompletedInArgDTO)
-  completedIn: GameStatusCompletedInArgDTO;
+@ObjectType({ description: 'GameStatus' })
+export class GameStatusDTO {
+  @Field(() => GameStatusCompletedInArgDTO, { nullable: true })
+  completedIn: GameStatusCompletedInArgDTO | null;
 
   @Field(() => String, { nullable: true })
-  score: string;
+  score: string | null;
 
   @Field(() => Number)
   platformId: number;
@@ -54,7 +44,10 @@ export class UpsertGameStatusArgsDTO {
 
   @Field(() => Number, { nullable: true })
   gamesStatusId?: number;
+}
 
+@InputType()
+export class UpsertGameStatusArgsDTO extends GameStatusDTO {
   @Field(() => Boolean)
   isEditing: boolean;
 }
@@ -69,6 +62,16 @@ export class GameStatusSuccessResponseDTO {
 export class GameStatusErrorResponseDTO {
   @Field(() => String)
   error: string;
+}
+
+@ObjectType({ description: 'GameStatus CompletedIn' })
+export class GameStatusCompletedInDTO {
+  @Field(() => Number, { nullable: true })
+  hours: number | null;
+  @Field(() => Number, { nullable: true })
+  minutes: number | null;
+  @Field(() => Number, { nullable: true })
+  seconds: number | null;
 }
 
 @ObjectType({ description: 'UserGamesStatus Response' })

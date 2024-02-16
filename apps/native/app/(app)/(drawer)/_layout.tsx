@@ -1,6 +1,7 @@
 import { Drawer } from "expo-router/drawer";
 import { useAuth0 } from "react-native-auth0";
 
+import { GoBackHeader } from "../../../modules/layouts/go_back_header/go_back_header";
 import { DrawerCustomContent } from "../../../modules/layouts/header/drawer/drawer_custom_content";
 import { Header } from "../../../modules/layouts/header/header";
 
@@ -46,6 +47,21 @@ const AppLayout = () => {
         options={{
           headerShown: true,
           header: Header,
+          drawerItemStyle: {
+            display: "none",
+          },
+        }}
+      />
+      <Drawer.Screen
+        name="user_profile/[oauth_id]/index"
+        options={{
+          headerShown: true,
+          header: () => (
+            <GoBackHeader
+              goBackUrl="/friends/friends_list/"
+              text="Szczegóły profilu"
+            />
+          ),
           drawerItemStyle: {
             display: "none",
           },

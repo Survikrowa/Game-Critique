@@ -12,8 +12,8 @@ export class GameDTO {
   name: string;
   @Field(() => String)
   slug: string;
-  @Field(() => String)
-  hltbId: string;
+  @Field(() => Number)
+  hltbId: number;
 }
 
 @ObjectType({ description: 'Single Game with covers' })
