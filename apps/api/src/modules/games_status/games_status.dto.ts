@@ -22,6 +22,17 @@ export class GameStatusCompletedInArgDTO {
   seconds: number | null;
 }
 
+@ObjectType({ description: 'GameStatus Pagination' })
+export class GameStatusPaginationDTO {
+  @Field(() => Number)
+  total: number;
+
+  @Field(() => Boolean)
+  hasMore: boolean;
+  @Field(() => Boolean)
+  hasPrevious: boolean;
+}
+
 @ObjectType({ description: 'GameStatus' })
 export class GameStatusDTO {
   @Field(() => GameStatusCompletedInArgDTO, { nullable: true })
@@ -92,4 +103,12 @@ export class UserGamesStatusResponseDTO {
   review: string | null;
   @Field(() => GameWithAllDataDTO)
   game: GameWithAllDataDTO;
+}
+
+@ObjectType({ description: 'UserGamesStatus Response with pagination' })
+export class UserGamesStatusResponseWithPaginationDTO {
+  @Field(() => [UserGamesStatusResponseDTO])
+  userGamesStatus: UserGamesStatusResponseDTO[];
+  @Field(() => GameStatusPaginationDTO)
+  pagination: GameStatusPaginationDTO;
 }

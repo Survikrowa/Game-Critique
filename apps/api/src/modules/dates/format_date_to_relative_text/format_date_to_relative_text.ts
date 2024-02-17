@@ -1,13 +1,8 @@
 import dayjs, { Dayjs } from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import 'dayjs/locale/pl';
+dayjs.extend(relativeTime);
 
 export const formatDateToRelativeText = (date: Dayjs) => {
-  const diffInDays = date.diff(dayjs(), 'day');
-  switch (diffInDays) {
-    case 0:
-      return 'dzisiaj';
-    case -1:
-      return 'wczoraj';
-    default:
-      return `{diffInDays} dni temu`;
-  }
+  return dayjs().locale('pl').to(date);
 };

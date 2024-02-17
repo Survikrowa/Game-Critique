@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
-import { Separator, Tabs } from "tamagui";
+import { useNavigation } from "expo-router";
+import { useState } from "react";
+import { ScrollView, Separator, Tabs } from "tamagui";
 import { Text } from "ui/typography/text";
 
 import { GameStatusTabContent } from "./game_status_tab_content/game_status_tab_content";
@@ -11,10 +12,26 @@ function isGameStatus(input: string): input is GameStatus {
   );
 }
 
-export const GamesStatusCategoriesTabs = () => {
+type GamesStatusCategoriesTabsProps = {
+  oauthId?: string;
+};
+
+export const GamesStatusCategoriesTabs = ({
+  oauthId,
+}: GamesStatusCategoriesTabsProps) => {
   const [selectedTab, setSelectedTab] = useState<GameStatus>(
     GameStatus.Completed,
   );
+
+  const navigation = useNavigation();
+  const handleTabChange = (value: GameStatus) => {
+    setSelectedTab(value);
+    //@ts-ignore
+    navigation.setParams({
+      take: 5,
+      skip: 0,
+    });
+  };
 
   return (
     <Tabs
@@ -27,7 +44,7 @@ export const GamesStatusCategoriesTabs = () => {
       overflow="hidden"
       alignItems="center"
       gap={16}
-      onValueChange={(value) => isGameStatus(value) && setSelectedTab(value)}
+      onValueChange={(value) => isGameStatus(value) && handleTabChange(value)}
     >
       <Tabs.List
         separator={<Separator vertical />}
@@ -64,9 +81,13 @@ export const GamesStatusCategoriesTabs = () => {
           </Text>
         </Tabs.Tab>
       </Tabs.List>
-      <GameStatusTabContent selectedTab={GameStatus.Completed} />
-      <GameStatusTabContent selectedTab={GameStatus.InProgress} />
-      <GameStatusTabContent selectedTab={GameStatus.Retired} />
+      <ScrollView nestedScrollEnabled>
+        <GameStatusTabContent
+          oauthId={oauthId}
+          selectedTab={selectedTab}
+          enableActions={!oauthId}
+        />
+      </ScrollView>
     </Tabs>
   );
 };

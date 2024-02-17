@@ -52,21 +52,6 @@ const AppLayout = () => {
           },
         }}
       />
-      <Drawer.Screen
-        name="user_profile/[oauth_id]/index"
-        options={{
-          headerShown: true,
-          header: () => (
-            <GoBackHeader
-              goBackUrl="/friends/friends_list/"
-              text="Szczegóły profilu"
-            />
-          ),
-          drawerItemStyle: {
-            display: "none",
-          },
-        }}
-      />
     </Drawer>
   );
 };

@@ -14,8 +14,8 @@ import { z } from "zod";
 import { GAMES_SCORES } from "./games_scores";
 import { GAMES_STATUSES } from "./games_statuses";
 import { useUpsertGameStatus } from "./use_upsert_game_status/use_upsert_game_status";
-import { GameStatus } from "../../__generated__/types";
-import { GameInfoQuery } from "../game/use_get_game_info/game_info.generated";
+import { GameStatus } from "../../../__generated__/types";
+import { GameInfoQuery } from "../../game/use_get_game_info/game_info.generated";
 
 const NUMBERS_ONLY_REGEX = /^\d+$/;
 

@@ -57,7 +57,11 @@ export class UsersService {
         },
         userActivity: {
           include: {
-            game: true,
+            game: {
+              include: {
+                cover: true,
+              },
+            },
           },
           take: options?.activityLimit,
           orderBy: {

@@ -71,14 +71,6 @@ type FriendsList {
   friends: [FriendSingleEntry!]!
 }
 
-"""Single Game"""
-type GameDTO {
-  hltbId: Float!
-  id: Float!
-  name: String!
-  slug: String!
-}
-
 """Single Game Release(Year) Date"""
 type GameReleaseDTO {
   date: Float
@@ -115,6 +107,13 @@ type GameStatusDTO {
   gamesStatusId: Float
   platformId: Float!
   score: String
+}
+
+"""GameStatus Pagination"""
+type GameStatusPaginationDTO {
+  hasMore: Boolean!
+  hasPrevious: Boolean!
+  total: Float!
 }
 
 """GameStatus Success Response"""
@@ -202,16 +201,20 @@ type ProfileInfoUpdateResponseDTO {
 
 type Query {
   collection(id: Float!): CollectionWithGamesDTO!
+  friendsActivity: [FriendsActivityDTO!]!
   friendsList: FriendsList!
   friendsRequests: [GetFriendRequestsResponseDTO!]!
   game(hltbId: Float!): GameWithAllDataDTO!
-  getFriendsActivity: [FriendsActivityDTO!]!
   getProfileCollections: [CollectionDTO!]!
   profileInfo: ProfileInfoDTO!
   search(input: String!): SearchResult!
   user(oauthId: String!): UserDataDTO!
   userGameStatus(gameStatusId: Float!): UserGamesStatusResponseDTO!
-  userGamesStatus: [UserGamesStatusResponseDTO!]!
+
+  """
+  If oauthId is not provided it will use the id of the user that called the query
+  """
+  userGamesStatus(oauthId: String, skip: Float, status: String!, take: Float): UserGamesStatusResponseWithPaginationDTO!
   usersSearch(input: String!): [UserSearchResultDTO!]!
   verify: AuthUserVerification!
 }
@@ -256,7 +259,7 @@ type UserActivityDTO {
   Formatted date of the activity update. Example: '2 dni temu' or 'wczoraj' etc.
   """
   formattedUpdatedAt: String!
-  game: GameDTO
+  game: GameWithCoversDTO
   id: Float!
   oauthId: String!
   updatedAt: DateTime!
@@ -281,6 +284,12 @@ type UserGamesStatusResponseDTO {
   review: String
   score: String
   status: GameStatus!
+}
+
+"""UserGamesStatus Response with pagination"""
+type UserGamesStatusResponseWithPaginationDTO {
+  pagination: GameStatusPaginationDTO!
+  userGamesStatus: [UserGamesStatusResponseDTO!]!
 }
 
 """User Search Result"""

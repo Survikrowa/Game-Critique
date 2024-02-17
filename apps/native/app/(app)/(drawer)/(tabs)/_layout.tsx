@@ -246,6 +246,24 @@ const TabsLayout = () => {
           },
         }}
       />
+      <Tabs.Screen
+        name="(authorized)/friends/user_profile/[oauth_id]/index"
+        options={{
+          header: () => (
+            <GoBackHeader
+              goBackUrl="/friends/friends_list/"
+              text="Szczegóły profilu"
+            />
+          ),
+          headerShown: true,
+          tabBarStyle: {
+            display: "none",
+          },
+          tabBarItemStyle: {
+            display: "none",
+          },
+        }}
+      />
     </Tabs>
   );
 };

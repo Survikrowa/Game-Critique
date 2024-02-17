@@ -1,6 +1,5 @@
 import { ChevronRight } from "@tamagui/lucide-icons";
 import { router } from "expo-router";
-import { Fragment } from "react";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import {
   Image,
@@ -16,18 +15,39 @@ import { Text } from "ui/typography/text";
 
 import { GamesStatusEmptyTab } from "./game_status_empty_tab/games_status_empty_tab";
 import { GameStatusTabContentItemLeftContent } from "./game_status_tab_content_item_left_content/game_status_tab_content_item_left_content";
+import { GameStatusTabContentPagination } from "./game_status_tab_content_pagination/game_status_tab_content_pagination";
 import { GameStatus } from "../../../../__generated__/types";
 import { truncateString } from "../../../strings/truncate_string";
 import { useUserGamesStatus } from "../../use_user_games_status/use_user_games_status";
 
 type GameStatusTabContentProps = {
   selectedTab: GameStatus;
+  enableActions: boolean;
+  oauthId?: string;
+};
+
+type OnArrowClickArgs = {
+  take: number;
+  skip: number;
 };
 
 export const GameStatusTabContent = ({
   selectedTab,
+  enableActions,
+  oauthId,
 }: GameStatusTabContentProps) => {
-  const userGamesStatusQuery = useUserGamesStatus();
+  const userGamesStatusQuery = useUserGamesStatus({
+    oauthId,
+    status: selectedTab,
+  });
+  const onArrowClick = async ({ take, skip }: OnArrowClickArgs) => {
+    await userGamesStatusQuery.fetchMore({
+      variables: {
+        take,
+        skip,
+      },
+    });
+  };
   if (userGamesStatusQuery.loading || !userGamesStatusQuery.data) {
     return (
       <Tabs.Content
@@ -51,10 +71,9 @@ export const GameStatusTabContent = ({
       </Tabs.Content>
     );
   }
-  const filteredGames = userGamesStatusQuery.data.userGamesStatus.filter(
-    (gameStatus) => gameStatus.status === selectedTab,
-  );
-  if (filteredGames.length === 0) {
+  const { userGamesStatus, pagination } =
+    userGamesStatusQuery.data.userGamesStatus;
+  if (userGamesStatus.length === 0) {
     return (
       <Tabs.Content
         value={selectedTab}
@@ -69,6 +88,7 @@ export const GameStatusTabContent = ({
       </Tabs.Content>
     );
   }
+
   return (
     <Tabs.Content
       value={selectedTab}
@@ -82,9 +102,14 @@ export const GameStatusTabContent = ({
       justifyContent="center"
     >
       <ScrollView>
-        {filteredGames.map((gameStatus, index) => {
+        {userGamesStatus.map((gameStatus, index) => {
+          const targetUrl = enableActions
+            ? `/games/games_status_info/${gameStatus.id}`
+            : `/game/${gameStatus.game.hltbId}`;
+
           return (
             <Swipeable
+              enabled={enableActions}
               key={gameStatus.id}
               renderLeftActions={() => (
                 <GameStatusTabContentItemLeftContent
@@ -95,9 +120,7 @@ export const GameStatusTabContent = ({
               <XStack
                 alignItems="center"
                 justifyContent="space-between"
-                onPress={() =>
-                  router.push(`/games/games_status_info/${gameStatus.id}`)
-                }
+                onPress={() => router.push(targetUrl)}
               >
                 <XStack alignItems="center" width="80%" padding={8}>
                   <View maxHeight={50} maxWidth={50} height="100%">
@@ -121,12 +144,19 @@ export const GameStatusTabContent = ({
 
                 <ChevronRight />
               </XStack>
-              {filteredGames.length - 1 !== index && (
+              {userGamesStatus.length - 1 !== index && (
                 <Separator marginVertical={8} />
               )}
             </Swipeable>
           );
         })}
+        <Separator marginVertical={8} />
+        <GameStatusTabContentPagination
+          hasNextPage={pagination.hasMore}
+          hasPreviousPage={pagination.hasPrevious}
+          onNextPage={onArrowClick}
+          onPreviousPage={onArrowClick}
+        />
       </ScrollView>
     </Tabs.Content>
   );

@@ -1,0 +1,19 @@
+query FriendsActivity {
+    friendsActivity {
+        user {
+            name
+            oauthId
+            activity {
+                game {
+                    name
+                    cover {
+                        smallUrl
+                    }
+                }
+                activityType
+                formattedUpdatedAt
+            }
+        }
+
+    }
+}

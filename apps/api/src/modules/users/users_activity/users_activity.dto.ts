@@ -1,5 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { GameDTO } from '../../games/games.dto';
+import { GameWithCoversDTO } from '../../games/games.dto';
 import { GameStatus } from '@prisma/client';
 
 @ObjectType({ description: 'User activity' })
@@ -8,8 +8,8 @@ export class UserActivityDTO {
   id: number;
   @Field(() => String)
   oauthId: string;
-  @Field(() => GameDTO, { nullable: true })
-  game: GameDTO | null;
+  @Field(() => GameWithCoversDTO, { nullable: true })
+  game: GameWithCoversDTO | null;
   @Field(() => GameStatus)
   activityType: GameStatus;
   @Field(() => Date)

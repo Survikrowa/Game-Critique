@@ -20,15 +20,20 @@ export class FriendsActivityService {
                 friend: {
                   include: {
                     user: {
-                      select: {
+                      include: {
                         userActivity: {
                           take: 1,
                           include: {
-                            game: true,
+                            game: {
+                              include: {
+                                cover: true,
+                              },
+                            },
+                          },
+                          orderBy: {
+                            updatedAt: 'desc',
                           },
                         },
-                      },
-                      include: {
                         profile: true,
                       },
                     },
