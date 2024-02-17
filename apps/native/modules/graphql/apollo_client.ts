@@ -38,7 +38,21 @@ export const useNewApolloClient = () => {
     });
     return new ApolloClient({
       link: from([authLink, errorLink, httpLink]),
-      cache: new InMemoryCache(),
+      cache: new InMemoryCache({
+        typePolicies: {
+          Query: {
+            fields: {
+              userGamesStatus: {
+                keyArgs: ["status"],
+                merge(_, incoming) {
+                  console.log(_, incoming);
+                  return incoming;
+                },
+              },
+            },
+          },
+        },
+      }),
     });
   }, []);
 };

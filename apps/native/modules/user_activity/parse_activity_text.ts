@@ -1,4 +1,4 @@
-import { GameStatus } from "../../../../__generated__/types";
+import { GameStatus } from "../../__generated__/types";
 
 export const parseStatus = (gameStatus: GameStatus) => {
   switch (gameStatus) {

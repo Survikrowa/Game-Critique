@@ -1,15 +1,22 @@
-query UserGamesStatusQuery {
-  userGamesStatus {
-    id
-    game {
-      name
-      cover {
-        bigUrl
+query UserGamesStatusQuery($oauthId: String!, $take: Float, $skip: Float, $status: String!) {
+  userGamesStatus(oauthId: $oauthId, take: $take, skip: $skip, status: $status) {
+    userGamesStatus {
+      id
+      game {
+        hltbId
+        name
+        cover {
+          bigUrl
+        }
+      }
+      status
+      platform {
+        name
       }
     }
-    status
-    platform {
-      name
+    pagination {
+      hasMore
+      hasPrevious
     }
   }
 }

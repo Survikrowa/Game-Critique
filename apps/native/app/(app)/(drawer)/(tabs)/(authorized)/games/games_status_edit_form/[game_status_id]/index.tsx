@@ -1,6 +1,6 @@
 import { View } from "tamagui";
 
-import { GamesStatusEditFormScreen } from "../../../../../../../../modules/screens/games_status_edit_form_screen/games_status_edit_form_screen";
+import { GamesStatusEditFormScreen } from "../../../../../../../../modules/screens/games/games_status_edit_form_screen/games_status_edit_form_screen";
 
 const GamesStatusEditForm = () => {
   return (

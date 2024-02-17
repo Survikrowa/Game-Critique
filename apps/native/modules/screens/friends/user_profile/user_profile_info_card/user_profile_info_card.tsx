@@ -3,7 +3,7 @@ import { Card, View, XStack } from "tamagui";
 import { ButtonWithIcon } from "ui/forms/button_icon";
 import { Text } from "ui/typography/text";
 
-import { UserAvatar } from "../../../profile/user_avatar/user_avatar";
+import { UserAvatar } from "../../../../profile/user_avatar/user_avatar";
 
 type UserProfileInfoCardProps = {
   name?: string | null;

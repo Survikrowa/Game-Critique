@@ -13,6 +13,9 @@ query UserProfile($oauthId: String!) {
             activityType
             game {
                 name
+                cover {
+                    smallUrl
+                }
             }
             updatedAt
             formattedUpdatedAt

@@ -5,7 +5,7 @@ import { Text } from "ui/typography/text";
 
 import { GamesStatusAddForm } from "./games_status_add_form";
 import { useGetGameInfo } from "../game/use_get_game_info/use_get_game_info";
-import { GamesStatusForm } from "../games_status_form/games_status_form";
+import { GamesStatusForm } from "../games_status/games_status_form/games_status_form";
 import { truncateString } from "../strings/truncate_string";
 
 export const GamesStatusAddFormScreen = () => {

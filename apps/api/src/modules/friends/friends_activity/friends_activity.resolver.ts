@@ -13,7 +13,7 @@ export class FriendsActivityResolver {
   ) {}
 
   @UseGuards(JwtAuthGuard)
-  @Query(() => [FriendsActivityDTO])
+  @Query(() => [FriendsActivityDTO], { name: 'friendsActivity' })
   async getFriendsActivity(
     @User() user: UserAuthDTO,
   ): Promise<FriendsActivityDTO[]> {

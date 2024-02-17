@@ -3,6 +3,7 @@ import { GamesStatusRepository } from './games_status.repository';
 import { UpsertGameStatusArgsDTO } from './games_status.dto';
 import { UsersActivityService } from '../users/users_activity/users_activity.service';
 import { PrismaService } from '../database/prisma.service';
+import { GameStatus } from '@prisma/client';
 @Injectable()
 export class GamesStatusService {
   constructor(
@@ -11,29 +12,51 @@ export class GamesStatusService {
     private readonly prismaService: PrismaService,
   ) {}
 
-  async getAllUserGamesStatus(oauthId: string) {
+  async getAllUserGamesStatus({
+    oauthId,
+    take = 5,
+    skip = 0,
+    status,
+  }: GetAllUserGamesStatusArgs) {
     const userGameStatus =
-      await this.gamesStatusRepository.getAllUserGamesStatus(oauthId);
-    if (userGameStatus) {
-      return userGameStatus.map((gameStatus) => {
-        return {
-          ...gameStatus,
-          game: {
-            ...gameStatus.game,
-            platforms: gameStatus.game.platformForGame.map((platform) => {
-              return {
-                ...platform.platform,
-              };
-            }),
-            genres: gameStatus.game.genres.map((genre) => {
-              return {
-                ...genre.genre,
-              };
-            }),
-            releases: gameStatus.game.release,
-          },
-        };
+      await this.gamesStatusRepository.getAllUserGamesStatus({
+        oauthId,
+        take,
+        skip,
+        status,
       });
+    const userGamesStatusCount =
+      await this.gamesStatusRepository.countUserGamesStatusEntriesByStatus(
+        oauthId,
+        status,
+      );
+    if (userGameStatus) {
+      return {
+        userGamesStatus: userGameStatus.map((gameStatus) => {
+          return {
+            ...gameStatus,
+            game: {
+              ...gameStatus.game,
+              platforms: gameStatus.game.platformForGame.map((platform) => {
+                return {
+                  ...platform.platform,
+                };
+              }),
+              genres: gameStatus.game.genres.map((genre) => {
+                return {
+                  ...genre.genre,
+                };
+              }),
+              releases: gameStatus.game.release,
+            },
+          };
+        }),
+        pagination: {
+          total: userGamesStatusCount,
+          hasMore: userGamesStatusCount > take + skip,
+          hasPrevious: skip > 0,
+        },
+      };
     }
     return userGameStatus;
   }
@@ -99,3 +122,10 @@ export class GamesStatusService {
     return this.gamesStatusRepository.removeGameStatus(gameStatusId);
   }
 }
+
+type GetAllUserGamesStatusArgs = {
+  oauthId: string;
+  take?: number;
+  skip?: number;
+  status: GameStatus;
+};

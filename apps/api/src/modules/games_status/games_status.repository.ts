@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../database/prisma.service';
 import { UpsertGameStatusArgsDTO } from './games_status.dto';
+import { GameStatus } from '@prisma/client';
 
 @Injectable()
 export class GamesStatusRepository {
@@ -14,12 +15,18 @@ export class GamesStatusRepository {
     });
   }
 
-  getAllUserGamesStatus(oauthId: string) {
+  getAllUserGamesStatus({
+    oauthId,
+    take,
+    skip,
+    status,
+  }: GetAllUserGamesStatusArgs) {
     return this.prismaService.gamesStatus.findMany({
       where: {
         user: {
           oauthId,
         },
+        status,
       },
       include: {
         platform: true,
@@ -40,6 +47,22 @@ export class GamesStatusRepository {
           },
         },
         completedIn: true,
+      },
+      take,
+      skip,
+    });
+  }
+
+  async countUserGamesStatusEntriesByStatus(
+    oauthId: string,
+    status: GameStatus,
+  ) {
+    return this.prismaService.gamesStatus.count({
+      where: {
+        user: {
+          oauthId,
+        },
+        status,
       },
     });
   }
@@ -143,3 +166,10 @@ export class GamesStatusRepository {
     });
   }
 }
+
+type GetAllUserGamesStatusArgs = {
+  oauthId: string;
+  take?: number;
+  skip?: number;
+  status: GameStatus;
+};

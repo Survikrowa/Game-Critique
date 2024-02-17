@@ -3,25 +3,37 @@ import * as Types from '../../../__generated__/types';
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 const defaultOptions = {} as const;
-export type UserGamesStatusQueryQueryVariables = Types.Exact<{ [key: string]: never; }>;
+export type UserGamesStatusQueryQueryVariables = Types.Exact<{
+  oauthId: Types.Scalars['String']['input'];
+  take?: Types.InputMaybe<Types.Scalars['Float']['input']>;
+  skip?: Types.InputMaybe<Types.Scalars['Float']['input']>;
+  status: Types.Scalars['String']['input'];
+}>;
 
 
-export type UserGamesStatusQueryQuery = { __typename?: 'Query', userGamesStatus: Array<{ __typename?: 'UserGamesStatusResponseDTO', id: number, status: Types.GameStatus, game: { __typename?: 'GameWithAllDataDTO', name: string, cover?: { __typename?: 'CoverDTO', bigUrl: string } | null }, platform: { __typename?: 'PlatformDTO', name: string } }> };
+export type UserGamesStatusQueryQuery = { __typename?: 'Query', userGamesStatus: { __typename?: 'UserGamesStatusResponseWithPaginationDTO', userGamesStatus: Array<{ __typename?: 'UserGamesStatusResponseDTO', id: number, status: Types.GameStatus, game: { __typename?: 'GameWithAllDataDTO', hltbId: number, name: string, cover?: { __typename?: 'CoverDTO', bigUrl: string } | null }, platform: { __typename?: 'PlatformDTO', name: string } }>, pagination: { __typename?: 'GameStatusPaginationDTO', hasMore: boolean, hasPrevious: boolean } } };
 
 
 export const UserGamesStatusQueryDocument = gql`
-    query UserGamesStatusQuery {
-  userGamesStatus {
-    id
-    game {
-      name
-      cover {
-        bigUrl
+    query UserGamesStatusQuery($oauthId: String!, $take: Float, $skip: Float, $status: String!) {
+  userGamesStatus(oauthId: $oauthId, take: $take, skip: $skip, status: $status) {
+    userGamesStatus {
+      id
+      game {
+        hltbId
+        name
+        cover {
+          bigUrl
+        }
+      }
+      status
+      platform {
+        name
       }
     }
-    status
-    platform {
-      name
+    pagination {
+      hasMore
+      hasPrevious
     }
   }
 }
@@ -39,10 +51,14 @@ export const UserGamesStatusQueryDocument = gql`
  * @example
  * const { data, loading, error } = useUserGamesStatusQueryQuery({
  *   variables: {
+ *      oauthId: // value for 'oauthId'
+ *      take: // value for 'take'
+ *      skip: // value for 'skip'
+ *      status: // value for 'status'
  *   },
  * });
  */
-export function useUserGamesStatusQueryQuery(baseOptions?: Apollo.QueryHookOptions<UserGamesStatusQueryQuery, UserGamesStatusQueryQueryVariables>) {
+export function useUserGamesStatusQueryQuery(baseOptions: Apollo.QueryHookOptions<UserGamesStatusQueryQuery, UserGamesStatusQueryQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<UserGamesStatusQueryQuery, UserGamesStatusQueryQueryVariables>(UserGamesStatusQueryDocument, options);
       }

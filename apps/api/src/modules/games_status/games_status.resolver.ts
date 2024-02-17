@@ -3,12 +3,14 @@ import {
   UpsertGameStatusArgsDTO,
   GameStatusSuccessResponseDTO,
   UserGamesStatusResponseDTO,
+  UserGamesStatusResponseWithPaginationDTO,
 } from './games_status.dto';
 import { GamesStatusService } from './games_status.service';
 import { HttpException, HttpStatus, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/auth-jwt.guard';
 import { User } from '../auth/auth.decorators';
 import { UserAuthDTO } from '../auth/auth.dto';
+import { GameStatus } from '@prisma/client';
 
 @Resolver()
 export class GamesStatusResolver {
@@ -45,11 +47,27 @@ export class GamesStatusResolver {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Query(() => [UserGamesStatusResponseDTO], { name: 'userGamesStatus' })
+  @Query(() => UserGamesStatusResponseWithPaginationDTO, {
+    name: 'userGamesStatus',
+    description:
+      'If oauthId is not provided it will use the id of the user that called the query',
+  })
   async getAllUserGamesStatus(
     @User() user: UserAuthDTO,
-  ): Promise<UserGamesStatusResponseDTO[]> {
-    return this.gamesStatusService.getAllUserGamesStatus(user.sub);
+    @Args('oauthId', {
+      nullable: true,
+    })
+    oauthId: string,
+    @Args('take', { nullable: true }) take: number,
+    @Args('skip', { nullable: true }) skip: number,
+    @Args('status') status: GameStatus,
+  ): Promise<UserGamesStatusResponseWithPaginationDTO> {
+    return this.gamesStatusService.getAllUserGamesStatus({
+      oauthId: oauthId || user.sub,
+      take,
+      skip,
+      status,
+    });
   }
 
   @UseGuards(JwtAuthGuard)

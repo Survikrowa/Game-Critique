@@ -1,6 +1,6 @@
 import { View } from "tamagui";
 
-import { GamesScreen } from "../../../../../../modules/games/games_screen";
+import { GamesScreen } from "../../../../../../modules/screens/games/games_screen";
 
 const GamesPage = () => {
   return (
