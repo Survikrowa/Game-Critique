@@ -62,6 +62,11 @@ type FriendSingleEntry {
   name: String
 }
 
+"""Users friends activity DTO"""
+type FriendsActivityDTO {
+  user: User!
+}
+
 type FriendsList {
   friends: [FriendSingleEntry!]!
 }
@@ -200,6 +205,7 @@ type Query {
   friendsList: FriendsList!
   friendsRequests: [GetFriendRequestsResponseDTO!]!
   game(hltbId: Float!): GameWithAllDataDTO!
+  getFriendsActivity: [FriendsActivityDTO!]!
   getProfileCollections: [CollectionDTO!]!
   profileInfo: ProfileInfoDTO!
   search(input: String!): SearchResult!
@@ -234,6 +240,12 @@ type SearchResult {
 
 input UpsertGameStatusArgsDTO {
   isEditing: Boolean!
+}
+
+type User {
+  activity: [UserActivityDTO!]!
+  name: String
+  oauthId: String!
 }
 
 """User activity"""
