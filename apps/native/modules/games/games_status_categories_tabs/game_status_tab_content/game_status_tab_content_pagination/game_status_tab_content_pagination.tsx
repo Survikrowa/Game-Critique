@@ -2,7 +2,10 @@ import { ArrowLeft, ArrowRight } from "@tamagui/lucide-icons";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { useState } from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { NativeStackScreenProps } from "react-native-screens/native-stack";
 import { XStack } from "tamagui";
+
+import { UserProfileScreenProps } from "../../../../router/screen_props";
 
 type GameStatusTabContentPaginationProps = {
   hasNextPage: boolean;
@@ -23,30 +26,32 @@ export const GameStatusTabContentPagination = ({
   hasNextPage,
 }: GameStatusTabContentPaginationProps) => {
   const { skip, take } = useLocalSearchParams<{ skip: string; take: string }>();
-  const navigation = useNavigation();
+  const navigation = useNavigation<UserProfileScreenProps["navigation"]>();
   const handlePreviousPage = () => {
     if (skip != null && take != null) {
-      // @ts-ignore
+      const skipParam = Number(skip) - 5;
+      const takeParam = Number(take) - 5;
       navigation.setParams({
-        skip: Number(skip) - 5,
-        take: Number(take) - 5,
+        skip: skipParam.toString(),
+        take: takeParam.toString(),
       });
       onPreviousPage({
-        take: Number(take) - 5,
-        skip: Number(skip) - 5,
+        take: takeParam,
+        skip: skipParam,
       });
     }
   };
   const handleNextPage = () => {
     if (skip != null && take != null) {
-      // @ts-ignore
+      const skipParam = Number(skip) + Number(take);
+      const takeParam = Number(take) + 5;
       navigation.setParams({
-        skip: Number(skip) + Number(take),
-        take: Number(take) + 5,
+        skip: skipParam.toString(),
+        take: takeParam.toString(),
       });
       onNextPage({
-        take: Number(take) + 5,
-        skip: Number(skip) + Number(take),
+        take: takeParam,
+        skip: skipParam,
       });
     }
   };

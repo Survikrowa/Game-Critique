@@ -5,6 +5,7 @@ import { Text } from "ui/typography/text";
 
 import { GameStatusTabContent } from "./game_status_tab_content/game_status_tab_content";
 import { GameStatus } from "../../../__generated__/types";
+import { UserProfileScreenProps } from "../../router/screen_props";
 
 function isGameStatus(input: string): input is GameStatus {
   return (Object.keys(GameStatus) as (keyof typeof GameStatus)[]).some(
@@ -23,13 +24,12 @@ export const GamesStatusCategoriesTabs = ({
     GameStatus.Completed,
   );
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<UserProfileScreenProps["navigation"]>();
   const handleTabChange = (value: GameStatus) => {
     setSelectedTab(value);
-    //@ts-ignore
     navigation.setParams({
-      take: 5,
-      skip: 0,
+      take: "5",
+      skip: "0",
     });
   };
 
