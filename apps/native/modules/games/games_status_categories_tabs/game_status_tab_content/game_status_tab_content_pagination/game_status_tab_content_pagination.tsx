@@ -1,8 +1,6 @@
 import { ArrowLeft, ArrowRight } from "@tamagui/lucide-icons";
 import { useLocalSearchParams, useNavigation } from "expo-router";
-import { useState } from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { NativeStackScreenProps } from "react-native-screens/native-stack";
 import { XStack } from "tamagui";
 
 import { UserProfileScreenProps } from "../../../../router/screen_props";

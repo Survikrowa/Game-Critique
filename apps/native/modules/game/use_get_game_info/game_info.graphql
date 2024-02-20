@@ -15,5 +15,10 @@ query GameInfo($hltbId: Float!) {
         releases {
             date
         }
+        completionTime {
+            main
+            mainExtra
+            completionist
+        }
     }
 }

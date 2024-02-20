@@ -15,7 +15,7 @@ export const UserGameStatusCompletedInSection = ({
   seconds,
 }: UserGameStatusCompletedInSectionProps) => {
   return (
-    <XStack alignItems="flex-start" gap={8}>
+    <XStack alignItems="flex-start" gap={8} flexWrap="wrap">
       <Text size="large" weight="bold" color="primary">
         Ukończono w:
       </Text>

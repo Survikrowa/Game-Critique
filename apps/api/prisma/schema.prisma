@@ -56,12 +56,26 @@ model Game {
   genres          GamesGenre[]
   cover           Cover?
   release         Release?
+  completionTime  GameCompletionTime?
   platformForGame PlatformForGame[]
   gamesCollection GamesCollection[]
   gamesStatus     GamesStatus[]
   userActivity    UserActivity[]
 
   @@map("games")
+}
+
+model GameCompletionTime {
+    id        Int      @id @default(autoincrement())
+    main      Int
+    mainExtra Int
+    completionist Int
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+    gameId    Int      @unique @map("game_id")
+    game      Game     @relation(fields: [gameId], references: [id])
+
+    @@map("game_completion_time")
 }
 
 model Genre {

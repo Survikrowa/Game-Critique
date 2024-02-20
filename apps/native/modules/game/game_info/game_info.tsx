@@ -11,7 +11,7 @@ type GameInfoProps = {
 
 export const GameInfo = ({ game }: GameInfoProps) => {
   return (
-    <Card elevate bordered width="100%">
+    <Card bordered width="100%">
       <Card.Background />
       <Card.Header>
         <Text size="extraLarge" weight="bold" color="primary">

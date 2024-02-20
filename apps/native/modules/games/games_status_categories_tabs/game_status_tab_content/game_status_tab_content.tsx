@@ -1,16 +1,7 @@
 import { ChevronRight } from "@tamagui/lucide-icons";
 import { router } from "expo-router";
 import Swipeable from "react-native-gesture-handler/Swipeable";
-import {
-  Image,
-  ScrollView,
-  Separator,
-  Spinner,
-  Tabs,
-  View,
-  XStack,
-  YStack,
-} from "tamagui";
+import { Image, Separator, Spinner, Tabs, View, XStack, YStack } from "tamagui";
 import { Text } from "ui/typography/text";
 
 import { GamesStatusEmptyTab } from "./game_status_empty_tab/games_status_empty_tab";
@@ -101,66 +92,65 @@ export const GameStatusTabContent = ({
       alignItems="center"
       justifyContent="center"
     >
-      <ScrollView>
-        {userGamesStatus.map((gameStatus, index) => {
-          const targetUrl = `/games/games_status_info/${gameStatus.id}?oauth_id=${oauthId}`;
+      {userGamesStatus.map((gameStatus, index) => {
+        const targetUrl = `/games/games_status_info/${gameStatus.id}?oauth_id=${oauthId}`;
 
-          return (
-            <Swipeable
-              enabled={enableActions}
-              key={gameStatus.id}
-              renderLeftActions={() => (
-                <GameStatusTabContentItemLeftContent
-                  gameStatusId={gameStatus.id}
-                />
-              )}
+        return (
+          <Swipeable
+            enabled={enableActions}
+            key={gameStatus.id}
+            renderLeftActions={() => (
+              <GameStatusTabContentItemLeftContent
+                gameStatusId={gameStatus.id}
+              />
+            )}
+          >
+            <XStack
+              alignItems="center"
+              justifyContent="space-between"
+              onPress={() => router.push(targetUrl)}
             >
-              <XStack
-                alignItems="center"
-                justifyContent="space-between"
-                onPress={() => router.push(targetUrl)}
-              >
-                <XStack alignItems="center" width="80%" padding={8}>
-                  <View maxHeight={50} maxWidth={50} height="100%">
-                    <Image
-                      resizeMode="contain"
-                      source={{
-                        uri: gameStatus.game.cover?.bigUrl,
-                      }}
-                      style={{ width: 50, height: 50 }}
-                    />
-                  </View>
-                  <YStack>
-                    <Text size="medium" weight="bold" color="primary">
-                      {truncateString(gameStatus.game.name, 15)}
+              <XStack alignItems="center" width="80%" padding={8}>
+                <View maxHeight={50} maxWidth={50} height="100%">
+                  <Image
+                    resizeMode="contain"
+                    source={{
+                      uri: gameStatus.game.cover?.bigUrl,
+                    }}
+                    style={{ width: 50, height: 50 }}
+                  />
+                </View>
+                <YStack>
+                  <Text size="medium" weight="bold" color="primary">
+                    {truncateString(gameStatus.game.name, 15)}
+                  </Text>
+                  <Text size="small" weight="normal" color="secondary">
+                    {gameStatus.platform?.name}
+                  </Text>
+                  {gameStatus.score && (
+                    <Text size="small" weight="bold" color="secondary">
+                      Ocena: {gameStatus.score.replace("-", ",")}
                     </Text>
-                    <Text size="small" weight="normal" color="secondary">
-                      {gameStatus.platform?.name}
-                    </Text>
-                    {gameStatus.score && (
-                      <Text size="small" weight="bold" color="secondary">
-                        Ocena: {gameStatus.score}
-                      </Text>
-                    )}
-                  </YStack>
-                </XStack>
-
-                <ChevronRight />
+                  )}
+                </YStack>
               </XStack>
-              {userGamesStatus.length - 1 !== index && (
+
+              <ChevronRight />
+            </XStack>
+            {userGamesStatus.length > 1 ||
+              (userGamesStatus.length - 1 !== index && (
                 <Separator marginVertical={8} />
-              )}
-            </Swipeable>
-          );
-        })}
-        <Separator marginVertical={8} />
-        <GameStatusTabContentPagination
-          hasNextPage={pagination.hasMore}
-          hasPreviousPage={pagination.hasPrevious}
-          onNextPage={onArrowClick}
-          onPreviousPage={onArrowClick}
-        />
-      </ScrollView>
+              ))}
+          </Swipeable>
+        );
+      })}
+      <Separator marginVertical={8} />
+      <GameStatusTabContentPagination
+        hasNextPage={pagination.hasMore}
+        hasPreviousPage={pagination.hasPrevious}
+        onNextPage={onArrowClick}
+        onPreviousPage={onArrowClick}
+      />
     </Tabs.Content>
   );
 };
