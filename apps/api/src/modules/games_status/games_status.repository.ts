@@ -44,6 +44,7 @@ export class GamesStatusRepository {
               },
             },
             release: true,
+            completionTime: true,
           },
         },
         completedIn: true,
@@ -68,6 +69,7 @@ export class GamesStatusRepository {
   }
 
   async getUserGameStatusById(oauthId: string, gameStatusId: number) {
+    console.log(oauthId);
     return this.prismaService.gamesStatus.findFirst({
       where: {
         user: {
@@ -91,6 +93,7 @@ export class GamesStatusRepository {
               },
             },
             release: true,
+            completionTime: true,
           },
         },
         completedIn: true,

@@ -12,16 +12,21 @@ export const FriendsActivity = () => {
   if (!user) {
     return null;
   }
-  const friendsActivity = friendsActivityQuery.data?.friendsActivity.map(
-    ({ user }) => ({
-      game: {
-        status: user.activity[0].activityType,
-        name: user.activity[0].game?.name || "",
-        formattedUpdatedAt: user.activity[0].formattedUpdatedAt,
-        cover: user.activity[0].game?.cover?.smallUrl,
-      },
-      ownerName: user.name,
-    }),
+  const friendsActivity = friendsActivityQuery.data?.friendsActivity.flatMap(
+    ({ user }) => {
+      if (user.activity[0]) {
+        return {
+          game: {
+            status: user.activity[0].activityType,
+            name: user.activity[0].game?.name || "",
+            formattedUpdatedAt: user.activity[0].formattedUpdatedAt,
+            cover: user.activity[0].game?.cover?.smallUrl,
+          },
+          ownerName: user.name,
+        };
+      }
+      return [];
+    },
   );
   return (
     <YStack gap={8}>

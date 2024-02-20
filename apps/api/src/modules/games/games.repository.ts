@@ -14,6 +14,13 @@ export class GamesRepository {
     const slug = this.hltbParserService.transformToHltbSlug(game.name);
     await this.prismaService.game.create({
       data: {
+        completionTime: {
+          create: {
+            main: game.completionTime.mainStory || 0,
+            mainExtra: game.completionTime.mainExtra || 0,
+            completionist: game.completionTime.completionist || 0,
+          },
+        },
         hltbId: game.id,
         name: game.name,
         slug,
@@ -113,6 +120,7 @@ export class GamesRepository {
           },
         },
         release: true,
+        completionTime: true,
       },
     });
   }

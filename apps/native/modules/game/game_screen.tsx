@@ -1,6 +1,7 @@
 import { useLocalSearchParams } from "expo-router";
 import { Spinner, YStack, ScrollView } from "tamagui";
 
+import { GameCompletionTime } from "./game_completion_time/game_completion_time";
 import { GameImage } from "./game_image/game_image";
 import { GameInfo } from "./game_info/game_info";
 import { GamePreparingInfo } from "./game_preparing_info/game_preparing_info";
@@ -35,6 +36,11 @@ export const GameScreen = () => {
             releaseYear: game.releases?.date,
             platforms: game.platforms.map((platform) => platform.name),
           }}
+        />
+        <GameCompletionTime
+          main={game.completionTime?.main}
+          completionist={game.completionTime?.completionist}
+          mainExtra={game.completionTime?.mainExtra}
         />
       </YStack>
     </ScrollView>

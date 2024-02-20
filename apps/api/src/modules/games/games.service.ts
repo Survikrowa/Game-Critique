@@ -28,7 +28,14 @@ export class GamesService {
       );
     }
 
-    const { cover, platformForGame, genres, release, ...baseGame } = game;
+    const {
+      cover,
+      platformForGame,
+      genres,
+      release,
+      completionTime,
+      ...baseGame
+    } = game;
 
     return {
       ...baseGame,
@@ -36,6 +43,7 @@ export class GamesService {
       platforms: platformForGame.map(({ platform }) => platform),
       releases: release,
       genres: genres.map(({ genre }) => genre),
+      completionTime,
     };
   }
 }

@@ -71,6 +71,13 @@ type FriendsList {
   friends: [FriendSingleEntry!]!
 }
 
+"""GameCompletionTime"""
+type GameCompletionTimeDTO {
+  completionist: Float!
+  main: Float!
+  mainExtra: Float!
+}
+
 """Single Game Release(Year) Date"""
 type GameReleaseDTO {
   date: Float
@@ -85,10 +92,10 @@ enum GameStatus {
 }
 
 """GameStatus CompletedIn Arg"""
-type GameStatusCompletedInArgDTO {
-  hours: Float
-  minutes: Float
-  seconds: Float
+input GameStatusCompletedInArgDTO {
+  hours: String
+  minutes: String
+  seconds: String
 }
 
 """GameStatus CompletedIn"""
@@ -101,7 +108,7 @@ type GameStatusCompletedInDTO {
 """GameStatus"""
 type GameStatusDTO {
   achievementsCompleted: Boolean!
-  completedIn: GameStatusCompletedInArgDTO
+  completedIn: GameStatusCompletedInDTO
   gameId: Float!
   gameStatus: GameStatus!
   gamesStatusId: Float
@@ -116,6 +123,7 @@ type GameStatusSuccessResponseDTO {
 
 """Game with all linked data"""
 type GameWithAllDataDTO {
+  completionTime: GameCompletionTimeDTO
   cover: CoverDTO
   genres: [GenresDto!]!
   hltbId: Float!
@@ -212,7 +220,7 @@ type Query {
   """
   If oauthId is not provided it will use the id of the user that called the query
   """
-  userGameStatus(gameStatusId: Float!, oauthId: String): UserGamesStatusResponseDTO!
+  userGameStatus(gameStatusId: Float, oauthId: String): UserGamesStatusResponseDTO!
 
   """
   If oauthId is not provided it will use the id of the user that called the query
@@ -245,7 +253,14 @@ type SearchResult {
 }
 
 input UpsertGameStatusArgsDTO {
+  achievementsCompleted: Boolean!
+  completedIn: GameStatusCompletedInArgDTO
+  gameId: Float!
+  gameStatus: GameStatus!
+  gamesStatusId: Float
   isEditing: Boolean!
+  platformId: Float!
+  score: String
 }
 
 type User {

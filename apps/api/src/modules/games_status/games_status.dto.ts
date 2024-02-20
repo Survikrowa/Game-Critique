@@ -13,20 +13,20 @@ registerEnumType(GameStatus, {
   name: 'gameStatus',
   description: 'GameStatus Enum',
 });
-@ObjectType({ description: 'GameStatus CompletedIn Arg' })
+@InputType({ description: 'GameStatus CompletedIn Arg' })
 export class GameStatusCompletedInArgDTO {
-  @Field(() => Number, { nullable: true })
-  hours: number | null;
-  @Field(() => Number, { nullable: true })
-  minutes: number | null;
-  @Field(() => Number, { nullable: true })
-  seconds: number | null;
+  @Field(() => String, { nullable: true })
+  hours: string | null;
+  @Field(() => String, { nullable: true })
+  minutes: string | null;
+  @Field(() => String, { nullable: true })
+  seconds: string | null;
 }
 
 @ObjectType({ description: 'GameStatus' })
 export class GameStatusDTO {
-  @Field(() => GameStatusCompletedInArgDTO, { nullable: true })
-  completedIn: GameStatusCompletedInArgDTO | null;
+  @Field(() => GameStatusCompletedInDTO, { nullable: true })
+  completedIn: GameStatusCompletedInDTO | null;
 
   @Field(() => String, { nullable: true })
   score: string | null;
@@ -48,9 +48,29 @@ export class GameStatusDTO {
 }
 
 @InputType()
-export class UpsertGameStatusArgsDTO extends GameStatusDTO {
+export class UpsertGameStatusArgsDTO {
   @Field(() => Boolean)
   isEditing: boolean;
+  @Field(() => GameStatusCompletedInArgDTO, { nullable: true })
+  completedIn: GameStatusCompletedInArgDTO | null;
+
+  @Field(() => String, { nullable: true })
+  score: string | null;
+
+  @Field(() => Number)
+  platformId: number;
+
+  @Field(() => GameStatus)
+  gameStatus: GameStatus;
+
+  @Field(() => Number)
+  gameId: number;
+
+  @Field(() => Boolean)
+  achievementsCompleted: boolean;
+
+  @Field(() => Number, { nullable: true })
+  gamesStatusId?: number;
 }
 
 @ObjectType({ description: 'GameStatus Success Response' })

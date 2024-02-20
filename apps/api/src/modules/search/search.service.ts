@@ -19,6 +19,11 @@ export class SearchService {
           firstReleaseDate: game.release_world,
           platforms: game.platforms,
           genres: game.genres,
+          completionTime: {
+            mainStory: game.comp_main,
+            mainExtra: game.comp_plus,
+            completionist: game.comp_all,
+          },
         };
       });
     } catch (error) {

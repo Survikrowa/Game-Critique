@@ -58,7 +58,7 @@ export class GamesStatusResolver {
     { take, skip, status, oauthId }: GetAllUserGamesStatusArgs,
   ): Promise<UserGamesStatusResponseWithPaginationDTO> {
     return this.gamesStatusService.getAllUserGamesStatus({
-      oauthId: oauthId || user.sub,
+      oauthId: oauthId && oauthId !== 'undefined' ? oauthId : user.sub,
       take,
       skip,
       status,
@@ -73,11 +73,11 @@ export class GamesStatusResolver {
   })
   async getUserGameStatus(
     @User() user: UserAuthDTO,
-    @Args('gameStatusId') gameStatusId: number,
+    @Args('gameStatusId', { nullable: true }) gameStatusId: number,
     @Args('oauthId', { nullable: true }) oauthId: string,
   ): Promise<UserGamesStatusResponseDTO> {
     const userGameStatus = await this.gamesStatusService.getUserGameStatusById(
-      oauthId || user.sub,
+      oauthId !== 'undefined' ? oauthId : user.sub,
       gameStatusId,
     );
     if (!userGameStatus) {

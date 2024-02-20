@@ -30,6 +30,16 @@ export class GameWithCoversDTO {
   cover?: CoverDTO | null;
 }
 
+@ObjectType({ description: 'GameCompletionTime' })
+export class GameCompletionTimeDTO {
+  @Field(() => Number)
+  main: number;
+  @Field(() => Number)
+  mainExtra: number;
+  @Field(() => Number)
+  completionist: number;
+}
+
 @ObjectType({ description: 'Game with all linked data' })
 export class GameWithAllDataDTO {
   @Field(() => Number)
@@ -48,4 +58,6 @@ export class GameWithAllDataDTO {
   releases: GameReleaseDTO | null;
   @Field(() => [GenresDto])
   genres: GenresDto[];
+  @Field(() => GameCompletionTimeDTO, { nullable: true })
+  completionTime: GameCompletionTimeDTO | null;
 }

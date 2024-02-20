@@ -20,6 +20,15 @@ type Activity = {
 };
 
 export const UserActivityCard = ({ activities }: UserActivityCardProps) => {
+  if (activities.length === 0) {
+    return (
+      <View display="flex" alignItems="center">
+        <Text size="large" weight="semiBold" color="primary">
+          Brak aktywności
+        </Text>
+      </View>
+    );
+  }
   return (
     <Card bordered>
       <Card.Header gap={8}>
