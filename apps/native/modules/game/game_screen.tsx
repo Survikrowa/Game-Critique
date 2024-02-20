@@ -3,18 +3,26 @@ import { Spinner, YStack, ScrollView } from "tamagui";
 
 import { GameImage } from "./game_image/game_image";
 import { GameInfo } from "./game_info/game_info";
+import { GamePreparingInfo } from "./game_preparing_info/game_preparing_info";
 import { GameTabs } from "./game_tabs/game_tabs";
 import { useGetGameInfo } from "./use_get_game_info/use_get_game_info";
 
 export const GameScreen = () => {
   const { game_id } = useLocalSearchParams<{ game_id: string }>();
   const gameQuery = useGetGameInfo(game_id);
+
+  const onRefreshClick = () => {
+    gameQuery.refetch();
+  };
+  if (gameQuery.error) {
+    return <GamePreparingInfo onRefreshClick={onRefreshClick} />;
+  }
   if (gameQuery.loading || !gameQuery.data || !game_id) {
     return <Spinner size="large" />;
   }
   const game = gameQuery.data.game;
   return (
-    <ScrollView padding={16} height="100%">
+    <ScrollView height="100%">
       <YStack alignItems="center" gap={16} height="100%">
         <YStack alignItems="center" gap={64}>
           <GameImage uri={game.cover?.mediumUrl} />
