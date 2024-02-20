@@ -10,7 +10,7 @@ import { HttpException, HttpStatus, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/auth-jwt.guard';
 import { User } from '../auth/auth.decorators';
 import { UserAuthDTO } from '../auth/auth.dto';
-import { GameStatus } from '@prisma/client';
+import { GetAllUserGamesStatusArgs } from './games_status.args';
 
 @Resolver()
 export class GamesStatusResolver {
@@ -54,13 +54,8 @@ export class GamesStatusResolver {
   })
   async getAllUserGamesStatus(
     @User() user: UserAuthDTO,
-    @Args('oauthId', {
-      nullable: true,
-    })
-    oauthId: string,
-    @Args('take', { nullable: true }) take: number,
-    @Args('skip', { nullable: true }) skip: number,
-    @Args('status') status: GameStatus,
+    @Args()
+    { take, skip, status, oauthId }: GetAllUserGamesStatusArgs,
   ): Promise<UserGamesStatusResponseWithPaginationDTO> {
     return this.gamesStatusService.getAllUserGamesStatus({
       oauthId: oauthId || user.sub,
@@ -71,13 +66,18 @@ export class GamesStatusResolver {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Query(() => UserGamesStatusResponseDTO, { name: 'userGameStatus' })
+  @Query(() => UserGamesStatusResponseDTO, {
+    name: 'userGameStatus',
+    description:
+      'If oauthId is not provided it will use the id of the user that called the query',
+  })
   async getUserGameStatus(
     @User() user: UserAuthDTO,
     @Args('gameStatusId') gameStatusId: number,
+    @Args('oauthId', { nullable: true }) oauthId: string,
   ): Promise<UserGamesStatusResponseDTO> {
     const userGameStatus = await this.gamesStatusService.getUserGameStatusById(
-      user.sub,
+      oauthId || user.sub,
       gameStatusId,
     );
     if (!userGameStatus) {

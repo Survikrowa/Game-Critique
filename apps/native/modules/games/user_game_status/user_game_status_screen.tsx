@@ -16,12 +16,13 @@ import { UserGameStatusScoreSection } from "./user_game_status_sections/user_gam
 import { GameStatus } from "../../../__generated__/types";
 
 export const UserGameStatusScreen = () => {
-  const { games_status_id } = useLocalSearchParams<{
+  const { games_status_id, oauth_id } = useLocalSearchParams<{
     games_status_id: string;
+    oauth_id: string;
   }>();
-
   const userGameStatusQuery = useUserGameStatus({
     gameStatusId: games_status_id,
+    oauthId: oauth_id,
   });
   if (userGameStatusQuery.loading || !userGameStatusQuery.data) {
     return (

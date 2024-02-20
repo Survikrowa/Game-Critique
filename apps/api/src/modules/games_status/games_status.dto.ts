@@ -7,6 +7,7 @@ import {
 import { GameStatus } from '@prisma/client';
 import { PlatformDTO } from '../platforms/platforms.dto';
 import { GameWithAllDataDTO } from '../games/games.dto';
+import { PaginationDTO } from '../pagination/pagination.dto';
 
 registerEnumType(GameStatus, {
   name: 'gameStatus',
@@ -20,17 +21,6 @@ export class GameStatusCompletedInArgDTO {
   minutes: number | null;
   @Field(() => Number, { nullable: true })
   seconds: number | null;
-}
-
-@ObjectType({ description: 'GameStatus Pagination' })
-export class GameStatusPaginationDTO {
-  @Field(() => Number)
-  total: number;
-
-  @Field(() => Boolean)
-  hasMore: boolean;
-  @Field(() => Boolean)
-  hasPrevious: boolean;
 }
 
 @ObjectType({ description: 'GameStatus' })
@@ -109,6 +99,6 @@ export class UserGamesStatusResponseDTO {
 export class UserGamesStatusResponseWithPaginationDTO {
   @Field(() => [UserGamesStatusResponseDTO])
   userGamesStatus: UserGamesStatusResponseDTO[];
-  @Field(() => GameStatusPaginationDTO)
-  pagination: GameStatusPaginationDTO;
+  @Field(() => PaginationDTO)
+  pagination: PaginationDTO;
 }

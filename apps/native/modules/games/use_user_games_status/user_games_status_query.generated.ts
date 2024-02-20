@@ -7,15 +7,15 @@ export type UserGamesStatusQueryQueryVariables = Types.Exact<{
   oauthId: Types.Scalars['String']['input'];
   take?: Types.InputMaybe<Types.Scalars['Float']['input']>;
   skip?: Types.InputMaybe<Types.Scalars['Float']['input']>;
-  status: Types.Scalars['String']['input'];
+  status: Types.GameStatus;
 }>;
 
 
-export type UserGamesStatusQueryQuery = { __typename?: 'Query', userGamesStatus: { __typename?: 'UserGamesStatusResponseWithPaginationDTO', userGamesStatus: Array<{ __typename?: 'UserGamesStatusResponseDTO', id: number, status: Types.GameStatus, game: { __typename?: 'GameWithAllDataDTO', hltbId: number, name: string, cover?: { __typename?: 'CoverDTO', bigUrl: string } | null }, platform: { __typename?: 'PlatformDTO', name: string } }>, pagination: { __typename?: 'GameStatusPaginationDTO', hasMore: boolean, hasPrevious: boolean } } };
+export type UserGamesStatusQueryQuery = { __typename?: 'Query', userGamesStatus: { __typename?: 'UserGamesStatusResponseWithPaginationDTO', userGamesStatus: Array<{ __typename?: 'UserGamesStatusResponseDTO', id: number, status: Types.GameStatus, score?: string | null, game: { __typename?: 'GameWithAllDataDTO', hltbId: number, name: string, cover?: { __typename?: 'CoverDTO', bigUrl: string } | null }, platform: { __typename?: 'PlatformDTO', name: string } }>, pagination: { __typename?: 'PaginationDTO', hasMore: boolean, hasPrevious: boolean } } };
 
 
 export const UserGamesStatusQueryDocument = gql`
-    query UserGamesStatusQuery($oauthId: String!, $take: Float, $skip: Float, $status: String!) {
+    query UserGamesStatusQuery($oauthId: String!, $take: Float, $skip: Float, $status: GameStatus!) {
   userGamesStatus(oauthId: $oauthId, take: $take, skip: $skip, status: $status) {
     userGamesStatus {
       id
@@ -30,6 +30,7 @@ export const UserGamesStatusQueryDocument = gql`
       platform {
         name
       }
+      score
     }
     pagination {
       hasMore

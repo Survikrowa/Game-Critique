@@ -5,6 +5,7 @@ import * as Apollo from '@apollo/client';
 const defaultOptions = {} as const;
 export type UserGameStatusQueryVariables = Types.Exact<{
   gameStatusId: Types.Scalars['Float']['input'];
+  oauthId: Types.Scalars['String']['input'];
 }>;
 
 
@@ -12,8 +13,8 @@ export type UserGameStatusQuery = { __typename?: 'Query', userGameStatus: { __ty
 
 
 export const UserGameStatusDocument = gql`
-    query UserGameStatus($gameStatusId: Float!) {
-  userGameStatus(gameStatusId: $gameStatusId) {
+    query UserGameStatus($gameStatusId: Float!, $oauthId: String!) {
+  userGameStatus(gameStatusId: $gameStatusId, oauthId: $oauthId) {
     id
     completedIn {
       hours
@@ -65,6 +66,7 @@ export const UserGameStatusDocument = gql`
  * const { data, loading, error } = useUserGameStatusQuery({
  *   variables: {
  *      gameStatusId: // value for 'gameStatusId'
+ *      oauthId: // value for 'oauthId'
  *   },
  * });
  */
