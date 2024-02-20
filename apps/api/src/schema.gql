@@ -109,13 +109,6 @@ type GameStatusDTO {
   score: String
 }
 
-"""GameStatus Pagination"""
-type GameStatusPaginationDTO {
-  hasMore: Boolean!
-  hasPrevious: Boolean!
-  total: Float!
-}
-
 """GameStatus Success Response"""
 type GameStatusSuccessResponseDTO {
   message: String!
@@ -172,6 +165,12 @@ input NewCollectionDTO {
   name: String!
 }
 
+type PaginationDTO {
+  hasMore: Boolean!
+  hasPrevious: Boolean!
+  total: Float!
+}
+
 """Single Platform"""
 type PlatformDTO {
   id: Float!
@@ -209,12 +208,16 @@ type Query {
   profileInfo: ProfileInfoDTO!
   search(input: String!): SearchResult!
   user(oauthId: String!): UserDataDTO!
-  userGameStatus(gameStatusId: Float!): UserGamesStatusResponseDTO!
 
   """
   If oauthId is not provided it will use the id of the user that called the query
   """
-  userGamesStatus(oauthId: String, skip: Float, status: String!, take: Float): UserGamesStatusResponseWithPaginationDTO!
+  userGameStatus(gameStatusId: Float!, oauthId: String): UserGamesStatusResponseDTO!
+
+  """
+  If oauthId is not provided it will use the id of the user that called the query
+  """
+  userGamesStatus(oauthId: String, skip: Float = 0, status: GameStatus!, take: Float = 5): UserGamesStatusResponseWithPaginationDTO!
   usersSearch(input: String!): [UserSearchResultDTO!]!
   verify: AuthUserVerification!
 }
@@ -288,7 +291,7 @@ type UserGamesStatusResponseDTO {
 
 """UserGamesStatus Response with pagination"""
 type UserGamesStatusResponseWithPaginationDTO {
-  pagination: GameStatusPaginationDTO!
+  pagination: PaginationDTO!
   userGamesStatus: [UserGamesStatusResponseDTO!]!
 }
 

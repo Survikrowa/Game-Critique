@@ -1,4 +1,4 @@
-query UserGamesStatusQuery($oauthId: String!, $take: Float, $skip: Float, $status: String!) {
+query UserGamesStatusQuery($oauthId: String!, $take: Float, $skip: Float, $status: GameStatus!) {
   userGamesStatus(oauthId: $oauthId, take: $take, skip: $skip, status: $status) {
     userGamesStatus {
       id
@@ -13,6 +13,7 @@ query UserGamesStatusQuery($oauthId: String!, $take: Float, $skip: Float, $statu
       platform {
         name
       }
+      score
     }
     pagination {
       hasMore

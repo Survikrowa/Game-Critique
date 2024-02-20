@@ -1,5 +1,5 @@
-query UserGameStatus($gameStatusId: Float!) {
-    userGameStatus(gameStatusId: $gameStatusId) {
+query UserGameStatus($gameStatusId: Float!, $oauthId: String!) {
+    userGameStatus(gameStatusId: $gameStatusId, oauthId: $oauthId){
         id,
         completedIn {
             hours

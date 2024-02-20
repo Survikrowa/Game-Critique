@@ -103,9 +103,7 @@ export const GameStatusTabContent = ({
     >
       <ScrollView>
         {userGamesStatus.map((gameStatus, index) => {
-          const targetUrl = enableActions
-            ? `/games/games_status_info/${gameStatus.id}`
-            : `/game/${gameStatus.game.hltbId}`;
+          const targetUrl = `/games/games_status_info/${gameStatus.id}?oauth_id=${oauthId}`;
 
           return (
             <Swipeable
@@ -139,6 +137,11 @@ export const GameStatusTabContent = ({
                     <Text size="small" weight="normal" color="secondary">
                       {gameStatus.platform?.name}
                     </Text>
+                    {gameStatus.score && (
+                      <Text size="small" weight="bold" color="secondary">
+                        Ocena: {gameStatus.score}
+                      </Text>
+                    )}
                   </YStack>
                 </XStack>
 
