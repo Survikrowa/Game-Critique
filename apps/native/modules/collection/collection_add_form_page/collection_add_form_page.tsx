@@ -17,7 +17,7 @@ export const CollectionAddFormPage = () => {
     return <Spinner size="large" />;
   }
   return (
-    <YStack padding={16} justifyContent="flex-start">
+    <YStack justifyContent="flex-start">
       <Card height="100%" bordered elevate>
         <Card.Background />
         <Card.Header gap={16}>

@@ -1,7 +1,6 @@
 import { Drawer } from "expo-router/drawer";
 import { useAuth0 } from "react-native-auth0";
 
-import { GoBackHeader } from "../../../modules/layouts/go_back_header/go_back_header";
 import { DrawerCustomContent } from "../../../modules/layouts/header/drawer/drawer_custom_content";
 import { Header } from "../../../modules/layouts/header/header";
 
@@ -43,7 +42,7 @@ const AppLayout = () => {
       />
 
       <Drawer.Screen
-        name="search/index"
+        name="search"
         options={{
           headerShown: true,
           header: Header,

@@ -1,10 +1,13 @@
-import { HomeScreen } from "../../../../modules/homepage/home_screen";
+import { Slot } from "expo-router";
+
 import { BaseScreenLayout } from "../../../../modules/layouts/base_screen_layout/base_screen_layout";
 
-export default function Page() {
+const SearchScreenLayout = () => {
   return (
     <BaseScreenLayout>
-      <HomeScreen />
+      <Slot />
     </BaseScreenLayout>
   );
-}
+};
+
+export default SearchScreenLayout;
