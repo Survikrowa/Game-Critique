@@ -34,15 +34,13 @@ const RootLayout = () => {
     <Auth0Provider clientId={AUTH0_CLIENT_ID} domain={AUTH0_DOMAIN}>
       <SafeAreaProvider onLayout={onLayoutRootView}>
         <TamaguiProvider config={tamaguiConfig}>
-          <Theme name="white">
-            <ApolloProvider>
-              <ToastProvider>
-                <Toast />
-                <SafeToastViewport />
-                <Slot />
-              </ToastProvider>
-            </ApolloProvider>
-          </Theme>
+          <ApolloProvider>
+            <ToastProvider>
+              <Toast />
+              <SafeToastViewport />
+              <Slot />
+            </ToastProvider>
+          </ApolloProvider>
         </TamaguiProvider>
       </SafeAreaProvider>
     </Auth0Provider>

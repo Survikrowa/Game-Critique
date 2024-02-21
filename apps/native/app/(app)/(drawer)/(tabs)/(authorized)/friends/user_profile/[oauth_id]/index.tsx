@@ -1,12 +1,11 @@
-import { View } from "tamagui";
-
+import { BaseScreenLayout } from "../../../../../../../../modules/layouts/base_screen_layout/base_screen_layout";
 import { UserProfileScreen } from "../../../../../../../../modules/screens/friends/user_profile/user_profile_screen";
 
 const UserProfile = () => {
   return (
-    <View padding={16}>
+    <BaseScreenLayout>
       <UserProfileScreen />
-    </View>
+    </BaseScreenLayout>
   );
 };
 

@@ -1,7 +1,7 @@
 import { Card, Separator, XStack, YStack } from "tamagui";
 import { Text } from "ui/typography/text";
 
-import { pluralizePolish } from "../../strings/pluralize";
+import { timeToRelative } from "../../dates/time_to_relative";
 type GameCompletionTimeProps = {
   main?: number;
   mainExtra?: number;
@@ -52,25 +52,4 @@ export const GameCompletionTime = ({
       </Card.Header>
     </Card>
   );
-};
-
-const NUMBER_OF_SECONDS_IN_MINUTE = 60;
-
-export const timeToRelative = (seconds: number) => {
-  const minutes = Math.floor(seconds / NUMBER_OF_SECONDS_IN_MINUTE);
-  if (minutes < NUMBER_OF_SECONDS_IN_MINUTE) {
-    return `${minutes} ${pluralizePolish(
-      minutes,
-      "minuta",
-      "minuty",
-      "minut",
-    )}`;
-  }
-  const hours = minutes / NUMBER_OF_SECONDS_IN_MINUTE;
-  return `${Math.floor(hours)} ${pluralizePolish(
-    hours,
-    "godzina",
-    "godzin",
-    "godziny",
-  )}`;
 };

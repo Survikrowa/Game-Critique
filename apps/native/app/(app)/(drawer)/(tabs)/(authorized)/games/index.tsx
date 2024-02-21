@@ -1,12 +1,11 @@
-import { View } from "tamagui";
-
+import { BaseScreenLayout } from "../../../../../../modules/layouts/base_screen_layout/base_screen_layout";
 import { GamesScreen } from "../../../../../../modules/screens/games/games_screen";
 
 const GamesPage = () => {
   return (
-    <View padding={16} height="100%" backgroundColor="$background">
+    <BaseScreenLayout>
       <GamesScreen />
-    </View>
+    </BaseScreenLayout>
   );
 };
 
