@@ -14,7 +14,7 @@ export const GameCompletionTime = ({
   completionist = 0,
 }: GameCompletionTimeProps) => {
   return (
-    <Card width="100%" bordered>
+    <Card width="100%" backgroundColor="$color.container">
       <Card.Header>
         <YStack padding={16}>
           <XStack justifyContent="space-between">

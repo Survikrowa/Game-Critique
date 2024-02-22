@@ -62,7 +62,6 @@ export class GamesStatusService {
   }
 
   async getUserGameStatusById(oauthId: string, gameStatusId: number) {
-    console.log(oauthId, gameStatusId);
     const userGameStatus =
       await this.gamesStatusRepository.getUserGameStatusById(
         oauthId,

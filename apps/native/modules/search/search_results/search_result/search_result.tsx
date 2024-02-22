@@ -26,7 +26,7 @@ export const SearchResult = ({ result }: SearchResultProps) => {
         />
       </XStack>
       <YStack maxWidth={220}>
-        <Text size="medium" weight="semiBold" color="secondary">
+        <Text size="medium" weight="semiBold" color="primary">
           {result.name}
         </Text>
       </YStack>

@@ -6,7 +6,7 @@ import { Collections } from "./colections/collections";
 
 export const CollectionPage = () => {
   return (
-    <YStack padding={8}>
+    <YStack>
       <XStack padding={8}>
         <Text size="extraLarge" weight="bold" color="primary">
           Twoja kolekcja
@@ -18,6 +18,7 @@ export const CollectionPage = () => {
           outlineColor="white"
           backgroundColor="black"
           width="100%"
+          borderColor="white"
           onPress={() => router.push("/collection/new_collection")}
         >
           Utwórz nową kolekcje

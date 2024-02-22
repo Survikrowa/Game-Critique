@@ -48,6 +48,7 @@ export const NewCollectionForm = () => {
               color="white"
               outlineColor="white"
               backgroundColor="black"
+              borderColor="white"
               themeInverse
               width="100%"
               marginTop={8}
@@ -56,7 +57,7 @@ export const NewCollectionForm = () => {
               Utwórz
             </Button>
           </Form.Trigger>
-          <Text size="small" weight="normal" color="secondary">
+          <Text size="small" weight="normal" color="primary">
             Pola oznaczone gwiazdką są wymagane
           </Text>
         </YStack>

@@ -9,7 +9,6 @@ import { UserActivityCard } from "../../../user_activity/user_activity_card/user
 
 export const UserProfileScreen = () => {
   const localSearchParams = useLocalSearchParams<{ oauth_id: string }>();
-  console.log(localSearchParams);
   const { oauth_id } = localSearchParams;
   const userProfileQuery = useUserProfile({
     oauthId: oauth_id,
@@ -42,7 +41,12 @@ export const UserProfileScreen = () => {
         />
         <GamesStatusCategoriesTabs oauthId={user.oauthId} />
 
-        <YStack gap={8}>
+        <YStack
+          gap={8}
+          backgroundColor="$color.container"
+          padding={16}
+          borderRadius={8}
+        >
           <Text size="extraLarge" weight="bold" color="primary">
             Aktywność
           </Text>

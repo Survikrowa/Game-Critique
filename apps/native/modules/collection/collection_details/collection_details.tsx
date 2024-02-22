@@ -51,8 +51,11 @@ export const CollectionDetails = () => {
       <ScrollView maxHeight="90%">
         {collection.games.map((game) => {
           return (
-            <Card key={game.id} bordered marginBottom={8}>
-              <Card.Background />
+            <Card
+              key={game.id}
+              backgroundColor="$color.container"
+              marginBottom={8}
+            >
               <Card.Header>
                 <XStack gap={8} alignItems="center">
                   <View maxHeight={50} maxWidth={50} height="100%">

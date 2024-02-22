@@ -85,8 +85,6 @@ export const GameStatusTabContent = ({
       value={selectedTab}
       borderRadius={8}
       width="100%"
-      elevate
-      bordered
       key="tab3"
       padding="$2"
       alignItems="center"
@@ -135,22 +133,26 @@ export const GameStatusTabContent = ({
                 </YStack>
               </XStack>
 
-              <ChevronRight />
+              <ChevronRight color="white" />
             </XStack>
-            {userGamesStatus.length > 1 ||
-              (userGamesStatus.length - 1 !== index && (
-                <Separator marginVertical={8} />
-              ))}
+            {userGamesStatus.length > 1 &&
+              userGamesStatus.length - 1 !== index && (
+                <Separator marginVertical={8} backgroundColor="white" />
+              )}
           </Swipeable>
         );
       })}
-      <Separator marginVertical={8} />
-      <GameStatusTabContentPagination
-        hasNextPage={pagination.hasMore}
-        hasPreviousPage={pagination.hasPrevious}
-        onNextPage={onArrowClick}
-        onPreviousPage={onArrowClick}
-      />
+      {pagination.hasMore && (
+        <>
+          <Separator marginVertical={8} backgroundColor="white" />
+          <GameStatusTabContentPagination
+            hasNextPage={pagination.hasMore}
+            hasPreviousPage={pagination.hasPrevious}
+            onNextPage={onArrowClick}
+            onPreviousPage={onArrowClick}
+          />
+        </>
+      )}
     </Tabs.Content>
   );
 };

@@ -22,7 +22,6 @@ export const Collections = () => {
     <FlatList
       data={query.data.getProfileCollections}
       contentContainerStyle={{
-        alignItems: "center",
         gap: 8,
         display: "flex",
         height: "100%",

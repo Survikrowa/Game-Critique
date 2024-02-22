@@ -40,44 +40,39 @@ export const FriendsListScreen = () => {
           <RefreshControl onRefresh={onRefresh} refreshing={isRefreshing} />
         }
       >
-        <Card height="100%">
-          <Card.Header>
-            <View alignItems="center" marginBottom={16}>
-              <Text size="extraLarge" color="primary" weight="bold">
-                Twoi znajomi
-              </Text>
-            </View>
-            <YStack>
-              {friends.map((friend, index) => (
-                <Fragment key={friend.id}>
-                  <XStack
-                    justifyContent="space-between"
-                    alignItems="center"
-                    onPress={() =>
-                      router.push(
-                        `/friends/user_profile/${friend.id}?take=5&skip=0`,
-                      )
-                    }
-                  >
-                    <XStack key={friend.id} alignItems="center" gap={8}>
-                      <UserAvatar
-                        avatarUrl={friend.avatarUrl || ""}
-                        size="$6"
-                      />
-                      <Text size="medium" color="primary" weight="semiBold">
-                        {friend.name}
-                      </Text>
-                    </XStack>
-                    <ChevronRight />
+        <Card height="100%" padding={16} backgroundColor="$color.container">
+          <View alignItems="center" marginBottom={16}>
+            <Text size="extraLarge" color="primary" weight="bold">
+              Twoi znajomi
+            </Text>
+          </View>
+          <YStack>
+            {friends.map((friend, index) => (
+              <Fragment key={friend.id}>
+                <XStack
+                  justifyContent="space-between"
+                  alignItems="center"
+                  onPress={() =>
+                    router.push(
+                      `/friends/user_profile/${friend.id}?take=5&skip=0`,
+                    )
+                  }
+                >
+                  <XStack key={friend.id} alignItems="center" gap={8}>
+                    <UserAvatar avatarUrl={friend.avatarUrl || ""} size="$6" />
+                    <Text size="medium" color="primary" weight="semiBold">
+                      {friend.name}
+                    </Text>
                   </XStack>
+                  <ChevronRight color="white" />
+                </XStack>
 
-                  {friends.length > 1 && friends.length - 1 !== index && (
-                    <Separator marginVertical={16} />
-                  )}
-                </Fragment>
-              ))}
-            </YStack>
-          </Card.Header>
+                {friends.length > 1 && friends.length - 1 !== index && (
+                  <Separator marginVertical={16} />
+                )}
+              </Fragment>
+            ))}
+          </YStack>
         </Card>
       </ScrollView>
       <FriendsListFab />

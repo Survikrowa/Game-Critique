@@ -25,15 +25,14 @@ export const GameTabs = ({ game }: GameTabsProps) => {
       borderRadius="$2"
       padding={8}
       gap={8}
+      backgroundColor="$color.container"
       overflow="hidden"
-      borderColor="black"
       justifyContent="space-between"
       height="min-content"
       flexDirection="row"
-      bordered
     >
       <View alignItems="center" flex={1} onPress={redirectToCollectionAddForm}>
-        <Plus size="$2" color="black" />
+        <Plus size="$2" color="white" />
         <YStack alignItems="center">
           <Text size="small" weight="semiBold" color="primary">
             Dodaj do
@@ -45,7 +44,7 @@ export const GameTabs = ({ game }: GameTabsProps) => {
       </View>
       <Separator vertical />
       <View alignItems="center" flex={1} onPress={redirectToGamesStatusAddForm}>
-        <Check size="$2" color="black" />
+        <Check size="$2" color="white" />
         <YStack alignItems="center">
           <Text size="small" weight="semiBold" color="primary">
             Dodaj do

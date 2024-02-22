@@ -24,8 +24,7 @@ export const GamesStatusAddFormScreen = () => {
           padding={16}
           gap={8}
           borderRadius="$2"
-          backgroundColor="$background"
-          elevate
+          backgroundColor="$color.container"
           height="100%"
         >
           <Card.Header>

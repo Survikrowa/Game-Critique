@@ -45,6 +45,9 @@ export const GamesStatusCategoriesTabs = ({
       alignItems="center"
       gap={16}
       onValueChange={(value) => isGameStatus(value) && handleTabChange(value)}
+      backgroundColor="$color.container"
+      padding={16}
+      borderRadius={8}
     >
       <Tabs.List
         separator={<Separator vertical />}

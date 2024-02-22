@@ -14,7 +14,7 @@ const TabsLayout = () => {
         tabBarStyle: {
           height: 64,
           display: user ? "flex" : "none",
-          backgroundColor: "black",
+          backgroundColor: "hsl(212, 35.0%, 9.2%)",
         },
       })}
     >

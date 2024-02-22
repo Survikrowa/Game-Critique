@@ -16,12 +16,13 @@ export const SearchScreen = () => {
   });
   return (
     <YStack gap={6}>
-      <Text size="large" weight="normal" color="secondary">
+      <Text size="large" weight="normal" color="primary">
         Wyszukiwarka
       </Text>
       <SearchInput onChange={(value) => setInput(value)} value={input} />
-      <Text size="small" weight="normal" color="secondary">
-        Używając powyższego inputa możesz wyszukać dowolną grą z naszej bazy.
+      <Text size="small" weight="normal" color="primary">
+        Używając powyższej wyszukiwarki możesz znaleźć dowolną grą z naszej
+        bazy.
       </Text>
       <YStack marginTop={8}>
         {loading && <Spinner size="large" />}

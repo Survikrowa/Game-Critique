@@ -3,9 +3,9 @@ import { router } from "expo-router";
 import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { XStack } from "tamagui";
+import { ButtonWithIcon } from "ui/forms/button_icon";
+import { Text } from "ui/typography/text";
 
-import { ButtonWithIcon } from "../../../ui/forms/button_icon";
-import { Text } from "../../../ui/typography/text";
 import { truncateString } from "../../strings/truncate_string";
 
 type GoBackHeaderProps = {
@@ -19,7 +19,7 @@ export const GoBackHeader = ({ goBackUrl, text }: GoBackHeaderProps) => {
     <>
       <View style={{ paddingTop: insets.top }} />
       <XStack
-        backgroundColor="black"
+        backgroundColor="$color.container"
         space
         padding={8}
         alignItems="center"

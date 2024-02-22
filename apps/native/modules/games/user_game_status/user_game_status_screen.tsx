@@ -43,7 +43,11 @@ export const UserGameStatusScreen = () => {
       gameStatus.completedIn.seconds != null);
   return (
     <ScrollView>
-      <Card bordered height="min-content" width="100%">
+      <Card
+        backgroundColor="$color.container"
+        height="min-content"
+        width="100%"
+      >
         <Card.Header gap={16}>
           <UserGameStatusMainSection
             gameName={gameStatus.game.name}

@@ -19,7 +19,7 @@ export const Input = ({
 }: InputProps) => {
   return (
     <YStack width="100%" justifyContent="center" alignItems="center" gap={4}>
-      <Label color="black">{label}</Label>
+      <Label color="white">{label}</Label>
       <TamaguiInput
         onChangeText={onChange}
         value={value}
