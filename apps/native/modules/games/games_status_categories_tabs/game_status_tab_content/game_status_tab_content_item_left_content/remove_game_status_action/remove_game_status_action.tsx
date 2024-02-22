@@ -18,7 +18,7 @@ export const RemoveGameStatusAction = ({
   return (
     <>
       <View onPress={onOpen}>
-        {loading ? <Spinner size="small" /> : <Trash />}
+        {loading ? <Spinner size="small" /> : <Trash color="white" />}
       </View>
       <RemoveGameStatusConfirmationDialog
         open={isOpen}

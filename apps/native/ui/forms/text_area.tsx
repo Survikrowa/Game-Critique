@@ -17,7 +17,7 @@ export const TextArea = ({
 }: TextAreaProps) => {
   return (
     <YStack width="100%" justifyContent="center" alignItems="center">
-      <Label color="black">{label}</Label>
+      <Label color="white">{label}</Label>
       <TamaguiTexarea
         onChangeText={onChange}
         value={value}

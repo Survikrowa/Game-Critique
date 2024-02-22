@@ -12,13 +12,18 @@ export const GameStatusTabContentItemLeftContent = ({
   gameStatusId,
 }: GameStatusTabContentItemLeftContentProps) => {
   return (
-    <YStack justifyContent="center" marginBottom={16} gap={4}>
+    <YStack
+      justifyContent="center"
+      alignItems="center"
+      marginBottom={16}
+      gap={4}
+    >
       <View
         onPress={() =>
           router.push(`/games/games_status_edit_form/${gameStatusId}`)
         }
       >
-        <Edit3 />
+        <Edit3 color="white" />
       </View>
       <RemoveGameStatusAction gameStatusId={gameStatusId} />
     </YStack>

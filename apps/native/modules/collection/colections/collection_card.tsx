@@ -47,13 +47,13 @@ export const CollectionCard = ({
       <Swipeable renderLeftActions={renderLeftItems}>
         <Card
           padding={8}
-          bordered
           width={cardWidth}
           height="100%"
           display="flex"
           flexDirection="column"
           justifyContent="space-between"
           onPress={onSingleTapEvent}
+          backgroundColor="$color.container"
         >
           <Card.Background />
           <Card.Header
@@ -73,11 +73,11 @@ export const CollectionCard = ({
             flexDirection="column"
             display="flex"
           >
-            <Text size="medium" weight="bold" color="secondary">
+            <Text size="medium" weight="bold" color="primary">
               {truncateString(description, 40)}
             </Text>
           </XStack>
-          <Text size="medium" weight="bold" color="secondary">
+          <Text size="medium" weight="bold" color="primary">
             Ilość w kolekcji: {count}
           </Text>
         </Card>

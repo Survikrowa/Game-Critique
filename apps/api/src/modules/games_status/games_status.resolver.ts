@@ -77,9 +77,10 @@ export class GamesStatusResolver {
     @Args('oauthId', { nullable: true }) oauthId: string,
   ): Promise<UserGamesStatusResponseDTO> {
     const userGameStatus = await this.gamesStatusService.getUserGameStatusById(
-      oauthId !== 'undefined' ? oauthId : user.sub,
+      oauthId && oauthId !== 'undefined' ? oauthId : user.sub,
       gameStatusId,
     );
+
     if (!userGameStatus) {
       throw new HttpException(
         {

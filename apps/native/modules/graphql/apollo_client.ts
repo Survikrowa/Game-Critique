@@ -45,7 +45,6 @@ export const useNewApolloClient = () => {
               userGamesStatus: {
                 keyArgs: ["status"],
                 merge(_, incoming) {
-                  console.log(_, incoming);
                   return incoming;
                 },
               },

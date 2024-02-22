@@ -2,6 +2,7 @@ import { ToastProvider } from "@tamagui/toast";
 import { useFonts } from "expo-font";
 import { Slot, SplashScreen } from "expo-router";
 import { useCallback } from "react";
+import { LogBox } from "react-native";
 import { Auth0Provider } from "react-native-auth0";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { TamaguiProvider, Theme } from "tamagui";
@@ -15,6 +16,8 @@ SplashScreen.preventAutoHideAsync();
 
 const AUTH0_DOMAIN = "dev-3gebv0fjdsc0gf5g.us.auth0.com";
 const AUTH0_CLIENT_ID = "1H6FuOM2QcwiG8ZdQQJOdy6PL2r3ERQ6";
+
+LogBox.ignoreLogs([/bad setState[\s\S]*Themed/]);
 
 const RootLayout = () => {
   const [fontsLoaded] = useFonts({

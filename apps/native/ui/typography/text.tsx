@@ -23,7 +23,7 @@ const TEXT_WEIGHT = {
 } as const;
 
 const TEXT_COLOR = {
-  primary: "black",
+  primary: "white",
   secondary: "gray",
   tertiary: "$green8",
   active: "$blue8",

@@ -14,7 +14,7 @@ export const Header = () => {
     <>
       <View style={{ paddingTop: insets.top }} />
       <XStack
-        backgroundColor="black"
+        backgroundColor="$color.container"
         space
         padding={8}
         alignItems="center"

@@ -426,7 +426,12 @@ export const GamesStatusForm = ({
           </YStack>
 
           <Form.Trigger asChild marginTop={16}>
-            <Button theme="active" backgroundColor="black" color="white">
+            <Button
+              theme="active"
+              backgroundColor="black"
+              color="white"
+              borderColor="white"
+            >
               {isSubmitting ? "Trwa zapisywanie..." : "Zapisz"}
             </Button>
           </Form.Trigger>

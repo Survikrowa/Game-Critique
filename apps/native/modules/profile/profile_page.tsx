@@ -1,10 +1,11 @@
-import { Button, Spinner, XStack, YStack } from "tamagui";
+import { StickyNote } from "@tamagui/lucide-icons";
+import { Button, Card, Spinner, View, XStack, YStack } from "tamagui";
+import { Text } from "ui/typography/text";
 
 import { ProfileEditorForm } from "./profile_editor_form/profile_editor_form";
 import { useCurrentProfileView } from "./use_current_profile_view";
 import { useUserProfileInfo } from "./use_user_profile_info/use_user_profile_info";
 import { UserAvatar } from "./user_avatar/user_avatar";
-import { Text } from "../../ui/typography/text";
 
 export const ProfilePage = () => {
   const userProfileInfo = useUserProfileInfo();
@@ -15,37 +16,50 @@ export const ProfilePage = () => {
   }
   if (currentProfileViewType === "edit") {
     return (
-      <YStack display="flex" alignItems="center" padding="$4" gap={16}>
-        <ProfileEditorForm
-          onSubmit={handleProfileViewChange}
-          defaultValues={{
-            name: userProfileInfo.data.profileInfo.name,
-            avatar: userProfileInfo.data.profileInfo.avatarUrl,
-          }}
-        />
-      </YStack>
+      <Card backgroundColor="$color.container">
+        <YStack display="flex" alignItems="center" padding="$4" gap={16}>
+          <ProfileEditorForm
+            onSubmit={handleProfileViewChange}
+            defaultValues={{
+              name: userProfileInfo.data.profileInfo.name || "",
+              avatar: userProfileInfo.data.profileInfo.avatarUrl,
+            }}
+          />
+        </YStack>
+      </Card>
     );
   }
   return (
-    <YStack display="flex" alignItems="center" padding="$4" gap={16}>
-      <UserAvatar avatarUrl={userProfileInfo.data.profileInfo.avatarUrl} />
-      <XStack style={{ gap: 8 }}>
-        <Text size="large" color="primary" weight="bold">
-          Twój nickname:
-        </Text>
-        <Text size="medium" color="primary" weight="normal">
-          {userProfileInfo.data.profileInfo.name}
-        </Text>
+    <Card backgroundColor="$color.container" padding={16}>
+      <XStack display="flex" alignItems="center" gap={16}>
+        <UserAvatar
+          avatarUrl={userProfileInfo.data.profileInfo.avatarUrl}
+          size="$6"
+        />
+        <YStack>
+          <View>
+            <Text size="medium" color="primary" weight="bold">
+              {userProfileInfo.data.profileInfo.name}
+            </Text>
+          </View>
+        </YStack>
       </XStack>
-      <Button
-        color="white"
-        outlineColor="white"
-        backgroundColor="black"
-        themeInverse
-        onPress={handleProfileViewChange}
-      >
-        Edytuj profil
-      </Button>
-    </YStack>
+      <XStack alignItems="center" justifyContent="center">
+        <Button
+          color="white"
+          outlineColor="white"
+          backgroundColor="black"
+          onPress={handleProfileViewChange}
+          height="min-content"
+        >
+          <YStack alignItems="center" padding={8}>
+            <StickyNote width={16} height={16} color="white" />
+            <Text size="small" color="primary" weight="bold">
+              Edytuj profil
+            </Text>
+          </YStack>
+        </Button>
+      </XStack>
+    </Card>
   );
 };
