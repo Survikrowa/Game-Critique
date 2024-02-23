@@ -69,6 +69,9 @@ export class UpsertGameStatusArgsDTO {
   @Field(() => Boolean)
   achievementsCompleted: boolean;
 
+  @Field(() => String, { nullable: true })
+  review: string | null;
+
   @Field(() => Number, { nullable: true })
   gamesStatusId?: number;
 }

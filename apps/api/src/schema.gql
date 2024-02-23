@@ -156,6 +156,18 @@ type GetFriendRequestsResponseDTO {
   senderProfile: ProfileInfoDTO
 }
 
+type HowLongToBeatMigrationStatusDTO {
+  status: MigrationStatus
+}
+
+"""The status of the migration of a user's HowLongToBeat account"""
+enum MigrationStatus {
+  FAILED
+  FINISHED
+  IN_PROGRESS
+  WAITING
+}
+
 type Mutation {
   acceptFriendRequest(senderOauthId: String!): FriendRequestResponseDTO!
   addGameToCollection(collection: AddGameToCollectionDTO!): CollectionMutationResponseDTO!
@@ -213,6 +225,7 @@ type Query {
   friendsRequests: [GetFriendRequestsResponseDTO!]!
   game(hltbId: Float!): GameWithAllDataDTO!
   getProfileCollections: [CollectionDTO!]!
+  migrationStatus: HowLongToBeatMigrationStatusDTO!
   profileInfo: ProfileInfoDTO!
   search(input: String!): SearchResult!
   user(oauthId: String!): UserDataDTO!
@@ -260,6 +273,7 @@ input UpsertGameStatusArgsDTO {
   gamesStatusId: Float
   isEditing: Boolean!
   platformId: Float!
+  review: String
   score: String
 }
 

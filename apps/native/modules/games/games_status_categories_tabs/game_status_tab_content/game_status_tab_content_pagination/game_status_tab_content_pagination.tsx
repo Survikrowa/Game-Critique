@@ -23,12 +23,15 @@ export const GameStatusTabContentPagination = ({
   hasPreviousPage,
   hasNextPage,
 }: GameStatusTabContentPaginationProps) => {
-  const { skip, take } = useLocalSearchParams<{ skip: string; take: string }>();
+  const { skip = 0, take = 5 } = useLocalSearchParams<{
+    skip: string;
+    take: string;
+  }>();
   const navigation = useNavigation<UserProfileScreenProps["navigation"]>();
   const handlePreviousPage = () => {
     if (skip != null && take != null) {
       const skipParam = Number(skip) - 5;
-      const takeParam = Number(take) - 5;
+      const takeParam = 5;
       navigation.setParams({
         skip: skipParam.toString(),
         take: takeParam.toString(),
@@ -40,9 +43,10 @@ export const GameStatusTabContentPagination = ({
     }
   };
   const handleNextPage = () => {
+    console.log(skip, take);
     if (skip != null && take != null) {
-      const skipParam = Number(skip) + Number(take);
-      const takeParam = Number(take) + 5;
+      const skipParam = Number(skip) + 5;
+      const takeParam = 5;
       navigation.setParams({
         skip: skipParam.toString(),
         take: takeParam.toString(),
@@ -54,12 +58,12 @@ export const GameStatusTabContentPagination = ({
     }
   };
   return (
-    <XStack justifyContent="space-between" padding={8}>
+    <XStack justifyContent="space-between" padding={8} width="50%">
       <TouchableOpacity onPress={handlePreviousPage}>
-        {hasPreviousPage && <ArrowLeft />}
+        {hasPreviousPage && <ArrowLeft color="white" />}
       </TouchableOpacity>
       <TouchableOpacity onPress={handleNextPage}>
-        {hasNextPage && <ArrowRight />}
+        {hasNextPage && <ArrowRight color="white" />}
       </TouchableOpacity>
     </XStack>
   );

@@ -14,6 +14,6 @@ import { HowLongToBeatParserModule } from '../howlongtobeat_parser/howlongtobeat
     forwardRef(() => HowLongToBeatParserModule),
   ],
   providers: [SearchResolver, SearchService],
-  exports: [],
+  exports: [SearchService],
 })
 export class SearchModule {}

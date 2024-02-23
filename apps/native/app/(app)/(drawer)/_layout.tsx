@@ -42,8 +42,12 @@ const AppLayout = () => {
           title: "Zaloguj się",
           header: Header,
           headerShown: true,
+          drawerIcon: () => <User width={32} height={32} color="white" />,
           drawerItemStyle: {
             display: !user ? "flex" : "none",
+          },
+          drawerLabelStyle: {
+            color: "white",
           },
         }}
       />

@@ -30,6 +30,7 @@ export class GamesStatusService {
         oauthId,
         status,
       );
+    console.log(userGameStatus.length);
     if (userGameStatus) {
       return {
         userGamesStatus: userGameStatus.map((gameStatus) => {

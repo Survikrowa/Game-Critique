@@ -25,6 +25,7 @@ model User {
   profile   Profile?
   friends   Friend[]
   friendsList   FriendsList?
+  howLongToBeatAccountMigrationStatus HowLongToBeatAccountMigrationStatus?
   GamesStatus GamesStatus[]
   userActivity UserActivity[]
   FriendsRequestsForUsersOwner FriendsRequestsForUsers[] @relation(name: "FriendRequestOwner")
@@ -267,4 +268,21 @@ model UserActivity {
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @updatedAt @map("updated_at")
     @@map("user_activity")
+}
+
+model HowLongToBeatAccountMigrationStatus {
+    id       Int      @id @default(autoincrement())
+    oauthId String      @map("oauth_id") @unique
+    user   User     @relation(fields: [oauthId], references: [oauthId], onDelete: Cascade)
+    status   MigrationStatus @default(WAITING)
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+    @@map("how_long_to_beat_account_migration_status")
+}
+
+enum MigrationStatus {
+    WAITING
+    IN_PROGRESS
+    FINISHED
+    FAILED
 }
