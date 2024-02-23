@@ -173,6 +173,7 @@ export const GamesStatusForm = ({
       platformId: Number(data.platform),
       isEditing: Boolean(initialValues),
       gamesStatusId: gameStatusId,
+      review: data.review,
     };
 
     const { errors } = await upsertGameStatus({

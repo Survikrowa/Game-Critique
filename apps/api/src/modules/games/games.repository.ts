@@ -124,4 +124,19 @@ export class GamesRepository {
       },
     });
   }
+
+  async getGameByName(name: string) {
+    return this.prismaService.game.findFirst({
+      where: {
+        name,
+      },
+      include: {
+        platformForGame: {
+          include: {
+            platform: true,
+          },
+        },
+      },
+    });
+  }
 }

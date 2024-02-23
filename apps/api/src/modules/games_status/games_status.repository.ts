@@ -21,6 +21,12 @@ export class GamesStatusRepository {
     skip,
     status,
   }: GetAllUserGamesStatusArgs) {
+    console.log({
+      oauthId,
+      take,
+      skip,
+      status,
+    });
     return this.prismaService.gamesStatus.findMany({
       where: {
         user: {
@@ -140,6 +146,7 @@ export class GamesStatusRepository {
             seconds: Number(createGameStatusArgs.completedIn?.seconds || 0),
           },
         },
+        review: createGameStatusArgs.review,
       },
       create: {
         game: {
@@ -167,6 +174,7 @@ export class GamesStatusRepository {
             seconds: Number(createGameStatusArgs.completedIn?.seconds || 0),
           },
         },
+        review: createGameStatusArgs.review,
       },
     });
   }

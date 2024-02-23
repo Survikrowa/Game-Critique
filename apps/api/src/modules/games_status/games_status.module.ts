@@ -8,5 +8,6 @@ import { UsersModule } from '../users/users.module';
 @Module({
   imports: [forwardRef(() => DatabaseModule), UsersModule],
   providers: [GamesStatusResolver, GamesStatusRepository, GamesStatusService],
+  exports: [GamesStatusService, GamesStatusRepository],
 })
 export class GamesStatusModule {}

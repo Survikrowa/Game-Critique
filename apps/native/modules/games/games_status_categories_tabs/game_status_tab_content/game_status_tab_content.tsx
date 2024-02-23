@@ -142,7 +142,7 @@ export const GameStatusTabContent = ({
           </Swipeable>
         );
       })}
-      {pagination.hasMore && (
+      {(pagination.hasMore || pagination.hasPrevious) && (
         <>
           <Separator marginVertical={8} backgroundColor="white" />
           <GameStatusTabContentPagination

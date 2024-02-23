@@ -10,17 +10,8 @@ export class GamesConsumer {
 
   @Process('createGame')
   async createGame(job: Job<SearchGameResultDtoType[]>) {
-    for (const game of job.data) {
-      try {
-        await this.gamesRepository.createGame(game);
-      } catch (e) {
-        if (
-          e instanceof Prisma.PrismaClientKnownRequestError &&
-          e.code === 'P2002'
-        ) {
-          return;
-        }
-      }
-    }
+    return Promise.allSettled(
+      job.data.map((game) => this.gamesRepository.createGame(game)),
+    );
   }
 }

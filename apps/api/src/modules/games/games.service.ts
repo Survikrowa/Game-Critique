@@ -13,7 +13,7 @@ export class GamesService {
   ) {}
 
   async addGamesToDatabase(games: SearchGameResultDtoType[]) {
-    await this.gamesQueue.add('createGame', games);
+    return this.gamesQueue.add('createGame', games);
   }
 
   async getGameById(hltbId: number): Promise<GameWithAllDataDTO> {
@@ -45,5 +45,9 @@ export class GamesService {
       genres: genres.map(({ genre }) => genre),
       completionTime,
     };
+  }
+
+  async findGameByName(name: string) {
+    return this.gamesRepository.getGameByName(name);
   }
 }

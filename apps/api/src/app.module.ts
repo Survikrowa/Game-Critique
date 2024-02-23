@@ -13,6 +13,7 @@ import { ProfilesModule } from './modules/profiles/profiles.module';
 import { CollectionsModule } from './modules/collections/collections.module';
 import { GamesStatusModule } from './modules/games_status/games_status.module';
 import { FriendsModule } from './modules/friends/friends.module';
+import { HowLongToBeatMigrationModule } from './modules/howlongtobeat_migration/howlongtobeat_migration.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { FriendsModule } from './modules/friends/friends.module';
     CollectionsModule,
     GamesStatusModule,
     FriendsModule,
+    HowLongToBeatMigrationModule,
   ],
 })
 export class AppModule {}
