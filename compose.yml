@@ -1,0 +1,4 @@
+name: game-critique
+
+include:
+  - path: apps/api/compose.yml
