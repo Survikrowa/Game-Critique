@@ -9,7 +9,7 @@ export class ProfilesRepository {
     return this.prismaService.profile.create({
       data: {
         avatarUrl:
-          'http://res.cloudinary.com/survikrowa/image/upload/v1705345880/y5oklavnu42orgau8cyc.png',
+          'https://res.cloudinary.com/survikrowa/image/upload/v1705345880/y5oklavnu42orgau8cyc.png',
         name: username.toLowerCase(),
         user: {
           connect: {

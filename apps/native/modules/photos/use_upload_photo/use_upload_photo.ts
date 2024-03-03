@@ -20,7 +20,7 @@ export const useUploadPhoto = () => {
   const uploadPhoto = async ({ photo, transformOptions }: UploadPhotoArgs) => {
     const token = await SecureStore.getItemAsync("oauthToken");
     const data = await FileSystem.uploadAsync(
-      "http://localhost:3000/images/upload",
+      `${process.env.EXPO_PUBLIC_BASE_API_URL}/images/upload`,
       photo.uri,
       {
         headers: {

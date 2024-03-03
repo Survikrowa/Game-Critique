@@ -14,7 +14,7 @@ export const useHltbDocumentPicker = () => {
       if (!document) return;
       setIsUploadingFileSystem(true);
       await FileSystem.uploadAsync(
-        "http://localhost:3000/hltb/migrate",
+        `${process.env.EXPO_PUBLIC_BASE_API_URL}/hltb/migrate`,
         document.uri,
         {
           headers: {
