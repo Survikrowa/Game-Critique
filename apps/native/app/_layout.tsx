@@ -5,7 +5,7 @@ import { useCallback } from "react";
 import { LogBox } from "react-native";
 import { Auth0Provider } from "react-native-auth0";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { TamaguiProvider, Theme } from "tamagui";
+import { TamaguiProvider } from "tamagui";
 import { Toast } from "ui/feedback/toast/toast";
 
 import { ApolloProvider } from "../modules/graphql/apollo_provider";
@@ -14,8 +14,8 @@ import tamaguiConfig from "../tamagui.config";
 
 SplashScreen.preventAutoHideAsync();
 
-const AUTH0_DOMAIN = "dev-3gebv0fjdsc0gf5g.us.auth0.com";
-const AUTH0_CLIENT_ID = "1H6FuOM2QcwiG8ZdQQJOdy6PL2r3ERQ6";
+const AUTH0_DOMAIN = process.env.EXPO_PUBLIC_AUTH0_DOMAIN;
+const AUTH0_CLIENT_ID = process.env.EXPO_PUBLIC_AUTH0_CLIENT_ID;
 
 LogBox.ignoreLogs([/bad setState[\s\S]*Themed/]);
 

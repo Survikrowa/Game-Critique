@@ -3,8 +3,6 @@
   "compilerOptions": {
     "strict": true,
     "baseUrl": "./",
-    "paths": {
-      "ui/*": ["./ui/*"],
-    }
-  }
+  },
+  "include": ["./"]
 }

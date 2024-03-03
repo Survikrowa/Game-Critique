@@ -5,6 +5,7 @@
   "build": {
     "development": {
       "distribution": "internal",
+      "developmentClient": true,
       "android": {
         "gradleCommand": ":app:assembleDebug"
       },
@@ -15,7 +16,18 @@
     "preview": {
       "distribution": "internal"
     },
-    "production": {}
+    "production": {
+      "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_GRAPHQL_ENDPOINT":"",
+        "EXPO_PUBLIC_AUTH0_AUDIENCE": "",
+        "EXPO_PUBLIC_AUTH0_DOMAIN": "",
+        "EXPO_PUBLIC_AUTH0_CLIENT_ID": ""
+      },
+      "android": {
+        "buildType": "apk"
+      }
+    }
   },
   "submit": {
     "production": {}
