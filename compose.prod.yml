@@ -15,7 +15,7 @@ services:
     restart: unless-stopped
     container_name: game-critique-api
     pull_policy: build
-    image: game-critique-api:v0.0.4
+    image: game-critique-api:v0.0.5
     build: 
       context: .
       dockerfile: apps/api/Dockerfile
