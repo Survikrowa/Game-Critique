@@ -7,6 +7,9 @@ import { createReadStream } from 'streamifier';
 export class ImagesService {
   async uploadImage(file: Express.Multer.File): Promise<CloudinaryResponse> {
     return new Promise((resolve, reject) => {
+      cloudinary.config({
+        secure: true,
+      });
       const uploadStream = cloudinary.uploader.upload_stream(
         (err, callResult) => {
           if (err) {

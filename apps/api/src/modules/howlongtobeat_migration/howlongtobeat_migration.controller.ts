@@ -1,5 +1,6 @@
 import {
   Controller,
+  Logger,
   Post,
   Req,
   UnprocessableEntityException,
@@ -41,7 +42,7 @@ export class HowLongToBeatMigrationController {
       MigrationStatus.IN_PROGRESS,
     );
     const accountGamesData =
-      this.howLongToBeatMigrationService.parseCsvFile(file);
+      await this.howLongToBeatMigrationService.parseCsvFile(file);
     const safeParseResult =
       HowLongToBeatAccountCsvGamesSchema.safeParse(accountGamesData);
     if (!safeParseResult.success) {

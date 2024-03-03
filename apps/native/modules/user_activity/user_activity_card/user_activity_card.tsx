@@ -30,7 +30,7 @@ export const UserActivityCard = ({ activities }: UserActivityCardProps) => {
     );
   }
   return (
-    <Card bordered>
+    <Card backgroundColor="$color.container" bordered>
       <Card.Header gap={8}>
         {activities.map((activity, index) => (
           <Fragment key={activity.game.name + activity.game.status}>

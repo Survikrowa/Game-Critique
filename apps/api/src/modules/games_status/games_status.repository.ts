@@ -21,12 +21,6 @@ export class GamesStatusRepository {
     skip,
     status,
   }: GetAllUserGamesStatusArgs) {
-    console.log({
-      oauthId,
-      take,
-      skip,
-      status,
-    });
     return this.prismaService.gamesStatus.findMany({
       where: {
         user: {
