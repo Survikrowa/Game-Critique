@@ -15,6 +15,12 @@ import { GamesStatusModule } from './modules/games_status/games_status.module';
 import { FriendsModule } from './modules/friends/friends.module';
 import { HowLongToBeatMigrationModule } from './modules/howlongtobeat_migration/howlongtobeat_migration.module';
 import { AppLoggerMiddleware } from './modules/logger/app_logger.middleware';
+import {
+  GraphqlInterceptor,
+  SentryModule,
+} from '@travelerdev/nestjs-sentry-graphql';
+import * as process from 'process';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -34,6 +40,14 @@ import { AppLoggerMiddleware } from './modules/logger/app_logger.middleware';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
     }),
+    SentryModule.forRootAsync({
+      useFactory: () => ({
+        dsn: process.env.SENTRY_DSN,
+        debug: true,
+        environment: process.env.NODE_ENV || 'development',
+        logLevels: ['debug'],
+      }),
+    }),
     SearchModule,
     GamesModule,
     AuthModule,
@@ -43,6 +57,12 @@ import { AppLoggerMiddleware } from './modules/logger/app_logger.middleware';
     GamesStatusModule,
     FriendsModule,
     HowLongToBeatMigrationModule,
+  ],
+  providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useFactory: () => new GraphqlInterceptor(),
+    },
   ],
 })
 export class AppModule implements NestModule {

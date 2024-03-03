@@ -15,7 +15,7 @@ services:
     restart: unless-stopped
     container_name: game-critique-api
     pull_policy: build
-    image: game-critique-api:v0.0.6
+    image: game-critique-api:v0.0.7
     build: 
       context: .
       dockerfile: apps/api/Dockerfile
@@ -35,6 +35,7 @@ services:
       - CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY?:Missing CLOUDINARY_API_KEY}
       - CLOUDINARY_API_SECRET=${CLOUDINARY_API_SECRET?:Missing CLOUDINARY_API_SECRET}
       - HLTB_BASE_API_URL=${HLTB_BASE_API_URL?:Missing HLTB_BASE_API_URL}
+      - SENTRY_DSN=${SENTRY_DSN?:Missing SENTRY_DSN}
     ports:
       - "${API_PORT:-3000}:${API_PORT:-3000}"
     
