@@ -15,7 +15,7 @@ export const useAuth = () => {
     try {
       const authResponse = await authorize({
         scope: "openid profile email",
-        audience: "https://gamecritique.homa-server.eu",
+        audience: process.env.EXPO_PUBLIC_AUTH0_AUDIENCE,
       });
       if (authResponse && authResponse.accessToken) {
         await SecureStore.setItemAsync("oauthToken", authResponse.accessToken);

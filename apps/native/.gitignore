@@ -16,3 +16,11 @@ web-build/
 
 # GENERATED GRAPHQL
 __generated__/*
+
+# envs
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+eas.json

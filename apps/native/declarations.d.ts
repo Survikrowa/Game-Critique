@@ -11,3 +11,13 @@ declare module "*.svg" {
   const content: React.FC<SvgViewProps>;
   export default content;
 }
+
+declare let process: {
+  env: {
+    EXPO_PUBLIC_GRAPHQL_ENDPOINT: string;
+    EXPO_PUBLIC_AUTH0_AUDIENCE: string;
+    EXPO_PUBLIC_AUTH0_DOMAIN: string;
+    EXPO_PUBLIC_AUTH0_CLIENT_ID: string;
+    NODE_ENV: string;
+  };
+};

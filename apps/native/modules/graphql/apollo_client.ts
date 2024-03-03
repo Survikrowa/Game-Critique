@@ -11,7 +11,7 @@ import { useMemo } from "react";
 import { useAuth0 } from "react-native-auth0";
 
 const httpLink = createHttpLink({
-  uri: "http://localhost:3000/graphql",
+  uri: process.env.EXPO_PUBLIC_GRAPHQL_ENDPOINT,
 });
 const authLink = setContext(async (_, { headers }) => {
   const token = await SecureStore.getItemAsync("oauthToken");
@@ -28,8 +28,9 @@ export const useNewApolloClient = () => {
   return useMemo(() => {
     const errorLink = onError(({ graphQLErrors, networkError }) => {
       if (graphQLErrors)
-        graphQLErrors.forEach(({ message, locations, path }) => {
-          if (message === "Unauthorized") {
+        graphQLErrors.forEach(async ({ message }) => {
+          const token = await SecureStore.getItemAsync("oauthToken");
+          if (message === "Unauthorized" && token) {
             SecureStore.deleteItemAsync("oauthToken");
             clearSession();
           }

@@ -1,8 +1,8 @@
 import { Spinner, YStack } from "tamagui";
 
-import GoogleLogo from "./assets/logo_google.svg";
+import { GoogleLogo } from "./assets/google_logo";
 import { useAuth } from "./use_auth";
-import AppLogo from "../../assets/logo/logo_app.svg";
+import { AppLogo } from "../../assets/logo/app_logo";
 import { ButtonWithIcon } from "../../ui/forms/button_icon";
 
 export const AuthPage = () => {
@@ -15,13 +15,13 @@ export const AuthPage = () => {
       justifyContent="center"
       height="50%"
     >
-      <AppLogo width={128} height={128} style={{ color: "black" }} />
+      <AppLogo width={128} height={128} fill="white" />
       {isLoading ? (
         <Spinner size="large" />
       ) : (
         <ButtonWithIcon
           onPress={onLogin}
-          icon={<GoogleLogo width={48} height={48} />}
+          icon={<GoogleLogo />}
           borderRadius={8}
         >
           Zaloguj się

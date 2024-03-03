@@ -1,27 +1,21 @@
-import { gql } from "@apollo/client";
-import * as Apollo from "@apollo/client";
+import * as Types from '../../../../__generated__/types';
 
-import * as Types from "../../../../__generated__/types";
+import { gql } from '@apollo/client';
+import * as Apollo from '@apollo/client';
 const defaultOptions = {} as const;
-export type MigrationStatusQueryVariables = Types.Exact<{
-  [key: string]: never;
-}>;
+export type MigrationStatusQueryVariables = Types.Exact<{ [key: string]: never; }>;
 
-export type MigrationStatusQuery = {
-  __typename?: "Query";
-  migrationStatus: {
-    __typename?: "HowLongToBeatMigrationStatusDTO";
-    status?: Types.MigrationStatus | null;
-  };
-};
+
+export type MigrationStatusQuery = { __typename?: 'Query', migrationStatus: { __typename?: 'HowLongToBeatMigrationStatusDTO', status?: Types.MigrationStatus | null } };
+
 
 export const MigrationStatusDocument = gql`
-  query MigrationStatus {
-    migrationStatus {
-      status
-    }
+    query MigrationStatus {
+  migrationStatus {
+    status
   }
-`;
+}
+    `;
 
 /**
  * __useMigrationStatusQuery__
@@ -38,52 +32,19 @@ export const MigrationStatusDocument = gql`
  *   },
  * });
  */
-export function useMigrationStatusQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    MigrationStatusQuery,
-    MigrationStatusQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<MigrationStatusQuery, MigrationStatusQueryVariables>(
-    MigrationStatusDocument,
-    options,
-  );
-}
-export function useMigrationStatusLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    MigrationStatusQuery,
-    MigrationStatusQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    MigrationStatusQuery,
-    MigrationStatusQueryVariables
-  >(MigrationStatusDocument, options);
-}
-export function useMigrationStatusSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    MigrationStatusQuery,
-    MigrationStatusQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    MigrationStatusQuery,
-    MigrationStatusQueryVariables
-  >(MigrationStatusDocument, options);
-}
-export type MigrationStatusQueryHookResult = ReturnType<
-  typeof useMigrationStatusQuery
->;
-export type MigrationStatusLazyQueryHookResult = ReturnType<
-  typeof useMigrationStatusLazyQuery
->;
-export type MigrationStatusSuspenseQueryHookResult = ReturnType<
-  typeof useMigrationStatusSuspenseQuery
->;
-export type MigrationStatusQueryResult = Apollo.QueryResult<
-  MigrationStatusQuery,
-  MigrationStatusQueryVariables
->;
+export function useMigrationStatusQuery(baseOptions?: Apollo.QueryHookOptions<MigrationStatusQuery, MigrationStatusQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<MigrationStatusQuery, MigrationStatusQueryVariables>(MigrationStatusDocument, options);
+      }
+export function useMigrationStatusLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MigrationStatusQuery, MigrationStatusQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<MigrationStatusQuery, MigrationStatusQueryVariables>(MigrationStatusDocument, options);
+        }
+export function useMigrationStatusSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<MigrationStatusQuery, MigrationStatusQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<MigrationStatusQuery, MigrationStatusQueryVariables>(MigrationStatusDocument, options);
+        }
+export type MigrationStatusQueryHookResult = ReturnType<typeof useMigrationStatusQuery>;
+export type MigrationStatusLazyQueryHookResult = ReturnType<typeof useMigrationStatusLazyQuery>;
+export type MigrationStatusSuspenseQueryHookResult = ReturnType<typeof useMigrationStatusSuspenseQuery>;
+export type MigrationStatusQueryResult = Apollo.QueryResult<MigrationStatusQuery, MigrationStatusQueryVariables>;

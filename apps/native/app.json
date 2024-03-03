@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "native",
+    "name": "Game Critique",
     "slug": "native",
     "scheme": "acme",
     "version": "1.0.0",
@@ -30,7 +30,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.gamecritique.mobile"
+      "package": "com.gamecritique.mobile",
+      "permissions": ["INTERNET"]
     },
     "plugins": [
       "expo-router",

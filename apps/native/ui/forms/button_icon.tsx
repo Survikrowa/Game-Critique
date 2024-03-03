@@ -15,7 +15,7 @@ export const ButtonWithIcon = ({
   ...props
 }: ButtonIconProps) => {
   return (
-    <Button onPress={onPress} {...props}>
+    <Button onPress={onPress} {...props} alignItems="center">
       <ButtonIcon>{icon}</ButtonIcon>
       {children}
     </Button>
