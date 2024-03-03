@@ -45,6 +45,9 @@ export class HowLongToBeatMigrationConsumer {
               }
               return [];
             });
+            if (!platform[0] || !game.id) {
+              return;
+            }
             if (!gameData.backlog) {
               await this.gamesStatusService.upsertGameStatus(
                 {
