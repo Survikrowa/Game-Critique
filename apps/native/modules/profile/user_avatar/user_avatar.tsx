@@ -10,7 +10,7 @@ export const UserAvatar = ({ avatarUrl, size = "$9" }: UserAvatarProps) => {
   return (
     <View>
       <Avatar circular size={size}>
-        <Avatar.Image src={avatarUrl} />
+        <Avatar.Image source={{ uri: avatarUrl, height: 300, width: 300 }} />
       </Avatar>
     </View>
   );

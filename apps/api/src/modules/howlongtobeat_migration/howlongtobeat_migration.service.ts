@@ -1,35 +1,35 @@
 import {
+  HowLongToBeatAccountCsvGameBase,
   HowLongToBeatAccountCsvGames,
-  HowLongToBeatAccountCsvGamesSchema,
   MigrateJobData,
 } from './howlongtobeat_migration.dto';
 import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bull';
 import { GameStatus } from '@prisma/client';
-
+import { CsvParser, ParsedData } from 'nest-csv-parser';
+import { Readable } from 'stream';
 export class HowLongToBeatMigrationService {
   constructor(
     @InjectQueue('hltbMigration')
     private hltbMigrationQueue: Queue<MigrateJobData>,
+    private readonly csvParser: CsvParser,
   ) {}
-  parseCsvFile(file: Express.Multer.File) {
-    const csv = file.buffer.toString('utf-8');
-    const [header, ...rows] = csv.split('\n');
-    const keys = header
-      .split(',')
-      .map((key) => key.toLowerCase().replaceAll('"', '').replaceAll(' ', ''));
-    const mappedRows = rows
-      .map((key) => key.trim().replaceAll('"', ''))
-      .map((row) => {
-        const values = row.split(',');
-        return keys.reduce((acc, key, index) => {
-          // @ts-ignore
-          acc[key] = values[index] || null;
-          return acc;
-        }, {});
-      });
-    mappedRows.pop();
-    return mappedRows;
+  async parseCsvFile(file: Express.Multer.File) {
+    const stream = Readable.from(file.buffer);
+    const parsedData: ParsedData<
+      InstanceType<typeof HowLongToBeatAccountCsvGameBase>
+    > = await this.csvParser.parse(
+      stream,
+      HowLongToBeatAccountCsvGameBase,
+      undefined,
+      undefined,
+      {
+        separator: ',',
+        mapHeaders: ({ header }: { header: string }) =>
+          header.toLowerCase().replaceAll(' ', ''),
+      },
+    );
+    return parsedData.list.map((game) => ({ ...game }));
   }
 
   getGamesTitles(games: HowLongToBeatAccountCsvGames) {
@@ -72,7 +72,6 @@ export class HowLongToBeatMigrationService {
 
   splitGameCompletionTime(time: string) {
     const [hours, minutes, seconds] = time.split(':');
-    console.log(hours);
     return {
       hours,
       minutes,
@@ -103,4 +102,25 @@ type ParseGameCompletionTimeArgs = {
   mainstory: string;
   'main+extra': string;
   completionist: string;
+};
+
+const initialReduceState = {
+  title: '',
+  platform: '',
+  review: '',
+  mainstory: '',
+  'main+extras': '',
+  completionist: '',
+  playing: '',
+  backlog: '',
+  replay: '',
+  completed: '',
+  retired: '',
+  reviewnotes: '',
+};
+
+const isKeyInReduceState = (
+  key: string,
+): key is keyof typeof initialReduceState => {
+  return initialReduceState.hasOwnProperty(key);
 };

@@ -43,7 +43,6 @@ export const GameStatusTabContentPagination = ({
     }
   };
   const handleNextPage = () => {
-    console.log(skip, take);
     if (skip != null && take != null) {
       const skipParam = Number(skip) + 5;
       const takeParam = 5;
