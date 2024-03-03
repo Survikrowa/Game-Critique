@@ -15,7 +15,7 @@ services:
     restart: unless-stopped
     container_name: game-critique-api
     pull_policy: build
-    image: game-critique-api:v0.0.1
+    image: game-critique-api:v0.0.2
     build: 
       context: .
       dockerfile: apps/api/Dockerfile
@@ -25,6 +25,16 @@ services:
       - DATABASE_URL=${DATABASE_URL:-postgres://postgres:postgres@database-game-critique:5432/game-critique}
       - REDIS_HOST=${REDIS_HOST:-localhost}
       - REDIS_PORT=${REDIS_PORT:-6379}
+      - IGDB_AUTH0_BASE_URL=${IGDB_AUTH0_BASE_URL?:Missing IGDB_AUTH0_BASE_URL}
+      - IGDB_BASE_API_URL=${IGDB_BASE_API_URL?:Missing IGDB_BASE_API_URL}
+      - IGDB_CLIENT_ID=${IGDB_CLIENT_ID?:Missing IGDB_CLIENT_ID}
+      - IGDB_CLIENT_SECRET=${IGDB_CLIENT_SECRET?:Missing IGDB_CLIENT_SECRET}
+      - AUTH0_AUDIENCE=${AUTH0_AUDIENCE?:Missing AUTH0_AUDIENCE}
+      - AUTH0_ISSUER_URL=${AUTH0_ISSUER_URL?:Missing AUTH0_ISSUER_URL}
+      - CLOUDINARY_CLOUD_NAME=${CLOUDINARY_CLOUD_NAME?:Missing CLOUDINARY_CLOUD_NAME}
+      - CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY?:Missing CLOUDINARY_API_KEY}
+      - CLOUDINARY_API_SECRET=${CLOUDINARY_API_SECRET?:Missing CLOUDINARY_API_SECRET}
+      - HLTB_BASE_API_URL=${HLTB_BASE_API_URL?:Missing HLTB_BASE_API_URL}
     ports:
       - "${API_PORT:-3000}:${API_PORT:-3000}"
     
