@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { SearchModule } from './modules/search/search.module';
 import { GraphQLModule } from '@nestjs/graphql';
@@ -14,6 +14,7 @@ import { CollectionsModule } from './modules/collections/collections.module';
 import { GamesStatusModule } from './modules/games_status/games_status.module';
 import { FriendsModule } from './modules/friends/friends.module';
 import { HowLongToBeatMigrationModule } from './modules/howlongtobeat_migration/howlongtobeat_migration.module';
+import { AppLoggerMiddleware } from './modules/logger/app_logger.middleware';
 
 @Module({
   imports: [
@@ -44,4 +45,8 @@ import { HowLongToBeatMigrationModule } from './modules/howlongtobeat_migration/
     HowLongToBeatMigrationModule,
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer): void {
+    consumer.apply(AppLoggerMiddleware).forRoutes('*');
+  }
+}
