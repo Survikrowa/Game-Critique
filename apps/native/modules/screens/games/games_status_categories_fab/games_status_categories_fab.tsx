@@ -14,7 +14,7 @@ export const GamesStatusCategoriesFab = () => {
         actions={GAMES_STATUS_CATEGORIES_FAB_OPTIONS}
         onPressItem={(name) => {
           if (name === ACTION_NAMES.ADD_GAME) {
-            router.push("search");
+            router.push("/search");
           }
         }}
       />

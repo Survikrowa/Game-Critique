@@ -52,28 +52,9 @@ const TabsLayout = () => {
         }}
       />
       <Tabs.Screen
-        name="(authorized)/collection/new_collection"
+        name="(authorized)/collection"
         options={{
-          header: () => (
-            <GoBackHeader
-              goBackUrl="/collection/"
-              text="Tworzenie nowej kolekcji"
-            />
-          ),
-          headerShown: true,
-          tabBarStyle: {
-            display: "none",
-          },
-          tabBarItemStyle: {
-            display: "none",
-          },
-        }}
-      />
-      <Tabs.Screen
-        name="(authorized)/collection/index"
-        options={{
-          header: Header,
-          headerShown: true,
+          headerShown: false,
           title: "Kolekcja",
           tabBarIcon: () => <BookOpen width={16} height={16} color="white" />,
           tabBarLabel: ({ focused, children }) => {
@@ -98,10 +79,9 @@ const TabsLayout = () => {
         }}
       />
       <Tabs.Screen
-        name="(authorized)/games/index"
+        name="(authorized)/games"
         options={{
-          header: Header,
-          headerShown: true,
+          headerShown: false,
           title: "Gry",
           tabBarIcon: () => <Gamepad2 width={16} height={16} color="white" />,
           tabBarLabel: ({ focused, children }) => {
@@ -126,88 +106,9 @@ const TabsLayout = () => {
         }}
       />
       <Tabs.Screen
-        name="(authorized)/collection/[id]/index"
+        name="(authorized)/friends"
         options={{
-          header: ({ options }) => (
-            <GoBackHeader goBackUrl="/collection/" text={options.title || ""} />
-          ),
-          headerShown: true,
-          tabBarStyle: {
-            display: "none",
-          },
-          tabBarItemStyle: {
-            display: "none",
-          },
-        }}
-      />
-      <Tabs.Screen
-        name="game/[game_id]/index"
-        options={{
-          header: Header,
-          headerShown: true,
-
-          tabBarItemStyle: {
-            display: "none",
-          },
-        }}
-      />
-      <Tabs.Screen
-        name="(authorized)/collection/collection_add_form/[id]/index"
-        options={{
-          header: Header,
-          headerShown: true,
-
-          tabBarItemStyle: {
-            display: "none",
-          },
-        }}
-      />
-      <Tabs.Screen
-        name="(authorized)/games/games_status_add_form/[hltb_id]/index"
-        options={{
-          header: Header,
-          headerShown: true,
-
-          tabBarItemStyle: {
-            display: "none",
-          },
-        }}
-      />
-      <Tabs.Screen
-        name="(authorized)/games/games_status_info/[games_status_id]"
-        options={{
-          header: () => (
-            <GoBackHeader goBackUrl="/games/" text="Szczegóły gry" />
-          ),
-          headerShown: true,
-          tabBarStyle: {
-            display: "none",
-          },
-          tabBarItemStyle: {
-            display: "none",
-          },
-        }}
-      />
-      <Tabs.Screen
-        name="(authorized)/games/games_status_edit_form/[game_status_id]/index"
-        options={{
-          header: () => (
-            <GoBackHeader goBackUrl="/games/" text="Edytujesz grę" />
-          ),
-          headerShown: true,
-          tabBarStyle: {
-            display: "none",
-          },
-          tabBarItemStyle: {
-            display: "none",
-          },
-        }}
-      />
-      <Tabs.Screen
-        name="(authorized)/friends/friends_list/index"
-        options={{
-          header: Header,
-          headerShown: true,
+          headerShown: false,
           title: "Znajomi",
           tabBarIcon: () => (
             <PersonStanding width={16} height={16} color="white" />
@@ -234,54 +135,9 @@ const TabsLayout = () => {
         }}
       />
       <Tabs.Screen
-        name="(authorized)/friends/friends_search/index"
+        name="(authorized)/(games,friends)/games_status_info"
         options={{
-          header: () => (
-            <GoBackHeader
-              goBackUrl="/friends/friends_list/"
-              text="Dodaj znajomych"
-            />
-          ),
-          headerShown: true,
-          tabBarStyle: {
-            display: "none",
-          },
-          tabBarItemStyle: {
-            display: "none",
-          },
-        }}
-      />
-      <Tabs.Screen
-        name="(authorized)/friends/friends_requests/index"
-        options={{
-          header: () => (
-            <GoBackHeader
-              goBackUrl="/friends/friends_list/"
-              text="Zaproszenia do znajomych"
-            />
-          ),
-          headerShown: true,
-          tabBarStyle: {
-            display: "none",
-          },
-          tabBarItemStyle: {
-            display: "none",
-          },
-        }}
-      />
-      <Tabs.Screen
-        name="(authorized)/friends/user_profile/[oauth_id]/index"
-        options={{
-          header: () => (
-            <GoBackHeader
-              goBackUrl="/friends/friends_list/"
-              text="Szczegóły profilu"
-            />
-          ),
-          headerShown: true,
-          tabBarStyle: {
-            display: "none",
-          },
+          headerShown: false,
           tabBarItemStyle: {
             display: "none",
           },
