@@ -1,4 +1,9 @@
-import { PersonStanding, Gamepad2, BookOpen } from "@tamagui/lucide-icons";
+import {
+  PersonStanding,
+  Gamepad2,
+  BookOpen,
+  Home,
+} from "@tamagui/lucide-icons";
 import { Tabs } from "expo-router";
 import { useAuth0 } from "react-native-auth0";
 import { Text } from "ui/typography/text";
@@ -23,8 +28,26 @@ const TabsLayout = () => {
         options={{
           header: Header,
           headerShown: true,
+          title: "Strona główna",
+          tabBarIcon: () => <Home width={16} height={16} color="white" />,
+          tabBarLabel: ({ focused, children }) => {
+            return (
+              <Text
+                size="small"
+                weight="bold"
+                color={focused ? "active" : "white"}
+              >
+                {children}
+              </Text>
+            );
+          },
           tabBarItemStyle: {
-            display: "none",
+            padding: 8,
+          },
+          tabBarLabelStyle: {
+            color: "white",
+            fontWeight: "bold",
+            fontSize: 12,
           },
         }}
       />
