@@ -1,13 +1,27 @@
-import { Slot } from "expo-router";
+import { Stack } from "expo-router";
 
-import { BaseScreenLayout } from "../../../../modules/layouts/base_screen_layout/base_screen_layout";
+import { GoBackHeader } from "../../../../modules/layouts/go_back_header/go_back_header";
+import { Header } from "../../../../modules/layouts/header/header";
 
-const SearchScreenLayout = () => {
+const SearchLayout = () => {
   return (
-    <BaseScreenLayout>
-      <Slot />
-    </BaseScreenLayout>
+    <Stack>
+      <Stack.Screen
+        name="search"
+        options={{
+          header: Header,
+        }}
+      />
+      <Stack.Screen
+        name="game/[game_id]/index"
+        options={{
+          header: ({ options: { title } }) => (
+            <GoBackHeader text={title || ""} />
+          ),
+        }}
+      />
+    </Stack>
   );
 };
 
-export default SearchScreenLayout;
+export default SearchLayout;

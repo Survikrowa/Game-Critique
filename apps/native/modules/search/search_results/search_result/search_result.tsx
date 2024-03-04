@@ -10,7 +10,7 @@ type SearchResultProps = {
 export const SearchResult = ({ result }: SearchResultProps) => {
   return (
     <XStack
-      onPress={() => router.push(`/game/${result.id}`)}
+      onPress={() => router.push(`search/game/${result.id}`)}
       gap={8}
       maxWidth="100%"
     >

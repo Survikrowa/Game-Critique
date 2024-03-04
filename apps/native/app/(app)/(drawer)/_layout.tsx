@@ -1,3 +1,4 @@
+import { useRoute } from "@react-navigation/native";
 import { User } from "@tamagui/lucide-icons";
 import { Drawer } from "expo-router/drawer";
 import { useAuth0 } from "react-native-auth0";
@@ -9,6 +10,7 @@ import { Header } from "../../../modules/layouts/header/header";
 const AppLayout = () => {
   const { user } = useAuth0();
   const insets = useSafeAreaInsets();
+  console.log(useRoute());
 
   return (
     <Drawer
@@ -64,7 +66,7 @@ const AppLayout = () => {
       <Drawer.Screen
         name="search"
         options={{
-          headerShown: true,
+          headerShown: false,
           header: Header,
           drawerItemStyle: {
             display: "none",

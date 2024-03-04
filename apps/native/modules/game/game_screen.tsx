@@ -1,4 +1,5 @@
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useNavigation } from "expo-router";
+import { useEffect } from "react";
 import { Spinner, YStack, ScrollView } from "tamagui";
 
 import { GameCompletionTime } from "./game_completion_time/game_completion_time";
@@ -11,6 +12,13 @@ import { useGetGameInfo } from "./use_get_game_info/use_get_game_info";
 export const GameScreen = () => {
   const { game_id } = useLocalSearchParams<{ game_id: string }>();
   const gameQuery = useGetGameInfo(game_id);
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    navigation.setOptions({
+      title: gameQuery.data?.game.name || "",
+    });
+  }, [gameQuery.data?.game.name]);
 
   const onRefreshClick = () => {
     gameQuery.refetch();
