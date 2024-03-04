@@ -1,6 +1,7 @@
 import { ToastProvider } from "@tamagui/toast";
 import { useFonts } from "expo-font";
 import { Slot, SplashScreen } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 import { useCallback } from "react";
 import { LogBox } from "react-native";
 import { Auth0Provider } from "react-native-auth0";
@@ -36,6 +37,7 @@ const RootLayout = () => {
   return (
     <Auth0Provider clientId={AUTH0_CLIENT_ID} domain={AUTH0_DOMAIN}>
       <SafeAreaProvider onLayout={onLayoutRootView}>
+        <StatusBar style="light" backgroundColor="hsl(212, 35.0%, 9.2%)" />
         <TamaguiProvider config={tamaguiConfig}>
           <ApolloProvider>
             <ToastProvider>
