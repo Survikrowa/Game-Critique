@@ -18,7 +18,7 @@ export const CollectionAddFormPage = () => {
   }
   return (
     <YStack justifyContent="flex-start">
-      <Card height="100%" bordered elevate>
+      <Card height="100%" backgroundColor="$color.container">
         <Card.Background />
         <Card.Header gap={16}>
           <View alignItems="center">

@@ -29,7 +29,7 @@ export const SearchInput = ({ value, onChange }: SearchInputProps) => {
         onChangeText={(value) => onChange(value)}
         width="100%"
       />
-      <Search />
+      <Search color="white" />
     </XStack>
   );
 };

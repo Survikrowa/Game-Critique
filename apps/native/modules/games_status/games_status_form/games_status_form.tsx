@@ -185,7 +185,7 @@ export const GamesStatusForm = ({
     if (!errors || errors.length === 0) {
       reset(DEFAULT_VALUES);
       displaySuccessToast();
-      router.push("/games/");
+      router.push("/games/games");
     }
   });
 
