@@ -6,14 +6,16 @@ import { IncomingGamesCarousel } from "./incoming_games_carousel/incoming_games_
 
 export const HomeScreen = () => {
   return (
-    <YStack gap={8}>
-      <YStack gap={8} maxHeight={280}>
-        <Text size="large" weight="bold" color="primary">
-          Nadchodzące premiery
-        </Text>
-        <IncomingGamesCarousel />
+    <ScrollView maxHeight="95%">
+      <YStack gap={8}>
+        <YStack gap={8} maxHeight={280}>
+          <Text size="large" weight="bold" color="primary">
+            Nadchodzące premiery
+          </Text>
+          <IncomingGamesCarousel />
+        </YStack>
+        <FriendsActivity />
       </YStack>
-      <FriendsActivity />
-    </YStack>
+    </ScrollView>
   );
 };
