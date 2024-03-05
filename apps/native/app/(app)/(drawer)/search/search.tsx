@@ -4,7 +4,7 @@ import { SearchScreen } from "../../../../modules/search/search_screen";
 const SearchPage = () => {
   return (
     <BaseScreenLayout>
-      <SearchScreen />
+      <SearchScreen redirectTo="search/game" />
     </BaseScreenLayout>
   );
 };

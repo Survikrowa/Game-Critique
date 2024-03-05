@@ -134,15 +134,6 @@ const TabsLayout = () => {
           },
         }}
       />
-      <Tabs.Screen
-        name="(authorized)/(games,friends)/games_status_info"
-        options={{
-          headerShown: false,
-          tabBarItemStyle: {
-            display: "none",
-          },
-        }}
-      />
     </Tabs>
   );
 };

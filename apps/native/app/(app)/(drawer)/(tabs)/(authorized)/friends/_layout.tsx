@@ -30,6 +30,12 @@ const FriendsLayout = () => {
           header: () => <GoBackHeader text="Profil" />,
         }}
       />
+      <Stack.Screen
+        name="games_status_info/[games_status_id]"
+        options={{
+          header: () => <GoBackHeader text="NAZWA GRY" />,
+        }}
+      />
     </Stack>
   );
 };

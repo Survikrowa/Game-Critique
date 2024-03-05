@@ -20,6 +20,14 @@ const SearchLayout = () => {
           ),
         }}
       />
+      <Stack.Screen
+        name="games_status_add_form/[hltb_id]/index"
+        options={{
+          header: ({ options: { title } }) => (
+            <GoBackHeader text={title || ""} />
+          ),
+        }}
+      />
     </Stack>
   );
 };

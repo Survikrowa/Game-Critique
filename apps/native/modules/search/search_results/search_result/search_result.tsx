@@ -6,11 +6,12 @@ import { SearchGamesQuery } from "../../search_input/use_search/search_query.gen
 
 type SearchResultProps = {
   result: SearchGamesQuery["search"]["games"][number];
+  redirectTo: string;
 };
-export const SearchResult = ({ result }: SearchResultProps) => {
+export const SearchResult = ({ result, redirectTo }: SearchResultProps) => {
   return (
     <XStack
-      onPress={() => router.push(`search/game/${result.id}`)}
+      onPress={() => router.push(`${redirectTo}/${result.id}`)}
       gap={8}
       maxWidth="100%"
     >

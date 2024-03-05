@@ -30,6 +30,24 @@ const CollectionLayout = () => {
           header: () => <GoBackHeader text="TUTAJ WKLEJ NAZWE  KOLEKCJI" />,
         }}
       />
+      <Stack.Screen
+        name="collection_game_search"
+        options={{
+          header: () => <GoBackHeader text="Znajdź grę" />,
+        }}
+      />
+      <Stack.Screen
+        name="game/[game_id]"
+        options={{
+          header: () => <GoBackHeader text="NAZWA GRY" />,
+        }}
+      />
+      <Stack.Screen
+        name="games_status_add_form/[hltb_id]/index"
+        options={{
+          header: () => <GoBackHeader text="NAZWA GRY" />,
+        }}
+      />
     </Stack>
   );
 };

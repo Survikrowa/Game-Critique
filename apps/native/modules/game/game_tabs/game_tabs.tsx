@@ -8,15 +8,18 @@ type GameTabsProps = {
     name: string;
     hltbId: string;
   };
+  redirect: {
+    addToGameStatusUrl: string;
+  };
 };
 
-export const GameTabs = ({ game }: GameTabsProps) => {
+export const GameTabs = ({ game, redirect }: GameTabsProps) => {
   const redirectToCollectionAddForm = () => {
     router.push(`/collection/collection_add_form/${game.hltbId}`);
   };
 
   const redirectToGamesStatusAddForm = () => {
-    router.push(`/games/games_status_add_form/${game.hltbId}`);
+    router.push(`${redirect.addToGameStatusUrl}/${game.hltbId}`);
   };
   return (
     <Card
