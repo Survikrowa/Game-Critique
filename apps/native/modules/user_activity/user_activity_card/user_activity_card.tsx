@@ -38,7 +38,7 @@ export const UserActivityCard = ({ activities }: UserActivityCardProps) => {
             <XStack justifyContent="space-between">
               <YStack justifyContent="space-between" gap={4}>
                 <Text size="medium" color="primary" weight="bold">
-                  {truncateString(activity.game.name, 24)}
+                  {truncateString(activity.game.name, 20)}
                 </Text>
                 <YStack>
                   {activity.ownerName && (
