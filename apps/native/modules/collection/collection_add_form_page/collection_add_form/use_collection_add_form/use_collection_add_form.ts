@@ -33,7 +33,7 @@ export const useCollectionAddForm = (gameId: string) => {
         },
       });
       reset();
-      router.push("/collection");
+      router.push("/collection/collection");
     } catch (e) {
       toastController.show("Nie udało się dodać gry do kolekcji", {
         variant: "error",

@@ -4,7 +4,9 @@ import { BaseScreenLayout } from "../../../../../../modules/layouts/base_screen_
 const Game = () => {
   return (
     <BaseScreenLayout>
-      <GameScreen />
+      <GameScreen
+        redirect={{ addToGameStatusUrl: "search/games_status_add_form" }}
+      />
     </BaseScreenLayout>
   );
 };

@@ -7,7 +7,11 @@ import { SearchInput } from "./search_input/search_input";
 import { useSearch } from "./search_input/use_search/use_search";
 import { SearchResults } from "./search_results/search_results";
 
-export const SearchScreen = () => {
+type SearchScreenProps = {
+  redirectTo: string;
+};
+
+export const SearchScreen = ({ redirectTo }: SearchScreenProps) => {
   const [input, setInput] = useState("");
   const [debouncedInput] = useDebounce(input, 1000);
 
@@ -27,7 +31,7 @@ export const SearchScreen = () => {
       <YStack marginTop={8}>
         {loading && <Spinner size="large" />}
         {data && data.search.games.length > 0 && (
-          <SearchResults results={data.search.games} />
+          <SearchResults results={data.search.games} redirectTo={redirectTo} />
         )}
       </YStack>
     </YStack>

@@ -91,7 +91,9 @@ export const GameStatusTabContent = ({
       justifyContent="center"
     >
       {userGamesStatus.map((gameStatus, index) => {
-        const targetUrl = `games_status_info/${gameStatus.id}?oauth_id=${oauthId}`;
+        const targetUrl = `${oauthId ? "friends" : "games"}/games_status_info/${
+          gameStatus.id
+        }?oauth_id=${oauthId}`;
 
         return (
           <Swipeable

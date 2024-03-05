@@ -9,7 +9,13 @@ import { GamePreparingInfo } from "./game_preparing_info/game_preparing_info";
 import { GameTabs } from "./game_tabs/game_tabs";
 import { useGetGameInfo } from "./use_get_game_info/use_get_game_info";
 
-export const GameScreen = () => {
+type GameScreenProps = {
+  redirect: {
+    addToGameStatusUrl: string;
+  };
+};
+
+export const GameScreen = ({ redirect }: GameScreenProps) => {
   const { game_id } = useLocalSearchParams<{ game_id: string }>();
   const gameQuery = useGetGameInfo(game_id);
   const navigation = useNavigation();
@@ -35,7 +41,10 @@ export const GameScreen = () => {
       <YStack alignItems="center" gap={16} height="100%">
         <YStack alignItems="center" gap={64}>
           <GameImage uri={game.cover?.mediumUrl} />
-          <GameTabs game={{ name: game.name, hltbId: game_id }} />
+          <GameTabs
+            game={{ name: game.name, hltbId: game_id }}
+            redirect={redirect}
+          />
         </YStack>
 
         <GameInfo
