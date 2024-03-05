@@ -3,6 +3,7 @@ import { Card, Image, Separator, View, XStack, YStack } from "tamagui";
 import { Text } from "ui/typography/text";
 
 import { GameStatus } from "../../../__generated__/types";
+import { truncateString } from "../../strings/truncate_string";
 import { parseStatus } from "../parse_activity_text";
 
 type UserActivityCardProps = {
@@ -37,7 +38,7 @@ export const UserActivityCard = ({ activities }: UserActivityCardProps) => {
             <XStack justifyContent="space-between">
               <YStack justifyContent="space-between" gap={4}>
                 <Text size="medium" color="primary" weight="bold">
-                  {activity.game.name}
+                  {truncateString(activity.game.name, 24)}
                 </Text>
                 <YStack>
                   {activity.ownerName && (
