@@ -11,7 +11,7 @@ export const CollectionDetailsFab = () => {
         actions={FabOptions}
         onPressItem={(name) => {
           if (name === ACTION_NAMES.ADD_GAME) {
-            router.push("search");
+            router.push("collection/collection_game_search");
           }
         }}
       />

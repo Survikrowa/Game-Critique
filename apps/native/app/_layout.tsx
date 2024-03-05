@@ -1,6 +1,7 @@
+import { useRoute } from "@react-navigation/native";
 import { ToastProvider } from "@tamagui/toast";
 import { useFonts } from "expo-font";
-import { Slot, SplashScreen } from "expo-router";
+import { SplashScreen, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useCallback } from "react";
 import { LogBox } from "react-native";
@@ -43,7 +44,12 @@ const RootLayout = () => {
             <ToastProvider>
               <Toast />
               <SafeToastViewport />
-              <Slot />
+              <Stack>
+                <Stack.Screen
+                  name="(app)/(drawer)"
+                  options={{ headerShown: false }}
+                />
+              </Stack>
             </ToastProvider>
           </ApolloProvider>
         </TamaguiProvider>

@@ -1,5 +1,5 @@
 import { ArrowLeft } from "@tamagui/lucide-icons";
-import { router } from "expo-router";
+import { router, useNavigation } from "expo-router";
 import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { XStack } from "tamagui";
@@ -9,12 +9,13 @@ import { Text } from "ui/typography/text";
 import { truncateString } from "../../strings/truncate_string";
 
 type GoBackHeaderProps = {
-  goBackUrl: string;
+  goBackUrl?: string;
   text: string;
 };
 
 export const GoBackHeader = ({ goBackUrl, text }: GoBackHeaderProps) => {
   const insets = useSafeAreaInsets();
+  const navigation = useNavigation();
   return (
     <>
       <View style={{ paddingTop: insets.top }} />
@@ -27,7 +28,9 @@ export const GoBackHeader = ({ goBackUrl, text }: GoBackHeaderProps) => {
       >
         <ButtonWithIcon
           backgroundColor="transparent"
-          onPress={() => router.replace(goBackUrl)}
+          onPress={() =>
+            goBackUrl ? router.push(goBackUrl) : navigation.goBack()
+          }
           icon={<ArrowLeft width={32} height={32} size="$2" color="white" />}
         />
         <XStack paddingRight={12}>

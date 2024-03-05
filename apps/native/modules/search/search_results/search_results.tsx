@@ -5,12 +5,13 @@ import { SearchGamesQuery } from "../search_input/use_search/search_query.genera
 
 type SearchResultsProps = {
   results: SearchGamesQuery["search"]["games"];
+  redirectTo: string;
 };
-export const SearchResults = ({ results }: SearchResultsProps) => {
+export const SearchResults = ({ results, redirectTo }: SearchResultsProps) => {
   return (
     <YStack gap={8}>
       {results.map((game) => (
-        <SearchResult result={game} key={game.id} />
+        <SearchResult result={game} key={game.id} redirectTo={redirectTo} />
       ))}
     </YStack>
   );

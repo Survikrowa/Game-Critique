@@ -7,7 +7,7 @@ export const SearchButton = () => {
   return (
     <ButtonWithIcon
       onPress={() => {
-        router.push("search");
+        router.push("/search/search");
       }}
       icon={<Search color="$purple1" size="$2" />}
       backgrounded={false}
