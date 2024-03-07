@@ -9,7 +9,7 @@ import {
 
 export const GamesStatusCategoriesFab = () => {
   return (
-    <XStack position="absolute" bottom={10} right={10}>
+    <XStack position="absolute" bottom={0} right={-20}>
       <FloatingAction
         actions={GAMES_STATUS_CATEGORIES_FAB_OPTIONS}
         onPressItem={(name) => {
