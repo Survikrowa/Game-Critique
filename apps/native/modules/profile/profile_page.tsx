@@ -1,4 +1,7 @@
-import { StickyNote } from "@tamagui/lucide-icons";
+import { useApolloClient } from "@apollo/client";
+import { LogOut, StickyNote } from "@tamagui/lucide-icons";
+import { router } from "expo-router";
+import { useAuth0 } from "react-native-auth0";
 import { Button, Card, Spinner, View, XStack, YStack } from "tamagui";
 import { Text } from "ui/typography/text";
 
@@ -7,8 +10,12 @@ import { UploadHltbMigrationDocument } from "./upload_hltb_migration_document/up
 import { useCurrentProfileView } from "./use_current_profile_view";
 import { useUserProfileInfo } from "./use_user_profile_info/use_user_profile_info";
 import { UserAvatar } from "./user_avatar/user_avatar";
+import { ButtonWithIcon } from "../../ui/forms/button_icon";
 
 export const ProfilePage = () => {
+  const { clearSession } = useAuth0();
+  const client = useApolloClient();
+
   const userProfileInfo = useUserProfileInfo();
   const { currentProfileViewType, handleProfileViewChange } =
     useCurrentProfileView();
@@ -64,6 +71,22 @@ export const ProfilePage = () => {
         </XStack>
       </Card>
       <UploadHltbMigrationDocument />
+      <View>
+        <ButtonWithIcon
+          backgroundColor="$red10"
+          maxWidth={150}
+          onPress={async () => {
+            await client.clearStore();
+            await clearSession();
+            router.push("/");
+          }}
+          icon={<LogOut width={32} height={32} color="white" />}
+        >
+          <Text size="small" weight="bold" color="white">
+            Wyloguj się
+          </Text>
+        </ButtonWithIcon>
+      </View>
     </YStack>
   );
 };

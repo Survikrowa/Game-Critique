@@ -3,8 +3,8 @@ import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { XStack } from "tamagui";
 
-import { DrawerToggleButton } from "./drawer/drawer_toggle_button";
 import { SearchButton } from "./search/search_button";
+import { UserProfileButton } from "./user_profile_button";
 import AppLogo from "../../../assets/logo/logo_app.svg";
 import { Text } from "../../../ui/typography/text";
 
@@ -20,7 +20,7 @@ export const Header = () => {
         alignItems="center"
         justifyContent="space-between"
       >
-        <DrawerToggleButton />
+        <UserProfileButton />
 
         <Link href="/home">
           <Text size="medium" color="primary" weight="semiBold">
