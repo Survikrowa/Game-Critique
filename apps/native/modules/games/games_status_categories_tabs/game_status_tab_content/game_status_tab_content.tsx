@@ -15,6 +15,7 @@ type GameStatusTabContentProps = {
   selectedTab: GameStatus;
   enableActions: boolean;
   oauthId?: string;
+  search?: string;
 };
 
 type OnArrowClickArgs = {
@@ -26,10 +27,12 @@ export const GameStatusTabContent = ({
   selectedTab,
   enableActions,
   oauthId,
+  search,
 }: GameStatusTabContentProps) => {
   const userGamesStatusQuery = useUserGamesStatus({
     oauthId,
     status: selectedTab,
+    search,
   });
   const onArrowClick = async ({ take, skip }: OnArrowClickArgs) => {
     await userGamesStatusQuery.fetchMore({

@@ -9,4 +9,7 @@ export class GetAllUserGamesStatusArgs extends PaginationArgs {
 
   @Field(() => GameStatus)
   status: GameStatus;
+
+  @Field(() => String, { nullable: true })
+  search: string | null;
 }
