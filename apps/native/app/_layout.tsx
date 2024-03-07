@@ -11,6 +11,7 @@ import { TamaguiProvider } from "tamagui";
 import { Toast } from "ui/feedback/toast/toast";
 
 import { ApolloProvider } from "../modules/graphql/apollo_provider";
+import { Header } from "../modules/layouts/header/header";
 import { SafeToastViewport } from "../modules/layouts/safe_toast_viewport/safe_toast_viewport";
 import tamaguiConfig from "../tamagui.config";
 
@@ -46,8 +47,20 @@ const RootLayout = () => {
               <SafeToastViewport />
               <Stack>
                 <Stack.Screen
-                  name="(app)/(drawer)"
+                  name="(app)/(tabs)"
                   options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="(app)/search"
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="(app)/auth"
+                  options={{ headerShown: true, header: Header }}
+                />
+                <Stack.Screen
+                  name="(app)/(authorized)/user"
+                  options={{ headerShown: true, header: Header }}
                 />
               </Stack>
             </ToastProvider>
