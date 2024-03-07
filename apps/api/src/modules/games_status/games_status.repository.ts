@@ -20,6 +20,7 @@ export class GamesStatusRepository {
     take,
     skip,
     status,
+    search = '',
   }: GetAllUserGamesStatusArgs) {
     return this.prismaService.gamesStatus.findMany({
       where: {
@@ -27,6 +28,11 @@ export class GamesStatusRepository {
           oauthId,
         },
         status,
+        game: {
+          name: {
+            contains: search,
+          },
+        },
       },
       include: {
         platform: true,
@@ -60,6 +66,7 @@ export class GamesStatusRepository {
   async countUserGamesStatusEntriesByStatus(
     oauthId: string,
     status: GameStatus,
+    search?: string,
   ) {
     return this.prismaService.gamesStatus.count({
       where: {
@@ -67,6 +74,11 @@ export class GamesStatusRepository {
           oauthId,
         },
         status,
+        game: {
+          name: {
+            contains: search,
+          },
+        },
       },
     });
   }
@@ -179,4 +191,5 @@ type GetAllUserGamesStatusArgs = {
   take?: number;
   skip?: number;
   status: GameStatus;
+  search?: string;
 };

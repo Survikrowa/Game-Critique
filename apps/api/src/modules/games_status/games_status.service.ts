@@ -17,6 +17,7 @@ export class GamesStatusService {
     take = 5,
     skip = 0,
     status,
+    search,
   }: GetAllUserGamesStatusArgs) {
     const userGameStatus =
       await this.gamesStatusRepository.getAllUserGamesStatus({
@@ -24,11 +25,13 @@ export class GamesStatusService {
         take,
         skip,
         status,
+        search: search || '',
       });
     const userGamesStatusCount =
       await this.gamesStatusRepository.countUserGamesStatusEntriesByStatus(
         oauthId,
         status,
+        search || '',
       );
     if (userGameStatus) {
       return {
@@ -128,4 +131,5 @@ type GetAllUserGamesStatusArgs = {
   take?: number;
   skip?: number;
   status: GameStatus;
+  search?: string | null;
 };

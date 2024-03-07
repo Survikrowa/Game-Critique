@@ -1,5 +1,5 @@
-query UserGamesStatusQuery($oauthId: String!, $take: Float, $skip: Float, $status: GameStatus!) {
-  userGamesStatus(oauthId: $oauthId, take: $take, skip: $skip, status: $status) {
+query UserGamesStatusQuery($oauthId: String!, $take: Float, $skip: Float, $status: GameStatus!, $search: String) {
+  userGamesStatus(oauthId: $oauthId, take: $take, skip: $skip, status: $status, search: $search) {
     userGamesStatus {
       id
       game {

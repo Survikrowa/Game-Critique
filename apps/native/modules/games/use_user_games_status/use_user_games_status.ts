@@ -6,6 +6,7 @@ export const useUserGamesStatus = ({
   status,
   skip,
   take,
+  search,
 }: UseUserGamesStatusArgs) => {
   return useUserGamesStatusQueryQuery({
     fetchPolicy: "network-only",
@@ -15,6 +16,7 @@ export const useUserGamesStatus = ({
       status,
       skip,
       take,
+      search,
     },
   });
 };
@@ -24,4 +26,5 @@ type UseUserGamesStatusArgs = {
   take?: number;
   skip?: number;
   status: GameStatus;
+  search?: string;
 };

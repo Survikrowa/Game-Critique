@@ -238,7 +238,7 @@ type Query {
   """
   If oauthId is not provided it will use the id of the user that called the query
   """
-  userGamesStatus(oauthId: String, skip: Float = 0, status: GameStatus!, take: Float = 5): UserGamesStatusResponseWithPaginationDTO!
+  userGamesStatus(oauthId: String, search: String, skip: Float = 0, status: GameStatus!, take: Float = 5): UserGamesStatusResponseWithPaginationDTO!
   usersSearch(input: String!): [UserSearchResultDTO!]!
   verify: AuthUserVerification!
 }
