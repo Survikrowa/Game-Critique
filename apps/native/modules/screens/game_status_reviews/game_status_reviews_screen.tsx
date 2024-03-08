@@ -47,6 +47,9 @@ export const GameStatusReviewsScreen = ({
     authorName: string;
     message: string;
   }) => {
+    if (review.message.length === 0) {
+      return;
+    }
     setCurrentReview(review);
     router.push(`/${redirect.review}/game_status_review`);
   };
@@ -66,29 +69,33 @@ export const GameStatusReviewsScreen = ({
               }}
             >
               <XStack justifyContent="space-between" alignItems="center">
-                <XStack gap={8}>
+                <XStack gap={8} alignItems="center">
                   <UserAvatar
                     size="$3"
                     avatarUrl={review.profile?.avatarUrl || ""}
                   />
                   <YStack gap={8}>
-                    <XStack gap={8} justifyContent="space-between">
-                      <Text size="medium" weight="bold" color="primary">
-                        {truncateString(review.profile?.name || "", 20)}
-                      </Text>
-                      {review.score && (
-                        <Text size="medium" weight="bold" color="primary">
-                          Ocena gry {parseScore(review.score)}
-                        </Text>
-                      )}
-                    </XStack>
-
-                    <Text size="small" color="primary" weight="normal">
-                      {truncateString(review.review || "", 40)}
+                    <Text size="medium" weight="bold" color="primary">
+                      {truncateString(review.profile?.name || "", 20)}
                     </Text>
+
+                    {review.score && (
+                      <Text size="small" weight="normal" color="primary">
+                        Ocena gry {parseScore(review.score)}
+                      </Text>
+                    )}
+
+                    {review.review && (
+                      <>
+                        <Separator />
+                        <Text size="small" color="primary" weight="normal">
+                          {truncateString(review.review, 40)}
+                        </Text>
+                      </>
+                    )}
                   </YStack>
                 </XStack>
-                <ChevronRight color="white" />
+                {review.review && <ChevronRight color="white" />}
               </XStack>
               <Separator marginVertical={8} />
             </YStack>
