@@ -70,6 +70,7 @@ type FriendsActivityDTO {
 type FriendsGameStatusReviewsDTO {
   profile: ProfileInfoDTO
   review: String
+  score: String
 }
 
 type FriendsList {
