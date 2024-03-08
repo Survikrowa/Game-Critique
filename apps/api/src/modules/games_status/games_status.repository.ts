@@ -15,6 +15,14 @@ export class GamesStatusRepository {
     });
   }
 
+  getGameStatusById(gameStatusId: number) {
+    return this.prismaService.gamesStatus.findFirst({
+      where: {
+        id: gameStatusId,
+      },
+    });
+  }
+
   getAllUserGamesStatus({
     oauthId,
     take,
@@ -181,6 +189,59 @@ export class GamesStatusRepository {
           },
         },
         review: createGameStatusArgs.review,
+      },
+    });
+  }
+
+  async getUserGameStatusReview(gameId: number, oauthId: string) {
+    return this.prismaService.gamesStatus.findFirst({
+      where: {
+        gameId,
+        user: {
+          oauthId,
+        },
+      },
+      select: {
+        review: true,
+      },
+    });
+  }
+
+  async getFriendsGameStatusReviews(gameStatusId: number, gameId: number) {
+    return this.prismaService.gamesStatus.findMany({
+      where: {
+        id: gameStatusId,
+      },
+      select: {
+        user: {
+          include: {
+            friendsList: {
+              select: {
+                FriendsListForFriends: {
+                  select: {
+                    friend: {
+                      select: {
+                        user: {
+                          select: {
+                            GamesStatus: {
+                              where: {
+                                gameId,
+                              },
+                              select: {
+                                review: true,
+                              },
+                            },
+                            profile: true,
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     });
   }

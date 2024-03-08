@@ -64,6 +64,10 @@ export class GamesStatusService {
     return userGameStatus;
   }
 
+  async getGameStatusById(gameStatusId: number) {
+    return;
+  }
+
   async getUserGameStatusById(oauthId: string, gameStatusId: number) {
     const userGameStatus =
       await this.gamesStatusRepository.getUserGameStatusById(
@@ -123,6 +127,44 @@ export class GamesStatusService {
 
   async removeGameStatus(gameStatusId: number) {
     return this.gamesStatusRepository.removeGameStatus(gameStatusId);
+  }
+
+  async getOwnerAndFriendsGameStatusReviews(gameStatusId: number) {
+    return this.prismaService.$transaction(async () => {
+      const gameStatus =
+        await this.gamesStatusRepository.getGameStatusById(gameStatusId);
+      if (gameStatus) {
+        const ownerAndFriendsGameStatuses =
+          await this.gamesStatusRepository.getFriendsGameStatusReviews(
+            gameStatusId,
+            gameStatus.gameId,
+          );
+        console.log(
+          ownerAndFriendsGameStatuses.map(
+            (gameStatus) => gameStatus.user.friendsList,
+          ),
+        );
+
+        return ownerAndFriendsGameStatuses.flatMap(
+          (ownerAndFriendsGameStatus) => {
+            if (!ownerAndFriendsGameStatus.user.friendsList) {
+              return [];
+            }
+            return ownerAndFriendsGameStatus.user.friendsList.FriendsListForFriends.flatMap(
+              (friendsList) => {
+                return friendsList.friend.user.GamesStatus.map(
+                  (gameStatus) => ({
+                    review: gameStatus.review,
+                    profile: friendsList.friend.user.profile,
+                  }),
+                );
+              },
+            );
+          },
+        );
+      }
+      return [];
+    });
   }
 }
 

@@ -1,0 +1,9 @@
+query FriendsGameReviews($gameStatusId: Float!) {
+  ownerAndFriendsGameStatusReviews(gameStatusId: $gameStatusId) {
+    profile {
+        name
+        avatarUrl
+    }
+    review
+  }
+}

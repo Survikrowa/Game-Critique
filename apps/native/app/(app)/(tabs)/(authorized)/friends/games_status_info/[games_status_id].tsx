@@ -4,7 +4,11 @@ import { BaseScreenLayout } from "../../../../../../modules/layouts/base_screen_
 const GamesStatusInfo = () => {
   return (
     <BaseScreenLayout>
-      <UserGameStatusScreen />
+      <UserGameStatusScreen
+        redirect={{
+          review: "friends",
+        }}
+      />
     </BaseScreenLayout>
   );
 };
