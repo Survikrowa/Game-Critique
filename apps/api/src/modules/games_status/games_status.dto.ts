@@ -8,6 +8,7 @@ import { GameStatus } from '@prisma/client';
 import { PlatformDTO } from '../platforms/platforms.dto';
 import { GameWithAllDataDTO } from '../games/games.dto';
 import { PaginationDTO } from '../pagination/pagination.dto';
+import { ProfileInfoDTO } from '../profiles/profiles.dto';
 
 registerEnumType(GameStatus, {
   name: 'gameStatus',
@@ -124,4 +125,12 @@ export class UserGamesStatusResponseWithPaginationDTO {
   userGamesStatus: UserGamesStatusResponseDTO[];
   @Field(() => PaginationDTO)
   pagination: PaginationDTO;
+}
+
+@ObjectType({})
+export class FriendsGameStatusReviewsDTO {
+  @Field(() => ProfileInfoDTO, { nullable: true })
+  profile: ProfileInfoDTO | null;
+  @Field(() => String, { nullable: true })
+  review: string | null;
 }

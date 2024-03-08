@@ -4,6 +4,7 @@ import {
   GameStatusSuccessResponseDTO,
   UserGamesStatusResponseDTO,
   UserGamesStatusResponseWithPaginationDTO,
+  FriendsGameStatusReviewsDTO,
 } from './games_status.dto';
 import { GamesStatusService } from './games_status.service';
 import { HttpException, HttpStatus, UseGuards } from '@nestjs/common';
@@ -113,5 +114,18 @@ export class GamesStatusResolver {
     return {
       message: 'Pomyślnie usunięto status gry',
     };
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Query(() => [FriendsGameStatusReviewsDTO], {
+    name: 'ownerAndFriendsGameStatusReviews',
+    description: 'Get user and friends game status reviews',
+  })
+  async getFriendsGameStatusReviews(
+    @Args('gameStatusId') gameStatusId: number,
+  ): Promise<FriendsGameStatusReviewsDTO[]> {
+    return this.gamesStatusService.getOwnerAndFriendsGameStatusReviews(
+      gameStatusId,
+    );
   }
 }

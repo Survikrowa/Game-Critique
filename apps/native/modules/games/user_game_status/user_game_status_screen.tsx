@@ -3,6 +3,7 @@ import { Card, ScrollView, Separator, Spinner, XStack } from "tamagui";
 import { Text } from "ui/typography/text";
 
 import { useUserGameStatus } from "./use_user_game_status/use_user_game_status";
+import { UserGameStatusFriendsReviews } from "./user_game_status_friends_reviews/user_game_status_friends_reviews";
 import { UserGameStatusAchievementsCompletedSection } from "./user_game_status_sections/user_game_status_achievements_completed_section/user_game_status_achievements_completed_section";
 import { UserGameStatusCompletedInSection } from "./user_game_status_sections/user_game_status_completed_in_section/user_game_status_completed_in_section";
 import { UserGameStatusGameCompletionSection } from "./user_game_status_sections/user_game_status_game_completion_section/user_game_status_game_completion_section";
@@ -15,7 +16,15 @@ import { UserGameStatusReviewSection } from "./user_game_status_sections/user_ga
 import { UserGameStatusScoreSection } from "./user_game_status_sections/user_game_status_score_section/user_game_status_score_section";
 import { GameStatus } from "../../../__generated__/types";
 
-export const UserGameStatusScreen = () => {
+type UserGameStatusScreenProps = {
+  redirect: {
+    review: "friends" | "games";
+  };
+};
+
+export const UserGameStatusScreen = ({
+  redirect,
+}: UserGameStatusScreenProps) => {
   const { games_status_id, oauth_id } = useLocalSearchParams<{
     games_status_id: string;
     oauth_id: string;
@@ -58,6 +67,7 @@ export const UserGameStatusScreen = () => {
             platformName={gameStatus.platform.name}
             platformText={getPlatformText(gameStatus.status)}
           />
+
           {shouldDisplayCompletedIn && (
             <UserGameStatusCompletedInSection
               hours={gameStatus.completedIn?.hours}
@@ -77,6 +87,10 @@ export const UserGameStatusScreen = () => {
           {gameStatus.review && (
             <UserGameStatusReviewSection review={gameStatus.review} />
           )}
+          <UserGameStatusFriendsReviews
+            redirect={redirect}
+            gameStatusId={gameStatus.id}
+          />
         </Card.Header>
       </Card>
     </ScrollView>

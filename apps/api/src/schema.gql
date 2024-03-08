@@ -67,6 +67,11 @@ type FriendsActivityDTO {
   user: User!
 }
 
+type FriendsGameStatusReviewsDTO {
+  profile: ProfileInfoDTO
+  review: String
+}
+
 type FriendsList {
   friends: [FriendSingleEntry!]!
 }
@@ -226,6 +231,9 @@ type Query {
   game(hltbId: Float!): GameWithAllDataDTO!
   getProfileCollections: [CollectionDTO!]!
   migrationStatus: HowLongToBeatMigrationStatusDTO!
+
+  """Get user and friends game status reviews"""
+  ownerAndFriendsGameStatusReviews(gameStatusId: Float!): [FriendsGameStatusReviewsDTO!]!
   profileInfo: ProfileInfoDTO!
   search(input: String!): SearchResult!
   user(oauthId: String!): UserDataDTO!
