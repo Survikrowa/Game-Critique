@@ -50,6 +50,10 @@ export class HowLongToBeatMigrationService {
     if (score === '100') {
       return '10-0';
     }
+    const [first, second] = score.split('');
+    if (second === '0') {
+      return first;
+    }
     return score.split('').join('-');
   }
 
