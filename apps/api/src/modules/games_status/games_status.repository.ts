@@ -229,6 +229,7 @@ export class GamesStatusRepository {
                               },
                               select: {
                                 review: true,
+                                score: true,
                               },
                             },
                             profile: true,

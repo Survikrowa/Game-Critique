@@ -1,7 +1,7 @@
 import { XStack } from "tamagui";
 import { Text } from "ui/typography/text";
 
-const parseScore = (score: string) => score.replace("-", ".");
+export const parseScore = (score: string) => score.replace("-", ".");
 
 type UserGameStatusScoreSectionProps = {
   score: string;

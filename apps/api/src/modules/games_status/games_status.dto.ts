@@ -133,4 +133,6 @@ export class FriendsGameStatusReviewsDTO {
   profile: ProfileInfoDTO | null;
   @Field(() => String, { nullable: true })
   review: string | null;
+  @Field(() => String, { nullable: true })
+  score: string | null;
 }

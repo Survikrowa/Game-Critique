@@ -156,6 +156,7 @@ export class GamesStatusService {
                   (gameStatus) => ({
                     review: gameStatus.review,
                     profile: friendsList.friend.user.profile,
+                    score: gameStatus.score,
                   }),
                 );
               },

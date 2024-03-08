@@ -8,7 +8,7 @@ export type FriendsGameReviewsQueryVariables = Types.Exact<{
 }>;
 
 
-export type FriendsGameReviewsQuery = { __typename?: 'Query', ownerAndFriendsGameStatusReviews: Array<{ __typename?: 'FriendsGameStatusReviewsDTO', review?: string | null, profile?: { __typename?: 'ProfileInfoDTO', name?: string | null, avatarUrl: string } | null }> };
+export type FriendsGameReviewsQuery = { __typename?: 'Query', ownerAndFriendsGameStatusReviews: Array<{ __typename?: 'FriendsGameStatusReviewsDTO', review?: string | null, score?: string | null, profile?: { __typename?: 'ProfileInfoDTO', name?: string | null, avatarUrl: string } | null }> };
 
 
 export const FriendsGameReviewsDocument = gql`
@@ -19,6 +19,7 @@ export const FriendsGameReviewsDocument = gql`
       avatarUrl
     }
     review
+    score
   }
 }
     `;
