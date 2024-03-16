@@ -5,7 +5,7 @@ import { Text } from "ui/typography/text";
 import { useUserProfile } from "./use_user_profile/use_user_profile";
 import { UserProfileInfoCard } from "./user_profile_info_card/user_profile_info_card";
 import { GamesStatusCategoriesTabs } from "../../../games/games_status_categories_tabs/games_status_categories_tabs";
-import { UserActivityCard } from "../../../user_activity/user_activity_card/user_activity_card";
+import { UserActivityCards } from "../../../user/user_activity/user_activity_cards/user_activity_cards";
 
 export const UserProfileScreen = () => {
   const localSearchParams = useLocalSearchParams<{ oauth_id: string }>();
@@ -50,7 +50,7 @@ export const UserProfileScreen = () => {
           <Text size="extraLarge" weight="bold" color="primary">
             Aktywność
           </Text>
-          <UserActivityCard activities={activities} />
+          <UserActivityCards activities={activities} />
         </YStack>
       </YStack>
     </ScrollView>

@@ -4,8 +4,8 @@ import { Card, Spinner, XStack, Separator, ScrollView } from "tamagui";
 import { Text } from "ui/typography/text";
 
 import { GamesStatusAddForm } from "./games_status_add_form";
-import { useGetGameInfo } from "../../../game/use_get_game_info/use_get_game_info";
 import { truncateString } from "../../../strings/truncate_string";
+import { useGetGameInfo } from "../../game/use_get_game_info/use_get_game_info";
 
 export const GamesStatusAddFormScreen = () => {
   const { hltb_id } = useLocalSearchParams<{ hltb_id: string }>();

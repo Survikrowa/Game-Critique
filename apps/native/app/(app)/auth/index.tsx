@@ -1,12 +1,12 @@
-import { AuthPage } from "../../../modules/auth/auth_page";
 import { BaseScreenLayout } from "../../../modules/layouts/base_screen_layout/base_screen_layout";
+import { AuthScreen } from "../../../modules/screens/auth/auth_screen";
 
-const AuthScreen = () => {
+const Auth = () => {
   return (
     <BaseScreenLayout>
-      <AuthPage />
+      <AuthScreen />
     </BaseScreenLayout>
   );
 };
 
-export default AuthScreen;
+export default Auth;

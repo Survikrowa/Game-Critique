@@ -5,7 +5,7 @@ import { useDebounce } from "use-debounce";
 
 import { FriendsSearchResults } from "./friends_search_results/friends_search_results";
 import { useGetUsersSearch } from "./use_get_users_search/use_get_users_search";
-import { SearchInput } from "../../../search/search_input/search_input";
+import { SearchInput } from "../../search/search_input/search_input";
 
 export const FriendsSearchScreen = () => {
   const [username, setUsername] = useState("");

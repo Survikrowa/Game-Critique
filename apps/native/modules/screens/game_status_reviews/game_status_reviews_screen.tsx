@@ -4,10 +4,10 @@ import { ScrollView, Separator, Spinner, XStack, YStack } from "tamagui";
 
 import { useGameStatusReviewStore } from "./use_game_status_review_store/use_game_status_review_store";
 import { Text } from "../../../ui/typography/text";
-import { useFriendsGameReviews } from "../../games/user_game_status/user_game_status_friends_reviews/use_friends_game_reviews/use_friends_game_reviews";
-import { parseScore } from "../../games/user_game_status/user_game_status_sections/user_game_status_score_section/user_game_status_score_section";
-import { UserAvatar } from "../../profile/user_avatar/user_avatar";
 import { truncateString } from "../../strings/truncate_string";
+import { UserAvatar } from "../../user/user_avatar/user_avatar";
+import { useFriendsGameReviews } from "../user_game_status/user_game_status_friends_reviews/use_friends_game_reviews/use_friends_game_reviews";
+import { parseScore } from "../user_game_status/user_game_status_sections/user_game_status_score_section/parse_score";
 
 type GameStatusReviewsScreenProps = {
   redirect: {

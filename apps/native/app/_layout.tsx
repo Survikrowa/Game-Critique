@@ -1,4 +1,3 @@
-import { useRoute } from "@react-navigation/native";
 import { ToastProvider } from "@tamagui/toast";
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";

@@ -2,9 +2,9 @@ import { KeyboardAvoidingView } from "react-native";
 import { Card, ScrollView, Separator, XStack } from "tamagui";
 import { Text } from "ui/typography/text";
 
-import { UserGameStatusQuery } from "../../../../games/user_game_status/use_user_game_status/user_game_status_query.generated";
 import { GamesStatusForm } from "../../../../games_status/games_status_form/games_status_form";
 import { truncateString } from "../../../../strings/truncate_string";
+import { UserGameStatusQuery } from "../../../user_game_status/use_user_game_status/user_game_status_query.generated";
 
 type GamesStatusEditFormProps = {
   gameStatus: UserGameStatusQuery["userGameStatus"];

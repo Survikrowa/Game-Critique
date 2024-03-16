@@ -15,7 +15,7 @@ import { Text } from "ui/typography/text";
 
 import { FriendsListFab } from "./friends_list_fab/friends_list_fab";
 import { useFriendsList } from "./use_friends_list/use_friends_list";
-import { UserAvatar } from "../../../profile/user_avatar/user_avatar";
+import { UserAvatar } from "../../../user/user_avatar/user_avatar";
 
 export const FriendsListScreen = () => {
   const [isRefreshing, setIsRefreshing] = useState(false);

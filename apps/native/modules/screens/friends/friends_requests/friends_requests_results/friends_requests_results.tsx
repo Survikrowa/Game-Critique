@@ -1,8 +1,7 @@
-import { Button, ScrollView, XStack, YStack } from "tamagui";
+import { ScrollView, YStack } from "tamagui";
 import { Text } from "ui/typography/text";
 
 import { FriendsRequestsSender } from "./friends_requests_sender/friends_requests_sender";
-import { UserAvatar } from "../../../../profile/user_avatar/user_avatar";
 import { pluralizePolish } from "../../../../strings/pluralize";
 
 type FriendsRequestsResultsProps = {

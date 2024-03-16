@@ -2,7 +2,7 @@ import { Button, Spinner, XStack, YStack } from "tamagui";
 import { Text } from "ui/typography/text";
 
 import { useAcceptFriendRequest } from "./use_accept_friend_request/use_accept_friend_request";
-import { UserAvatar } from "../../../../../profile/user_avatar/user_avatar";
+import { UserAvatar } from "../../../../../user/user_avatar/user_avatar";
 
 type FriendsRequestsSenderProps = {
   sender: Sender;
