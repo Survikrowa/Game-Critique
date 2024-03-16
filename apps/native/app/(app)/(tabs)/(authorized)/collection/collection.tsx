@@ -1,12 +1,12 @@
-import { CollectionPage } from "../../../../../modules/collection/collection_page";
 import { BaseScreenLayout } from "../../../../../modules/layouts/base_screen_layout/base_screen_layout";
+import { CollectionScreen } from "../../../../../modules/screens/collection/collection_screen";
 
-const CollectionScreen = () => {
+const Collection = () => {
   return (
     <BaseScreenLayout>
-      <CollectionPage />
+      <CollectionScreen />
     </BaseScreenLayout>
   );
 };
 
-export default CollectionScreen;
+export default Collection;

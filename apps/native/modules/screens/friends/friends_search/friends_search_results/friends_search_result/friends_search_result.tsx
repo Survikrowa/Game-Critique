@@ -1,9 +1,9 @@
-import { Button, Separator, Spinner, XStack } from "tamagui";
+import { Separator, XStack } from "tamagui";
 import { Text } from "ui/typography/text";
 
 import { FriendsSearchResultSendRequestButton } from "./friends_search_result_send_request_button/friends_search_result_send_request_button";
-import { UserAvatar } from "../../../../../profile/user_avatar/user_avatar";
 import { truncateString } from "../../../../../strings/truncate_string";
+import { UserAvatar } from "../../../../../user/user_avatar/user_avatar";
 import { useSendFriendRequest } from "../use_send_friend_request/use_send_friend_request";
 
 type FriendsSearchResultProps = {

@@ -1,5 +1,5 @@
-import { CollectionDetails } from "../../../../../../modules/collection/collection_details/collection_details";
 import { BaseScreenLayout } from "../../../../../../modules/layouts/base_screen_layout/base_screen_layout";
+import { CollectionDetails } from "../../../../../../modules/screens/collection/collection_details/collection_details";
 
 const CollectionIDScreen = () => {
   return (

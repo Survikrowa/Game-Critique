@@ -1,10 +1,10 @@
 import { BaseScreenLayout } from "../../../modules/layouts/base_screen_layout/base_screen_layout";
-import { ProfilePage } from "../../../modules/profile/profile_page";
+import { ProfileScreen } from "../../../modules/screens/profile/profile_screen";
 
 const UserProfileScreen = () => {
   return (
     <BaseScreenLayout>
-      <ProfilePage />
+      <ProfileScreen />
     </BaseScreenLayout>
   );
 };

@@ -3,7 +3,7 @@ import { View } from "tamagui";
 import { Text } from "ui/typography/text";
 
 import { GamesStatusEditForm } from "./games_status_edit_form/games_status_edit_form";
-import { useUserGameStatus } from "../../../games/user_game_status/use_user_game_status/use_user_game_status";
+import { useUserGameStatus } from "../../user_game_status/use_user_game_status/use_user_game_status";
 export const GamesStatusEditFormScreen = () => {
   const { game_status_id } = useLocalSearchParams<{ game_status_id: string }>();
   const userGameStatusQuery = useUserGameStatus({
