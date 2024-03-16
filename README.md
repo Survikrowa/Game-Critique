@@ -1,6 +1,5 @@
 
-![Logo](https://i.ibb.co/CmD8bps/app-icon.png)
-
+<img src='https://i.ibb.co/CmD8bps/app-icon.png' width='128'>
 
 # Game Critique
 
