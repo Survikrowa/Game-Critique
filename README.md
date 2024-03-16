@@ -1,32 +1,43 @@
-# Turborepo react-native starter
 
-This is an official starter Turborepo.
+![Logo](https://i.ibb.co/CmD8bps/app-icon.png)
 
-## Using this example
 
-Run the following command:
+# Game Critique
 
-```sh
-npx create-turbo@latest -e with-react-native-web
+This project is a mobile application designed to help users track their game collections and manage the games they've played, are currently playing, or have retired. It provides features for users to invite friends and view their collections as well.
+
+## Installation
+
+Install all required game-critique packages with Yarn
+
+```bash
+  yarn
 ```
 
-## What's inside?
+Create .env file in /api based on the .env-example
 
-This Turborepo includes the following packages/apps:
+Create .env.local file in /native based on the .env.local-example
 
-### Apps and Packages
+Create eas.json file based on the eas-example.json and fill all required envs there. Its mostly used for production ready builds.
 
-- `native`: a [react-native](https://reactnative.dev/) app built with [expo](https://docs.expo.dev/)
-- `web`: a [Next.js](https://nextjs.org/) app built with [react-native-web](https://necolas.github.io/react-native-web/)
-- `@repo/ui`: a stub [react-native](https://reactnative.dev/) component library shared by both `web` and `native` applications
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+To launch the app connect your mobile device, enable usb debugging and type in your terminal
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+```bash
+  yarn start
+```
+## Tech Stack
 
-### Utilities
+**Mobile:** Expo, TypeScript, ExpoRouter, Tamagui, Apollo
 
-This Turborepo has some additional tools already setup for you:
+**Server:** Node, TypeScript, NestJS, Prisma, PostgreSQL, Apollo
 
-- [Expo](https://docs.expo.dev/) for native development
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [Prettier](https://prettier.io) for code formatting
+
+## Authors
+
+- [@survikrowa](https://www.github.com/Survikrowa) Mobile/BE
+
+- [@critteros](https://github.com/Critteros) - DevOps
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
+
