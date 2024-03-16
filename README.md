@@ -26,9 +26,9 @@ To launch the app connect your mobile device, enable usb debugging and type in y
 ```
 ## Tech Stack
 
-**Mobile:** Expo, TypeScript, ExpoRouter, Tamagui, Apollo
+**Mobile:** Expo, TypeScript, ExpoRouter, Tamagui, Apollo, GraphQLCodegen, Auth0
 
-**Server:** Node, TypeScript, NestJS, Prisma, PostgreSQL, Apollo
+**Server:** Node, TypeScript, NestJS, Prisma, PostgreSQL, Apollo, Sentry, Auth0, Cloudinary
 
 
 ## Authors
