@@ -3,6 +3,7 @@
 import { ReactNode } from "react";
 import { NextUIProvider } from "@nextui-org/react";
 import { UserProvider } from "@auth0/nextjs-auth0/client";
+import { QueryClientProvider } from "../packages/tanstack/client/query_client_provider";
 
 type AppProvidersProps = {
   children: ReactNode;
@@ -10,8 +11,10 @@ type AppProvidersProps = {
 
 export const AppProviders = ({ children }: AppProvidersProps) => {
   return (
-    <UserProvider>
-      <NextUIProvider className="h-full">{children}</NextUIProvider>
-    </UserProvider>
+    <QueryClientProvider>
+      <UserProvider>
+        <NextUIProvider className="h-full">{children}</NextUIProvider>
+      </UserProvider>
+    </QueryClientProvider>
   );
 };
