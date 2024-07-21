@@ -1,8 +1,12 @@
+"use client";
 import { Divider, Card, CardHeader, CardBody, Button } from "@nextui-org/react";
 import { Link } from "@nextui-org/link";
 import { AppLogo } from "../../ui/icons/app_logo";
 import { GoogleIcon } from "../../ui/icons/google_icon";
+import { useVerifyOrCreateQuery } from "../auth_verify_or_create.generated";
 export const LoginPage = () => {
+  const data = useVerifyOrCreateQuery({}, {});
+  console.log(data);
   return (
     <div className="h-full flex items-center justify-center flex-col">
       <AppLogo />
