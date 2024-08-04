@@ -5,12 +5,14 @@ import { firstValueFrom } from 'rxjs';
 import { HowLongToBeatSearchResponse } from './howlongtobeat_parser.types';
 import { AxiosResponse } from 'axios';
 import { HowLongToBeatScrapperService } from './howlongtobeat_scrapper/howlongtobeat_scrapper.service';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class HowLongToBeatService {
   constructor(
     private readonly httpService: HttpService,
     private readonly hltbScrapper: HowLongToBeatScrapperService,
+    private readonly configService: ConfigService,
   ) {}
 
   async search(title: string) {
@@ -20,7 +22,7 @@ export class HowLongToBeatService {
       AxiosResponse<HowLongToBeatSearchResponse>
     >(
       this.httpService.post(
-        '/api/search',
+        `/api/search/${this.configService.get('HLTB_RANDOM_SEARCH_API_HASH')}`,
         {
           ...hltbSearchPayload,
         },
