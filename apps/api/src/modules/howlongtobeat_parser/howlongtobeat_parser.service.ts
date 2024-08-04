@@ -19,7 +19,11 @@ export class HowLongToBeatService {
   async search(title: string) {
     const searchTerms = title.split(' ');
     const hltbSearchPayload = getDefaultHltbSearchPayload(searchTerms);
-
+    this.logger.debug(
+      `Searching for ${title}`,
+      hltbSearchPayload,
+      `/api/search/${this.configService.get('HLTB_RANDOM_SEARCH_API_HASH')}`,
+    );
     const { data } = await firstValueFrom<
       AxiosResponse<HowLongToBeatSearchResponse>
     >(
@@ -38,12 +42,7 @@ export class HowLongToBeatService {
         },
       ),
     );
-    this.logger.debug(
-      data,
-      `Searching for ${title}`,
-      hltbSearchPayload,
-      `/api/search/${this.configService.get('HLTB_RANDOM_SEARCH_API_HASH')}`,
-    );
+
     const searchResult = await Promise.all(
       data.data.map(async (game) => {
         const gamePage = await this.hltbScrapper.getHTMLGamePage(game.game_id);
