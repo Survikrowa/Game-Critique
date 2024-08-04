@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import UserAgent from 'user-agents';
 import { firstValueFrom } from 'rxjs';
@@ -14,10 +14,12 @@ export class HowLongToBeatService {
     private readonly hltbScrapper: HowLongToBeatScrapperService,
     private readonly configService: ConfigService,
   ) {}
+  private readonly logger = new Logger('HLTB Search Service');
 
   async search(title: string) {
     const searchTerms = title.split(' ');
     const hltbSearchPayload = getDefaultHltbSearchPayload(searchTerms);
+
     const { data } = await firstValueFrom<
       AxiosResponse<HowLongToBeatSearchResponse>
     >(
@@ -35,6 +37,12 @@ export class HowLongToBeatService {
           timeout: 20000,
         },
       ),
+    );
+    this.logger.debug(
+      data,
+      `Searching for ${title}`,
+      hltbSearchPayload,
+      `/api/search/${this.configService.get('HLTB_RANDOM_SEARCH_API_HASH')}`,
     );
     const searchResult = await Promise.all(
       data.data.map(async (game) => {
