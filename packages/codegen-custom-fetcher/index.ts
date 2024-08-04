@@ -6,7 +6,7 @@ export const getFetcher = (url: string, headers?: RequestInit["headers"]) => {
   ): (() => Promise<TResult>) => {
     return async () => {
       const head = headers ? headers : options;
-      const res = await fetch("https://api.url", {
+      const res = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
