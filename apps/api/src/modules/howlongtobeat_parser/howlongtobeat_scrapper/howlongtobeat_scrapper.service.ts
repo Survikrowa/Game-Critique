@@ -25,14 +25,24 @@ export class HowLongToBeatScrapperService {
   async parseHTMlGamePage(html: string) {
     const $ = load(html);
     let genres: string[] = [];
+    let platforms: string[] = [];
     $('div[class*=GameSummary_profile_info__]').each((_, el) => {
       const metaData = $(el).text();
       if (metaData.includes('Genres:')) {
         genres = metaData.replace(/\n/g, '').replace('Genres: ', '').split(',');
       }
+      if (metaData.includes('Platforms:')) {
+        platforms = metaData
+          .replace(/\n/g, '')
+          .replace('Platform: ', '')
+          .replace('Platforms: ', '')
+          .split(',')
+          .map((platform) => platform.trim());
+      }
     });
     return {
       genres,
+      platforms,
     };
   }
 }
