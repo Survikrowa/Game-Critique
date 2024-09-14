@@ -31,7 +31,7 @@ export class HowLongToBeatScrapperService {
       if (metaData.includes('Genres:')) {
         genres = metaData.replace(/\n/g, '').replace('Genres: ', '').split(',');
       }
-      if (metaData.includes('Platforms:')) {
+      if (metaData.includes('Platform:') || metaData.includes('Platforms:')) {
         platforms = metaData
           .replace(/\n/g, '')
           .replace('Platform: ', '')
