@@ -42,18 +42,17 @@ export class HowLongToBeatService {
         },
       ),
     );
-
     const searchResult = await Promise.all(
       data.data.map(async (game) => {
         const gamePage = await this.hltbScrapper.getHTMLGamePage(game.game_id);
-        const { genres } = await this.hltbScrapper.parseHTMlGamePage(
+        const { genres, platforms } = await this.hltbScrapper.parseHTMlGamePage(
           gamePage.html,
         );
         return {
           ...game,
           slug: this.transformToHltbSlug(game.game_name),
           ...this.getCoverUrls(game.game_image),
-          platforms: this.getPlatforms(game.profile_platform),
+          platforms: this.getPlatforms(platforms),
           genres: this.getGenres(genres),
         };
       }),
@@ -73,8 +72,8 @@ export class HowLongToBeatService {
     return str.toLowerCase().split(' ').join('-');
   }
 
-  getPlatforms(profilePlatform: string) {
-    return profilePlatform.split(', ').map((platform) => ({
+  getPlatforms(profilePlatform: string[]) {
+    return profilePlatform.map((platform) => ({
       name: platform,
       slug: this.transformToHltbSlug(platform),
     }));
@@ -96,7 +95,7 @@ const getDefaultHltbSearchPayload = (searchTerms: string[]) => ({
   searchType: 'games',
   searchTerms: [...searchTerms],
   searchPage: 1,
-  size: 5,
+  size: 20,
   searchOptions: {
     games: {
       userId: 0,
@@ -104,21 +103,29 @@ const getDefaultHltbSearchPayload = (searchTerms: string[]) => ({
       sortCategory: 'popular',
       rangeCategory: 'main',
       rangeTime: {
-        min: 0,
-        max: 0,
+        min: null,
+        max: null,
       },
       gameplay: {
         perspective: '',
         flow: '',
         genre: '',
       },
+      rangeYear: {
+        min: '',
+        max: '',
+      },
       modifier: '',
     },
     users: {
       sortCategory: 'postcount',
     },
+    lists: {
+      sortCategory: 'follows',
+    },
     filter: '',
     sort: 0,
     randomizer: 0,
   },
+  useCache: true,
 });
