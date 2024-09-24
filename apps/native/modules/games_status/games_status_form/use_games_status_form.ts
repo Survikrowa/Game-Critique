@@ -61,13 +61,7 @@ export const useGamesStatusForm = ({
     resolver: zodResolver(GamesStatusAddFormSchema),
     defaultValues: getInitialValues(initialValues),
   });
-  const {
-    control,
-    handleSubmit,
-    reset,
-    watch,
-    formState: { isSubmitting },
-  } = methods;
+  const { control, handleSubmit, reset, watch } = methods;
 
   const [upsertGameStatus] = useUpsertGameStatus();
 
@@ -120,10 +114,10 @@ export const useGamesStatusForm = ({
   });
 
   return {
-    isSubmitting,
     isSonyPlayStationConsole,
     control,
     DEFAULT_VALUES,
     onSubmit,
+    methods,
   };
 };
