@@ -14,8 +14,6 @@
   "dependencies": {
     "@auth0/nextjs-auth0": "^3.5.0",
     "@nextui-org/react": "^2.4.2",
-    "@repo/codegen": "*",
-    "@repo/codegen-custom-fetcher": "*",
     "@tanstack/react-query": "^5.51.1",
     "framer-motion": "^11.2.12",
     "next": "^14.2.14",
