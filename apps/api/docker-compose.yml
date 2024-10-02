@@ -1,4 +1,4 @@
-version: '3.9'
+version: '3.8'
 services:
   database-game-critique:
     image: postgres:16.1
