@@ -1,4 +1,4 @@
-import { AppProviders } from "./providers";
+import { AppProviders } from "@/packages/providers/providers";
 import "../styles/global.css";
 import { LoginPage } from "../modules/auth/login_page/login_page";
 import { getSession } from "@auth0/nextjs-auth0";
