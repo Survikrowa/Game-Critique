@@ -12,7 +12,7 @@
     "eject": "expo eject",
     "lint": "eslint .",
     "generate-graph": "graphql-codegen",
-    "build": "NODE_ENV=production eas build --clear-cache --platform android --local",
+    "build-android": "NODE_ENV=production eas build --clear-cache --platform android --local",
     "eas-build-post-install": "yarn generate-graph"
   },
   "dependencies": {
