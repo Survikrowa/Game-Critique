@@ -61,12 +61,14 @@ export class HowLongToBeatService implements HowLongToBeatServiceFields {
     );
     try {
       this.retries += 1;
+      this.logger.log('Starting search');
       const {
         data: { data },
       } = await this.fetchSearchResult(hltbSearchPayload);
 
       const searchResult = await this.mapSearchResult(data);
       this.retries = 0;
+      this.logger.log('Search finished');
       return { hltbSearchResult: searchResult };
     } catch (e: unknown) {
       if (
