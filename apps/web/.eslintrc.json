@@ -1,6 +1,9 @@
 {
-  "extends": "next/core-web-vitals",
+  "extends": ["plugin:@tanstack/eslint-plugin-query/recommended", "next/core-web-vitals"],
+  "plugins": ["@tanstack/query"],
   "rules": {
-    "@next/next/no-html-link-for-pages": 0
+    "@next/next/no-html-link-for-pages": 0,
+    "@tanstack/query/exhaustive-deps": "error",
+    "@tanstack/query/stable-query-client": "error"
   }
 }

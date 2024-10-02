@@ -139,11 +139,6 @@ export class GamesStatusService {
             gameStatusId,
             gameStatus.gameId,
           );
-        console.log(
-          ownerAndFriendsGameStatuses.map(
-            (gameStatus) => gameStatus.user.friendsList,
-          ),
-        );
 
         return ownerAndFriendsGameStatuses.flatMap(
           (ownerAndFriendsGameStatus) => {

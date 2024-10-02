@@ -1,5 +1,5 @@
 import { ErrorMessage } from "@hookform/error-message";
-import { Controller } from "react-hook-form";
+import { Controller, FormProvider } from "react-hook-form";
 import { Button, Form, Separator, View, XStack, YStack } from "tamagui";
 import { Checkbox } from "ui/forms/checkbox";
 import { Input } from "ui/forms/input";
@@ -27,185 +27,21 @@ export const GamesStatusForm = ({
   game,
   gameStatusId,
 }: GamesStatusFormProps) => {
-  const { onSubmit, isSubmitting, control, isSonyPlayStationConsole } =
-    useGamesStatusForm({ initialValues, game, gameStatusId });
+  const { onSubmit, control, isSonyPlayStationConsole, methods } =
+    useGamesStatusForm({
+      initialValues,
+      game,
+      gameStatusId,
+    });
 
   return (
-    <View>
-      <Form onSubmit={onSubmit}>
-        <YStack gap={8}>
-          <Text size="large" weight="bold" color="primary">
-            Status*
-          </Text>
-          <Controller
-            render={({ fieldState: { error }, field: { onChange, value } }) => {
-              return (
-                <>
-                  <Select
-                    placeholder="Wybierz status gry..."
-                    onChange={onChange}
-                    value={value}
-                    label="Status"
-                    items={GAMES_STATUSES}
-                  />
-                  <ErrorMessage
-                    name="status"
-                    message={error?.message}
-                    render={(data) => {
-                      return (
-                        <Text size="small" weight="normal" color="warning">
-                          {data.message}
-                        </Text>
-                      );
-                    }}
-                  />
-                </>
-              );
-            }}
-            name="status"
-            control={control}
-          />
-        </YStack>
-        <Separator marginVertical={16} />
-
-        <Text size="large" weight="bold" color="primary">
-          Czas gry
-        </Text>
-        <XStack alignItems="center" justifyContent="space-evenly">
-          <View maxWidth={60}>
-            <Controller
-              render={({
-                fieldState: { error },
-                field: { onChange, value },
-              }) => {
-                return (
-                  <Input
-                    onChange={onChange}
-                    value={value || DEFAULT_VALUES.hours}
-                    label="H"
-                    errorMessage={error?.message}
-                    inputMode="numeric"
-                  />
-                );
-              }}
-              control={control}
-              name="hours"
-            />
-          </View>
-          <View maxWidth={60}>
-            <Controller
-              render={({
-                fieldState: { error },
-                field: { onChange, value },
-              }) => {
-                return (
-                  <Input
-                    onChange={onChange}
-                    value={value || DEFAULT_VALUES.minutes}
-                    label="M"
-                    errorMessage={error?.message}
-                    inputMode="numeric"
-                  />
-                );
-              }}
-              control={control}
-              name="minutes"
-            />
-          </View>
-          <View maxWidth={60}>
-            <Controller
-              render={({
-                fieldState: { error },
-                field: { onChange, value },
-              }) => {
-                return (
-                  <Input
-                    onChange={onChange}
-                    value={value || DEFAULT_VALUES.seconds}
-                    label="S"
-                    errorMessage={error?.message}
-                    inputMode="numeric"
-                  />
-                );
-              }}
-              control={control}
-              name="seconds"
-            />
-          </View>
-        </XStack>
-        <Separator marginVertical={16} />
-        <YStack gap={8}>
-          <Text size="large" weight="bold" color="primary">
-            Platforma*
-          </Text>
-          <Controller
-            render={({ fieldState: { error }, field: { onChange, value } }) => {
-              return (
-                <>
-                  <Select
-                    defaultValue={initialValues?.platform || ""}
-                    placeholder="Wybierz platforme..."
-                    onChange={onChange}
-                    value={value}
-                    label="Platforma"
-                    items={game.platforms.map((platform) => ({
-                      name: platform.name,
-                      value: String(platform.id),
-                    }))}
-                  />
-                  <ErrorMessage
-                    name="platform"
-                    message={error?.message}
-                    render={(data) => {
-                      return (
-                        <Text size="small" weight="normal" color="warning">
-                          {data.message}
-                        </Text>
-                      );
-                    }}
-                  />
-                </>
-              );
-            }}
-            name="platform"
-            control={control}
-          />
-        </YStack>
-        <Separator marginVertical={16} />
-        <YStack gap={16}>
-          <Text size="large" weight="bold" color="primary">
-            Osiągnięcia
-          </Text>
-          {isSonyPlayStationConsole ? (
-            <Controller
-              render={({
-                fieldState: { error },
-                field: { onChange, value },
-              }) => {
-                return (
-                  <Checkbox
-                    onChange={onChange}
-                    value={value}
-                    isChecked={value}
-                    label="Osiągnieto platyne"
-                    errorMessage={error?.message}
-                  />
-                );
-              }}
-              name="platinium"
-            />
-          ) : (
-            <Text size="large" weight="bold" color="secondary">
-              Ta gra lub platforma nie posiada osiągnięć
+    <FormProvider {...methods}>
+      <View>
+        <Form onSubmit={onSubmit}>
+          <YStack gap={8}>
+            <Text size="large" weight="bold" color="primary">
+              Status*
             </Text>
-          )}
-        </YStack>
-        <Separator marginVertical={16} />
-        <YStack gap={8}>
-          <Text size="large" weight="bold" color="primary">
-            Ocena
-          </Text>
-          <XStack alignItems="center" gap={16} justifyContent="center">
             <Controller
               render={({
                 fieldState: { error },
@@ -214,17 +50,14 @@ export const GamesStatusForm = ({
                 return (
                   <>
                     <Select
-                      placeholder="Wybierz ocene..."
+                      placeholder="Wybierz status gry..."
                       onChange={onChange}
-                      value={value || ""}
-                      label="Ocena"
-                      items={GAMES_SCORES.map((score) => ({
-                        name: score.name,
-                        value: score.value,
-                      }))}
+                      value={value}
+                      label="Status"
+                      items={GAMES_STATUSES}
                     />
                     <ErrorMessage
-                      name="score"
+                      name="status"
                       message={error?.message}
                       render={(data) => {
                         return (
@@ -237,37 +70,221 @@ export const GamesStatusForm = ({
                   </>
                 );
               }}
+              name="status"
               control={control}
-              name="score"
             />
-          </XStack>
-          <Controller
-            render={({ fieldState: { error }, field: { onChange, value } }) => {
-              return (
-                <TextArea
-                  onChange={onChange}
-                  value={value || DEFAULT_VALUES.review}
-                  label="Opcjonalne miejsce na recenzje"
-                  errorMessage={error?.message}
-                />
-              );
-            }}
-            control={control}
-            name="review"
-          />
-        </YStack>
+          </YStack>
+          <Separator marginVertical={16} />
 
-        <Form.Trigger asChild marginTop={16}>
-          <Button
-            theme="active"
-            backgroundColor="black"
-            color="white"
-            borderColor="white"
-          >
-            {isSubmitting ? "Trwa zapisywanie..." : "Zapisz"}
-          </Button>
-        </Form.Trigger>
-      </Form>
-    </View>
+          <Text size="large" weight="bold" color="primary">
+            Czas gry
+          </Text>
+          <XStack alignItems="center" justifyContent="space-evenly">
+            <View maxWidth={60}>
+              <Controller
+                render={({
+                  fieldState: { error },
+                  field: { onChange, value },
+                }) => {
+                  return (
+                    <Input
+                      onChange={onChange}
+                      value={value || DEFAULT_VALUES.hours}
+                      label="H"
+                      errorMessage={error?.message}
+                      inputMode="numeric"
+                    />
+                  );
+                }}
+                control={control}
+                name="hours"
+              />
+            </View>
+            <View maxWidth={60}>
+              <Controller
+                render={({
+                  fieldState: { error },
+                  field: { onChange, value },
+                }) => {
+                  return (
+                    <Input
+                      onChange={onChange}
+                      value={value || DEFAULT_VALUES.minutes}
+                      label="M"
+                      errorMessage={error?.message}
+                      inputMode="numeric"
+                    />
+                  );
+                }}
+                control={control}
+                name="minutes"
+              />
+            </View>
+            <View maxWidth={60}>
+              <Controller
+                render={({
+                  fieldState: { error },
+                  field: { onChange, value },
+                }) => {
+                  return (
+                    <Input
+                      onChange={onChange}
+                      value={value || DEFAULT_VALUES.seconds}
+                      label="S"
+                      errorMessage={error?.message}
+                      inputMode="numeric"
+                    />
+                  );
+                }}
+                control={control}
+                name="seconds"
+              />
+            </View>
+          </XStack>
+          <Separator marginVertical={16} />
+          <YStack gap={8}>
+            <Text size="large" weight="bold" color="primary">
+              Platforma*
+            </Text>
+            <Controller
+              render={({
+                fieldState: { error },
+                field: { onChange, value },
+              }) => {
+                return (
+                  <>
+                    <Select
+                      defaultValue={initialValues?.platform || ""}
+                      placeholder="Wybierz platforme..."
+                      onChange={onChange}
+                      value={value}
+                      label="Platforma"
+                      items={game.platforms.map((platform) => ({
+                        name: platform.name,
+                        value: String(platform.id),
+                      }))}
+                    />
+                    <ErrorMessage
+                      name="platform"
+                      message={error?.message}
+                      render={(data) => {
+                        return (
+                          <Text size="small" weight="normal" color="warning">
+                            {data.message}
+                          </Text>
+                        );
+                      }}
+                    />
+                  </>
+                );
+              }}
+              name="platform"
+              control={control}
+            />
+          </YStack>
+          <Separator marginVertical={16} />
+          <YStack gap={16}>
+            <Text size="large" weight="bold" color="primary">
+              Osiągnięcia
+            </Text>
+            {isSonyPlayStationConsole ? (
+              <Controller
+                render={({
+                  fieldState: { error },
+                  field: { onChange, value },
+                }) => {
+                  return (
+                    <Checkbox
+                      onChange={onChange}
+                      value={value}
+                      isChecked={value}
+                      label="Osiągnieto platyne"
+                      errorMessage={error?.message}
+                    />
+                  );
+                }}
+                name="platinium"
+              />
+            ) : (
+              <Text size="large" weight="bold" color="secondary">
+                Ta gra lub platforma nie posiada osiągnięć
+              </Text>
+            )}
+          </YStack>
+          <Separator marginVertical={16} />
+          <YStack gap={8}>
+            <Text size="large" weight="bold" color="primary">
+              Ocena
+            </Text>
+            <XStack alignItems="center" gap={16} justifyContent="center">
+              <Controller
+                render={({
+                  fieldState: { error },
+                  field: { onChange, value },
+                }) => {
+                  return (
+                    <>
+                      <Select
+                        placeholder="Wybierz ocene..."
+                        onChange={onChange}
+                        value={value || ""}
+                        label="Ocena"
+                        items={GAMES_SCORES.map((score) => ({
+                          name: score.name,
+                          value: score.value,
+                        }))}
+                      />
+                      <ErrorMessage
+                        name="score"
+                        message={error?.message}
+                        render={(data) => {
+                          return (
+                            <Text size="small" weight="normal" color="warning">
+                              {data.message}
+                            </Text>
+                          );
+                        }}
+                      />
+                    </>
+                  );
+                }}
+                control={control}
+                name="score"
+              />
+            </XStack>
+            <Controller
+              render={({
+                fieldState: { error },
+                field: { onChange, value },
+              }) => {
+                return (
+                  <TextArea
+                    onChange={onChange}
+                    value={value || DEFAULT_VALUES.review}
+                    label="Opcjonalne miejsce na recenzje"
+                    errorMessage={error?.message}
+                  />
+                );
+              }}
+              control={control}
+              name="review"
+            />
+          </YStack>
+
+          <Form.Trigger asChild marginTop={16}>
+            <Button
+              theme="active"
+              backgroundColor="black"
+              color="white"
+              borderColor="white"
+            >
+              {methods.formState.isSubmitting
+                ? "Trwa zapisywanie..."
+                : "Zapisz"}
+            </Button>
+          </Form.Trigger>
+        </Form>
+      </View>
+    </FormProvider>
   );
 };

@@ -5,7 +5,7 @@
     "scheme": "acme",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/app-icon.png",
+    "icon": "./assets/images/icon.png",
     "userInterfaceStyle": "light",
     "experiments": {
       "tsconfigPaths": true
@@ -18,9 +18,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.gamecritique.mobile"
@@ -40,7 +38,6 @@
         {
           "domain": "dev-3gebv0fjdsc0gf5g.us.auth0.com"
         }
-
       ],
       [
         "expo-image-picker",

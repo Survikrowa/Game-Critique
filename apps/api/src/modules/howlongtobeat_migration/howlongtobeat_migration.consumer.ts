@@ -87,7 +87,6 @@ export class HowLongToBeatMigrationConsumer {
         'FINISHED',
       );
     } catch (e) {
-      console.error(e);
       await this.howLongToBeatMigrationStatusService.upsertMigrationStatus(
         data.oauthId,
         'FAILED',

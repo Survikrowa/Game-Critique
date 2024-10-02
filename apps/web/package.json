@@ -6,12 +6,18 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prestart": "yarn generate",
+    "predev": "yarn generate",
+    "generate": "graphql-codegen --config ./codegen/codegen.ts"
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^3.5.0",
     "@nextui-org/react": "^2.4.2",
+    "@repo/codegen": "*",
+    "@repo/codegen-custom-fetcher": "*",
     "@repo/ui": "*",
+    "@tanstack/react-query": "^5.51.1",
     "babel-plugin-react-compiler": "^0.0.0-experimental-696af53-20240625",
     "framer-motion": "^11.2.12",
     "next": "^15.0.0-rc.0",
@@ -19,7 +25,10 @@
     "react-dom": "^19.0.0-rc-9c6806964f-20240703"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.2",
+    "@graphql-codegen/typescript-react-query": "^6.1.0",
     "@repo/typescript-config": "*",
+    "@tanstack/eslint-plugin-query": "^5.51.1",
     "@types/node": "^20.10.0",
     "@types/react": "^18.2.38",
     "@types/react-dom": "^18.2.17",
