@@ -2,10 +2,10 @@ import { Spinner, YStack } from "tamagui";
 
 import { GoogleLogo } from "./assets/google_logo";
 import { useAuth } from "./use_auth";
-import { AppLogo } from "../../assets/logo/app_logo";
-import { ButtonWithIcon } from "../../ui/forms/button_icon";
+import { AppLogo } from "../../../assets/logo/app_logo";
+import { ButtonWithIcon } from "../../../ui/forms/button_icon";
 
-export const AuthPage = () => {
+export const AuthScreen = () => {
   const { onLogin, isLoading } = useAuth();
 
   return (

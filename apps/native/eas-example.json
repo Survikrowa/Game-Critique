@@ -22,7 +22,8 @@
         "EXPO_PUBLIC_GRAPHQL_ENDPOINT":"",
         "EXPO_PUBLIC_AUTH0_AUDIENCE": "",
         "EXPO_PUBLIC_AUTH0_DOMAIN": "",
-        "EXPO_PUBLIC_AUTH0_CLIENT_ID": ""
+        "EXPO_PUBLIC_AUTH0_CLIENT_ID": "",
+        "EXPO_PUBLIC_BASE_API_URL": ""
       },
       "android": {
         "buildType": "apk"
