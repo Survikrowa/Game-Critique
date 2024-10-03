@@ -1,6 +1,19 @@
 # https://github.com/vercel/turbo/blob/main/examples/with-docker/apps/api/Dockerfile
 FROM node:18-alpine AS node
 
+# Installs latest Chromium package.
+RUN apk upgrade --no-cache --available \
+    && apk add --no-cache \
+      chromium-swiftshader \
+      ttf-freefont \
+      font-noto-emoji \
+    && apk add --no-cache \
+      --repository=https://dl-cdn.alpinelinux.org/alpine/edge/community \
+      font-wqy-zenhei
+
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+
 # region: Turborepo files
 FROM node AS builder
 RUN apk add --no-cache libc6-compat
