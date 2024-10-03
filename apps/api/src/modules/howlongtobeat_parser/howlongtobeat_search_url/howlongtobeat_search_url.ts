@@ -25,6 +25,7 @@ export class HowLongToBeatSearchUrl implements HowLongToBeatSearchUrlFields {
         process.env.NODE_ENV === 'production'
           ? process.env.PUPPETEER_EXECUTABLE_PATH
           : puppeteer.executablePath(),
+      timeout: 30_000,
     });
     const page = await browser.newPage();
 
@@ -45,9 +46,12 @@ export class HowLongToBeatSearchUrl implements HowLongToBeatSearchUrlFields {
     await page.click(inputSelector);
     await page.type(inputSelector, 'T', { delay: 120 });
 
-    await page.waitForResponse((response) =>
-      response.url().includes('/search'),
-    );
+    await page.waitForResponse((response) => {
+      console.log(response.url(), 'response.url()');
+      return (
+        response.url().includes('/search') && response.url().includes('search')
+      );
+    });
 
     await browser.close();
   }
