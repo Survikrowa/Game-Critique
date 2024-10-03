@@ -15,6 +15,7 @@ export class HowLongToBeatSearchUrl implements HowLongToBeatSearchUrlFields {
     await page.setRequestInterception(true);
 
     page.on('request', (request) => {
+      console.log(request.url(), 'request.url()');
       if (request.url().includes('/search')) {
         this.searchHash = request.url().split('/').at(-1) || '';
         console.log(this.searchHash, 'searchHash');
