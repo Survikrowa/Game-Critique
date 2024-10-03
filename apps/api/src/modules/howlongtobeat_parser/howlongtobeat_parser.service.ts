@@ -85,7 +85,11 @@ export class HowLongToBeatService implements HowLongToBeatServiceFields {
         this.retries <= MAX_RETRIES
       ) {
         this.logger.debug('Updating search hash');
-        await this.howLongToBeatSearchUrl.updateSearchHash();
+        try {
+          await this.howLongToBeatSearchUrl.updateSearchHash();
+        } catch (e) {
+          this.logger.error('Error updating search hash', e);
+        }
         this.logger.debug('Updated search hash');
         return this.search(title);
       }

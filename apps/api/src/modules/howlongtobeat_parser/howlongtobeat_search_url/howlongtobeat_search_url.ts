@@ -8,9 +8,6 @@ puppeteer.use(puppeteerStealth());
 export class HowLongToBeatSearchUrl implements HowLongToBeatSearchUrlFields {
   public searchHash: string = '';
 
-  constructor() {
-    this.updateSearchHash();
-  }
   async updateSearchHash() {
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
