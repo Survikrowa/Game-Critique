@@ -27,6 +27,8 @@ export class HowLongToBeatSearchUrl implements HowLongToBeatSearchUrlFields {
     await page.click(inputSelector);
     await page.type(inputSelector, 'T', { delay: 120 });
 
+    await page.waitForResponse('/search');
+
     await browser.close();
   }
 }
