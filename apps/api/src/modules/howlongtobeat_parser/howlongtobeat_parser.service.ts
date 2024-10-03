@@ -71,6 +71,7 @@ export class HowLongToBeatService implements HowLongToBeatServiceFields {
       this.logger.log('Search finished');
       return { hltbSearchResult: searchResult };
     } catch (e: unknown) {
+      this.logger.error({ e, axiosError: axios.isAxiosError(e) });
       if (
         axios.isAxiosError(e) &&
         e.response?.status === HttpStatus.NOT_FOUND &&
