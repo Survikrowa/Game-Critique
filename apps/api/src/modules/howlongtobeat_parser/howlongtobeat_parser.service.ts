@@ -71,15 +71,21 @@ export class HowLongToBeatService implements HowLongToBeatServiceFields {
       this.logger.log('Search finished');
       return { hltbSearchResult: searchResult };
     } catch (e: unknown) {
-      this.logger.error({ e, axiosError: axios.isAxiosError(e) });
+      this.logger.error({
+        e,
+        axiosError: axios.isAxiosError(e),
+        update:
+          axios.isAxiosError(e) &&
+          e.response?.status === HttpStatus.NOT_FOUND &&
+          this.retries <= MAX_RETRIES,
+      });
       if (
         axios.isAxiosError(e) &&
         e.response?.status === HttpStatus.NOT_FOUND &&
         this.retries <= MAX_RETRIES
       ) {
-        await this.howLongToBeatSearchUrl.updateSearchHash().catch((e) => {
-          this.logger.error('Error updating search hash', e);
-        });
+        this.logger.debug('Updating search hash');
+        await this.howLongToBeatSearchUrl.updateSearchHash();
         this.logger.debug('Updated search hash');
         return this.search(title);
       }
