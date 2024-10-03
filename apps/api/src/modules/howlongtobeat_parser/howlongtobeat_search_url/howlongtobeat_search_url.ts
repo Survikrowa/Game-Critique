@@ -42,8 +42,11 @@ export class HowLongToBeatSearchUrl implements HowLongToBeatSearchUrlFields {
     await page.goto('https://howlongtobeat.com/', { waitUntil: 'load' });
     const inputSelector = 'input[name="site-search"]';
     await page.waitForSelector(inputSelector);
-    console.log(await page.$(inputSelector), 'page.$(inputSelector)');
-    await page.click(inputSelector);
+    await page.evaluate((selector) => {
+      const input = document.querySelector(selector) as HTMLInputElement;
+      input?.scrollIntoView();
+      input?.click();
+    }, inputSelector);
     await page.type(inputSelector, 'The', { delay: 120 });
 
     await page.waitForResponse((response) => {
