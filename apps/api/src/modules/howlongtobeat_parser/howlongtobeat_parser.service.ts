@@ -169,6 +169,7 @@ const getDefaultHltbSearchPayload = (searchTerms: string[]) => ({
         perspective: '',
         flow: '',
         genre: '',
+        subGenre: ' ',
       },
       rangeYear: {
         min: '',
