@@ -15,10 +15,10 @@
     "dev:web": "turbo run dev --filter=web --filter=api"
   },
   "devDependencies": {
-    "eslint-config-turbo": "^1.10.16",
-    "husky": "^8.0.3",
-    "lint-staged": "^15.1.0",
-    "prettier": "^3.1.0",
+    "eslint-config-turbo": "1.10.16",
+    "husky": "8.0.3",
+    "lint-staged": "15.2.0",
+    "prettier": "3.1.0",
     "turbo": "latest"
   },
   "engines": {
