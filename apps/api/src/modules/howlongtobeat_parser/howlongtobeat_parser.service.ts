@@ -54,11 +54,6 @@ export class HowLongToBeatService implements HowLongToBeatServiceFields {
   async search(title: string): Promise<{ hltbSearchResult: SearchResult[] }> {
     const searchTerms = title.split(' ');
     const hltbSearchPayload = getDefaultHltbSearchPayload(searchTerms);
-    this.logger.debug(
-      `Searching for ${title}`,
-      hltbSearchPayload,
-      `/api/search/${this.howLongToBeatSearchUrl.searchHash}`,
-    );
     try {
       this.retries += 1;
       this.logger.log('Starting search');
@@ -68,7 +63,6 @@ export class HowLongToBeatService implements HowLongToBeatServiceFields {
 
       const searchResult = await this.mapSearchResult(data);
       this.retries = 0;
-      this.logger.log('Search finished');
       return { hltbSearchResult: searchResult };
     } catch (e: unknown) {
       if (
@@ -76,8 +70,10 @@ export class HowLongToBeatService implements HowLongToBeatServiceFields {
         e.response?.status === HttpStatus.NOT_FOUND &&
         this.retries <= MAX_RETRIES
       ) {
+        this.logger.debug('Updating search hash');
         await this.howLongToBeatSearchUrl.updateSearchHash();
         this.logger.debug('Updated search hash');
+
         return this.search(title);
       }
       this.logger.error('Something went terribly wrong');
@@ -173,6 +169,7 @@ const getDefaultHltbSearchPayload = (searchTerms: string[]) => ({
         perspective: '',
         flow: '',
         genre: '',
+        subGenre: ' ',
       },
       rangeYear: {
         min: '',
