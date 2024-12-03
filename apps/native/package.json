@@ -13,6 +13,7 @@
     "lint": "eslint .",
     "generate-graph": "graphql-codegen",
     "build-android": "NODE_ENV=production eas build --clear-cache --platform android --local",
+    "build-ios": "NODE_ENV=production eas build --clear-cache --platform ios --local",
     "eas-build-post-install": "yarn generate-graph"
   },
   "dependencies": {

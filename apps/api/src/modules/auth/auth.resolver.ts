@@ -1,7 +1,7 @@
 import { Context, Query, Resolver } from '@nestjs/graphql';
 import { AuthService } from './auth.service';
 import { Prisma } from '@prisma/client';
-import { UseGuards, Headers, ContextType } from '@nestjs/common';
+import { UseGuards } from '@nestjs/common';
 import { AuthUserVerification } from './auth.model';
 import { JwtAuthGuard } from './guards/auth-jwt.guard';
 import { User } from './auth.decorators';
@@ -18,6 +18,7 @@ export class AuthResolver {
   ) {
     try {
       const authorizationHeader = ctx.req.headers?.authorization;
+      console.log(authorizationHeader);
       if (!authorizationHeader) {
         return {
           authorized: false,
