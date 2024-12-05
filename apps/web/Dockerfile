@@ -1,5 +1,8 @@
+ENV YARN_VERSION 4.5.3
+
 # https://github.com/vercel/turbo/blob/main/examples/with-docker/apps/web/Dockerfile
 FROM node:18-alpine AS node
+RUN corepack enable && corepack prepare yarn@${YARN_VERSION}
 
 # region: Turborepo files
 FROM node AS builder
