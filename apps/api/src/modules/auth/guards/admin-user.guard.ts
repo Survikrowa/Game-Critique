@@ -9,7 +9,6 @@ export class AdminUserGuard implements CanActivate {
 
   canActivate(context: ExecutionContext): boolean {
     const request = this.getRequest(context);
-    console.log(request);
     const userRole = request.user.role;
     return userRole === RoleEnum.ADMIN;
   }

@@ -1,3 +1,6 @@
+import { CustomGraphlQLFetchError } from "@/packages/error_handling/custom_errors.ts";
+import { parseGraphQLErrors } from "@/packages/graphlql_errors/parse_graphql_errors.ts";
+
 export const fetchData = <TData, TVariables>(
   query: string,
   variables?: TVariables,
@@ -20,8 +23,8 @@ export const fetchData = <TData, TVariables>(
     const json = await res.json();
 
     if (json.errors) {
-      const { message } = json.errors[0] || {};
-      throw new Error(message || "Error…");
+      const statusCode = parseGraphQLErrors(json.errors);
+      throw new CustomGraphlQLFetchError(statusCode || 500);
     }
 
     return json.data;

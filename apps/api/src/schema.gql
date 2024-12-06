@@ -9,6 +9,7 @@ input AddGameToCollectionDTO {
 
 type AuthUserVerification {
   authorized: Boolean!
+  role: Roles
 }
 
 """Single Collection"""
@@ -261,6 +262,12 @@ input RemoveCollectionArgsDTO {
 """Collection removed"""
 type RemovedCollectionResponseDTO {
   success: Boolean!
+}
+
+"""All possible roles"""
+enum Roles {
+  ADMIN
+  USER
 }
 
 """Search Games Result"""

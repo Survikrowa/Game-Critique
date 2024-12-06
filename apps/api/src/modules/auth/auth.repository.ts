@@ -16,22 +16,30 @@ export class AuthRepository {
       if (!userRole) {
         throw new Error('Role not found');
       }
-      return prisma.user.create({
+      const user = await prisma.user.create({
         data: {
           oauthId,
           role: {
-            connect: {
-              oauthId,
-              roleId: userRole.id,
+            connectOrCreate: {
+              where: {
+                oauthId,
+              },
+              create: {
+                roleId: userRole.id,
+              },
             },
           },
         },
       });
+      return {
+        ...user,
+        role: userRole.role,
+      };
     });
   }
 
   async getUserRole(oauthId: string) {
-    return this.prismaService.user.findFirst({
+    return this.prismaService.userRole.findFirst({
       where: {
         oauthId,
       },

@@ -18,7 +18,6 @@ export class AuthResolver {
   ) {
     try {
       const authorizationHeader = ctx.req.headers?.authorization;
-      console.log(authorizationHeader);
       if (!authorizationHeader) {
         return {
           authorized: false,
@@ -26,20 +25,24 @@ export class AuthResolver {
       }
       const userInfo =
         await this.authService.getUserInfoFromAuth0(authorizationHeader);
-      const { id } = await this.authService.createUser(user.sub);
+      const { id, role } = await this.authService.createUser(user.sub);
       await this.authService.addUserCreatedEvent(id, userInfo.nickname);
       return {
         authorized: true,
+        role,
       };
     } catch (e) {
       if (
         e instanceof Prisma.PrismaClientKnownRequestError &&
         e.code === 'P2002'
       ) {
+        const userRole = await this.authService.getUserRole(user.sub);
         return {
           authorized: true,
+          role: userRole?.role?.role || null,
         };
       }
+      console.log(e);
       return {
         authorized: false,
       };

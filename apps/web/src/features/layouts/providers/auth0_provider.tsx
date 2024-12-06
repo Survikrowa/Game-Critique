@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
 import { Auth0Provider as Auth0 } from "@auth0/auth0-react";
+import { ReactNode } from "react";
 
 type Auth0ProviderProps = {
   children: ReactNode;

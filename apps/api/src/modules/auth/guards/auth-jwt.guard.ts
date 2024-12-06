@@ -17,13 +17,12 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     const request = this.getRequest(context);
     const user = request.user;
     const userWithRole = await this.authService.getUserRole(user.sub);
-    if (!userWithRole) {
-      return false;
+    if (userWithRole) {
+      request.user = {
+        ...user,
+        role: userWithRole.role.role,
+      };
     }
-    request.user = {
-      ...user,
-      role: userWithRole.role?.role?.role,
-    };
     return true;
   }
   getRequest(context: ExecutionContext) {
