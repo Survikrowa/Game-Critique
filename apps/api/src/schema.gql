@@ -9,6 +9,7 @@ input AddGameToCollectionDTO {
 
 type AuthUserVerification {
   authorized: Boolean!
+  role: Roles
 }
 
 """Single Collection"""
@@ -248,6 +249,7 @@ type Query {
   If oauthId is not provided it will use the id of the user that called the query
   """
   userGamesStatus(oauthId: String, search: String, skip: Float = 0, status: GameStatus!, take: Float = 5): UserGamesStatusResponseWithPaginationDTO!
+  users: [UserDataDTO!]!
   usersSearch(input: String!): [UserSearchResultDTO!]!
   verify: AuthUserVerification!
 }
@@ -260,6 +262,12 @@ input RemoveCollectionArgsDTO {
 """Collection removed"""
 type RemovedCollectionResponseDTO {
   success: Boolean!
+}
+
+"""All possible roles"""
+enum Roles {
+  ADMIN
+  USER
 }
 
 """Search Games Result"""

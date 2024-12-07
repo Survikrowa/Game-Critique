@@ -32,10 +32,8 @@ export class HowLongToBeatSearchUrl implements HowLongToBeatSearchUrlFields {
     await page.setRequestInterception(true);
 
     page.on('request', (request) => {
-      console.log(request.url(), 'request.url()');
       if (request.url().includes('/search')) {
         this.searchHash = request.url().split('/').at(-1) || '';
-        console.log(this.searchHash, 'searchHash');
       }
       request.continue();
     });
@@ -50,7 +48,6 @@ export class HowLongToBeatSearchUrl implements HowLongToBeatSearchUrlFields {
     await page.type(inputSelector, 'The', { delay: 120 });
 
     await page.waitForResponse((response) => {
-      console.log(response.url(), 'response.url()');
       return (
         response.url().includes('/search') && response.url().includes('search')
       );

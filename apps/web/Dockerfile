@@ -33,13 +33,11 @@ RUN yarn turbo build --filter=web
 FROM node AS runner
 WORKDIR /app
 RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
-USER nextjs
-COPY --from=installer /build/apps/web/next.config.js .
+RUN adduser --system --uid 1001 reactweb
+USER reactweb
 COPY --from=installer /build/apps/web/package.json .
-# https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --from=installer --chown=nextjs:nodejs /build/apps/web/.next/standalone ./
-COPY --from=installer --chown=nextjs:nodejs /build/apps/web/.next/static ./apps/web/.next/static
+COPY --from=installer /build/apps/web/vite.config.ts .
+COPY --from=installer /build/apps/web/dist ./dist
 # endregion
 
-CMD ["node", "apps/web/server.js"]
+CMD ["npx", "vite", "preview"]
