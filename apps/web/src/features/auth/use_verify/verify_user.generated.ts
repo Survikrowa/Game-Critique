@@ -5,7 +5,7 @@ import { fetchData } from '@/codegen/fetcher';
 export type VerifyUserQueryVariables = Types.Exact<{ [key: string]: never; }>;
 
 
-export type VerifyUserQuery = { __typename?: 'Query', verify: { __typename?: 'AuthUserVerification', authorized: boolean, role: Types.Roles } };
+export type VerifyUserQuery = { __typename?: 'Query', verify: { __typename?: 'AuthUserVerification', authorized: boolean, role?: Types.Roles | null } };
 
 
 
