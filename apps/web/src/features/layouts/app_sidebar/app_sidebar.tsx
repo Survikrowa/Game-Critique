@@ -1,6 +1,8 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "@tanstack/react-router";
-import { Home, Library, User } from "lucide-react";
+import { Home, Library, LogOutIcon, User } from "lucide-react";
 
+import { Button } from "@/packages/ui/inputs/button.tsx";
 import {
   Sidebar,
   SidebarContent,
@@ -41,6 +43,7 @@ const sidebarItems = [
 ];
 
 export const AppSidebar = () => {
+  const { logout } = useAuth0();
   return (
     <Sidebar>
       <SidebarContent>
@@ -66,6 +69,21 @@ export const AppSidebar = () => {
             </SidebarGroupContent>
           </SidebarGroup>
         ))}
+        <SidebarGroup>
+          <SidebarGroupLabel>Actions</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Button onClick={() => logout()}>
+                    <LogOutIcon />
+                    Logout
+                  </Button>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
       </SidebarContent>
     </Sidebar>
   );
