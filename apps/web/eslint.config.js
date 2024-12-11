@@ -58,10 +58,7 @@ export default tseslint.config(
       "import/no-duplicates": "error",
       "import/no-unresolved": "off",
       ...reactHooks.configs.recommended.rules,
-      "react-refresh/only-export-components": [
-        "warn",
-        { allowConstantExport: true },
-      ],
+      "react-refresh/only-export-components": "off",
       "prettier/prettier": "error",
     },
   },

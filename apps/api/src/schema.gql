@@ -9,7 +9,7 @@ input AddGameToCollectionDTO {
 
 type AuthUserVerification {
   authorized: Boolean!
-  role: Roles
+  role: Role
 }
 
 """Single Collection"""
@@ -249,7 +249,7 @@ type Query {
   If oauthId is not provided it will use the id of the user that called the query
   """
   userGamesStatus(oauthId: String, search: String, skip: Float = 0, status: GameStatus!, take: Float = 5): UserGamesStatusResponseWithPaginationDTO!
-  users: [UserDataDTO!]!
+  users: [UserDTO!]!
   usersSearch(input: String!): [UserSearchResultDTO!]!
   verify: AuthUserVerification!
 }
@@ -264,8 +264,8 @@ type RemovedCollectionResponseDTO {
   success: Boolean!
 }
 
-"""All possible roles"""
-enum Roles {
+"""Role Enum"""
+enum Role {
   ADMIN
   USER
 }
@@ -314,6 +314,14 @@ type UserActivityDTO {
   updatedAt: DateTime!
 }
 
+"""User"""
+type UserDTO {
+  id: Float!
+  oauthId: String!
+  profile: ProfileInfoDTO
+  role: Role
+}
+
 """User i dont know how to name it"""
 type UserDataDTO {
   gamesStatus: [GameStatusDTO!]
@@ -347,4 +355,5 @@ type UserSearchResultDTO {
   isFriendRequestSent: Boolean!
   oauthId: String!
   profile: ProfileInfoDTO
+  role: Role
 }

@@ -6,7 +6,7 @@ import * as Types from "@/types.ts";
 
 type AuthState = {
   isAuthenticated: boolean;
-  role: Types.Roles | null;
+  role: Types.Role | null;
 };
 
 type RootRouteProps = {

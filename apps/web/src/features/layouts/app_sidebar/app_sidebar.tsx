@@ -20,7 +20,7 @@ const sidebarItems = [
     items: [
       {
         label: "Home",
-        href: "/",
+        href: "/admin",
         icon: Home,
       },
     ],
@@ -30,12 +30,12 @@ const sidebarItems = [
     items: [
       {
         label: "Search Users",
-        href: "/users",
+        href: "/admin/users",
         icon: User,
       },
       {
         label: "Search User Games",
-        href: "/user-games",
+        href: "/admin/user-games",
         icon: Library,
       },
     ],
@@ -44,6 +44,7 @@ const sidebarItems = [
 
 export const AppSidebar = () => {
   const { logout } = useAuth0();
+
   return (
     <Sidebar>
       <SidebarContent>
@@ -56,7 +57,9 @@ export const AppSidebar = () => {
                   <SidebarMenuItem key={item.label}>
                     <SidebarMenuButton asChild>
                       <Link
-                        href={item.href}
+                        to={item.href}
+                        activeOptions={{ exact: true }}
+                        activeProps={{ className: "bg-gray-800" }}
                         className="block p-2 text-white hover:bg-gray-800"
                       >
                         <item.icon />
