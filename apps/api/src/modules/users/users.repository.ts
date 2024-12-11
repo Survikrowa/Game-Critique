@@ -20,6 +20,11 @@ export class UsersRepository {
         },
       },
       include: {
+        role: {
+          include: {
+            role: true,
+          },
+        },
         FriendsRequestsForUsersReceiver: {
           where: {
             ownerId: oauthId,

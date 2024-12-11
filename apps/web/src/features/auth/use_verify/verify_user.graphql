@@ -1,0 +1,6 @@
+query VerifyUser {
+    verify {
+        authorized
+        role
+    }
+}

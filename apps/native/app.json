@@ -6,6 +6,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
+    "owner": "game-critique",
     "userInterfaceStyle": "light",
     "experiments": {
       "tsconfigPaths": true

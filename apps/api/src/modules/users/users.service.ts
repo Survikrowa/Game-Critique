@@ -30,6 +30,7 @@ export class UsersService {
       .map((user) => {
         return {
           ...user,
+          role: user.role?.role.role,
           isFriendRequestSent: user.FriendsRequestsForUsersReceiver.length > 0,
         };
       });

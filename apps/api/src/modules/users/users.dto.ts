@@ -1,12 +1,17 @@
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { ProfileInfoDTO } from '../profiles/profiles.dto';
 import { GameStatusDTO } from '../games_status/games_status.dto';
-import { GameStatus } from '@prisma/client';
+import { GameStatus, RoleEnum } from '@prisma/client';
 import { UserActivityDTO } from './users_activity/users_activity.dto';
 
 registerEnumType(GameStatus, {
   name: 'GameStatus',
   description: 'GameStatus Enum',
+});
+
+registerEnumType(RoleEnum, {
+  name: 'Role',
+  description: 'Role Enum',
 });
 
 @ObjectType({ description: 'User' })
@@ -18,6 +23,9 @@ export class UserDTO {
 
   @Field(() => ProfileInfoDTO, { nullable: true })
   profile: ProfileInfoDTO | null;
+
+  @Field(() => RoleEnum, { nullable: true })
+  role?: RoleEnum;
 }
 
 @ObjectType({ description: 'User i dont know how to name it' })

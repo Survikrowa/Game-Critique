@@ -22,6 +22,6 @@ import { HttpModule } from '@nestjs/axios';
     }),
   ],
   providers: [OAuthJwtStrategy, AuthResolver, AuthService, AuthRepository],
-  exports: [PassportModule],
+  exports: [PassportModule, AuthService],
 })
 export class AuthModule {}

@@ -32,4 +32,8 @@ export class AuthService {
     );
     return data;
   }
+
+  async getUserRole(oauthId: string) {
+    return this.authRepository.getUserRole(oauthId);
+  }
 }
