@@ -18,42 +18,95 @@ model IGBDBAuth {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  oauthId   String   @unique @map("oauth_id")
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-  profile   Profile?
-  friends   Friend[]
-  friendsList   FriendsList?
+  id                                  Int                                  @id @default(autoincrement())
+  oauthId                             String                               @unique @map("oauth_id")
+  createdAt                           DateTime                             @default(now()) @map("created_at")
+  updatedAt                           DateTime                             @updatedAt @map("updated_at")
+  profile                             Profile?
+  friends                             Friend[]
+  friendsList                         FriendsList?
   howLongToBeatAccountMigrationStatus HowLongToBeatAccountMigrationStatus?
-  GamesStatus GamesStatus[]
-  userActivity UserActivity[]
-  FriendsRequestsForUsersOwner FriendsRequestsForUsers[] @relation(name: "FriendRequestOwner")
-  FriendsRequestsForUsersReceiver FriendsRequestsForUsers[] @relation(name: "FriendRequestReceiver")
+  GamesStatus                         GamesStatus[]
+  userActivity                        UserActivity[]
+  role                                UserRole?
+  FriendsRequestsForUsersOwner        FriendsRequestsForUsers[]            @relation(name: "FriendRequestOwner")
+  FriendsRequestsForUsersReceiver     FriendsRequestsForUsers[]            @relation(name: "FriendRequestReceiver")
 
   @@map("users")
 }
 
 model Profile {
-  id        Int      @id @default(autoincrement())
-  name      String?
-  email     String?   @unique
-  avatarUrl String   @map("avatar_url")
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-  oauthId    String      @unique @map("oauth_id")
-  user      User     @relation(fields: [oauthId], references: [oauthId], onDelete: Cascade)
+  id          Int          @id @default(autoincrement())
+  name        String?
+  email       String?      @unique
+  avatarUrl   String       @map("avatar_url")
+  createdAt   DateTime     @default(now()) @map("created_at")
+  updatedAt   DateTime     @updatedAt @map("updated_at")
+  oauthId     String       @unique @map("oauth_id")
+  user        User         @relation(fields: [oauthId], references: [oauthId], onDelete: Cascade)
   collections Collection[]
+
   @@map("profiles")
 }
 
+model UserRole {
+  id        Int      @id @default(autoincrement())
+  oauthId   String   @unique @map("oauth_id")
+  roleId    Int      @map("role_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  user      User     @relation(fields: [oauthId], references: [oauthId], onDelete: Cascade)
+  role      Role     @relation(fields: [roleId], references: [id])
+
+  @@map("user_roles")
+}
+
+model Role {
+  id          Int              @id @default(autoincrement())
+  name        RoleEnum         @unique
+  createdAt   DateTime         @default(now()) @map("created_at")
+  updatedAt   DateTime         @updatedAt @map("updated_at")
+  usersRoles  UserRole[]
+  permissions PermissionRole[]
+
+  @@map("roles")
+}
+
+enum RoleEnum {
+  ADMIN
+  USER
+}
+
+model PermissionRole {
+  permissionId Int        @map("permission_id")
+  roleId       Int        @map("role_id")
+  createdAt    DateTime   @default(now()) @map("created_at")
+  updatedAt    DateTime   @updatedAt @map("updated_at")
+  permission   Permission @relation(fields: [permissionId], references: [id])
+  role         Role       @relation(fields: [roleId], references: [id])
+
+  @@id([permissionId, roleId])
+  @@map("permission_role")
+}
+
+model Permission {
+  id         Int              @id @default(autoincrement())
+  name       String
+  permission String           @unique
+  createdAt  DateTime         @default(now()) @map("created_at")
+  updatedAt  DateTime         @updatedAt @map("updated_at")
+  roles      PermissionRole[]
+
+  @@map("permissions")
+}
+
 model Game {
-  id              Int               @id @default(autoincrement())
-  hltbId          Int               @unique @map("hltb_id")
+  id              Int                 @id @default(autoincrement())
+  hltbId          Int                 @unique @map("hltb_id")
   name            String
   slug            String
-  createdAt       DateTime          @default(now()) @map("created_at")
-  updatedAt       DateTime          @updatedAt @map("updated_at")
+  createdAt       DateTime            @default(now()) @map("created_at")
+  updatedAt       DateTime            @updatedAt @map("updated_at")
   genres          GamesGenre[]
   cover           Cover?
   release         Release?
@@ -67,16 +120,16 @@ model Game {
 }
 
 model GameCompletionTime {
-    id        Int      @id @default(autoincrement())
-    main      Int
-    mainExtra Int
-    completionist Int
-    createdAt DateTime @default(now()) @map("created_at")
-    updatedAt DateTime @updatedAt @map("updated_at")
-    gameId    Int      @unique @map("game_id")
-    game      Game     @relation(fields: [gameId], references: [id])
+  id            Int      @id @default(autoincrement())
+  main          Int
+  mainExtra     Int
+  completionist Int
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+  gameId        Int      @unique @map("game_id")
+  game          Game     @relation(fields: [gameId], references: [id])
 
-    @@map("game_completion_time")
+  @@map("game_completion_time")
 }
 
 model Genre {
@@ -92,9 +145,9 @@ model Genre {
 
 model Cover {
   id        Int      @id @default(autoincrement())
-  smallUrl       String
-  mediumUrl      String
-  bigUrl         String
+  smallUrl  String
+  mediumUrl String
+  bigUrl    String
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
   gameId    Int      @unique @map("game_id")
@@ -105,7 +158,7 @@ model Cover {
 
 model GamesGenre {
   gameId    Int      @map("game_id")
-  genreSlug   String      @map("genre_slug")
+  genreSlug String   @map("genre_slug")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
   game      Game     @relation(fields: [gameId], references: [id])
@@ -127,12 +180,12 @@ model Release {
 }
 
 model PlatformForGame {
-  gameId     Int      @map("game_id")
-  platformSlug String      @map("platform_slug")
-  createdAt  DateTime @default(now()) @map("created_at")
-  updatedAt  DateTime @updatedAt @map("updated_at")
-  game       Game     @relation(fields: [gameId], references: [id])
-  platform   Platform @relation(fields: [platformSlug], references: [slug])
+  gameId       Int      @map("game_id")
+  platformSlug String   @map("platform_slug")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+  game         Game     @relation(fields: [gameId], references: [id])
+  platform     Platform @relation(fields: [platformSlug], references: [slug])
 
   @@id([gameId, platformSlug])
   @@map("game_platform")
@@ -151,138 +204,145 @@ model Platform {
 }
 
 model GamesCollection {
-    gameId       Int      @map("game_id")
-    collectionId Int      @map("collection_id")
-    createdAt    DateTime @default(now()) @map("created_at")
-    updatedAt    DateTime @updatedAt @map("updated_at")
-    game         Game     @relation(fields: [gameId], references: [id])
-    collection   Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  gameId       Int        @map("game_id")
+  collectionId Int        @map("collection_id")
+  createdAt    DateTime   @default(now()) @map("created_at")
+  updatedAt    DateTime   @updatedAt @map("updated_at")
+  game         Game       @relation(fields: [gameId], references: [id])
+  collection   Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
 
-    @@id([gameId, collectionId])
-    @@map("game_collection")
+  @@id([gameId, collectionId])
+  @@map("game_collection")
 }
 
-
 model Collection {
-    id        Int      @id @default(autoincrement())
-    name      String
-    description String
-    createdAt DateTime @default(now()) @map("created_at")
-    updatedAt DateTime @updatedAt @map("updated_at")
-    gamesCollection     GamesCollection[]
-    profileId    Int       @map("profile_id")
-    profile      Profile     @relation(fields: [profileId], references: [id], onDelete: Cascade)
-    status      CollectionStatus @default(ACTIVE)
-    @@map("collection")
+  id              Int               @id @default(autoincrement())
+  name            String
+  description     String
+  createdAt       DateTime          @default(now()) @map("created_at")
+  updatedAt       DateTime          @updatedAt @map("updated_at")
+  gamesCollection GamesCollection[]
+  profileId       Int               @map("profile_id")
+  profile         Profile           @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  status          CollectionStatus  @default(ACTIVE)
+
+  @@map("collection")
 }
 
 enum CollectionStatus {
-    ACTIVE
-    REMOVED
+  ACTIVE
+  REMOVED
 }
 
 enum GameStatus {
-    COMPLETED
-    RETIRED
-    IN_PROGRESS
+  COMPLETED
+  RETIRED
+  IN_PROGRESS
 }
 
 model GamesStatus {
-    id       Int      @id @default(autoincrement())
-    oauthId  String      @map("oauth_id")
-    user      User     @relation(fields: [oauthId], references: [oauthId], onDelete: Cascade)
-    completedIn GamesStatusCompletion?
-    score   String?
-    platformId Int @map("platform_id")
-    platform   Platform @relation(fields: [platformId], references: [id])
-    status   GameStatus
-    createdAt DateTime @default(now()) @map("created_at")
-    updatedAt DateTime @updatedAt @map("updated_at")
-    gameId   Int      @map("game_id")
-    game     Game     @relation(fields: [gameId], references: [id])
-    achievementsCompleted Boolean @map("achievements_completed")
-    review String?
-    @@map("games_status")
+  id                    Int                    @id @default(autoincrement())
+  oauthId               String                 @map("oauth_id")
+  user                  User                   @relation(fields: [oauthId], references: [oauthId], onDelete: Cascade)
+  completedIn           GamesStatusCompletion?
+  score                 String?
+  platformId            Int                    @map("platform_id")
+  platform              Platform               @relation(fields: [platformId], references: [id])
+  status                GameStatus
+  createdAt             DateTime               @default(now()) @map("created_at")
+  updatedAt             DateTime               @updatedAt @map("updated_at")
+  gameId                Int                    @map("game_id")
+  game                  Game                   @relation(fields: [gameId], references: [id])
+  achievementsCompleted Boolean                @map("achievements_completed")
+  review                String?
+
+  @@map("games_status")
 }
 
 model GamesStatusCompletion {
-    id      Int      @id @default(autoincrement())
-    hours  Int?
-    minutes Int?
-    seconds Int?
-    gamesStatusId Int @map("games_status_id") @unique
-    gamesStatus   GamesStatus @relation(fields: [gamesStatusId], references: [id], onDelete: Cascade)
-    @@map("games_status_completion")
+  id            Int         @id @default(autoincrement())
+  hours         Int?
+  minutes       Int?
+  seconds       Int?
+  gamesStatusId Int         @unique @map("games_status_id")
+  gamesStatus   GamesStatus @relation(fields: [gamesStatusId], references: [id], onDelete: Cascade)
+
+  @@map("games_status_completion")
 }
 
 model FriendsList {
-    id       Int      @id @default(autoincrement())
-    ownerId  String      @map("owner_id") @unique
-    owner    User     @relation(fields: [ownerId], references: [oauthId], onDelete: Cascade)
-    FriendsListForFriends FriendsListForFriends[]
-    createdAt DateTime @default(now()) @map("created_at")
-    updatedAt DateTime @updatedAt @map("updated_at")
+  id                    Int                     @id @default(autoincrement())
+  ownerId               String                  @unique @map("owner_id")
+  owner                 User                    @relation(fields: [ownerId], references: [oauthId], onDelete: Cascade)
+  FriendsListForFriends FriendsListForFriends[]
+  createdAt             DateTime                @default(now()) @map("created_at")
+  updatedAt             DateTime                @updatedAt @map("updated_at")
 
-    @@map("friends_list")
+  @@map("friends_list")
 }
 
 model FriendsListForFriends {
-    friendsListId Int @map("friends_list_id")
-    friendId Int @map("friend_id")
-    friend   Friend     @relation(fields: [friendId], references: [id], onDelete: Cascade)
-    friendsList   FriendsList @relation(fields: [friendsListId], references: [id], onDelete: Cascade)
-    createdAt DateTime @default(now()) @map("created_at")
-    updatedAt DateTime @updatedAt @map("updated_at")
-    @@id([friendsListId, friendId])
-    @@map("friends_list_for_friends")
+  friendsListId Int         @map("friends_list_id")
+  friendId      Int         @map("friend_id")
+  friend        Friend      @relation(fields: [friendId], references: [id], onDelete: Cascade)
+  friendsList   FriendsList @relation(fields: [friendsListId], references: [id], onDelete: Cascade)
+  createdAt     DateTime    @default(now()) @map("created_at")
+  updatedAt     DateTime    @updatedAt @map("updated_at")
+
+  @@id([friendsListId, friendId])
+  @@map("friends_list_for_friends")
 }
 
 model Friend {
-    id       Int      @id @default(autoincrement())
-    oauthId String      @map("friend_id") @unique
-    user   User     @relation(fields: [oauthId], references: [oauthId], onDelete: Cascade)
-    createdAt DateTime @default(now()) @map("created_at")
-    updatedAt DateTime @updatedAt @map("updated_at")
-    FriendsListForFriends FriendsListForFriends[]
-    @@map("friends")
+  id                    Int                     @id @default(autoincrement())
+  oauthId               String                  @unique @map("friend_id")
+  user                  User                    @relation(fields: [oauthId], references: [oauthId], onDelete: Cascade)
+  createdAt             DateTime                @default(now()) @map("created_at")
+  updatedAt             DateTime                @updatedAt @map("updated_at")
+  FriendsListForFriends FriendsListForFriends[]
+
+  @@map("friends")
 }
 
 model FriendsRequestsForUsers {
-    ownerId  String      @map("owner_id")
-    owner    User     @relation(name: "FriendRequestOwner" ,fields: [ownerId], references: [oauthId], onDelete: Cascade)
-    receiverId String      @map("receiver_id")
-    receiver   User     @relation(name: "FriendRequestReceiver", fields: [receiverId], references: [oauthId], onDelete: Cascade)
-    createdAt DateTime @default(now()) @map("created_at")
-    updatedAt DateTime @updatedAt @map("updated_at")
-    @@id([ownerId, receiverId])
-    @@map("friends_requests_for_users")
+  ownerId    String   @map("owner_id")
+  owner      User     @relation(name: "FriendRequestOwner", fields: [ownerId], references: [oauthId], onDelete: Cascade)
+  receiverId String   @map("receiver_id")
+  receiver   User     @relation(name: "FriendRequestReceiver", fields: [receiverId], references: [oauthId], onDelete: Cascade)
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@id([ownerId, receiverId])
+  @@map("friends_requests_for_users")
 }
 
 model UserActivity {
-    id       Int      @id @default(autoincrement())
-    oauthId String      @map("oauth_id")
-    user   User     @relation(fields: [oauthId], references: [oauthId], onDelete: Cascade)
-    gameId   Int      @map("game_id")
-    game     Game     @relation(fields: [gameId], references: [id])
-    activityType GameStatus
-    createdAt DateTime @default(now()) @map("created_at")
-    updatedAt DateTime @updatedAt @map("updated_at")
-    @@map("user_activity")
+  id           Int        @id @default(autoincrement())
+  oauthId      String     @map("oauth_id")
+  user         User       @relation(fields: [oauthId], references: [oauthId], onDelete: Cascade)
+  gameId       Int        @map("game_id")
+  game         Game       @relation(fields: [gameId], references: [id])
+  activityType GameStatus
+  createdAt    DateTime   @default(now()) @map("created_at")
+  updatedAt    DateTime   @updatedAt @map("updated_at")
+
+  @@map("user_activity")
 }
 
 model HowLongToBeatAccountMigrationStatus {
-    id       Int      @id @default(autoincrement())
-    oauthId String      @map("oauth_id") @unique
-    user   User     @relation(fields: [oauthId], references: [oauthId], onDelete: Cascade)
-    status   MigrationStatus @default(WAITING)
-    createdAt DateTime @default(now()) @map("created_at")
-    updatedAt DateTime @updatedAt @map("updated_at")
-    @@map("how_long_to_beat_account_migration_status")
+  id        Int             @id @default(autoincrement())
+  oauthId   String          @unique @map("oauth_id")
+  user      User            @relation(fields: [oauthId], references: [oauthId], onDelete: Cascade)
+  status    MigrationStatus @default(WAITING)
+  createdAt DateTime        @default(now()) @map("created_at")
+  updatedAt DateTime        @updatedAt @map("updated_at")
+
+  @@map("how_long_to_beat_account_migration_status")
 }
 
 enum MigrationStatus {
-    WAITING
-    IN_PROGRESS
-    FINISHED
-    FAILED
+  WAITING
+  IN_PROGRESS
+  FINISHED
+  FAILED
 }

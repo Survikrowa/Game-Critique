@@ -1,14 +1,19 @@
 {
-  "extends": "@repo/typescript-config/nextjs.json",
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ],
   "compilerOptions": {
-    "plugins": [{ "name": "next" }],
     "baseUrl": ".",
+    "plugins": [
+      {
+        "name": "@0no-co/graphqlsp",
+        "schema": "./schema.graphql"
+      }
+    ],
     "paths": {
-      "@/modules/*": ["modules/*"],
-      "@/packages/*": ["packages/*"],
-      "@/codegen/*": ["codegen/*"]
+      "@/*": ["./src/*"]
     }
-  },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  }
 }
