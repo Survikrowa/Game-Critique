@@ -39,7 +39,7 @@ export class AuthResolver {
         const userRole = await this.authService.getUserRole(user.sub);
         return {
           authorized: true,
-          role: userRole?.role?.role || null,
+          role: userRole?.role?.name || null,
         };
       }
       console.log(e);

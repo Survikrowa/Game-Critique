@@ -3,12 +3,12 @@ import { OmittedPrismaClient } from '../types';
 
 export const seedRolesAndPermissions = async (prisma: OmittedPrismaClient) => {
   await prisma.role.createMany({
-    data: [{ role: RoleEnum.USER }, { role: RoleEnum.ADMIN }],
+    data: [{ name: RoleEnum.USER }, { name: RoleEnum.ADMIN }],
   });
 
   const adminRole = await prisma.role.findFirst({
     where: {
-      role: RoleEnum.ADMIN,
+      name: RoleEnum.ADMIN,
     },
   });
 

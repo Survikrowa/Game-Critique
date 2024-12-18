@@ -63,7 +63,7 @@ model UserRole {
 
 model Role {
   id          Int              @id @default(autoincrement())
-  role        RoleEnum         @unique @default(USER)
+  name        RoleEnum         @unique
   createdAt   DateTime         @default(now()) @map("created_at")
   updatedAt   DateTime         @updatedAt @map("updated_at")
   usersRoles  UserRole[]

@@ -10,7 +10,7 @@ export class AuthRepository {
     return this.prismaService.$transaction(async (prisma) => {
       const userRole = await prisma.role.findFirst({
         where: {
-          role: RoleEnum.USER,
+          name: RoleEnum.USER,
         },
       });
       if (!userRole) {
@@ -33,7 +33,7 @@ export class AuthRepository {
       });
       return {
         ...user,
-        role: userRole.role,
+        role: userRole.name,
       };
     });
   }
@@ -46,7 +46,7 @@ export class AuthRepository {
       include: {
         role: {
           select: {
-            role: true,
+            name: true,
           },
         },
       },

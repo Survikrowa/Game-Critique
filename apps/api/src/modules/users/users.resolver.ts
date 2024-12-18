@@ -23,17 +23,6 @@ export class UsersResolver {
   @UseGuards(JwtAuthGuard, AdminUserGuard)
   @Query(() => [UserDTO])
   async users(): Promise<UserDTO[]> {
-    return [
-      {
-        id: 1,
-        profile: {
-          name: 'John Doe',
-          avatarUrl: '',
-          id: 1,
-        },
-        role: 'USER',
-        oauthId: '123',
-      },
-    ];
+    return await this.usersService.getAllUsersWithProfile();
   }
 }
