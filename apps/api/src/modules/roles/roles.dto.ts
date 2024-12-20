@@ -1,4 +1,4 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, InputType, ObjectType } from '@nestjs/graphql';
 
 @ObjectType({ description: 'Role' })
 export class RoleDTO {
@@ -6,4 +6,18 @@ export class RoleDTO {
   id: number;
   @Field(() => String)
   name: string;
+}
+
+@ObjectType({ description: 'Update user role' })
+export class UpdateUserRoleDTO {
+  @Field(() => Boolean)
+  success: boolean;
+}
+
+@InputType()
+export class UpdateUserRoleInput {
+  @Field(() => Number)
+  roleId: number;
+  @Field(() => String)
+  userOauthId: string;
 }

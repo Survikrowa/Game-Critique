@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../database/prisma.service';
-import { PrismaPromise, RoleEnum } from '@prisma/client';
 @Injectable()
 export class UsersRepository {
   constructor(private readonly prismaService: PrismaService) {}

@@ -22,6 +22,7 @@ export const useCustomQueryClient = () => {
       defaultOptions: {
         queries: {
           staleTime: Infinity,
+          refetchOnWindowFocus: false,
         },
       },
       queryCache,

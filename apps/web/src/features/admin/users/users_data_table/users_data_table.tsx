@@ -10,11 +10,16 @@ type UserProfile = {
   id: number;
   name: string;
   role?: Role | null;
+  oauthId: string;
 };
 export const columns: ColumnDef<UserProfile>[] = [
   {
     accessorKey: "id",
     header: "UserID",
+  },
+  {
+    accessorKey: "oauthId",
+    header: "UserOauthID",
   },
   {
     accessorKey: "name",
@@ -26,8 +31,9 @@ export const columns: ColumnDef<UserProfile>[] = [
   },
   {
     id: "actions",
-    cell: () => {
-      return <TableDropdownUserActions />;
+    cell: ({ row }) => {
+      const userOauthId = row.original.oauthId;
+      return <TableDropdownUserActions userOauthId={userOauthId} />;
     },
   },
 ];
@@ -44,6 +50,7 @@ export const UsersDataTable = () => {
       id: user.id,
       name: user.profile?.name || "",
       role: user.role,
+      oauthId: user.oauthId,
     })) ?? [];
 
   return <DataTable columns={columns} data={users} />;

@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { UsersRepository } from './users.repository';
-import { PrismaService } from '../database/prisma.service';
 import { formatDateToRelativeText } from '../dates/format_date_to_relative_text/format_date_to_relative_text';
 import dayjs from 'dayjs';
 import { QueryBus } from '@nestjs/cqrs';
@@ -13,7 +12,6 @@ import { GetAllUsersWithProfileReturn, GetUserReturn } from './users.types';
 export class UsersService {
   constructor(
     private readonly usersRepository: UsersRepository,
-    private readonly prismaService: PrismaService,
     private readonly queryBus: QueryBus,
   ) {}
 

@@ -183,6 +183,7 @@ type Mutation {
   removeGameStatus(gameStatusId: Float!): GameStatusSuccessResponseDTO!
   sendFriendRequest(receiverOauthId: String!): FriendRequestResponseDTO!
   updateProfileInfo(profileInfo: ProfileInfoUpdateArgsDTO!): ProfileInfoUpdateResponseDTO!
+  updateUserRole(updateUserRoleInput: UpdateUserRoleInput!): UpdateUserRoleDTO!
   upsertGameStatus(upsertGameStatusArgs: UpsertGameStatusArgsDTO!): GameStatusSuccessResponseDTO!
 }
 
@@ -287,6 +288,16 @@ type SearchGamesResult {
 """Search result"""
 type SearchResult {
   games: [SearchGamesResult!]!
+}
+
+"""Update user role"""
+type UpdateUserRoleDTO {
+  success: Boolean!
+}
+
+input UpdateUserRoleInput {
+  roleId: Float!
+  userOauthId: String!
 }
 
 input UpsertGameStatusArgsDTO {

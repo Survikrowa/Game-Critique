@@ -5,7 +5,7 @@ import { fetchData } from '@/codegen/fetcher';
 export type UsersQueryVariables = Types.Exact<{ [key: string]: never; }>;
 
 
-export type UsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'UserDTO', id: number, role?: Types.Role | null, profile?: { __typename?: 'ProfileInfoDTO', name?: string | null } | null }> };
+export type UsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'UserDTO', id: number, oauthId: string, role?: Types.Role | null, profile?: { __typename?: 'ProfileInfoDTO', name?: string | null } | null }> };
 
 
 
@@ -13,6 +13,7 @@ export const UsersDocument = `
     query Users {
   users {
     id
+    oauthId
     profile {
       name
     }

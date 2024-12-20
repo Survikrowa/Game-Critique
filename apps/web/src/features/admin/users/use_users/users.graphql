@@ -1,6 +1,7 @@
 query Users {
     users {
         id
+        oauthId
         profile {
             name
         }
