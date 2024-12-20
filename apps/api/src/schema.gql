@@ -237,6 +237,7 @@ type Query {
   """Get user and friends game status reviews"""
   ownerAndFriendsGameStatusReviews(gameStatusId: Float!): [FriendsGameStatusReviewsDTO!]!
   profileInfo: ProfileInfoDTO!
+  roles: [RoleDTO!]!
   search(input: String!): SearchResult!
   user(oauthId: String!): UserDataDTO!
 
@@ -268,6 +269,12 @@ type RemovedCollectionResponseDTO {
 enum Role {
   ADMIN
   USER
+}
+
+"""Role"""
+type RoleDTO {
+  id: Float!
+  name: String!
 }
 
 """Search Games Result"""
