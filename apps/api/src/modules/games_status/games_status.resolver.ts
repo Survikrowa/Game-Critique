@@ -70,7 +70,7 @@ export class GamesStatusResolver {
   }
 
   @Query(() => [UserGamesStatusResponseDTO])
-  // @UseGuards(JwtAuthGuard, AdminUserGuard)
+  @UseGuards(JwtAuthGuard, AdminUserGuard)
   async getAllUserGamesStatusByOauthId(
     @Args('oauthId') oauthId: string,
   ): Promise<UserGamesStatusResponseDTO[]> {
@@ -82,7 +82,7 @@ export class GamesStatusResolver {
     description:
       'Admin mutation to remove game status by gameStatusId and user oauthId',
   })
-  // @UseGuards(JwtAuthGuard, AdminUserGuard)
+  @UseGuards(JwtAuthGuard, AdminUserGuard)
   async removeUserGameStatusByUserOauthId(
     @Args('gameStatusId') gameStatusId: number,
     @Args('oauthId') oauthId: string,
