@@ -42,7 +42,6 @@ export class AuthResolver {
           role: userRole?.role?.name || null,
         };
       }
-      console.log(e);
       return {
         authorized: false,
       };

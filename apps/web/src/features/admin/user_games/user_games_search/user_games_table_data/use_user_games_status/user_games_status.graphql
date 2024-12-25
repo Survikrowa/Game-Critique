@@ -1,0 +1,10 @@
+query UserGamesStatus($oauthId: String!) {
+  getAllUserGamesStatusByOauthId(oauthId: $oauthId) {
+      id
+    status
+      game {
+          id
+          name
+      }
+  }
+}

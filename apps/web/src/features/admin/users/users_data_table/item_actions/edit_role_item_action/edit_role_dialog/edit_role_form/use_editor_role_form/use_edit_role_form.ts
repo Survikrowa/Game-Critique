@@ -31,7 +31,6 @@ export const useEditRoleForm = ({
     schema: EditRoleFormSchema,
   });
   const onSubmit = form.handleSubmit(async (data) => {
-    console.log(data.roleId, userOauthId);
     await updateUserRolesMutation.mutateAsync({
       updateUserRoleInput: {
         roleId: Number(data.roleId),

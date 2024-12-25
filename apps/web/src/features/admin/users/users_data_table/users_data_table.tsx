@@ -2,7 +2,7 @@ import { ColumnDef } from "@tanstack/react-table";
 
 import { useUsers } from "@/features/admin/users/use_users/use_users.ts";
 import { TableDropdownUserActions } from "@/features/admin/users/users_data_table/table_dropdown_user_actions.tsx";
-import { DataTable } from "@/packages/ui/data_display/data_table.tsx";
+import { DataTable } from "@/packages/ui/data_display/data_table/data_table.tsx";
 import { Skeleton } from "@/packages/ui/feedback/skeleton.tsx";
 import { Role } from "@/types.ts";
 

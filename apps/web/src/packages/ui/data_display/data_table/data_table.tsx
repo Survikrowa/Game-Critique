@@ -5,6 +5,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
+import { DataTablePagination } from "@/packages/ui/data_display/data_table/data_table_pagination.tsx";
 import {
   Table,
   TableBody,
@@ -17,11 +18,13 @@ import {
 type DataTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  withPagination?: boolean;
 };
 
 export const DataTable = <TData, TValue>({
   columns,
   data,
+  withPagination,
 }: DataTableProps<TData, TValue>) => {
   const table = useReactTable({
     columns,
@@ -73,6 +76,7 @@ export const DataTable = <TData, TValue>({
           )}
         </TableBody>
       </Table>
+      {withPagination && <DataTablePagination table={table} />}
     </div>
   );
 };

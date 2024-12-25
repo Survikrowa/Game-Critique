@@ -1,3 +1,5 @@
+import { useQueryClient } from "@tanstack/react-query";
+
 import { useToast } from "@/packages/ui/feedback/toast/use-toast.ts";
 import {
   UpdateUserRoleMutation,
@@ -11,9 +13,13 @@ type UpdateUserRoleArgs = {
 };
 
 export const useUpdateUserRole = ({ onSuccess }: UpdateUserRoleArgs) => {
+  const queryClient = useQueryClient();
   const { toast } = useToast();
   return useUpdateUserRoleMutation({
-    onSuccess,
+    onSuccess: (data) => {
+      onSuccess(data);
+      queryClient.invalidateQueries({ queryKey: ["Users"] });
+    },
     onError: () => {
       toast({
         title: "User role update failed",

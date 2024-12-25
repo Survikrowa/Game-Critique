@@ -123,6 +123,11 @@ type GameStatusDTO {
   score: String
 }
 
+"""GameStatus Removed Response"""
+type GameStatusRemovedResponseDTO {
+  message: String!
+}
+
 """GameStatus Success Response"""
 type GameStatusSuccessResponseDTO {
   message: String!
@@ -181,6 +186,9 @@ type Mutation {
   createNewCollection(collection: NewCollectionDTO!): CollectionDTO!
   removeCollection(collection: RemoveCollectionArgsDTO!): RemovedCollectionResponseDTO!
   removeGameStatus(gameStatusId: Float!): GameStatusSuccessResponseDTO!
+
+  """Admin mutation to remove game status by gameStatusId and user oauthId"""
+  removeUserGameStatusByUserOauthId(gameStatusId: Float!, oauthId: String!): GameStatusRemovedResponseDTO!
   sendFriendRequest(receiverOauthId: String!): FriendRequestResponseDTO!
   updateProfileInfo(profileInfo: ProfileInfoUpdateArgsDTO!): ProfileInfoUpdateResponseDTO!
   updateUserRole(updateUserRoleInput: UpdateUserRoleInput!): UpdateUserRoleDTO!
@@ -232,6 +240,7 @@ type Query {
   friendsList: FriendsList!
   friendsRequests: [GetFriendRequestsResponseDTO!]!
   game(hltbId: Float!): GameWithAllDataDTO!
+  getAllUserGamesStatusByOauthId(oauthId: String!): [UserGamesStatusResponseDTO!]!
   getProfileCollections: [CollectionDTO!]!
   migrationStatus: HowLongToBeatMigrationStatusDTO!
 
