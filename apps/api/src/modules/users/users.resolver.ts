@@ -1,7 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { UserDataDTO } from './users.dto';
+import { Injectable, NotFoundException, UseGuards } from '@nestjs/common';
+import { UserDataDTO, UserDTO } from './users.dto';
 import { Args, Query } from '@nestjs/graphql';
 import { UsersService } from './users.service';
+import { JwtAuthGuard } from '../auth/guards/auth-jwt.guard';
+import { AdminUserGuard } from '../auth/guards/admin-user.guard';
 
 @Injectable()
 export class UsersResolver {
@@ -16,5 +18,11 @@ export class UsersResolver {
       throw new NotFoundException(new Error('User not found'));
     }
     return user;
+  }
+
+  @UseGuards(JwtAuthGuard, AdminUserGuard)
+  @Query(() => [UserDTO])
+  async users(): Promise<UserDTO[]> {
+    return await this.usersService.getAllUsersWithProfile();
   }
 }

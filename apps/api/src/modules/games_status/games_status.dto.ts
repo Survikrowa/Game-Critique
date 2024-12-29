@@ -89,6 +89,12 @@ export class GameStatusErrorResponseDTO {
   error: string;
 }
 
+@ObjectType({ description: 'GameStatus Removed Response' })
+export class GameStatusRemovedResponseDTO {
+  @Field(() => String)
+  message: string;
+}
+
 @ObjectType({ description: 'GameStatus CompletedIn' })
 export class GameStatusCompletedInDTO {
   @Field(() => Number, { nullable: true })
@@ -125,6 +131,26 @@ export class UserGamesStatusResponseWithPaginationDTO {
   userGamesStatus: UserGamesStatusResponseDTO[];
   @Field(() => PaginationDTO)
   pagination: PaginationDTO;
+}
+
+@ObjectType({ description: 'UserGameStatus Response' })
+export class UserGameStatusResponseDTO {
+  @Field(() => Number)
+  id: number;
+  @Field(() => String, { nullable: true })
+  score: string | null;
+  @Field(() => PlatformDTO)
+  platform: PlatformDTO;
+  @Field(() => GameStatus)
+  status: GameStatus;
+  @Field(() => Boolean)
+  achievementsCompleted: boolean;
+  @Field(() => GameStatusCompletedInDTO, { nullable: true })
+  completedIn: GameStatusCompletedInDTO | null;
+  @Field(() => String, { nullable: true })
+  review: string | null;
+  @Field(() => GameWithAllDataDTO)
+  game: GameWithAllDataDTO;
 }
 
 @ObjectType({})

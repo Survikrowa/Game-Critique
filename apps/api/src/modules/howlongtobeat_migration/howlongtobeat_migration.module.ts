@@ -9,6 +9,7 @@ import { GamesStatusModule } from '../games_status/games_status.module';
 import { DatabaseModule } from '../database/database.module';
 import { HowLongToBeatMigrationStatusModule } from './howlongtobeat_migration_status/howlongtobeat_migration_status.module';
 import { CsvModule } from 'nest-csv-parser';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { CsvModule } from 'nest-csv-parser';
     DatabaseModule,
     HowLongToBeatMigrationStatusModule,
     CsvModule,
+    AuthModule,
   ],
   controllers: [HowLongToBeatMigrationController],
   providers: [HowLongToBeatMigrationService, HowLongToBeatMigrationConsumer],

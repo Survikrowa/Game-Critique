@@ -1,18 +1,26 @@
 import { Injectable } from '@nestjs/common';
 import { GamesStatusRepository } from './games_status.repository';
-import { UpsertGameStatusArgsDTO } from './games_status.dto';
+import {
+  UpsertGameStatusArgsDTO,
+  UserGamesStatusResponseDTO,
+} from './games_status.dto';
 import { UsersActivityService } from '../users/users_activity/users_activity.service';
 import { PrismaService } from '../database/prisma.service';
 import { GameStatus } from '@prisma/client';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
+import { GetAllUserGamesStatusByOauthIdQuery } from './queries/get_all_user_games_status_by_oauthid/get_all_user_games_status_by_oauthid.query';
+import { RemoveUserGameStatusByUserOauthIdCommand } from './commands/remove_user_game_status_by_user_oauth_id/remove_user_game_status_by_user_oauth_id.command';
 @Injectable()
 export class GamesStatusService {
   constructor(
     private readonly gamesStatusRepository: GamesStatusRepository,
     private readonly usersActivityService: UsersActivityService,
     private readonly prismaService: PrismaService,
+    private readonly queryBus: QueryBus,
+    private readonly commandBus: CommandBus,
   ) {}
 
-  async getAllUserGamesStatus({
+  async getAllUserGamesStatusPaginatedData({
     oauthId,
     take = 5,
     skip = 0,
@@ -62,6 +70,15 @@ export class GamesStatusService {
       };
     }
     return userGameStatus;
+  }
+
+  async getAllUserGamesStatusByOauthId(
+    oauthId: string,
+  ): Promise<UserGamesStatusResponseDTO[]> {
+    return this.queryBus.execute<
+      GetAllUserGamesStatusByOauthIdQuery,
+      UserGamesStatusResponseDTO[]
+    >(new GetAllUserGamesStatusByOauthIdQuery(oauthId));
   }
 
   async getGameStatusById(gameStatusId: number) {
@@ -127,6 +144,15 @@ export class GamesStatusService {
 
   async removeGameStatus(gameStatusId: number) {
     return this.gamesStatusRepository.removeGameStatus(gameStatusId);
+  }
+
+  async removeUserGameStatusByUserOauthId(
+    gameStatusId: number,
+    oauthId: string,
+  ) {
+    await this.commandBus.execute(
+      new RemoveUserGameStatusByUserOauthIdCommand(oauthId, gameStatusId),
+    );
   }
 
   async getOwnerAndFriendsGameStatusReviews(gameStatusId: number) {

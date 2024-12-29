@@ -1,0 +1,5 @@
+mutation UpdateUserRole($updateUserRoleInput: UpdateUserRoleInput!) {
+    updateUserRole(updateUserRoleInput: $updateUserRoleInput) {
+        success
+    }
+}

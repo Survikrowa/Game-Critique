@@ -21,6 +21,7 @@ import {
 } from '@travelerdev/nestjs-sentry-graphql';
 import * as process from 'process';
 import { APP_INTERCEPTOR } from '@nestjs/core';
+import { RolesModule } from './modules/roles/roles.module';
 
 @Module({
   imports: [
@@ -57,6 +58,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
     GamesStatusModule,
     FriendsModule,
     HowLongToBeatMigrationModule,
+    RolesModule,
   ],
   providers: [
     {

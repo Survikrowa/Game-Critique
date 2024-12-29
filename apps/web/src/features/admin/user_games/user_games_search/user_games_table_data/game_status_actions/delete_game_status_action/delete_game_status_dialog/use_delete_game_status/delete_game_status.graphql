@@ -1,0 +1,5 @@
+mutation DeleteGameStatus($gameStatusId: Float!, $userOauthId: String!) {
+  removeUserGameStatusByUserOauthId(gameStatusId: $gameStatusId, oauthId: $userOauthId) {
+    message
+  }
+}
