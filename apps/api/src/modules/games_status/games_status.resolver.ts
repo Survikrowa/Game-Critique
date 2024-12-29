@@ -5,6 +5,7 @@ import {
   UserGamesStatusResponseDTO,
   UserGamesStatusResponseWithPaginationDTO,
   FriendsGameStatusReviewsDTO,
+  GameStatusRemovedResponseDTO,
 } from './games_status.dto';
 import { GamesStatusService } from './games_status.service';
 import { HttpException, HttpStatus, UseGuards } from '@nestjs/common';
@@ -12,6 +13,7 @@ import { JwtAuthGuard } from '../auth/guards/auth-jwt.guard';
 import { User } from '../auth/auth.decorators';
 import { UserAuthDTO } from '../auth/auth.dto';
 import { GetAllUserGamesStatusArgs } from './games_status.args';
+import { AdminUserGuard } from '../auth/guards/admin-user.guard';
 
 @Resolver()
 export class GamesStatusResolver {
@@ -53,18 +55,46 @@ export class GamesStatusResolver {
     description:
       'If oauthId is not provided it will use the id of the user that called the query',
   })
-  async getAllUserGamesStatus(
+  async getAllUserGamesStatusPaginatedData(
     @User() user: UserAuthDTO,
     @Args()
     { take, skip, status, oauthId, search }: GetAllUserGamesStatusArgs,
   ): Promise<UserGamesStatusResponseWithPaginationDTO> {
-    return this.gamesStatusService.getAllUserGamesStatus({
+    return this.gamesStatusService.getAllUserGamesStatusPaginatedData({
       oauthId: oauthId && oauthId !== 'undefined' ? oauthId : user.sub,
       take,
       skip,
       status,
       search,
     });
+  }
+
+  @Query(() => [UserGamesStatusResponseDTO])
+  @UseGuards(JwtAuthGuard, AdminUserGuard)
+  async getAllUserGamesStatusByOauthId(
+    @Args('oauthId') oauthId: string,
+  ): Promise<UserGamesStatusResponseDTO[]> {
+    return this.gamesStatusService.getAllUserGamesStatusByOauthId(oauthId);
+  }
+
+  @Mutation(() => GameStatusRemovedResponseDTO, {
+    name: 'removeUserGameStatusByUserOauthId',
+    description:
+      'Admin mutation to remove game status by gameStatusId and user oauthId',
+  })
+  @UseGuards(JwtAuthGuard, AdminUserGuard)
+  async removeUserGameStatusByUserOauthId(
+    @Args('gameStatusId') gameStatusId: number,
+    @Args('oauthId') oauthId: string,
+  ) {
+    await this.gamesStatusService.removeUserGameStatusByUserOauthId(
+      gameStatusId,
+      oauthId,
+    );
+
+    return {
+      message: 'Successfully removed game status',
+    };
   }
 
   @UseGuards(JwtAuthGuard)

@@ -9,6 +9,7 @@ input AddGameToCollectionDTO {
 
 type AuthUserVerification {
   authorized: Boolean!
+  role: Role
 }
 
 """Single Collection"""
@@ -122,6 +123,11 @@ type GameStatusDTO {
   score: String
 }
 
+"""GameStatus Removed Response"""
+type GameStatusRemovedResponseDTO {
+  message: String!
+}
+
 """GameStatus Success Response"""
 type GameStatusSuccessResponseDTO {
   message: String!
@@ -180,8 +186,12 @@ type Mutation {
   createNewCollection(collection: NewCollectionDTO!): CollectionDTO!
   removeCollection(collection: RemoveCollectionArgsDTO!): RemovedCollectionResponseDTO!
   removeGameStatus(gameStatusId: Float!): GameStatusSuccessResponseDTO!
+
+  """Admin mutation to remove game status by gameStatusId and user oauthId"""
+  removeUserGameStatusByUserOauthId(gameStatusId: Float!, oauthId: String!): GameStatusRemovedResponseDTO!
   sendFriendRequest(receiverOauthId: String!): FriendRequestResponseDTO!
   updateProfileInfo(profileInfo: ProfileInfoUpdateArgsDTO!): ProfileInfoUpdateResponseDTO!
+  updateUserRole(updateUserRoleInput: UpdateUserRoleInput!): UpdateUserRoleDTO!
   upsertGameStatus(upsertGameStatusArgs: UpsertGameStatusArgsDTO!): GameStatusSuccessResponseDTO!
 }
 
@@ -230,12 +240,14 @@ type Query {
   friendsList: FriendsList!
   friendsRequests: [GetFriendRequestsResponseDTO!]!
   game(hltbId: Float!): GameWithAllDataDTO!
+  getAllUserGamesStatusByOauthId(oauthId: String!): [UserGamesStatusResponseDTO!]!
   getProfileCollections: [CollectionDTO!]!
   migrationStatus: HowLongToBeatMigrationStatusDTO!
 
   """Get user and friends game status reviews"""
   ownerAndFriendsGameStatusReviews(gameStatusId: Float!): [FriendsGameStatusReviewsDTO!]!
   profileInfo: ProfileInfoDTO!
+  roles: [RoleDTO!]!
   search(input: String!): SearchResult!
   user(oauthId: String!): UserDataDTO!
 
@@ -248,6 +260,7 @@ type Query {
   If oauthId is not provided it will use the id of the user that called the query
   """
   userGamesStatus(oauthId: String, search: String, skip: Float = 0, status: GameStatus!, take: Float = 5): UserGamesStatusResponseWithPaginationDTO!
+  users: [UserDTO!]!
   usersSearch(input: String!): [UserSearchResultDTO!]!
   verify: AuthUserVerification!
 }
@@ -262,6 +275,18 @@ type RemovedCollectionResponseDTO {
   success: Boolean!
 }
 
+"""Role Enum"""
+enum Role {
+  ADMIN
+  USER
+}
+
+"""Role"""
+type RoleDTO {
+  id: Float!
+  name: String!
+}
+
 """Search Games Result"""
 type SearchGamesResult {
   cover: Cover!
@@ -272,6 +297,16 @@ type SearchGamesResult {
 """Search result"""
 type SearchResult {
   games: [SearchGamesResult!]!
+}
+
+"""Update user role"""
+type UpdateUserRoleDTO {
+  success: Boolean!
+}
+
+input UpdateUserRoleInput {
+  roleId: Float!
+  userOauthId: String!
 }
 
 input UpsertGameStatusArgsDTO {
@@ -304,6 +339,14 @@ type UserActivityDTO {
   id: Float!
   oauthId: String!
   updatedAt: DateTime!
+}
+
+"""User"""
+type UserDTO {
+  id: Float!
+  oauthId: String!
+  profile: ProfileInfoDTO
+  role: Role
 }
 
 """User i dont know how to name it"""
@@ -339,4 +382,5 @@ type UserSearchResultDTO {
   isFriendRequestSent: Boolean!
   oauthId: String!
   profile: ProfileInfoDTO
+  role: Role
 }

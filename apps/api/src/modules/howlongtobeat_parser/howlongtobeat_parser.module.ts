@@ -3,6 +3,7 @@ import { HttpModule } from '@nestjs/axios';
 import { HowLongToBeatService } from './howlongtobeat_parser.service';
 import { HowLongToBeatScrapperService } from './howlongtobeat_scrapper/howlongtobeat_scrapper.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       }),
       inject: [ConfigService],
     }),
+    AuthModule,
   ],
   providers: [HowLongToBeatService, HowLongToBeatScrapperService],
   exports: [HowLongToBeatService],
