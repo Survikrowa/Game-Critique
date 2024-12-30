@@ -33,7 +33,7 @@ RUN yarn turbo build --filter=web
 FROM nginx:alpine AS runner
 WORKDIR /app
 COPY --from=installer /build/apps/web/dist /usr/share/nginx/html
-COPY --from=installer /build/apps/web/nginx.conf /etc/nginx/nginx.conf
+COPY --from=installer /build/apps/web/nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE $PORT
-CMD ["/bin/sh", "-c", "envsubst '$PORT' < /etc/nginx/nginx.conf > /etc/nginx/nginx.conf && exec nginx -g 'daemon off;'"]
+CMD ["/bin/sh", "-c", "envsubst '${PORT}' < /etc/nginx/conf.d/default.conf > /etc/nginx/conf.d/default.conf && exec nginx -g 'daemon off;'"]
 # endregion
