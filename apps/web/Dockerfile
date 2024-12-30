@@ -35,5 +35,5 @@ WORKDIR /app
 COPY --from=installer /build/apps/web/dist /usr/share/nginx/html
 COPY --from=installer /build/apps/web/nginx.conf /etc/nginx/nginx.conf
 EXPOSE $PORT
-CMD ["/bin/sh", "-c", "envsubst < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"]
+CMD ["/bin/sh", "-c", "envsubst '$PORT' < /etc/nginx/nginx.conf > /etc/nginx/nginx.conf && exec nginx -g 'daemon off;'"]
 # endregion
