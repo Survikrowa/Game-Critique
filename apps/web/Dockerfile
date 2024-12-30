@@ -30,14 +30,10 @@ RUN yarn turbo build --filter=web
 # endregion
 
 # region: Runtime image
-FROM node AS runner
+FROM nginx:alpine AS runner
 WORKDIR /app
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 reactweb
-USER reactweb
-COPY --from=installer /build/apps/web/package.json .
-COPY --from=installer /build/apps/web/vite.config.ts .
-COPY --from=installer /build/apps/web/dist ./dist
+COPY --from=installer /build/apps/web/dist /usr/share/nginx/html
+COPY --from=installer /build/apps/web/nginx.conf /etc/nginx/nginx.conf
+EXPOSE $PORT
+CMD ["/bin/sh", "-c", "envsubst < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"]
 # endregion
-
-CMD ["npx", "vite", "preview"]
