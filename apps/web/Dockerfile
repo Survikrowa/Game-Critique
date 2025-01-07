@@ -26,6 +26,7 @@ COPY --from=builder /repo/out/yarn.lock ./yarn.lock
 RUN yarn install
 COPY --from=builder /repo/out/full/ .
 COPY turbo.json turbo.json
+COPY apps/web/nginx.conf .
 RUN yarn turbo build --filter=web
 # endregion
 
