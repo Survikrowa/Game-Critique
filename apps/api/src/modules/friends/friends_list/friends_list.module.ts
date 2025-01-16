@@ -6,13 +6,8 @@ import { FriendsListResolver } from './friends_list.resolver';
 import { AuthModule } from '../../auth/auth.module';
 
 @Module({
-  imports: [forwardRef(() => DatabaseModule)],
-  providers: [
-    FriendsListRepository,
-    FriendsListService,
-    FriendsListResolver,
-    AuthModule,
-  ],
+  imports: [forwardRef(() => DatabaseModule), AuthModule],
+  providers: [FriendsListRepository, FriendsListService, FriendsListResolver],
   exports: [FriendsListService],
 })
 export class FriendsListModule {}
