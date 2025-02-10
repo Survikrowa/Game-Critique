@@ -2,24 +2,24 @@ services:
   database-game-critique:
     restart: unless-stopped
     ports: !reset []
-    expose: 
+    expose:
       - "5432"
-   
+
   redis:
     restart: unless-stopped
     ports: !reset []
-    expose: 
+    expose:
       - "6379"
-  
+
   game-critique-api:
     restart: unless-stopped
     container_name: game-critique-api
     pull_policy: build
     image: game-critique-api:v0.0.17
-    build: 
+    build:
       context: .
       dockerfile: apps/api/Dockerfile
-      
+
     environment:
       - PORT=${API_PORT:-3000}
       - DATABASE_URL=${DATABASE_URL:-postgres://postgres:postgres@database-game-critique:5432/game-critique}
@@ -39,7 +39,7 @@ services:
       - HLTB_RANDOM_SEARCH_API_HASH=${HLTB_RANDOM_SEARCH_API_HASH?:Missing HLTB_RANDOM_SEARCH_API_HASH}
     ports:
       - "${API_PORT:-3000}:${API_PORT:-3000}"
-    
+
     depends_on:
       database-game-critique:
         condition: service_healthy
@@ -50,15 +50,18 @@ services:
     restart: unless-stopped
     container_name: game-critique-web
     pull_policy: build
-    image: game-critique-web:v1.0.2
-    build: 
-      context: .
-      dockerfile: apps/web/Dockerfile
-    environment:
-      - PORT=${WEB_PORT:-3001}
-      - API_URL=${API_URL:-http://game-critique-api:3000}
+    image: game-critique-web:v1.0.3
+    build:
+      context: apps/web
+      dockerfile: Dockerfile
+      target: runner
+      args:
+        VITE_AUTH0_DOMAIN: ${AUTH0_DOMAIN:-http://game-critique-api:3000}
+        VITE_AUTH0_CLIENT_ID: ${AUTH0_CLIENT_ID?:Missing Auth0 client id}
+        VITE_AUTH0_AUDIENCE: ${AUTH0_AUDIENCE?:Missing Auth0 audience}
+        VITE_BASE_API_URL: ${API_URL?:Missing Base API URL}
     ports:
-      - "${WEB_PORT:-3001}:${WEB_PORT:-3001}"
-    
+      - "${WEB_PORT:-3001}:80"
+
     depends_on:
       - game-critique-api

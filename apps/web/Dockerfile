@@ -1,40 +1,20 @@
-# https://github.com/vercel/turbo/blob/main/examples/with-docker/apps/web/Dockerfile
-FROM node:18-alpine AS node
-ENV YARN_VERSION 4.5.3
+FROM node:22-alpine AS node
 
-RUN corepack enable && corepack prepare yarn@${YARN_VERSION}
+RUN apk add --no-cache libc6-compat
 
-# region: Turborepo files
 FROM node AS builder
-RUN apk add --no-cache libc6-compat
-RUN apk update
-# Set working directory
-WORKDIR /repo
-RUN yarn global add turbo
+ENV NODE_ENV=production
+ARG VITE_AUTH0_DOMAIN
+ARG VITE_AUTH0_CLIENT_ID
+ARG VITE_AUTH0_AUDIENCE
+ARG VITE_BASE_API_URL
+WORKDIR /builder
 COPY . .
-RUN turbo prune web --docker
-# endregion
-
-# region: Install dependencies and build the project
-FROM node AS installer
-RUN apk add --no-cache libc6-compat
-RUN apk update
-WORKDIR /build
-COPY .gitignore .gitignore
-COPY --from=builder /repo/out/json/ .
-COPY --from=builder /repo/out/yarn.lock ./yarn.lock
+RUN corepack enable
+RUN corepack install
 RUN yarn install
-COPY --from=builder /repo/out/full/ .
-COPY turbo.json turbo.json
-COPY apps/web/nginx.conf .
-RUN yarn turbo build --filter=web
-# endregion
+RUN yarn build
 
-# region: Runtime image
 FROM nginx:alpine AS runner
 WORKDIR /app
-COPY --from=installer /build/apps/web/dist /usr/share/nginx/html
-COPY --from=installer /build/apps/web/nginx.conf /etc/nginx/conf.d/default.conf
-EXPOSE $PORT
-CMD ["/bin/sh", "-c", "envsubst '${PORT}' < /etc/nginx/conf.d/default.conf > /etc/nginx/conf.d/default.conf && exec nginx -g 'daemon off;'"]
-# endregion
+COPY --from=builder /builder/dist /usr/share/nginx/html
