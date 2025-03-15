@@ -7,8 +7,9 @@ import { UsersResolver } from './users.resolver';
 import { AuthModule } from '../auth/auth.module';
 import { GetUsersHandler } from './queries/get_users/get_users.handler';
 import { CqrsModule } from '@nestjs/cqrs';
+import { GetUserHandler } from './queries/get_user/get_user.handler';
 
-export const CommandHandlers = [GetUsersHandler];
+export const CommandHandlers = [GetUsersHandler, GetUserHandler];
 export const EventHandlers = [];
 
 @Module({

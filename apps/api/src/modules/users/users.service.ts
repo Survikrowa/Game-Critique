@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { UsersRepository } from './users.repository';
 import { formatDateToRelativeText } from '../dates/format_date_to_relative_text/format_date_to_relative_text';
 import dayjs from 'dayjs';
 import { QueryBus } from '@nestjs/cqrs';
@@ -10,35 +9,7 @@ import { GetAllUsersWithProfileReturn, GetUserReturn } from './users.types';
 
 @Injectable()
 export class UsersService {
-  constructor(
-    private readonly usersRepository: UsersRepository,
-    private readonly queryBus: QueryBus,
-  ) {}
-
-  async findUsersToAddAsFriends({
-    oauthId,
-    username,
-  }: FindUsersToAddAsFriendsArgs) {
-    const users = (
-      await this.usersRepository.findUsersToAddAsFriends({
-        oauthId,
-        username,
-      })
-    )
-      .filter((user) => {
-        return !user.friendsList?.FriendsListForFriends.find(
-          (friend) => friend.friend.oauthId === oauthId,
-        );
-      })
-      .map((user) => {
-        return {
-          ...user,
-          role: user.role?.role.name,
-          isFriendRequestSent: user.FriendsRequestsForUsersReceiver.length > 0,
-        };
-      });
-    return users;
-  }
+  constructor(private readonly queryBus: QueryBus) {}
 
   async getUser(
     oauthId: string,
@@ -66,7 +37,7 @@ export class UsersService {
     return userActivity.map((activity) => {
       return {
         ...activity,
-        formattedUpdatedAt: formatDateToRelativeText(dayjs(activity.updatedAt)),
+        formattedUpdatedAt: formatDateToRelativeText(activity.updatedAt),
       };
     });
   }
@@ -104,8 +75,3 @@ export class UsersService {
     }));
   }
 }
-
-type FindUsersToAddAsFriendsArgs = {
-  oauthId: string;
-  username: string;
-};
