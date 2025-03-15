@@ -6,12 +6,32 @@ import {
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { onError } from "@apollo/client/link/error";
+import Constants from "expo-constants";
+import { isDevice } from "expo-device";
 import * as SecureStore from "expo-secure-store";
 import { useMemo } from "react";
+import { Platform } from "react-native";
 import { useAuth0 } from "react-native-auth0";
 
+const getServerUrl = () => {
+  if (isDevice) {
+    const debuggerHost = Constants.expoConfig?.hostUri;
+    const localhost = debuggerHost?.split(":")[0];
+    if (!localhost) {
+      return process.env.EXPO_PUBLIC_GRAPHQL_ENDPOINT;
+    }
+    return localhost;
+  }
+  if (
+    process.env.EXPO_PUBLIC_GRAPHQL_ENDPOINT.includes("localhost") &&
+    Platform.OS === "android"
+  ) {
+    return "http://10.0.2.2:3001/graphql";
+  }
+  return process.env.EXPO_PUBLIC_GRAPHQL_ENDPOINT;
+};
 const httpLink = createHttpLink({
-  uri: process.env.EXPO_PUBLIC_GRAPHQL_ENDPOINT,
+  uri: getServerUrl(),
 });
 const authLink = setContext(async (_, { headers }) => {
   const token = await SecureStore.getItemAsync("oauthToken");
