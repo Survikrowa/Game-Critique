@@ -20,7 +20,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     if (userWithRole) {
       request.user = {
         ...user,
-        role: userWithRole.role.name,
+        role: userWithRole.role,
       };
     }
     return true;
