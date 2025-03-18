@@ -1,31 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { HowLongToBeatService } from '../howlongtobeat_parser/howlongtobeat_parser.service';
 import { SearchGameResultDtoType } from './search.dto';
+import { QueryBus } from '@nestjs/cqrs';
+import { FetchGamesFromHltbQuery } from './queries/fetch_games_from_hltb.query';
 
 @Injectable()
 export class SearchService {
-  constructor(private readonly hltbParserService: HowLongToBeatService) {}
+  constructor(private readonly queryBus: QueryBus) {}
 
   async search(input: string): Promise<SearchGameResultDtoType[]> {
     try {
-      const games = await this.hltbParserService.search(input);
-      return games.hltbSearchResult.map((game) => {
-        return {
-          id: game.game_id,
-          name: game.game_name,
-          coverBigUrl: game.coverBigUrl,
-          coverSmallUrl: game.coverSmallUrl,
-          coverMediumUrl: game.coverMediumUrl,
-          firstReleaseDate: game.release_world,
-          platforms: game.platforms,
-          genres: game.genres,
-          completionTime: {
-            mainStory: game.comp_main,
-            mainExtra: game.comp_plus,
-            completionist: game.comp_all,
-          },
-        };
-      });
+      return this.queryBus.execute(new FetchGamesFromHltbQuery(input));
     } catch (error) {
       return [];
     }
