@@ -1,10 +1,21 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../database/prisma.service';
+import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { CreateUserCommand } from './create_user.command';
 import { RoleEnum } from '@prisma/client';
+import { PrismaService } from '../../../database/prisma.service';
 
-@Injectable()
-export class AuthRepository {
+@CommandHandler(CreateUserCommand)
+export class CreateUserCommandHandler
+  implements ICommandHandler<CreateUserCommand>
+{
   constructor(private readonly prismaService: PrismaService) {}
+
+  async execute(command: CreateUserCommand) {
+    const { id, role } = await this.createUser(command.oauthId);
+    return {
+      id,
+      role,
+    };
+  }
 
   async createUser(oauthId: string) {
     return this.prismaService.$transaction(async (prisma) => {
@@ -35,21 +46,6 @@ export class AuthRepository {
         ...user,
         role: userRole.name,
       };
-    });
-  }
-
-  async getUserRole(oauthId: string) {
-    return this.prismaService.userRole.findFirst({
-      where: {
-        oauthId,
-      },
-      include: {
-        role: {
-          select: {
-            name: true,
-          },
-        },
-      },
     });
   }
 }

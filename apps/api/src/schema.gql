@@ -215,6 +215,14 @@ type PlatformDTO {
 }
 
 """User profile info"""
+type ProfileDTO {
+  """User's avatar URL from Cloudinary"""
+  avatarUrl: String!
+  id: Float!
+  name: String
+}
+
+"""User profile info"""
 type ProfileInfoDTO {
   """User's avatar URL from Cloudinary"""
   avatarUrl: String!
@@ -381,6 +389,6 @@ type UserSearchResultDTO {
   id: Float!
   isFriendRequestSent: Boolean!
   oauthId: String!
-  profile: ProfileInfoDTO
+  profile: ProfileDTO
   role: Role
 }

@@ -5415,17 +5415,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/cqrs@npm:^10.2.8":
-  version: 10.2.8
-  resolution: "@nestjs/cqrs@npm:10.2.8"
-  dependencies:
-    uuid: "npm:11.0.2"
+"@nestjs/cqrs@npm:11.0.2":
+  version: 11.0.2
+  resolution: "@nestjs/cqrs@npm:11.0.2"
   peerDependencies:
-    "@nestjs/common": ^9.0.0 || ^10.0.0
-    "@nestjs/core": ^9.0.0 || ^10.0.0
+    "@nestjs/common": ^10.0.0 || ^11.0.0
+    "@nestjs/core": ^10.0.0 || ^11.0.0
     reflect-metadata: ^0.1.13 || ^0.2.0
     rxjs: ^7.2.0
-  checksum: 10c0/fb56a282d07d5eb8c1619e1dac777f094496f37d7b9aee94c942dde27d6e1516559aaa762d737c3a60dee7a7bae6a7adffa2ba6cf6296bcf60f762517d52d0cb
+  checksum: 10c0/cebd833c3647fd4cda333da188d93636274b7d8dc1df42eb66b6b1d3482b4e6a0d92d1730d961e19e9e5a9ca128aea52586c6b77955f453c69a0d91e97f87507
   languageName: node
   linkType: hard
 
@@ -7960,7 +7958,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tamagui/config@npm:^1.79.6":
+"@tamagui/config@npm:1.79.6":
   version: 1.79.6
   resolution: "@tamagui/config@npm:1.79.6"
   dependencies:
@@ -8300,7 +8298,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tamagui/lucide-icons@npm:^1.79.6":
+"@tamagui/lucide-icons@npm:1.79.6":
   version: 1.79.6
   resolution: "@tamagui/lucide-icons@npm:1.79.6"
   dependencies:
@@ -10751,7 +10749,7 @@ __metadata:
     "@nestjs/common": "npm:^10.0.0"
     "@nestjs/config": "npm:^3.1.1"
     "@nestjs/core": "npm:^10.0.0"
-    "@nestjs/cqrs": "npm:^10.2.8"
+    "@nestjs/cqrs": "npm:11.0.2"
     "@nestjs/graphql": "npm:^12.0.11"
     "@nestjs/passport": "npm:^10.0.3"
     "@nestjs/platform-express": "npm:^10.0.0"
@@ -15619,6 +15617,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-device@npm:~5.4.0":
+  version: 5.4.0
+  resolution: "expo-device@npm:5.4.0"
+  dependencies:
+    ua-parser-js: "npm:^0.7.33"
+  peerDependencies:
+    expo: "*"
+  checksum: 10c0/acd03e7dc13c54372d1dce5b2a4e7a1d47e1a517957716a728611f0abc482185c25d51002d66da90efc8dd74943f7bd129197d846d76bf545c436ca167302bbc
+  languageName: node
+  linkType: hard
+
 "expo-document-picker@npm:~11.5.4":
   version: 11.5.4
   resolution: "expo-document-picker@npm:11.5.4"
@@ -16750,8 +16759,8 @@ __metadata:
     "@hookform/resolvers": "npm:^3.3.4"
     "@react-native-community/slider": "npm:4.4.2"
     "@react-navigation/drawer": "npm:^6.6.6"
-    "@tamagui/config": "npm:^1.79.6"
-    "@tamagui/lucide-icons": "npm:^1.79.6"
+    "@tamagui/config": "npm:1.79.6"
+    "@tamagui/lucide-icons": "npm:1.79.6"
     "@tamagui/toast": "npm:1.79.6"
     "@types/react": "npm:^18.2.38"
     axios: "npm:^1.6.7"
@@ -16761,6 +16770,7 @@ __metadata:
     expo: "npm:^49.0.20"
     expo-constants: "npm:~14.4.2"
     expo-dev-client: "npm:~2.4.13"
+    expo-device: "npm:~5.4.0"
     expo-document-picker: "npm:~11.5.4"
     expo-font: "npm:~11.4.0"
     expo-image-picker: "npm:~14.3.2"
@@ -16784,7 +16794,7 @@ __metadata:
     react-native-svg: "npm:13.9.0"
     react-native-svg-transformer: "npm:^1.3.0"
     react-native-web: "npm:^0.19.9"
-    tamagui: "npm:^1.79.6"
+    tamagui: "npm:1.79.6"
     typescript: "npm:^5.3.2"
     use-debounce: "npm:^10.0.0"
     zod: "npm:^3.22.4"
@@ -26423,7 +26433,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tamagui@npm:^1.79.6":
+"tamagui@npm:1.79.6":
   version: 1.79.6
   resolution: "tamagui@npm:1.79.6"
   dependencies:
@@ -27457,6 +27467,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ua-parser-js@npm:^0.7.33":
+  version: 0.7.40
+  resolution: "ua-parser-js@npm:0.7.40"
+  bin:
+    ua-parser-js: script/cli.js
+  checksum: 10c0/d114f0b71b5b0106dcc0cb7cc26a44690073e886fa1444f8c03131d4f57b3f6645f9fb7b308b0aaaa5a2774461f9e8fe1a2a1c3ff69aa531316fcf14cd44dbe3
+  languageName: node
+  linkType: hard
+
 "ua-parser-js@npm:^1.0.35":
   version: 1.0.37
   resolution: "ua-parser-js@npm:1.0.37"
@@ -27924,15 +27943,6 @@ __metadata:
   version: 1.0.1
   resolution: "utils-merge@npm:1.0.1"
   checksum: 10c0/02ba649de1b7ca8854bfe20a82f1dfbdda3fb57a22ab4a8972a63a34553cf7aa51bc9081cf7e001b035b88186d23689d69e71b510e610a09a4c66f68aa95b672
-  languageName: node
-  linkType: hard
-
-"uuid@npm:11.0.2":
-  version: 11.0.2
-  resolution: "uuid@npm:11.0.2"
-  bin:
-    uuid: dist/esm/bin/uuid
-  checksum: 10c0/bd0670a0d6f77f1932da7544c51c32ceb467f3835382df2265f3275c4981d32c136a08a4369fb027ecfffd0b2ae48f19a28266ef636c7347264d5720e85d5ba0
   languageName: node
   linkType: hard
 

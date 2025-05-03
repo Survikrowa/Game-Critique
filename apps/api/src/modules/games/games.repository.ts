@@ -1,17 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../database/prisma.service';
-import { HowLongToBeatService } from '../howlongtobeat_parser/howlongtobeat_parser.service';
 import { SearchGameResultDtoType } from '../search/search.dto';
+import { HowLongToBeatParserFacade } from '../howlongtobeat_parser/howlongtobeat_parser.facade';
 
 @Injectable()
 export class GamesRepository {
   constructor(
     private readonly prismaService: PrismaService,
-    private readonly hltbParserService: HowLongToBeatService,
+    private readonly hltbParserFacade: HowLongToBeatParserFacade,
   ) {}
 
   async createGame(game: SearchGameResultDtoType) {
-    const slug = this.hltbParserService.transformToHltbSlug(game.name);
+    const slug = this.hltbParserFacade.toHltbSearchUrl(game.name);
     await this.prismaService.game.create({
       data: {
         completionTime: {

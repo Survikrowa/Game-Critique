@@ -1,8 +1,8 @@
 {
   "private": true,
   "workspaces": [
-    "apps/*",
-    "packages/*"
+    "./apps/*",
+    "./packages/*"
   ],
   "scripts": {
     "dev": "turbo run dev",
@@ -12,7 +12,8 @@
     "prepare": "husky install",
     "test": "turbo run test",
     "lint": "turbo run lint",
-    "dev:web": "turbo run dev --filter=web --filter=api"
+    "dev:web": "turbo run dev --filter=web --filter=api",
+    "dev:api": "turbo run dev --filter=api"
   },
   "devDependencies": {
     "eslint-config-turbo": "1.10.16",

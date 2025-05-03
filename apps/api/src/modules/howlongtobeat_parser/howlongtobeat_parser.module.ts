@@ -4,6 +4,7 @@ import { HowLongToBeatService } from './howlongtobeat_parser.service';
 import { HowLongToBeatScrapperService } from './howlongtobeat_scrapper/howlongtobeat_scrapper.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from '../auth/auth.module';
+import { HowLongToBeatParserFacade } from './howlongtobeat_parser.facade';
 
 @Module({
   imports: [
@@ -16,7 +17,11 @@ import { AuthModule } from '../auth/auth.module';
     }),
     AuthModule,
   ],
-  providers: [HowLongToBeatService, HowLongToBeatScrapperService],
-  exports: [HowLongToBeatService],
+  providers: [
+    HowLongToBeatService,
+    HowLongToBeatScrapperService,
+    HowLongToBeatParserFacade,
+  ],
+  exports: [HowLongToBeatParserFacade],
 })
 export class HowLongToBeatParserModule {}

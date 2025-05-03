@@ -1,21 +1,24 @@
 import { Injectable } from '@nestjs/common';
-import { AuthRepository } from './auth.repository';
 import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bull';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import { UserAuth0InfoDTO } from './auth.dto';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
+import { CreateUserCommand } from './commands/create_user/create_user.command';
+import { GetUserRoleQuery } from './queries/get_user_role/get_user_role.query';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly authRepository: AuthRepository,
     private readonly httpService: HttpService,
+    private readonly commandBus: CommandBus,
+    private readonly queryBus: QueryBus,
     @InjectQueue('user_created') private userCreatedQueue: Queue,
   ) {}
 
   createUser(oauthId: string) {
-    return this.authRepository.createUser(oauthId);
+    return this.commandBus.execute(new CreateUserCommand(oauthId));
   }
 
   async addUserCreatedEvent(userId: number, username: string) {
@@ -34,6 +37,6 @@ export class AuthService {
   }
 
   async getUserRole(oauthId: string) {
-    return this.authRepository.getUserRole(oauthId);
+    return this.queryBus.execute(new GetUserRoleQuery(oauthId));
   }
 }

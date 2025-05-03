@@ -10,12 +10,12 @@ import axios, { AxiosResponse } from 'axios';
 import { HowLongToBeatScrapperService } from './howlongtobeat_scrapper/howlongtobeat_scrapper.service';
 import { HowLongToBeatSearchUrl } from './howlongtobeat_search_url/howlongtobeat_search_url';
 
-type Platform = {
+export type Platform = {
   name: string;
   slug: string;
 };
 
-type Genre = {
+export type Genre = {
   name: string;
   slug: string;
 };
@@ -26,7 +26,7 @@ type Covers = {
   coverMediumUrl: string;
 };
 
-type SearchResult = {
+export type SearchResult = {
   platforms: Platform[];
   slug: string;
   genres: Genre[];
