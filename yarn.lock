@@ -5415,7 +5415,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/cqrs@npm:^11.0.2":
+"@nestjs/cqrs@npm:11.0.2":
   version: 11.0.2
   resolution: "@nestjs/cqrs@npm:11.0.2"
   peerDependencies:
@@ -10749,7 +10749,7 @@ __metadata:
     "@nestjs/common": "npm:^10.0.0"
     "@nestjs/config": "npm:^3.1.1"
     "@nestjs/core": "npm:^10.0.0"
-    "@nestjs/cqrs": "npm:^11.0.2"
+    "@nestjs/cqrs": "npm:11.0.2"
     "@nestjs/graphql": "npm:^12.0.11"
     "@nestjs/passport": "npm:^10.0.3"
     "@nestjs/platform-express": "npm:^10.0.0"
