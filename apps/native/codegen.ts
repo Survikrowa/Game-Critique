@@ -1,4 +1,5 @@
 import { CodegenConfig } from "@graphql-codegen/cli";
+import "@dotenvx/dotenvx/config";
 
 const config: CodegenConfig = {
   schema:
