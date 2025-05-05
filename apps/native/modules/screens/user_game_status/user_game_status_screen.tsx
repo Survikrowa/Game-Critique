@@ -1,4 +1,4 @@
-import { useLocalSearchParams } from "expo-router";
+import { useGlobalSearchParams, useLocalSearchParams } from "expo-router";
 import { Card, ScrollView, Separator, Spinner, XStack } from "tamagui";
 import { Text } from "ui/typography/text";
 
