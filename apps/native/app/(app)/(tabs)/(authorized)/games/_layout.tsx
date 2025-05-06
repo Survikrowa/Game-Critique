@@ -37,7 +37,7 @@ const GamesLayout = () => {
       <Stack.Screen
         name="games_status_info/[games_status_id]"
         options={{
-          header: () => <GoBackHeader text="NAZWA GRY" />,
+          header: () => <GoBackHeader text="" />,
         }}
       />
       <Stack.Screen

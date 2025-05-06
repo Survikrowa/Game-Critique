@@ -13,6 +13,7 @@ import { UserGameStatusPlatformSection } from "./user_game_status_sections/user_
 import { UserGameStatusReviewSection } from "./user_game_status_sections/user_game_status_review_section/user_game_status_review_section";
 import { UserGameStatusScoreSection } from "./user_game_status_sections/user_game_status_score_section/user_game_status_score_section";
 import { GameStatus } from "../../../__generated__/types";
+import { useSetHeaderTitle } from "../../router/use_set_header_title";
 
 type UserGameStatusScreenProps = {
   redirect: {
@@ -31,6 +32,8 @@ export const UserGameStatusScreen = ({
     gameStatusId: games_status_id,
     oauthId: oauth_id,
   });
+
+  useSetHeaderTitle(userGameStatusQuery.data?.userGameStatus?.game.name || "");
   if (userGameStatusQuery.loading || !userGameStatusQuery.data) {
     return (
       <XStack width="100%" alignItems="center" gap={8}>

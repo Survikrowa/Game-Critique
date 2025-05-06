@@ -2,7 +2,7 @@ import { Edit, Eye, Trash } from "@tamagui/lucide-icons";
 import { useState } from "react";
 import { Image, YStack } from "tamagui";
 
-import { ButtonWithIcon } from "../../../../../ui/forms/button_icon";
+import { GamesStatusListItemButtons } from "./games_status_list_item_buttons/games_status_list_item_buttons";
 import { ClearButton } from "../../../../../ui/forms/clear_button";
 import { Sheet } from "../../../../../ui/panels/sheet/sheet";
 import { Text } from "../../../../../ui/typography/text";
@@ -14,10 +14,15 @@ type GamesStatusListItemProps = {
     platform: string;
     score: string;
     cover: string;
+    id: number;
   };
+  oauthId?: string;
 };
 
-export const GamesStatusListItem = ({ item }: GamesStatusListItemProps) => {
+export const GamesStatusListItem = ({
+  item,
+  oauthId,
+}: GamesStatusListItemProps) => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   return (
     <ClearButton onPress={() => setIsSheetOpen(true)}>
@@ -52,30 +57,11 @@ export const GamesStatusListItem = ({ item }: GamesStatusListItemProps) => {
             <Text size="medium" weight="bold" color="primary">
               {item.title}
             </Text>
-            <ButtonWithIcon
-              onPress={() => {}}
-              icon={<Eye />}
-              backgroundColor="$red1"
-              width="100%"
-            >
-              Przejdź do szczegółów
-            </ButtonWithIcon>
-            <ButtonWithIcon
-              onPress={() => {}}
-              icon={<Edit />}
-              backgroundColor="$green8"
-              width="100%"
-            >
-              Edytuj
-            </ButtonWithIcon>
-            <ButtonWithIcon
-              onPress={() => {}}
-              icon={<Trash />}
-              backgroundColor="$red8"
-              width="100%"
-            >
-              Usuń
-            </ButtonWithIcon>
+            <GamesStatusListItemButtons
+              gameStatusId={item.id}
+              oauthId={oauthId}
+              onClick={() => setIsSheetOpen(false)}
+            />
           </YStack>
         </Sheet>
       </YStack>

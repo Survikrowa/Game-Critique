@@ -6,7 +6,11 @@ import { GamesStatusListItem } from "./games_status_list_item/games_status_list_
 import { mapGamesStatusToItem } from "./map_games_status_to_item";
 import { useUserGamesStatus } from "../use_user_games_status/use_user_games_status";
 
-export const GamesStatusList = () => {
+type GamesStatusListProps = {
+  oauthId?: string;
+};
+
+export const GamesStatusList = ({ oauthId }: GamesStatusListProps) => {
   const gamesStatus = useUserGamesStatus({
     take: 5,
     skip: 0,
@@ -38,7 +42,7 @@ export const GamesStatusList = () => {
       renderItem={({ item }) => {
         return (
           <YStack>
-            <GamesStatusListItem item={item} />
+            <GamesStatusListItem oauthId={oauthId} item={item} />
           </YStack>
         );
       }}
