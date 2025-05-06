@@ -1,7 +1,6 @@
-import { Cross, Filter, Search } from "@tamagui/lucide-icons";
-import { Link, useNavigation } from "expo-router";
-import { useState } from "react";
-import { ScrollView, View, XStack, YStack } from "tamagui";
+import { Filter } from "@tamagui/lucide-icons";
+import { Link } from "expo-router";
+import { View, XStack, YStack } from "tamagui";
 
 import { GamesStatusCategoriesFab } from "./games_status_categories_fab/games_status_categories_fab";
 import { GamesStatusList } from "./games_status_list/games_status_list";

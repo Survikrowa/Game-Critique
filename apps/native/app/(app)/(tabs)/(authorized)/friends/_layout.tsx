@@ -31,6 +31,14 @@ const FriendsLayout = () => {
         }}
       />
       <Stack.Screen
+        name="user_profile/[oauth_id]/modal"
+        options={{
+          presentation: "card",
+          animation: "fade_from_bottom",
+          header: () => <GoBackHeader text="Filtry" />,
+        }}
+      />
+      <Stack.Screen
         name="games_status_info/[games_status_id]"
         options={{
           header: () => <GoBackHeader text="NAZWA GRY" />,

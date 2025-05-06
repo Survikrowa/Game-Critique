@@ -6,12 +6,14 @@ type GamesStatusListItemButtonsProps = {
   gameStatusId: number;
   oauthId?: string;
   onClick: () => void;
+  onRemoveAccept: () => void;
 };
 
 export const GamesStatusListItemButtons = ({
   gameStatusId,
   oauthId,
   onClick,
+  onRemoveAccept,
 }: GamesStatusListItemButtonsProps) => {
   return (
     <>
@@ -27,6 +29,7 @@ export const GamesStatusListItemButtons = ({
       <GamesStatusListItemButtonRemove
         gameStatusId={gameStatusId}
         onClick={onClick}
+        onRemoveAccept={onRemoveAccept}
       />
     </>
   );

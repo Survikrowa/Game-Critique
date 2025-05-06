@@ -1,8 +1,8 @@
-import { Edit, Eye, Trash } from "@tamagui/lucide-icons";
 import { useState } from "react";
 import { Image, YStack } from "tamagui";
 
 import { GamesStatusListItemButtons } from "./games_status_list_item_buttons/games_status_list_item_buttons";
+import { useRemoveGameStatus } from "./games_status_list_item_buttons/use_remove_game_status/use_remove_game_status";
 import { ClearButton } from "../../../../../ui/forms/clear_button";
 import { Sheet } from "../../../../../ui/panels/sheet/sheet";
 import { Text } from "../../../../../ui/typography/text";
@@ -24,6 +24,8 @@ export const GamesStatusListItem = ({
   oauthId,
 }: GamesStatusListItemProps) => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [removeGameStatus] = useRemoveGameStatus();
+
   return (
     <ClearButton onPress={() => setIsSheetOpen(true)}>
       <YStack gap={8}>
@@ -61,6 +63,7 @@ export const GamesStatusListItem = ({
               gameStatusId={item.id}
               oauthId={oauthId}
               onClick={() => setIsSheetOpen(false)}
+              onRemoveAccept={removeGameStatus}
             />
           </YStack>
         </Sheet>

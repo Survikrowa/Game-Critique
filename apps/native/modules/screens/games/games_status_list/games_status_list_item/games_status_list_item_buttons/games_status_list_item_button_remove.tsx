@@ -1,22 +1,30 @@
+import { MutationFunctionOptions } from "@apollo/client";
 import { Trash } from "@tamagui/lucide-icons";
+import { Exact } from "__generated__/types";
 
-import { RemoveGameStatusAction } from "./remove_game_status_action/remove_game_status_action";
 import { RemoveGameStatusConfirmationDialog } from "./remove_game_status_action/remove_game_status_confirmation_dialog";
-import { useRemoveGameStatus } from "./use_remove_game_status/use_remove_game_status";
+import { RemoveGameStatusMutation } from "./use_remove_game_status/remove_game_status_mutation.generated";
 import { ButtonWithIcon } from "../../../../../../ui/forms/button_icon";
 import { useDisclosure } from "../../../../../../ui/hooks/use_disclosure";
 
 type GamesStatusListItemButtonRemoveProps = {
   gameStatusId: number;
   onClick: () => void;
+  onRemoveAccept: (
+    options?: MutationFunctionOptions<
+      RemoveGameStatusMutation,
+      Exact<{
+        gameStatusId: number;
+      }>
+    >,
+  ) => void;
 };
 
 export const GamesStatusListItemButtonRemove = ({
   gameStatusId,
   onClick,
+  onRemoveAccept,
 }: GamesStatusListItemButtonRemoveProps) => {
-  // const [removeGameStatus] = useRemoveGameStatus();
-
   const { onOpen, isOpen, onClose } = useDisclosure(false);
   return (
     <>
@@ -36,11 +44,11 @@ export const GamesStatusListItemButtonRemove = ({
         onOpen={onOpen}
         onClose={onClose}
         onApprove={() => {
-          // removeGameStatus({
-          //   variables: {
-          //     gameStatusId,
-          //   },
-          // });
+          onRemoveAccept({
+            variables: {
+              gameStatusId,
+            },
+          });
         }}
       />
     </>
