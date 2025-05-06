@@ -24,7 +24,7 @@ export const GamesStatusListItem = ({ item }: GamesStatusListItemProps) => {
       <YStack gap={8}>
         <Image
           borderRadius={4}
-          source={{ uri: item.cover, width: 112, height: 112 }}
+          source={{ uri: item.cover, width: 112, height: 142 }}
           style={{
             objectFit: "fill",
           }}

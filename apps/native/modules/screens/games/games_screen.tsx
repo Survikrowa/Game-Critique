@@ -5,29 +5,13 @@ import { ScrollView, View, XStack, YStack } from "tamagui";
 
 import { GamesStatusCategoriesFab } from "./games_status_categories_fab/games_status_categories_fab";
 import { GamesStatusList } from "./games_status_list/games_status_list";
-import { ButtonWithIcon } from "../../../ui/forms/button_icon";
-import { Input } from "../../../ui/forms/input";
+import { GamesStatusListSearch } from "./games_status_list_search/games_status_list_search";
 
 export const GamesScreen = () => {
-  const [value, setValue] = useState("");
-  const clearValue = () => {
-    setValue("");
-  };
   return (
     <YStack flex={1} height="100%" gap={16}>
       <XStack width="100%" gap={16}>
-        <Input
-          onChange={setValue}
-          value={value}
-          label="search"
-          icon={
-            value ? (
-              <ButtonWithIcon onPress={clearValue} icon={<Cross />} />
-            ) : (
-              <Search />
-            )
-          }
-        />
+        <GamesStatusListSearch />
         <Link asChild href="/games/filters/modal">
           <View
             style={{

@@ -6,6 +6,8 @@ import {
   UserGamesStatusResponseWithPaginationDTO,
   FriendsGameStatusReviewsDTO,
   GameStatusRemovedResponseDTO,
+  SortOptionsDTO,
+  GameStatusProgressStateDTO,
 } from './games_status.dto';
 import { GamesStatusService } from './games_status.service';
 import { HttpException, HttpStatus, UseGuards } from '@nestjs/common';
@@ -157,5 +159,37 @@ export class GamesStatusResolver {
     return this.gamesStatusService.getOwnerAndFriendsGameStatusReviews(
       gameStatusId,
     );
+  }
+
+  // @UseGuards(JwtAuthGuard)
+  // @Query(() => [], {
+  //   name: 'gamesStatusFilters',
+  //   description: 'Get games status filters',
+  // })
+  // async getGamesStatusFilters(): Promise<[]> {
+  //   return [];
+  // }
+
+  @UseGuards(JwtAuthGuard)
+  @Query(() => SortOptionsDTO, {
+    name: 'gamesStatusSortOptions',
+    description: 'Get games status sort options',
+  })
+  async getGamesStatusSortOptions(): Promise<SortOptionsDTO> {
+    return {
+      sortOptions: this.gamesStatusService.getGamesStatusSortOptions(),
+    };
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Query(() => GameStatusProgressStateDTO, {
+    name: 'availableGamesStatusProgressStates',
+    description: 'Get available games status progress states',
+  })
+  async getGamesStatusProgressState(): Promise<GameStatusProgressStateDTO> {
+    return {
+      gameStatusProgressState:
+        this.gamesStatusService.getAvailableGamesStatusProgressStates(),
+    };
   }
 }

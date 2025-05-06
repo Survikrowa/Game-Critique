@@ -123,6 +123,17 @@ type GameStatusDTO {
   score: String
 }
 
+"""GameStatus Progress State"""
+type GameStatusProgressState {
+  label: String!
+  value: GameStatus!
+}
+
+"""GameStatus Progress State DTO"""
+type GameStatusProgressStateDTO {
+  gameStatusProgressState: [GameStatusProgressState!]!
+}
+
 """GameStatus Removed Response"""
 type GameStatusRemovedResponseDTO {
   message: String!
@@ -243,11 +254,16 @@ type ProfileInfoUpdateResponseDTO {
 }
 
 type Query {
+  """Get available games status progress states"""
+  availableGamesStatusProgressStates: GameStatusProgressStateDTO!
   collection(id: Float!): CollectionWithGamesDTO!
   friendsActivity: [FriendsActivityDTO!]!
   friendsList: FriendsList!
   friendsRequests: [GetFriendRequestsResponseDTO!]!
   game(hltbId: Float!): GameWithAllDataDTO!
+
+  """Get games status sort options"""
+  gamesStatusSortOptions: SortOptionsDTO!
   getAllUserGamesStatusByOauthId(oauthId: String!): [UserGamesStatusResponseDTO!]!
   getProfileCollections: [CollectionDTO!]!
   migrationStatus: HowLongToBeatMigrationStatusDTO!
@@ -305,6 +321,19 @@ type SearchGamesResult {
 """Search result"""
 type SearchResult {
   games: [SearchGamesResult!]!
+}
+
+"""GameStatus Sort Options"""
+type SortOptions {
+  field: String!
+  id: String!
+  label: String!
+  order: String!
+}
+
+"""All possible sort options for games status"""
+type SortOptionsDTO {
+  sortOptions: [SortOptions!]!
 }
 
 """Update user role"""
