@@ -14,4 +14,10 @@ query GamesStatusFilters {
             value
         }
     }
+    platforms {
+        platforms {
+            id
+            name
+        }
+    }
 }

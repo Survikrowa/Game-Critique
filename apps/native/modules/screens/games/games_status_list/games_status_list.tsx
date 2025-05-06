@@ -6,33 +6,6 @@ import { GamesStatusListItem } from "./games_status_list_item/games_status_list_
 import { mapGamesStatusToItem } from "./map_games_status_to_item";
 import { useUserGamesStatus } from "../use_user_games_status/use_user_games_status";
 
-const MOCKED_GAMES = [
-  {
-    title: "GAME",
-    platform: "GAME",
-    score: "5.0",
-    cover: "https://howlongtobeat.com/games/62941_Hades.jpg?width=760",
-  },
-  {
-    title: "GAME",
-    platform: "GAME",
-    score: "5.0",
-    cover: "https://howlongtobeat.com/games/62941_Hades.jpg?width=760",
-  },
-  {
-    title: "GAME",
-    platform: "GAME",
-    score: "5.0",
-    cover: "https://howlongtobeat.com/games/62941_Hades.jpg?width=760",
-  },
-  {
-    title: "GAME",
-    platform: "GAME",
-    score: "5.0",
-    cover: "https://howlongtobeat.com/games/62941_Hades.jpg?width=760",
-  },
-];
-
 export const GamesStatusList = () => {
   const gamesStatus = useUserGamesStatus({
     take: 5,

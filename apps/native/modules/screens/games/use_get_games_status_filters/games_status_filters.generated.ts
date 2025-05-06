@@ -6,7 +6,7 @@ const defaultOptions = {} as const;
 export type GamesStatusFiltersQueryVariables = Types.Exact<{ [key: string]: never; }>;
 
 
-export type GamesStatusFiltersQuery = { __typename?: 'Query', gamesStatusSortOptions: { __typename?: 'SortOptionsDTO', sortOptions: Array<{ __typename?: 'SortOptions', id: string, field: string, label: string, order: string }> }, availableGamesStatusProgressStates: { __typename?: 'GameStatusProgressStateDTO', gameStatusProgressState: Array<{ __typename?: 'GameStatusProgressState', label: string, value: Types.GameStatus }> } };
+export type GamesStatusFiltersQuery = { __typename?: 'Query', gamesStatusSortOptions: { __typename?: 'SortOptionsDTO', sortOptions: Array<{ __typename?: 'SortOptions', id: string, field: string, label: string, order: string }> }, availableGamesStatusProgressStates: { __typename?: 'GameStatusProgressStateDTO', gameStatusProgressState: Array<{ __typename?: 'GameStatusProgressState', label: string, value: Types.GameStatus }> }, platforms: { __typename?: 'PlatformsDTO', platforms: Array<{ __typename?: 'PlatformDTO', id: number, name: string }> } };
 
 
 export const GamesStatusFiltersDocument = gql`
@@ -23,6 +23,12 @@ export const GamesStatusFiltersDocument = gql`
     gameStatusProgressState {
       label
       value
+    }
+  }
+  platforms {
+    platforms {
+      id
+      name
     }
   }
 }

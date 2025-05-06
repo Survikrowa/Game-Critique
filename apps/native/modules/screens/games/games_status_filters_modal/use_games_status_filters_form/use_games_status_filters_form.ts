@@ -16,6 +16,7 @@ export const useGamesStatusFiltersForm = () => {
       sortBy: gameStatusStore.sort.sortBy,
       field: gameStatusStore.sort.field,
       gameStatus: gameStatusStore.filters.status,
+      platform: gameStatusStore.filters.platform,
     },
   });
   const router = useRouter();

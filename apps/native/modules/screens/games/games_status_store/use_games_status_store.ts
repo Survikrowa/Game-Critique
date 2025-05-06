@@ -12,6 +12,7 @@ type UseGameStatusStoreStoreFields = {
   filters: {
     status: GameStatus;
     search: string;
+    platform: string;
   };
   updateFilters: (
     filters: Partial<UseGameStatusStoreStoreFields["filters"]>,
@@ -27,6 +28,7 @@ export const useGameStatusStore = create<UseGameStatusStoreStoreFields>(
     filters: {
       status: GameStatus.Completed,
       search: "",
+      platform: "0",
     },
     setSort: (sortBy, field) =>
       set((state) => ({

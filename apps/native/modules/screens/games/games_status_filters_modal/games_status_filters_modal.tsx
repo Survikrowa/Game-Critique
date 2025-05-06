@@ -3,6 +3,7 @@ import { FormProvider } from "react-hook-form";
 import { Button, Form, YStack } from "tamagui";
 
 import { GamesStatusFiltersModalGameState } from "./games_status_filters_modal_game_state/games_status_filters_modal_game_state";
+import { GamesStatusFiltersModalPlatform } from "./games_status_filters_modal_platform/games_status_filters_modal_platform";
 import { GamesStatusFiltersModalSection } from "./games_status_filters_modal_section/games_status_filters_modal_section";
 import { GamesStatusFiltersModalSortBy } from "./games_status_filters_modal_sort_by/games_status_filters_modal_sort_by";
 import { useGamesStatusFiltersForm } from "./use_games_status_filters_form/use_games_status_filters_form";
@@ -34,6 +35,11 @@ export const GamesStatusFiltersModal = () => {
                   data.availableGamesStatusProgressStates
                     .gameStatusProgressState
                 }
+              />
+            </GamesStatusFiltersModalSection>
+            <GamesStatusFiltersModalSection title="Platforma">
+              <GamesStatusFiltersModalPlatform
+                platforms={data.platforms.platforms}
               />
             </GamesStatusFiltersModalSection>
           </YStack>

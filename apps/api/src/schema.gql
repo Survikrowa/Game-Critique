@@ -225,6 +225,11 @@ type PlatformDTO {
   slug: String!
 }
 
+"""All Platforms"""
+type PlatformsDTO {
+  platforms: [PlatformDTO!]!
+}
+
 """User profile info"""
 type ProfileDTO {
   """User's avatar URL from Cloudinary"""
@@ -270,6 +275,9 @@ type Query {
 
   """Get user and friends game status reviews"""
   ownerAndFriendsGameStatusReviews(gameStatusId: Float!): [FriendsGameStatusReviewsDTO!]!
+
+  """Get all platforms"""
+  platforms: PlatformsDTO!
   profileInfo: ProfileInfoDTO!
   roles: [RoleDTO!]!
   search(input: String!): SearchResult!
