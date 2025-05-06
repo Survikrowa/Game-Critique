@@ -24,9 +24,10 @@ export const useGamesStatusFiltersForm = () => {
   const setSort = useGameStatusStore((state) => state.setSort);
 
   const handleSubmit = form.handleSubmit((data) => {
-    setSort(data.sortBy, data.field);
+    setSort(data.sortBy, data.field, data.order);
     gameStatusStore.updateFilters({
       status: data.gameStatus,
+      platform: data.platform,
     });
     router.back();
   });

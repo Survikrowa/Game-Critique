@@ -60,7 +60,15 @@ export class GamesStatusResolver {
   async getAllUserGamesStatusPaginatedData(
     @User() user: UserAuthDTO,
     @Args()
-    { take, skip, status, oauthId, search }: GetAllUserGamesStatusArgs,
+    {
+      take,
+      skip,
+      status,
+      oauthId,
+      search,
+      filters,
+      sort,
+    }: GetAllUserGamesStatusArgs,
   ): Promise<UserGamesStatusResponseWithPaginationDTO> {
     return this.gamesStatusService.getAllUserGamesStatusPaginatedData({
       oauthId: oauthId && oauthId !== 'undefined' ? oauthId : user.sub,
@@ -68,6 +76,8 @@ export class GamesStatusResolver {
       skip,
       status,
       search,
+      filters,
+      sort,
     });
   }
 
@@ -160,15 +170,6 @@ export class GamesStatusResolver {
       gameStatusId,
     );
   }
-
-  // @UseGuards(JwtAuthGuard)
-  // @Query(() => [], {
-  //   name: 'gamesStatusFilters',
-  //   description: 'Get games status filters',
-  // })
-  // async getGamesStatusFilters(): Promise<[]> {
-  //   return [];
-  // }
 
   @UseGuards(JwtAuthGuard)
   @Query(() => SortOptionsDTO, {

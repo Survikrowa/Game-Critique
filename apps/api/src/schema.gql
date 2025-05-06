@@ -52,6 +52,10 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+input FiltersGameStatus {
+  platform: String!
+}
+
 """Friend request response"""
 type FriendRequestResponseDTO {
   receiverId: String!
@@ -291,7 +295,7 @@ type Query {
   """
   If oauthId is not provided it will use the id of the user that called the query
   """
-  userGamesStatus(oauthId: String, search: String, skip: Float = 0, status: GameStatus!, take: Float = 5): UserGamesStatusResponseWithPaginationDTO!
+  userGamesStatus(filters: FiltersGameStatus, oauthId: String, search: String, skip: Float = 0, sort: SortOptionsArg!, status: GameStatus!, take: Float = 5): UserGamesStatusResponseWithPaginationDTO!
   users: [UserDTO!]!
   usersSearch(input: String!): [UserSearchResultDTO!]!
   verify: AuthUserVerification!
@@ -336,6 +340,12 @@ type SortOptions {
   field: String!
   id: String!
   label: String!
+  order: String!
+}
+
+"""GameStatus Sort Options"""
+input SortOptionsArg {
+  field: String!
   order: String!
 }
 

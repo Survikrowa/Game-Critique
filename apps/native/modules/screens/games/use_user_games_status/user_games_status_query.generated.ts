@@ -9,6 +9,8 @@ export type UserGamesStatusQueryQueryVariables = Types.Exact<{
   skip?: Types.InputMaybe<Types.Scalars['Float']['input']>;
   status: Types.GameStatus;
   search?: Types.InputMaybe<Types.Scalars['String']['input']>;
+  filters?: Types.InputMaybe<Types.FiltersGameStatus>;
+  sort: Types.SortOptionsArg;
 }>;
 
 
@@ -16,13 +18,15 @@ export type UserGamesStatusQueryQuery = { __typename?: 'Query', userGamesStatus:
 
 
 export const UserGamesStatusQueryDocument = gql`
-    query UserGamesStatusQuery($oauthId: String!, $take: Float, $skip: Float, $status: GameStatus!, $search: String) {
+    query UserGamesStatusQuery($oauthId: String!, $take: Float, $skip: Float, $status: GameStatus!, $search: String, $filters: FiltersGameStatus, $sort: SortOptionsArg!) {
   userGamesStatus(
     oauthId: $oauthId
     take: $take
     skip: $skip
     status: $status
     search: $search
+    filters: $filters
+    sort: $sort
   ) {
     userGamesStatus {
       id
@@ -64,6 +68,8 @@ export const UserGamesStatusQueryDocument = gql`
  *      skip: // value for 'skip'
  *      status: // value for 'status'
  *      search: // value for 'search'
+ *      filters: // value for 'filters'
+ *      sort: // value for 'sort'
  *   },
  * });
  */

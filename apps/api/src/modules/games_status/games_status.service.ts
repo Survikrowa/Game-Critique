@@ -27,6 +27,8 @@ export class GamesStatusService {
     skip = 0,
     status,
     search,
+    filters,
+    sort,
   }: GetAllUserGamesStatusArgs) {
     const userGameStatus =
       await this.gamesStatusRepository.getAllUserGamesStatus({
@@ -35,6 +37,8 @@ export class GamesStatusService {
         skip,
         status,
         search: search || '',
+        filters,
+        sort,
       });
     const userGamesStatusCount =
       await this.gamesStatusRepository.countUserGamesStatusEntriesByStatus(
@@ -219,4 +223,15 @@ type GetAllUserGamesStatusArgs = {
   skip?: number;
   status: GameStatus;
   search?: string | null;
+  filters?: FiltersGameStatus | null;
+  sort: SortGamesStatus;
+};
+
+type FiltersGameStatus = {
+  platform: string;
+};
+
+type SortGamesStatus = {
+  field: string;
+  order: string;
 };

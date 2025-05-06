@@ -6,8 +6,9 @@ type UseGameStatusStoreStoreFields = {
   sort: {
     sortBy: string;
     field: string;
+    order: string;
   };
-  setSort: (sortBy: string, field: string) => void;
+  setSort: (sortBy: string, field: string, order: string) => void;
   setSearch: (search: string) => void;
   filters: {
     status: GameStatus;
@@ -24,19 +25,21 @@ export const useGameStatusStore = create<UseGameStatusStoreStoreFields>(
     sort: {
       sortBy: "added-desc",
       field: "added",
+      order: "desc",
     },
     filters: {
       status: GameStatus.Completed,
       search: "",
       platform: "0",
     },
-    setSort: (sortBy, field) =>
+    setSort: (sortBy, field, order) =>
       set((state) => ({
         ...state,
         sort: {
           ...state.sort,
           sortBy,
           field,
+          order,
         },
       })),
     setSearch: (search: string) =>

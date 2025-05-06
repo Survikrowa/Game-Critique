@@ -19,6 +19,13 @@ export const useUserGamesStatus = ({
       skip,
       take,
       search: gamesStatusStore.filters.search,
+      filters: {
+        platform: gamesStatusStore.filters.platform,
+      },
+      sort: {
+        field: gamesStatusStore.sort.field,
+        order: gamesStatusStore.sort.order,
+      },
     },
   });
 };

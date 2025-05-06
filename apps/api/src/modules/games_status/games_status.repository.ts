@@ -3,6 +3,8 @@ import { PrismaService } from '../database/prisma.service';
 import { UpsertGameStatusArgsDTO } from './games_status.dto';
 import { GameStatus } from '@prisma/client';
 
+const PLATFORMS_ALL = '0';
+
 @Injectable()
 export class GamesStatusRepository {
   constructor(private readonly prismaService: PrismaService) {}
@@ -29,6 +31,8 @@ export class GamesStatusRepository {
     skip,
     status,
     search = '',
+    filters,
+    sort,
   }: GetAllUserGamesStatusArgs) {
     return this.prismaService.gamesStatus.findMany({
       where: {
@@ -41,6 +45,7 @@ export class GamesStatusRepository {
             contains: search,
           },
         },
+        platform: this.buildPlatformFilter(filters),
       },
       include: {
         platform: true,
@@ -63,12 +68,58 @@ export class GamesStatusRepository {
         },
         completedIn: true,
       },
-      orderBy: {
-        createdAt: 'desc',
-      },
+      orderBy: this.buildOrderBy(sort),
       take,
       skip,
     });
+  }
+
+  buildOrderBy(sort: SortGamesStatus) {
+    if (sort.order !== 'desc' && sort.order !== 'asc') {
+      return {
+        createdAt: 'desc' as const,
+      };
+    }
+    if (sort.field === 'added') {
+      return this.getAddedDateOrderBy(sort.order);
+    }
+    if (sort.field === 'score') {
+      return this.getScoreOrderBy(sort.order);
+    }
+    if (sort.field === 'title') {
+      return this.getGameTitleAlphabeticalOrderBy(sort.order);
+    }
+    return {
+      createdAt: 'desc' as const,
+    };
+  }
+
+  getAddedDateOrderBy(order: 'asc' | 'desc') {
+    return {
+      createdAt: order,
+    };
+  }
+
+  getScoreOrderBy(order: 'asc' | 'desc') {
+    return {
+      score: order,
+    };
+  }
+
+  getGameTitleAlphabeticalOrderBy(order: 'asc' | 'desc') {
+    return {
+      game: {
+        name: order,
+      },
+    };
+  }
+
+  buildPlatformFilter(filters?: FiltersGameStatus | null) {
+    if (!filters?.platform) return undefined;
+    if (filters.platform === PLATFORMS_ALL) return undefined;
+    return {
+      id: Number(filters.platform),
+    };
   }
 
   async countUserGamesStatusEntriesByStatus(
@@ -254,4 +305,15 @@ type GetAllUserGamesStatusArgs = {
   skip?: number;
   status: GameStatus;
   search?: string;
+  filters?: FiltersGameStatus | null;
+  sort: SortGamesStatus;
+};
+
+type FiltersGameStatus = {
+  platform: string;
+};
+
+type SortGamesStatus = {
+  field: string;
+  order: string;
 };

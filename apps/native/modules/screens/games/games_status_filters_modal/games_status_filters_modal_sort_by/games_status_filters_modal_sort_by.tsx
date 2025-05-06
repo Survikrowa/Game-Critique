@@ -27,6 +27,7 @@ export const GamesStatusFiltersModalSortBy = ({
     if (selectedItem) {
       setValue("sortBy", selectedItem.id);
       setValue("field", selectedItem.field);
+      setValue("order", selectedItem.order);
     }
   };
   return (
