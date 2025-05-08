@@ -69,9 +69,12 @@ export const useNewApolloClient = () => {
           Query: {
             fields: {
               userGamesStatus: {
-                keyArgs: ["status", "oauthId"],
-                merge(_, incoming) {
-                  return incoming;
+                keyArgs: ["status", "oauthId", "search", "filters", "sort"],
+                merge(existing, incoming, { mergeObjects }) {
+                  if (!existing) {
+                    return incoming;
+                  }
+                  return mergeObjects(existing, incoming);
                 },
               },
             },

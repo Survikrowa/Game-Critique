@@ -7,6 +7,7 @@ import { ClearButton } from "../../../../../ui/forms/clear_button";
 import { Sheet } from "../../../../../ui/panels/sheet/sheet";
 import { Text } from "../../../../../ui/typography/text";
 import { truncateString } from "../../../../strings/truncate_string";
+import { useGameStatusStore } from "../../games_status_store/use_games_status_store";
 
 type GamesStatusListItemProps = {
   item: {
@@ -26,6 +27,10 @@ export const GamesStatusListItem = ({
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [removeGameStatus] = useRemoveGameStatus();
 
+  const paginationStore = useGameStatusStore((state) => ({
+    setPagination: state.setPagination,
+  }));
+
   return (
     <ClearButton onPress={() => setIsSheetOpen(true)}>
       <YStack gap={8}>
@@ -38,7 +43,7 @@ export const GamesStatusListItem = ({
         />
         <YStack>
           <Text size="medium" weight="bold" color="primary">
-            {truncateString(item.title, 15)}
+            {truncateString(item.title, 12)}
           </Text>
           <Text size="small" weight="normal" color="secondary">
             {item.platform}
@@ -62,7 +67,13 @@ export const GamesStatusListItem = ({
             <GamesStatusListItemButtons
               gameStatusId={item.id}
               oauthId={oauthId}
-              onClick={() => setIsSheetOpen(false)}
+              onClick={() => {
+                paginationStore.setPagination({
+                  skip: 0,
+                  take: 9,
+                });
+                setIsSheetOpen(false);
+              }}
               onRemoveAccept={removeGameStatus}
             />
           </YStack>

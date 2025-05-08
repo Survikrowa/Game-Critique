@@ -10,6 +10,7 @@ export const useGamesStatusFiltersForm = () => {
     filters: state.filters,
     updateFilters: state.updateFilters,
   }));
+  const setPagination = useGameStatusStore((state) => state.setPagination);
   const form = useZodForm({
     schema: GamesStatusFiltersFormSchema,
     defaultValues: {
@@ -28,6 +29,10 @@ export const useGamesStatusFiltersForm = () => {
     gameStatusStore.updateFilters({
       status: data.gameStatus,
       platform: data.platform,
+    });
+    setPagination({
+      skip: 0,
+      take: 9,
     });
     router.back();
   });

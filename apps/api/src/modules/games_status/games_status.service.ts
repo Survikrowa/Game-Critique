@@ -71,6 +71,8 @@ export class GamesStatusService {
           total: userGamesStatusCount,
           hasMore: userGamesStatusCount > take + skip,
           hasPrevious: skip > 0,
+          skip,
+          take,
         },
       };
     }

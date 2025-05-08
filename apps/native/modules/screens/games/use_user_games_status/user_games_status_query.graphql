@@ -3,9 +3,11 @@ query UserGamesStatusQuery($oauthId: String!, $take: Float, $skip: Float, $statu
     userGamesStatus {
       id
       game {
+        id
         hltbId
         name
         cover {
+          id
           bigUrl
         }
       }
@@ -18,6 +20,8 @@ query UserGamesStatusQuery($oauthId: String!, $take: Float, $skip: Float, $statu
     pagination {
       hasMore
       hasPrevious
+      take
+      skip
     }
   }
 }

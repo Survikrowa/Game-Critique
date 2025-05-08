@@ -219,6 +219,8 @@ input NewCollectionDTO {
 type PaginationDTO {
   hasMore: Boolean!
   hasPrevious: Boolean!
+  skip: Float!
+  take: Float!
   total: Float!
 }
 

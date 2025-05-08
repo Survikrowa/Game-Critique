@@ -2455,6 +2455,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@dev-plugins/apollo-client@npm:^0.3.1":
+  version: 0.3.1
+  resolution: "@dev-plugins/apollo-client@npm:0.3.1"
+  peerDependencies:
+    expo: ^53.0.5
+  checksum: 10c0/0cd96294b065cb0a07a7720bb191be0d69e165dddeb78542d70de605f75aefba2572a0544d455e3c623f8bbe02ba9bf4c877d18d33352e8c023191f85d2224f9
+  languageName: node
+  linkType: hard
+
 "@dotenvx/dotenvx@npm:^1.41.0":
   version: 1.41.0
   resolution: "@dotenvx/dotenvx@npm:1.41.0"
@@ -16749,6 +16758,7 @@ __metadata:
     "@apollo/client": "npm:^3.8.8"
     "@babel/core": "npm:^7.20.0"
     "@babel/runtime": "npm:7.23.5"
+    "@dev-plugins/apollo-client": "npm:^0.3.1"
     "@dotenvx/dotenvx": "npm:^1.41.0"
     "@expo/webpack-config": "npm:^19.0.0"
     "@graphql-codegen/cli": "npm:^5.0.0"

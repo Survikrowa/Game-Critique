@@ -11,6 +11,9 @@ export const GamesStatusListSearch = () => {
   const updateSearchFilter = useGameStatusStore((state) => ({
     setSearch: state.setSearch,
   }));
+  const { setPagination } = useGameStatusStore((state) => ({
+    setPagination: state.setPagination,
+  }));
   const updateStore = useDebouncedCallback(updateSearchFilter.setSearch);
   const clearValue = () => {
     setValue("");
@@ -20,6 +23,10 @@ export const GamesStatusListSearch = () => {
   const handleChange = (text: string) => {
     setValue(text);
     updateStore(text);
+    setPagination({
+      skip: 0,
+      take: 9,
+    });
   };
 
   return (

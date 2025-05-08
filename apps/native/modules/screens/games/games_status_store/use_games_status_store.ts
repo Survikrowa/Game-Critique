@@ -18,6 +18,11 @@ type UseGameStatusStoreStoreFields = {
   updateFilters: (
     filters: Partial<UseGameStatusStoreStoreFields["filters"]>,
   ) => void;
+  pagination: {
+    skip: number;
+    take: number;
+  };
+  setPagination: (pagination: { skip: number; take: number }) => void;
 };
 
 export const useGameStatusStore = create<UseGameStatusStoreStoreFields>(
@@ -32,6 +37,18 @@ export const useGameStatusStore = create<UseGameStatusStoreStoreFields>(
       search: "",
       platform: "0",
     },
+    pagination: {
+      skip: 0,
+      take: 9,
+    },
+    setPagination: (pagination) =>
+      set((state) => ({
+        ...state,
+        pagination: {
+          ...state.pagination,
+          ...pagination,
+        },
+      })),
     setSort: (sortBy, field, order) =>
       set((state) => ({
         ...state,
