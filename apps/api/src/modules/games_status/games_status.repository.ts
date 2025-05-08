@@ -46,6 +46,9 @@ export class GamesStatusRepository {
           },
         },
         platform: this.buildPlatformFilter(filters),
+        achievementsCompleted: this.buildAchievementsCompletedFilter(
+          filters?.achievementsCompleted,
+        ),
       },
       include: {
         platform: true,
@@ -72,6 +75,19 @@ export class GamesStatusRepository {
       take,
       skip,
     });
+  }
+
+  buildAchievementsCompletedFilter(
+    achievementsCompleted?: FiltersGameStatus['achievementsCompleted'] | null,
+  ) {
+    if (achievementsCompleted === 'all') return undefined;
+    if (achievementsCompleted === 'completed') {
+      return true;
+    }
+    if (achievementsCompleted === 'incomplete') {
+      return false;
+    }
+    return undefined;
   }
 
   buildOrderBy(sort: SortGamesStatus) {
@@ -311,6 +327,7 @@ type GetAllUserGamesStatusArgs = {
 
 type FiltersGameStatus = {
   platform: string;
+  achievementsCompleted: string;
 };
 
 type SortGamesStatus = {

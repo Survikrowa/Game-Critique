@@ -8,6 +8,7 @@ export const GamesStatusFiltersFormSchema = z.object({
   order: z.string(),
   gameStatus: z.nativeEnum(GameStatus),
   platform: z.string(),
+  achievementsCompleted: z.string(),
 });
 
 export type GamesStatusFiltersFormSchemaType = z.infer<

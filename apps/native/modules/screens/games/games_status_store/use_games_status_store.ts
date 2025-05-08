@@ -14,6 +14,7 @@ type UseGameStatusStoreStoreFields = {
     status: GameStatus;
     search: string;
     platform: string;
+    achievementsCompleted: string;
   };
   updateFilters: (
     filters: Partial<UseGameStatusStoreStoreFields["filters"]>,
@@ -36,6 +37,7 @@ export const useGameStatusStore = create<UseGameStatusStoreStoreFields>(
       status: GameStatus.Completed,
       search: "",
       platform: "0",
+      achievementsCompleted: "all",
     },
     pagination: {
       skip: 0,

@@ -2,6 +2,7 @@ import { BulletList } from "react-content-loader/native";
 import { FormProvider } from "react-hook-form";
 import { Button, Form, YStack } from "tamagui";
 
+import { GamesStatusFiltersModalAchievements } from "./games_status_filters_modal_achievements/games_status_filters_modal_achievements";
 import { GamesStatusFiltersModalGameState } from "./games_status_filters_modal_game_state/games_status_filters_modal_game_state";
 import { GamesStatusFiltersModalPlatform } from "./games_status_filters_modal_platform/games_status_filters_modal_platform";
 import { GamesStatusFiltersModalSection } from "./games_status_filters_modal_section/games_status_filters_modal_section";
@@ -41,6 +42,9 @@ export const GamesStatusFiltersModal = () => {
               <GamesStatusFiltersModalPlatform
                 platforms={data.platforms.platforms}
               />
+            </GamesStatusFiltersModalSection>
+            <GamesStatusFiltersModalSection title="Osiągnięcia">
+              <GamesStatusFiltersModalAchievements />
             </GamesStatusFiltersModalSection>
           </YStack>
 

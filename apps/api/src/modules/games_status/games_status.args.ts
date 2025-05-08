@@ -6,6 +6,8 @@ import { GameStatus } from '@prisma/client';
 class FiltersGameStatus {
   @Field(() => String)
   platform: string;
+  @Field(() => String)
+  achievementsCompleted: string;
 }
 
 @InputType({ description: 'GameStatus Sort Options' })

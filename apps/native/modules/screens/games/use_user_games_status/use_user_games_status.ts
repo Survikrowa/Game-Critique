@@ -14,6 +14,7 @@ export const useUserGamesStatus = () => {
       search: gamesStatusStore.filters.search,
       filters: {
         platform: gamesStatusStore.filters.platform,
+        achievementsCompleted: gamesStatusStore.filters.achievementsCompleted,
       },
       sort: {
         field: gamesStatusStore.sort.field,

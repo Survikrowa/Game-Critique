@@ -235,6 +235,7 @@ type GetAllUserGamesStatusArgs = {
 
 type FiltersGameStatus = {
   platform: string;
+  achievementsCompleted: string;
 };
 
 type SortGamesStatus = {

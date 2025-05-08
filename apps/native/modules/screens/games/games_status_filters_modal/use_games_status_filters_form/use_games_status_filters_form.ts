@@ -19,6 +19,7 @@ export const useGamesStatusFiltersForm = () => {
       gameStatus: gameStatusStore.filters.status,
       platform: gameStatusStore.filters.platform,
       order: gameStatusStore.sort.order,
+      achievementsCompleted: gameStatusStore.filters.achievementsCompleted,
     },
   });
   const router = useRouter();
@@ -30,6 +31,7 @@ export const useGamesStatusFiltersForm = () => {
     gameStatusStore.updateFilters({
       status: data.gameStatus,
       platform: data.platform,
+      achievementsCompleted: data.achievementsCompleted,
     });
     setPagination({
       skip: 0,
