@@ -18,6 +18,7 @@ export const useGamesStatusFiltersForm = () => {
       field: gameStatusStore.sort.field,
       gameStatus: gameStatusStore.filters.status,
       platform: gameStatusStore.filters.platform,
+      order: gameStatusStore.sort.order,
     },
   });
   const router = useRouter();

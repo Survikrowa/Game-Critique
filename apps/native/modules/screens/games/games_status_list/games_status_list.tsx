@@ -26,8 +26,6 @@ export const GamesStatusList = ({ oauthId }: GamesStatusListProps) => {
     gamesStatus.data.userGamesStatus.userGamesStatus,
   );
 
-  console.log(items);
-  console.log(JSON.stringify(cache.cache.extract(), null, 2));
   return (
     <View flex={1} key={items.length > 0 ? items[0].id : 0}>
       <FlatList
@@ -45,7 +43,6 @@ export const GamesStatusList = ({ oauthId }: GamesStatusListProps) => {
           gap: 20,
           justifyContent: "space-evenly",
         }}
-        disableVirtualization
         onRefresh={gamesStatus.onRefresh}
         refreshing={gamesStatus.loading}
         onEndReached={() => {
@@ -56,7 +53,7 @@ export const GamesStatusList = ({ oauthId }: GamesStatusListProps) => {
         onEndReachedThreshold={0.2}
         ListFooterComponent={
           gamesStatus.loading ? (
-            <YStack alignItems="center" flex={1} paddingVertical={20}>
+            <YStack alignItems="center" flex={1} height={42}>
               <Spinner size="large" />
             </YStack>
           ) : null
