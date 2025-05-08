@@ -57,10 +57,6 @@ const RootLayout = () => {
                   name="(app)/auth"
                   options={{ headerShown: true, header: Header }}
                 />
-                <Stack.Screen
-                  name="(app)/(authorized)/user"
-                  options={{ headerShown: true, header: Header }}
-                />
               </Stack>
             </ToastProvider>
           </ApolloProvider>

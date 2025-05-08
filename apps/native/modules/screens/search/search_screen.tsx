@@ -1,4 +1,4 @@
-import { Spinner, YStack } from "tamagui";
+import { ScrollView, Spinner, YStack } from "tamagui";
 import { Text } from "ui/typography/text";
 
 import { SearchInput } from "./search_input/search_input";
@@ -24,7 +24,12 @@ export const SearchScreen = ({ redirectTo }: SearchScreenProps) => {
       <YStack marginTop={8}>
         {loading && <Spinner size="large" />}
         {data && data.search.games.length > 0 && (
-          <SearchResults results={data.search.games} redirectTo={redirectTo} />
+          <ScrollView>
+            <SearchResults
+              results={data.search.games}
+              redirectTo={redirectTo}
+            />
+          </ScrollView>
         )}
       </YStack>
     </YStack>

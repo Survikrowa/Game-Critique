@@ -3,6 +3,7 @@ import {
   Gamepad2,
   BookOpen,
   Home,
+  User,
 } from "@tamagui/lucide-icons";
 import { Tabs } from "expo-router";
 import { useAuth0 } from "react-native-auth0";
@@ -50,33 +51,7 @@ const TabsLayout = () => {
           },
         }}
       />
-      <Tabs.Screen
-        name="(authorized)/collection"
-        options={{
-          headerShown: false,
-          title: "Kolekcja",
-          tabBarIcon: () => <BookOpen width={16} height={16} color="white" />,
-          tabBarLabel: ({ focused, children }) => {
-            return (
-              <Text
-                size="small"
-                weight="bold"
-                color={focused ? "active" : "white"}
-              >
-                {children}
-              </Text>
-            );
-          },
-          tabBarItemStyle: {
-            padding: 8,
-          },
-          tabBarLabelStyle: {
-            color: "white",
-            fontWeight: "bold",
-            fontSize: 12,
-          },
-        }}
-      />
+
       <Tabs.Screen
         name="(authorized)/games"
         options={{
@@ -105,6 +80,13 @@ const TabsLayout = () => {
         }}
       />
       <Tabs.Screen
+        name="(authorized)/collection"
+        options={{
+          headerShown: false,
+          href: null,
+        }}
+      />
+      <Tabs.Screen
         name="(authorized)/friends"
         options={{
           headerShown: false,
@@ -112,6 +94,33 @@ const TabsLayout = () => {
           tabBarIcon: () => (
             <PersonStanding width={16} height={16} color="white" />
           ),
+          tabBarLabel: ({ focused, children }) => {
+            return (
+              <Text
+                size="small"
+                weight="bold"
+                color={focused ? "active" : "white"}
+              >
+                {children}
+              </Text>
+            );
+          },
+          tabBarItemStyle: {
+            padding: 8,
+          },
+          tabBarLabelStyle: {
+            color: "white",
+            fontWeight: "bold",
+            fontSize: 12,
+          },
+        }}
+      />
+      <Tabs.Screen
+        name="(authorized)/user/index"
+        options={{
+          header: Header,
+          title: "Profil",
+          tabBarIcon: () => <User width={16} height={16} color="white" />,
           tabBarLabel: ({ focused, children }) => {
             return (
               <Text

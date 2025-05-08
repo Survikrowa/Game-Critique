@@ -112,6 +112,10 @@ export class GamesStatusService {
     if (key === 'RETIRED') {
       return 'Porzucona';
     }
+
+    if (key === 'BACKLOG') {
+      return 'Backlog';
+    }
     return 'Nieznany';
   }
   async getUserGameStatusById(oauthId: string, gameStatusId: number) {

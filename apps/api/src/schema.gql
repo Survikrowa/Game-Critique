@@ -97,6 +97,7 @@ type GameReleaseDTO {
 
 """GameStatus Enum"""
 enum GameStatus {
+  BACKLOG
   COMPLETED
   IN_PROGRESS
   RETIRED

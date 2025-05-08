@@ -11,4 +11,8 @@ export const GAMES_STATUSES = [
     name: "Porzucona",
     value: "RETIRED",
   },
+  {
+    name: "Backlog",
+    value: "BACKLOG",
+  },
 ] as const;
