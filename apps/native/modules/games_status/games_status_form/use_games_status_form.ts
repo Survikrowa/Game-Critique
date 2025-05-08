@@ -73,19 +73,29 @@ export const useGamesStatusForm = ({
     });
   };
 
-  const sonyConsolesIds = game.platforms.flatMap((platform) => {
-    if (platform.name.includes("PlayStation")) {
-      return platform.id;
-    }
-    return [];
-  });
-
-  const isSonyPlayStationConsole = sonyConsolesIds.includes(
-    Number(watch("platform")),
+  const platformsWithAchievementsAvaliable = game.platforms.flatMap(
+    (platform) => {
+      const platformName = platform.name.toLowerCase();
+      if (
+        platformName.includes("playstation") ||
+        platformName.includes("xbox") ||
+        platformName.includes("pc") ||
+        platformName.includes("linux") ||
+        platformName.includes("mac")
+      ) {
+        return platform.id;
+      }
+      return [];
+    },
   );
+
+  const isPlatformWithAchievements =
+    platformsWithAchievementsAvaliable.includes(Number(watch("platform")));
   const onSubmit = handleSubmit(async (data) => {
     const gameData = {
-      achievementsCompleted: isSonyPlayStationConsole ? data.platinium : false,
+      achievementsCompleted: isPlatformWithAchievements
+        ? data.platinium
+        : false,
       completedIn: {
         hours: data.hours,
         minutes: data.minutes,
@@ -114,7 +124,7 @@ export const useGamesStatusForm = ({
   });
 
   return {
-    isSonyPlayStationConsole,
+    isPlatformWithAchievements,
     control,
     DEFAULT_VALUES,
     onSubmit,

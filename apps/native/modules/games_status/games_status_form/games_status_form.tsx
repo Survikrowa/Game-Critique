@@ -27,7 +27,7 @@ export const GamesStatusForm = ({
   game,
   gameStatusId,
 }: GamesStatusFormProps) => {
-  const { onSubmit, control, isSonyPlayStationConsole, methods } =
+  const { onSubmit, control, isPlatformWithAchievements, methods } =
     useGamesStatusForm({
       initialValues,
       game,
@@ -187,7 +187,7 @@ export const GamesStatusForm = ({
             <Text size="large" weight="bold" color="primary">
               Osiągnięcia
             </Text>
-            {isSonyPlayStationConsole ? (
+            {isPlatformWithAchievements ? (
               <Controller
                 render={({
                   fieldState: { error },
@@ -198,7 +198,7 @@ export const GamesStatusForm = ({
                       onChange={onChange}
                       value={value}
                       isChecked={value}
-                      label="Osiągnieto platyne"
+                      label="Osiągnieto 100% gry"
                       errorMessage={error?.message}
                     />
                   );
