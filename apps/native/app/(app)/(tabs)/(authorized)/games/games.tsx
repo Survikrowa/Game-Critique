@@ -1,11 +1,17 @@
-import { BaseScreenLayout } from "../../../../../modules/layouts/base_screen_layout/base_screen_layout";
+import { View } from "tamagui";
+
 import { GamesScreen } from "../../../../../modules/screens/games/games_screen";
 
 const GamesPage = () => {
   return (
-    <BaseScreenLayout>
+    <View
+      backgroundColor="$color.background"
+      position="relative"
+      zIndex={1}
+      height="100%"
+    >
       <GamesScreen />
-    </BaseScreenLayout>
+    </View>
   );
 };
 

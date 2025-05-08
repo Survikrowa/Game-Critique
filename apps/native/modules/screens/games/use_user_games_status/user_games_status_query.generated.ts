@@ -4,7 +4,6 @@ import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 const defaultOptions = {} as const;
 export type UserGamesStatusQueryQueryVariables = Types.Exact<{
-  oauthId: Types.Scalars['String']['input'];
   take?: Types.InputMaybe<Types.Scalars['Float']['input']>;
   skip?: Types.InputMaybe<Types.Scalars['Float']['input']>;
   status: Types.GameStatus;
@@ -18,9 +17,8 @@ export type UserGamesStatusQueryQuery = { __typename?: 'Query', userGamesStatus:
 
 
 export const UserGamesStatusQueryDocument = gql`
-    query UserGamesStatusQuery($oauthId: String!, $take: Float, $skip: Float, $status: GameStatus!, $search: String, $filters: FiltersGameStatus, $sort: SortOptionsArg!) {
+    query UserGamesStatusQuery($take: Float, $skip: Float, $status: GameStatus!, $search: String, $filters: FiltersGameStatus, $sort: SortOptionsArg!) {
   userGamesStatus(
-    oauthId: $oauthId
     take: $take
     skip: $skip
     status: $status
@@ -67,7 +65,6 @@ export const UserGamesStatusQueryDocument = gql`
  * @example
  * const { data, loading, error } = useUserGamesStatusQueryQuery({
  *   variables: {
- *      oauthId: // value for 'oauthId'
  *      take: // value for 'take'
  *      skip: // value for 'skip'
  *      status: // value for 'status'

@@ -8,13 +8,17 @@ import {
   GameStatusRemovedResponseDTO,
   SortOptionsDTO,
   GameStatusProgressStateDTO,
+  UserFriendGamesStatusResponseWithPaginationDTO,
 } from './games_status.dto';
 import { GamesStatusService } from './games_status.service';
 import { HttpException, HttpStatus, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/auth-jwt.guard';
 import { User } from '../auth/auth.decorators';
 import { UserAuthDTO } from '../auth/auth.dto';
-import { GetAllUserGamesStatusArgs } from './games_status.args';
+import {
+  GetAllUserFriendGamesStatusArgs,
+  GetAllUserGamesStatusArgs,
+} from './games_status.args';
 import { AdminUserGuard } from '../auth/guards/admin-user.guard';
 
 @Resolver()
@@ -60,6 +64,26 @@ export class GamesStatusResolver {
   async getAllUserGamesStatusPaginatedData(
     @User() user: UserAuthDTO,
     @Args()
+    { take, skip, status, search, filters, sort }: GetAllUserGamesStatusArgs,
+  ): Promise<UserGamesStatusResponseWithPaginationDTO> {
+    return this.gamesStatusService.getAllUserGamesStatusPaginatedData({
+      oauthId: user.sub,
+      take,
+      skip,
+      status,
+      search,
+      filters,
+      sort,
+    });
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Query(() => UserFriendGamesStatusResponseWithPaginationDTO, {
+    name: 'userFriendGamesStatus',
+    description: 'Query to get user"s friend games statuses',
+  })
+  async getUserFriendGamesStatus(
+    @Args()
     {
       take,
       skip,
@@ -68,10 +92,10 @@ export class GamesStatusResolver {
       search,
       filters,
       sort,
-    }: GetAllUserGamesStatusArgs,
-  ): Promise<UserGamesStatusResponseWithPaginationDTO> {
+    }: GetAllUserFriendGamesStatusArgs,
+  ): Promise<UserFriendGamesStatusResponseWithPaginationDTO> {
     return this.gamesStatusService.getAllUserGamesStatusPaginatedData({
-      oauthId: oauthId && oauthId !== 'undefined' ? oauthId : user.sub,
+      oauthId,
       take,
       skip,
       status,

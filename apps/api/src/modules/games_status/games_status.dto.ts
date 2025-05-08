@@ -166,6 +166,14 @@ export class UserGamesStatusResponseWithPaginationDTO {
   pagination: PaginationDTO;
 }
 
+@ObjectType({ description: 'UserFriendGamesStatus Response with pagination' })
+export class UserFriendGamesStatusResponseWithPaginationDTO {
+  @Field(() => [UserGamesStatusResponseDTO])
+  userGamesStatus: UserGamesStatusResponseDTO[];
+  @Field(() => PaginationDTO)
+  pagination: PaginationDTO;
+}
+
 @ObjectType({ description: 'UserGameStatus Response' })
 export class UserGameStatusResponseDTO {
   @Field(() => Number)

@@ -9,7 +9,7 @@ export type UserGameStatusQueryVariables = Types.Exact<{
 }>;
 
 
-export type UserGameStatusQuery = { __typename?: 'Query', userGameStatus: { __typename?: 'UserGamesStatusResponseDTO', id: number, achievementsCompleted: boolean, status: Types.GameStatus, score?: string | null, review?: string | null, completedIn?: { __typename?: 'GameStatusCompletedInDTO', hours?: number | null, minutes?: number | null, seconds?: number | null } | null, platform: { __typename?: 'PlatformDTO', id: number, name: string }, game: { __typename?: 'GameWithAllDataDTO', id: number, name: string, cover?: { __typename?: 'CoverDTO', bigUrl: string, mediumUrl: string } | null, platforms: Array<{ __typename?: 'PlatformDTO', id: number, name: string }>, genres: Array<{ __typename?: 'GenresDto', id: number, name: string }>, releases?: { __typename?: 'GameReleaseDTO', id: number, date?: number | null } | null } } };
+export type UserGameStatusQuery = { __typename?: 'Query', userGameStatus: { __typename?: 'UserGamesStatusResponseDTO', id: number, achievementsCompleted: boolean, status: Types.GameStatus, score?: string | null, review?: string | null, completedIn?: { __typename?: 'GameStatusCompletedInDTO', hours?: number | null, minutes?: number | null, seconds?: number | null } | null, platform: { __typename?: 'PlatformDTO', id: number, name: string }, game: { __typename?: 'GameWithAllDataDTO', id: number, hltbId: number, name: string, cover?: { __typename?: 'CoverDTO', id: number, bigUrl: string, mediumUrl: string } | null, platforms: Array<{ __typename?: 'PlatformDTO', id: number, name: string }>, genres: Array<{ __typename?: 'GenresDto', id: number, name: string }>, releases?: { __typename?: 'GameReleaseDTO', id: number, date?: number | null } | null } } };
 
 
 export const UserGameStatusDocument = gql`
@@ -28,8 +28,10 @@ export const UserGameStatusDocument = gql`
     }
     game {
       id
+      hltbId
       name
       cover {
+        id
         bigUrl
         mediumUrl
       }

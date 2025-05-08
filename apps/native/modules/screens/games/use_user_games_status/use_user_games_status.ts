@@ -1,14 +1,13 @@
 import { useUserGamesStatusQueryQuery } from "./user_games_status_query.generated";
 import { useGameStatusStore } from "../games_status_store/use_games_status_store";
 
-export const useUserGamesStatus = ({ oauthId }: UseUserGamesStatusArgs) => {
+export const useUserGamesStatus = () => {
   const gamesStatusStore = useGameStatusStore((state) => ({
     filters: state.filters,
     sort: state.sort,
   }));
   const userGamesStatusQuery = useUserGamesStatusQueryQuery({
     variables: {
-      oauthId: oauthId || "",
       status: gamesStatusStore.filters.status,
       skip: 0,
       take: 12,
@@ -65,8 +64,4 @@ export const useUserGamesStatus = ({ oauthId }: UseUserGamesStatusArgs) => {
   };
 
   return { ...userGamesStatusQuery, fetchMoreGamesStatus, onRefresh };
-};
-
-type UseUserGamesStatusArgs = {
-  oauthId?: string;
 };

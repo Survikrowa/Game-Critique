@@ -3,6 +3,7 @@ query UserProfile($oauthId: String!) {
         id,
         oauthId,
         profile {
+            id
             name,
             avatarUrl
         }
@@ -10,15 +11,20 @@ query UserProfile($oauthId: String!) {
             achievementsCompleted
         }
         userActivity {
+            id
             activityType
             game {
+                id
+                hltbId
                 name
                 cover {
-                    smallUrl
+                    id
+                    bigUrl
                 }
             }
             updatedAt
             formattedUpdatedAt
         }
     }
+
 }

@@ -18,8 +18,23 @@ class SortOptionsArg {
 
 @ArgsType()
 export class GetAllUserGamesStatusArgs extends PaginationArgs {
+  @Field(() => GameStatus)
+  status: GameStatus;
+
   @Field(() => String, { nullable: true })
-  oauthId: string | null;
+  search: string | null;
+
+  @Field(() => FiltersGameStatus, { nullable: true })
+  filters: FiltersGameStatus | null;
+
+  @Field(() => SortOptionsArg)
+  sort: SortOptionsArg;
+}
+
+@ArgsType()
+export class GetAllUserFriendGamesStatusArgs extends PaginationArgs {
+  @Field(() => String)
+  oauthId: string;
 
   @Field(() => GameStatus)
   status: GameStatus;

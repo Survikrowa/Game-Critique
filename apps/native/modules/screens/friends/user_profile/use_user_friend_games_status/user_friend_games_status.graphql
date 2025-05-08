@@ -1,0 +1,27 @@
+query UserFriendGamesStatusQuery($oauthId: String!, $take: Float, $skip: Float, $status: GameStatus!, $search: String, $filters: FiltersGameStatus, $sort: SortOptionsArg!) {
+    userFriendGamesStatus(oauthId: $oauthId, take: $take, skip: $skip, status: $status, search: $search, filters: $filters, sort: $sort) {
+        userGamesStatus {
+            id
+            game {
+                id
+                hltbId
+                name
+                cover {
+                    id
+                    bigUrl
+                }
+            }
+            status
+            platform {
+                name
+            }
+            score
+        }
+        pagination {
+            hasMore
+            hasPrevious
+            take
+            skip
+        }
+    }
+}

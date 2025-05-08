@@ -290,6 +290,9 @@ type Query {
   search(input: String!): SearchResult!
   user(oauthId: String!): UserDataDTO!
 
+  """Query to get user"s friend games statuses"""
+  userFriendGamesStatus(filters: FiltersGameStatus, oauthId: String!, search: String, skip: Float = 0, sort: SortOptionsArg!, status: GameStatus!, take: Float = 5): UserFriendGamesStatusResponseWithPaginationDTO!
+
   """
   If oauthId is not provided it will use the id of the user that called the query
   """
@@ -298,7 +301,7 @@ type Query {
   """
   If oauthId is not provided it will use the id of the user that called the query
   """
-  userGamesStatus(filters: FiltersGameStatus, oauthId: String, search: String, skip: Float = 0, sort: SortOptionsArg!, status: GameStatus!, take: Float = 5): UserGamesStatusResponseWithPaginationDTO!
+  userGamesStatus(filters: FiltersGameStatus, search: String, skip: Float = 0, sort: SortOptionsArg!, status: GameStatus!, take: Float = 5): UserGamesStatusResponseWithPaginationDTO!
   users: [UserDTO!]!
   usersSearch(input: String!): [UserSearchResultDTO!]!
   verify: AuthUserVerification!
@@ -414,6 +417,12 @@ type UserDataDTO {
   oauthId: String!
   profile: ProfileInfoDTO
   userActivity: [UserActivityDTO!]
+}
+
+"""UserFriendGamesStatus Response with pagination"""
+type UserFriendGamesStatusResponseWithPaginationDTO {
+  pagination: PaginationDTO!
+  userGamesStatus: [UserGamesStatusResponseDTO!]!
 }
 
 """UserGamesStatus Response"""

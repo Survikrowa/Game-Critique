@@ -8,7 +8,7 @@ export type UserProfileQueryVariables = Types.Exact<{
 }>;
 
 
-export type UserProfileQuery = { __typename?: 'Query', user: { __typename?: 'UserDataDTO', id: number, oauthId: string, profile?: { __typename?: 'ProfileInfoDTO', name?: string | null, avatarUrl: string } | null, gamesStatus?: Array<{ __typename?: 'GameStatusDTO', achievementsCompleted: boolean }> | null, userActivity?: Array<{ __typename?: 'UserActivityDTO', activityType: Types.GameStatus, updatedAt: any, formattedUpdatedAt: string, game?: { __typename?: 'GameWithCoversDTO', name: string, cover?: { __typename?: 'CoverDTO', smallUrl: string } | null } | null }> | null } };
+export type UserProfileQuery = { __typename?: 'Query', user: { __typename?: 'UserDataDTO', id: number, oauthId: string, profile?: { __typename?: 'ProfileInfoDTO', id: number, name?: string | null, avatarUrl: string } | null, gamesStatus?: Array<{ __typename?: 'GameStatusDTO', achievementsCompleted: boolean }> | null, userActivity?: Array<{ __typename?: 'UserActivityDTO', id: number, activityType: Types.GameStatus, updatedAt: any, formattedUpdatedAt: string, game?: { __typename?: 'GameWithCoversDTO', id: number, hltbId: number, name: string, cover?: { __typename?: 'CoverDTO', id: number, bigUrl: string } | null } | null }> | null } };
 
 
 export const UserProfileDocument = gql`
@@ -17,6 +17,7 @@ export const UserProfileDocument = gql`
     id
     oauthId
     profile {
+      id
       name
       avatarUrl
     }
@@ -24,11 +25,15 @@ export const UserProfileDocument = gql`
       achievementsCompleted
     }
     userActivity {
+      id
       activityType
       game {
+        id
+        hltbId
         name
         cover {
-          smallUrl
+          id
+          bigUrl
         }
       }
       updatedAt
