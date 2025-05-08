@@ -34,18 +34,6 @@ export const GameTabs = ({ game, redirect }: GameTabsProps) => {
       height="min-content"
       flexDirection="row"
     >
-      <View alignItems="center" flex={1} onPress={redirectToCollectionAddForm}>
-        <Plus size="$2" color="white" />
-        <YStack alignItems="center">
-          <Text size="small" weight="semiBold" color="primary">
-            Dodaj do
-          </Text>
-          <Text size="small" weight="semiBold" color="primary">
-            kolekcji
-          </Text>
-        </YStack>
-      </View>
-      <Separator vertical />
       <View alignItems="center" flex={1} onPress={redirectToGamesStatusAddForm}>
         <Check size="$2" color="white" />
         <YStack alignItems="center">
