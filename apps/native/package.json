@@ -12,10 +12,11 @@
     "eject": "expo eject",
     "lint": "eslint .",
     "generate-graph": "dotenvx run --env-file=.env.local -- graphql-codegen",
+    "generate-graph-prod": "graphql-codegen",
     "build-android": "NODE_ENV=production eas build --clear-cache --platform android --local",
     "build-ios": "NODE_ENV=production eas build --clear-cache --platform ios --local",
     "build-android-dev": "NODE_ENV=development eas build --profile development --platform android",
-    "eas-build-post-install": "yarn generate-graph"
+    "eas-build-post-install": "yarn generate-graph-prod"
   },
   "dependencies": {
     "@apollo/client": "^3.8.8",
