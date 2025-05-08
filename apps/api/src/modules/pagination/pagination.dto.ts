@@ -9,4 +9,9 @@ export class PaginationDTO {
   hasMore: boolean;
   @Field(() => Boolean)
   hasPrevious: boolean;
+
+  @Field(() => Number)
+  skip: number;
+  @Field(() => Number)
+  take: number;
 }

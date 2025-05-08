@@ -1,0 +1,23 @@
+query GamesStatusFilters {
+  gamesStatusSortOptions {
+      sortOptions {
+          id
+          field
+          label
+          order
+      }
+
+  }
+    availableGamesStatusProgressStates {
+        gameStatusProgressState {
+            label
+            value
+        }
+    }
+    platforms {
+        platforms {
+            id
+            name
+        }
+    }
+}

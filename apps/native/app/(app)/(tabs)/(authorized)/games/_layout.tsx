@@ -14,6 +14,15 @@ const GamesLayout = () => {
       />
 
       <Stack.Screen
+        name="filters/modal"
+        options={{
+          presentation: "modal",
+          animation: "fade_from_bottom",
+          header: () => <GoBackHeader text="Filtry" />,
+        }}
+      />
+
+      <Stack.Screen
         name="games_status_edit_form/[game_status_id]"
         options={{
           header: () => <GoBackHeader text="Edycja statusu" />,
@@ -28,7 +37,7 @@ const GamesLayout = () => {
       <Stack.Screen
         name="games_status_info/[games_status_id]"
         options={{
-          header: () => <GoBackHeader text="NAZWA GRY" />,
+          header: () => <GoBackHeader text="" />,
         }}
       />
       <Stack.Screen

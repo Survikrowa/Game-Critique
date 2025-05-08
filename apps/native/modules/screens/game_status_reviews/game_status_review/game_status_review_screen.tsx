@@ -1,5 +1,3 @@
-import { useNavigation } from "expo-router";
-import { useEffect } from "react";
 import { ScrollView } from "tamagui";
 
 import { Text } from "../../../../ui/typography/text";

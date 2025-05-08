@@ -14,6 +14,39 @@ registerEnumType(GameStatus, {
   name: 'gameStatus',
   description: 'GameStatus Enum',
 });
+
+@ObjectType({ description: 'GameStatus Progress State' })
+export class GameStatusProgressState {
+  @Field(() => String)
+  label: string;
+  @Field(() => GameStatus)
+  value: GameStatus;
+}
+
+@ObjectType({ description: 'GameStatus Progress State DTO' })
+export class GameStatusProgressStateDTO {
+  @Field(() => [GameStatusProgressState])
+  gameStatusProgressState: GameStatusProgressState[];
+}
+
+@ObjectType({ description: 'GameStatus Sort Options' })
+export class SortOptions {
+  @Field(() => String)
+  id: string;
+  @Field(() => String)
+  field: string;
+  @Field(() => String)
+  order: string;
+  @Field(() => String)
+  label: string;
+}
+
+@ObjectType({ description: 'All possible sort options for games status' })
+export class SortOptionsDTO {
+  @Field(() => [SortOptions])
+  sortOptions: SortOptions[];
+}
+
 @InputType({ description: 'GameStatus CompletedIn Arg' })
 export class GameStatusCompletedInArgDTO {
   @Field(() => String, { nullable: true })

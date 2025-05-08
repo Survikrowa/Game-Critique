@@ -10,6 +10,7 @@ import { GameStatus } from '@prisma/client';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { GetAllUserGamesStatusByOauthIdQuery } from './queries/get_all_user_games_status_by_oauthid/get_all_user_games_status_by_oauthid.query';
 import { RemoveUserGameStatusByUserOauthIdCommand } from './commands/remove_user_game_status_by_user_oauth_id/remove_user_game_status_by_user_oauth_id.command';
+import { SORT_OPTIONS } from './games_status.data';
 @Injectable()
 export class GamesStatusService {
   constructor(
@@ -26,6 +27,8 @@ export class GamesStatusService {
     skip = 0,
     status,
     search,
+    filters,
+    sort,
   }: GetAllUserGamesStatusArgs) {
     const userGameStatus =
       await this.gamesStatusRepository.getAllUserGamesStatus({
@@ -34,6 +37,8 @@ export class GamesStatusService {
         skip,
         status,
         search: search || '',
+        filters,
+        sort,
       });
     const userGamesStatusCount =
       await this.gamesStatusRepository.countUserGamesStatusEntriesByStatus(
@@ -66,6 +71,8 @@ export class GamesStatusService {
           total: userGamesStatusCount,
           hasMore: userGamesStatusCount > take + skip,
           hasPrevious: skip > 0,
+          skip,
+          take,
         },
       };
     }
@@ -81,10 +88,36 @@ export class GamesStatusService {
     >(new GetAllUserGamesStatusByOauthIdQuery(oauthId));
   }
 
-  async getGameStatusById(gameStatusId: number) {
-    return;
+  getGamesStatusSortOptions() {
+    return SORT_OPTIONS;
   }
 
+  getAvailableGamesStatusProgressStates() {
+    return Object.entries(GameStatus).map(([key, value]) => {
+      const label = this.mapKeyToLabel(key);
+      return {
+        value,
+        label,
+      };
+    });
+  }
+
+  mapKeyToLabel(key: string) {
+    if (key === 'IN_PROGRESS') {
+      return 'W trakcie';
+    }
+    if (key === 'COMPLETED') {
+      return 'Ukończona';
+    }
+    if (key === 'RETIRED') {
+      return 'Porzucona';
+    }
+
+    if (key === 'BACKLOG') {
+      return 'Backlog';
+    }
+    return 'Nieznany';
+  }
   async getUserGameStatusById(oauthId: string, gameStatusId: number) {
     const userGameStatus =
       await this.gamesStatusRepository.getUserGameStatusById(
@@ -196,4 +229,15 @@ type GetAllUserGamesStatusArgs = {
   skip?: number;
   status: GameStatus;
   search?: string | null;
+  filters?: FiltersGameStatus | null;
+  sort: SortGamesStatus;
+};
+
+type FiltersGameStatus = {
+  platform: string;
+};
+
+type SortGamesStatus = {
+  field: string;
+  order: string;
 };

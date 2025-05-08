@@ -11,6 +11,8 @@ const parseStatus = (status: GameStatus) => {
       return "Ukończona";
     case GameStatus.Retired:
       return "Porzucona";
+    case GameStatus.Backlog:
+      return "Dodana do backlogu";
     default:
       return "Nieznany";
   }

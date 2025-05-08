@@ -22,6 +22,7 @@ import {
 import * as process from 'process';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { RolesModule } from './modules/roles/roles.module';
+import { PlatformsModule } from './modules/platforms/platforms.module';
 
 @Module({
   imports: [
@@ -59,6 +60,7 @@ import { RolesModule } from './modules/roles/roles.module';
     FriendsModule,
     HowLongToBeatMigrationModule,
     RolesModule,
+    PlatformsModule,
   ],
   providers: [
     {

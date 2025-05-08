@@ -4,6 +4,7 @@ import {
   from,
   InMemoryCache,
 } from "@apollo/client";
+import { loadDevMessages, loadErrorMessages } from "@apollo/client/dev";
 import { setContext } from "@apollo/client/link/context";
 import { onError } from "@apollo/client/link/error";
 import Constants from "expo-constants";
@@ -30,6 +31,10 @@ const getServerUrl = () => {
   }
   return process.env.EXPO_PUBLIC_GRAPHQL_ENDPOINT;
 };
+if (process.env.NODE_ENV !== "production") {
+  loadErrorMessages();
+  loadDevMessages();
+}
 const httpLink = createHttpLink({
   uri: getServerUrl(),
 });
@@ -64,9 +69,12 @@ export const useNewApolloClient = () => {
           Query: {
             fields: {
               userGamesStatus: {
-                keyArgs: ["status", "oauthId"],
-                merge(_, incoming) {
-                  return incoming;
+                keyArgs: ["status", "oauthId", "search", "filters", "sort"],
+                merge(existing, incoming, { mergeObjects }) {
+                  if (!existing) {
+                    return incoming;
+                  }
+                  return mergeObjects(existing, incoming);
                 },
               },
             },
