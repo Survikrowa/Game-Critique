@@ -2,6 +2,7 @@ query UserFriendGamesStatusQuery($oauthId: String!, $take: Float, $skip: Float, 
     userFriendGamesStatus(oauthId: $oauthId, take: $take, skip: $skip, status: $status, search: $search, filters: $filters, sort: $sort) {
         userGamesStatus {
             id
+            achievementsCompleted
             game {
                 id
                 hltbId

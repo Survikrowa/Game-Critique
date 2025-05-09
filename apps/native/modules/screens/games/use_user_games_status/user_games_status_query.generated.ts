@@ -13,7 +13,7 @@ export type UserGamesStatusQueryQueryVariables = Types.Exact<{
 }>;
 
 
-export type UserGamesStatusQueryQuery = { __typename?: 'Query', userGamesStatus: { __typename?: 'UserGamesStatusResponseWithPaginationDTO', userGamesStatus: Array<{ __typename?: 'UserGamesStatusResponseDTO', id: number, status: Types.GameStatus, score?: string | null, game: { __typename?: 'GameWithAllDataDTO', id: number, hltbId: number, name: string, cover?: { __typename?: 'CoverDTO', id: number, bigUrl: string } | null }, platform: { __typename?: 'PlatformDTO', name: string } }>, pagination: { __typename?: 'PaginationDTO', hasMore: boolean, hasPrevious: boolean, take: number, skip: number } } };
+export type UserGamesStatusQueryQuery = { __typename?: 'Query', userGamesStatus: { __typename?: 'UserGamesStatusResponseWithPaginationDTO', userGamesStatus: Array<{ __typename?: 'UserGamesStatusResponseDTO', id: number, achievementsCompleted: boolean, status: Types.GameStatus, score?: string | null, game: { __typename?: 'GameWithAllDataDTO', id: number, hltbId: number, name: string, cover?: { __typename?: 'CoverDTO', id: number, bigUrl: string } | null }, platform: { __typename?: 'PlatformDTO', name: string } }>, pagination: { __typename?: 'PaginationDTO', hasMore: boolean, hasPrevious: boolean, take: number, skip: number } } };
 
 
 export const UserGamesStatusQueryDocument = gql`
@@ -28,6 +28,7 @@ export const UserGamesStatusQueryDocument = gql`
   ) {
     userGamesStatus {
       id
+      achievementsCompleted
       game {
         id
         hltbId

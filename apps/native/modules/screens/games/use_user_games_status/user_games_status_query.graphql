@@ -2,6 +2,7 @@ query UserGamesStatusQuery($take: Float, $skip: Float, $status: GameStatus!, $se
   userGamesStatus( take: $take, skip: $skip, status: $status, search: $search, filters: $filters, sort: $sort) {
     userGamesStatus {
       id
+      achievementsCompleted
       game {
         id
         hltbId

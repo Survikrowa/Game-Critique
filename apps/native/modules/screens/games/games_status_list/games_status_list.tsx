@@ -18,6 +18,7 @@ type Item = {
   platform: string;
   score: string;
   cover: string;
+  achievementsCompleted: boolean;
 };
 
 export const GamesStatusList = ({
@@ -49,8 +50,7 @@ export const GamesStatusList = ({
         columnWrapperStyle={{
           flex: 1,
           display: "flex",
-          gap: 20,
-          justifyContent: "space-evenly",
+          justifyContent: "space-between",
         }}
         onRefresh={onRefresh}
         refreshing={loading}

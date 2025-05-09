@@ -15,7 +15,7 @@ export const GamesScreen = () => {
   );
   return (
     <YStack flex={1} height="100%" gap={16}>
-      <XStack width="100%" gap={16} paddingHorizontal={8}>
+      <XStack width="100%">
         <GamesStatusListSearch />
         <Link asChild href="/games/filters/modal">
           <View
@@ -28,6 +28,7 @@ export const GamesScreen = () => {
               flex: 1,
               backgroundColor: "white",
               borderColor: "black",
+              marginLeft: 16,
             }}
           >
             <Filter height="100%" width="100%" />

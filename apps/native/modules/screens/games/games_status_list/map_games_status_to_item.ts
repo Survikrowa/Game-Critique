@@ -9,5 +9,6 @@ export const mapGamesStatusToItem = (
     platform: gameStatus.platform.name,
     score: gameStatus.score || "0",
     cover: gameStatus.game.cover?.bigUrl || "",
+    achievementsCompleted: gameStatus.achievementsCompleted || false,
   }));
 };

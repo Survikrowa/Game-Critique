@@ -16,6 +16,7 @@ type GamesStatusListItemProps = {
     score: string;
     cover: string;
     id: number;
+    achievementsCompleted: boolean;
   };
   oauthId?: string;
 };
