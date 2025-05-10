@@ -9,6 +9,7 @@ import { Tabs } from "expo-router";
 import { useAuth0 } from "react-native-auth0";
 import { Text } from "ui/typography/text";
 
+import { GoBackHeader } from "../../../modules/layouts/go_back_header/go_back_header";
 import { Header } from "../../../modules/layouts/header/header";
 
 const TabsLayout = () => {
@@ -116,9 +117,9 @@ const TabsLayout = () => {
         }}
       />
       <Tabs.Screen
-        name="(authorized)/user/index"
+        name="(authorized)/user"
         options={{
-          header: Header,
+          headerShown: false,
           title: "Profil",
           tabBarIcon: () => <User width={16} height={16} color="white" />,
           tabBarLabel: ({ focused, children }) => {

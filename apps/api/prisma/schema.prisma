@@ -195,6 +195,7 @@ model Platform {
   id              Int               @id @default(autoincrement())
   name            String
   slug            String            @unique
+  displayName     String?           @map("display_name")
   createdAt       DateTime          @default(now()) @map("created_at")
   updatedAt       DateTime          @updatedAt @map("updated_at")
   PlatformForGame PlatformForGame[]

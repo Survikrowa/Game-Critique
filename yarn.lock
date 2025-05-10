@@ -15717,6 +15717,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-linear-gradient@npm:~12.3.0":
+  version: 12.3.0
+  resolution: "expo-linear-gradient@npm:12.3.0"
+  peerDependencies:
+    expo: "*"
+  checksum: 10c0/dfd61741b045fb5efee06cb812f456184d0912442c434fbd272612e57418988134f23cbabde00d24198e68181df2733efa11fca3a72c1948d1bf4c346641fe39
+  languageName: node
+  linkType: hard
+
 "expo-linking@npm:~5.0.2":
   version: 5.0.2
   resolution: "expo-linking@npm:5.0.2"
@@ -16784,6 +16793,7 @@ __metadata:
     expo-document-picker: "npm:~11.5.4"
     expo-font: "npm:~11.4.0"
     expo-image-picker: "npm:~14.3.2"
+    expo-linear-gradient: "npm:~12.3.0"
     expo-linking: "npm:~5.0.2"
     expo-router: "npm:^2.0.0"
     expo-secure-store: "npm:~12.3.1"
@@ -16799,6 +16809,7 @@ __metadata:
     react-native-auth0: "npm:^3.1.0"
     react-native-floating-action: "npm:^1.22.0"
     react-native-gesture-handler: "npm:~2.12.0"
+    react-native-gifted-charts: "npm:^1.4.61"
     react-native-reanimated: "npm:~3.3.0"
     react-native-reanimated-carousel: "npm:^3.5.1"
     react-native-safe-area-context: "npm:4.6.3"
@@ -16973,6 +16984,17 @@ __metadata:
   version: 1.0.0
   resolution: "getenv@npm:1.0.0"
   checksum: 10c0/9661c5996c7622e12eab1d23448474ae51dbec6f8862eed903ebaa864dcd332895441c23d962e3ff5c180a9e3dff6cb1f569a115e1447db4acb52af2d880d655
+  languageName: node
+  linkType: hard
+
+"gifted-charts-core@npm:0.1.63":
+  version: 0.1.63
+  resolution: "gifted-charts-core@npm:0.1.63"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+    react-native-svg: "*"
+  checksum: 10c0/e1f77624ed48e4ce1755d71015344242d6314f5dd8c2af78462324d133deb815aef23bfd4f76bb114977c9dd3930d430c0b5e81bd15c6f5fe8be158ec8e52888
   languageName: node
   linkType: hard
 
@@ -23820,6 +23842,26 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 10c0/4d4271d26d8a9f799987c05652793baf3e57cf71debb3940e8f37d84f026ee38b7d0d3a3d26774b9f111d033ffedc8db4303c6b1f52155b6bee33774e83592f1
+  languageName: node
+  linkType: hard
+
+"react-native-gifted-charts@npm:^1.4.61":
+  version: 1.4.61
+  resolution: "react-native-gifted-charts@npm:1.4.61"
+  dependencies:
+    gifted-charts-core: "npm:0.1.63"
+  peerDependencies:
+    expo-linear-gradient: "*"
+    react: "*"
+    react-native: "*"
+    react-native-linear-gradient: "*"
+    react-native-svg: "*"
+  peerDependenciesMeta:
+    expo-linear-gradient:
+      optional: true
+    react-native-linear-gradient:
+      optional: true
+  checksum: 10c0/0b608502c156d4aa4f18edc5cdeb4c079f5a745fc90a2b3a738e665dea75645f32e6d49d01af817bbd33e1a2150c8da557392c4866a52ea306389302edf1958e
   languageName: node
   linkType: hard
 

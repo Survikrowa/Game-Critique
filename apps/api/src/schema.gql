@@ -303,6 +303,9 @@ type Query {
   If oauthId is not provided it will use the id of the user that called the query
   """
   userGamesStatus(filters: FiltersGameStatus, search: String, skip: Float = 0, sort: SortOptionsArg!, status: GameStatus!, take: Float = 5): UserGamesStatusResponseWithPaginationDTO!
+
+  """Get user stats"""
+  userStats(type: String!): [UserStatsDTO!]!
   users: [UserDTO!]!
   usersSearch(input: String!): [UserSearchResultDTO!]!
   verify: AuthUserVerification!
@@ -451,4 +454,9 @@ type UserSearchResultDTO {
   oauthId: String!
   profile: ProfileDTO
   role: Role
+}
+
+type UserStatsDTO {
+  label: String!
+  value: Float!
 }

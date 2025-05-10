@@ -4,7 +4,7 @@ import { Text } from "ui/typography/text";
 
 import { LogoutButton } from "./logout_button/logout_button";
 import { ProfileEditorForm } from "./profile_editor_form/profile_editor_form";
-import { UploadHltbMigrationDocument } from "./upload_hltb_migration_document/upload_hltb_migration_document";
+import { ProfileFeatures } from "./profile_features/profile_features";
 import { useCurrentProfileView } from "./use_current_profile_view";
 import { useUserProfileInfo } from "./use_user_profile_info/use_user_profile_info";
 import { UserAvatar } from "../../user/user_avatar/user_avatar";
@@ -64,7 +64,7 @@ export const ProfileScreen = () => {
           </Button>
         </XStack>
       </Card>
-      <UploadHltbMigrationDocument />
+      <ProfileFeatures />
       <View>
         <LogoutButton />
       </View>

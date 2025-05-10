@@ -1,0 +1,6 @@
+query UserStats ($type: String!) {
+  userStats(type: $type) {
+      label
+      value
+  }
+}
