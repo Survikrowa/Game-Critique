@@ -20,6 +20,7 @@ export const useUserFriendGamesStatus = ({
       skip: 0,
       filters: {
         platform: gamesStatusStore.filters.platform,
+        achievementsCompleted: gamesStatusStore.filters.achievementsCompleted,
       },
       status: gamesStatusStore.filters.status,
       search: gamesStatusStore.filters.search,
