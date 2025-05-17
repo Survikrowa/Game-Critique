@@ -1,0 +1,11 @@
+mutation UpdatePlatformDisplayName(
+  $platformId: Float!
+  $displayName: String!
+) {
+  updatePlatformDisplayName(platformId: $platformId, displayName: $displayName) {
+    platform {
+        id
+        displayName
+    }
+  }
+}

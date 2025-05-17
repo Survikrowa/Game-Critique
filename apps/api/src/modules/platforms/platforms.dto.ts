@@ -19,10 +19,18 @@ class Platform {
   name: string;
   @Field(() => String)
   slug: string;
+  @Field(() => String, { nullable: true })
+  displayName?: string | null;
 }
 
 @ObjectType({ description: 'All Platforms' })
 export class PlatformsDTO {
-  @Field(() => [PlatformDTO])
+  @Field(() => [Platform])
   platforms: Platform[];
+}
+
+@ObjectType({ description: 'Update Platform display name return' })
+export class UpdatePlatformDisplayNameDTO {
+  @Field(() => Platform)
+  platform: Platform;
 }

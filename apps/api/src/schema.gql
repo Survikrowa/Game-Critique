@@ -207,6 +207,9 @@ type Mutation {
   """Admin mutation to remove game status by gameStatusId and user oauthId"""
   removeUserGameStatusByUserOauthId(gameStatusId: Float!, oauthId: String!): GameStatusRemovedResponseDTO!
   sendFriendRequest(receiverOauthId: String!): FriendRequestResponseDTO!
+
+  """update platform display name"""
+  updatePlatformDisplayName(displayName: String!, platformId: Float!): UpdatePlatformDisplayNameDTO!
   updateProfileInfo(profileInfo: ProfileInfoUpdateArgsDTO!): ProfileInfoUpdateResponseDTO!
   updateUserRole(updateUserRoleInput: UpdateUserRoleInput!): UpdateUserRoleDTO!
   upsertGameStatus(upsertGameStatusArgs: UpsertGameStatusArgsDTO!): GameStatusSuccessResponseDTO!
@@ -226,6 +229,14 @@ type PaginationDTO {
   total: Float!
 }
 
+"""Platform"""
+type Platform {
+  displayName: String
+  id: Float!
+  name: String!
+  slug: String!
+}
+
 """Single Platform"""
 type PlatformDTO {
   id: Float!
@@ -235,7 +246,7 @@ type PlatformDTO {
 
 """All Platforms"""
 type PlatformsDTO {
-  platforms: [PlatformDTO!]!
+  platforms: [Platform!]!
 }
 
 """User profile info"""
@@ -362,6 +373,11 @@ input SortOptionsArg {
 """All possible sort options for games status"""
 type SortOptionsDTO {
   sortOptions: [SortOptions!]!
+}
+
+"""Update Platform display name return"""
+type UpdatePlatformDisplayNameDTO {
+  platform: Platform!
 }
 
 """Update user role"""

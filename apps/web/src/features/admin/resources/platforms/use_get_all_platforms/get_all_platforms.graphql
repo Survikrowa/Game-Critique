@@ -1,0 +1,10 @@
+query Platforms {
+  platforms {
+      platforms {
+          id
+          name
+          displayName
+          slug
+      }
+  }
+}

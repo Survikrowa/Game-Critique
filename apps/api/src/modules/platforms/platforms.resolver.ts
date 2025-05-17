@@ -1,8 +1,9 @@
-import { Query, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/auth-jwt.guard';
 import { PlatformsService } from './platforms.service';
-import { PlatformsDTO } from './platforms.dto';
+import { PlatformsDTO, UpdatePlatformDisplayNameDTO } from './platforms.dto';
+import { AdminUserGuard } from '../auth/guards/admin-user.guard';
 
 @Resolver()
 export class PlatformsResolver {
@@ -13,9 +14,28 @@ export class PlatformsResolver {
     name: 'platforms',
     description: 'Get all platforms',
   })
-  async getAllPlatforms() {
+  async getAllPlatforms(): Promise<PlatformsDTO> {
+    const platforms = await this.platformsService.getAllPlatforms();
     return {
-      platforms: this.platformsService.getAllPlatforms(),
+      platforms,
+    };
+  }
+
+  @UseGuards(JwtAuthGuard, AdminUserGuard)
+  @Mutation(() => UpdatePlatformDisplayNameDTO, {
+    name: 'updatePlatformDisplayName',
+    description: 'update platform display name',
+  })
+  async updatePlatformDisplayName(
+    @Args('platformId') platformId: number,
+    @Args('displayName') displayName: string,
+  ): Promise<UpdatePlatformDisplayNameDTO> {
+    const platform = await this.platformsService.updatePlatformDisplayName(
+      platformId,
+      displayName,
+    );
+    return {
+      platform,
     };
   }
 }

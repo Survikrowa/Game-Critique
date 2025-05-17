@@ -2,8 +2,10 @@ import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
+  getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { useState } from "react";
 
 import { DataTablePagination } from "@/packages/ui/data_display/data_table/data_table_pagination.tsx";
 import {
@@ -26,10 +28,18 @@ export const DataTable = <TData, TValue>({
   data,
   withPagination,
 }: DataTableProps<TData, TValue>) => {
+  const [pagination, setPagination] = useState({
+    pageIndex: 0,
+    pageSize: 10,
+  });
+
   const table = useReactTable({
     columns,
     data,
     getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: withPagination ? getPaginationRowModel() : undefined,
+    state: withPagination ? { pagination } : {},
+    onPaginationChange: withPagination ? setPagination : undefined,
   });
 
   return (
@@ -38,18 +48,16 @@ export const DataTable = <TData, TValue>({
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
-                return (
-                  <TableHead key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
-                  </TableHead>
-                );
-              })}
+              {headerGroup.headers.map((header) => (
+                <TableHead key={header.id}>
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(
+                        header.column.columnDef.header,
+                        header.getContext(),
+                      )}
+                </TableHead>
+              ))}
             </TableRow>
           ))}
         </TableHeader>

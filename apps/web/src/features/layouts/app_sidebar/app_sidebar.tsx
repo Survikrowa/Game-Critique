@@ -1,7 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Link } from "@tanstack/react-router";
 import { Home, Library, LogOutIcon, User } from "lucide-react";
 
+import { SidebarDefaultMenuItem } from "@/features/layouts/app_sidebar/sidebar_default_menu_item.tsx";
 import { Button } from "@/packages/ui/inputs/button.tsx";
 import {
   Sidebar,
@@ -16,6 +16,7 @@ import {
 
 const sidebarItems = [
   {
+    type: "default",
     label: "Dashboard",
     items: [
       {
@@ -26,6 +27,7 @@ const sidebarItems = [
     ],
   },
   {
+    type: "default",
     label: "Users",
     items: [
       {
@@ -36,6 +38,28 @@ const sidebarItems = [
       {
         label: "Search User Games",
         href: "/admin/user-games",
+        icon: Library,
+      },
+    ],
+  },
+  {
+    type: "default",
+    label: "Resources",
+    items: [
+      {
+        label: "Platforms",
+        href: "/admin/resources/platforms",
+        icon: Library,
+      },
+    ],
+  },
+  {
+    type: "default",
+    label: "Migrations",
+    items: [
+      {
+        label: "Migrations",
+        href: "/admin/migrations",
         icon: Library,
       },
     ],
@@ -53,21 +77,19 @@ export const AppSidebar = () => {
             <SidebarGroupLabel>{group.label}</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {group.items.map((item) => (
-                  <SidebarMenuItem key={item.label}>
-                    <SidebarMenuButton asChild>
-                      <Link
-                        to={item.href}
-                        activeOptions={{ exact: true }}
-                        activeProps={{ className: "bg-gray-800" }}
-                        className="block p-2 text-white hover:bg-gray-800"
-                      >
-                        <item.icon />
-                        {item.label}
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
+                {group.items.map((item) => {
+                  if (group.type === "default") {
+                    return (
+                      <SidebarDefaultMenuItem
+                        key={item.label}
+                        label={item.label}
+                        icon={item.icon}
+                        href={item.href}
+                      />
+                    );
+                  }
+                  return null;
+                })}
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
