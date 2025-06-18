@@ -8,206 +8,90 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-// Import Routes
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as LayoutRouteImport } from './routes/_layout'
+import { Route as LayoutIndexRouteImport } from './routes/_layout/index'
+import { Route as LayoutAdmin_layoutRouteImport } from './routes/_layout/_admin_layout'
+import { Route as LayoutAdmin_layoutAdminIndexRouteImport } from './routes/_layout/_admin_layout/admin/index'
+import { Route as LayoutAdmin_layoutAdminUsersIndexRouteImport } from './routes/_layout/_admin_layout/admin/users/index'
+import { Route as LayoutAdmin_layoutAdminUserGamesIndexRouteImport } from './routes/_layout/_admin_layout/admin/user-games/index'
+import { Route as LayoutAdmin_layoutAdminGamesIndexRouteImport } from './routes/_layout/_admin_layout/admin/games/index'
+import { Route as LayoutAdmin_layoutAdminResourcesPlatformsIndexRouteImport } from './routes/_layout/_admin_layout/admin/resources/platforms/index'
 
-import { Route as rootRoute } from './routes/__root'
-import { Route as LayoutImport } from './routes/_layout'
-import { Route as LayoutIndexImport } from './routes/_layout/index'
-import { Route as LayoutAdminlayoutImport } from './routes/_layout/_admin_layout'
-import { Route as LayoutAdminlayoutAdminIndexImport } from './routes/_layout/_admin_layout/admin/index'
-import { Route as LayoutAdminlayoutAdminUsersIndexImport } from './routes/_layout/_admin_layout/admin/users/index'
-import { Route as LayoutAdminlayoutAdminUserGamesIndexImport } from './routes/_layout/_admin_layout/admin/user-games/index'
-import { Route as LayoutAdminlayoutAdminGamesIndexImport } from './routes/_layout/_admin_layout/admin/games/index'
-import { Route as LayoutAdminlayoutAdminResourcesPlatformsIndexImport } from './routes/_layout/_admin_layout/admin/resources/platforms/index'
-
-// Create/Update Routes
-
-const LayoutRoute = LayoutImport.update({
+const LayoutRoute = LayoutRouteImport.update({
   id: '/_layout',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const LayoutIndexRoute = LayoutIndexImport.update({
+const LayoutIndexRoute = LayoutIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => LayoutRoute,
 } as any)
-
-const LayoutAdminlayoutRoute = LayoutAdminlayoutImport.update({
+const LayoutAdmin_layoutRoute = LayoutAdmin_layoutRouteImport.update({
   id: '/_admin_layout',
   getParentRoute: () => LayoutRoute,
 } as any)
-
-const LayoutAdminlayoutAdminIndexRoute =
-  LayoutAdminlayoutAdminIndexImport.update({
+const LayoutAdmin_layoutAdminIndexRoute =
+  LayoutAdmin_layoutAdminIndexRouteImport.update({
     id: '/admin/',
     path: '/admin/',
-    getParentRoute: () => LayoutAdminlayoutRoute,
+    getParentRoute: () => LayoutAdmin_layoutRoute,
   } as any)
-
-const LayoutAdminlayoutAdminUsersIndexRoute =
-  LayoutAdminlayoutAdminUsersIndexImport.update({
+const LayoutAdmin_layoutAdminUsersIndexRoute =
+  LayoutAdmin_layoutAdminUsersIndexRouteImport.update({
     id: '/admin/users/',
     path: '/admin/users/',
-    getParentRoute: () => LayoutAdminlayoutRoute,
+    getParentRoute: () => LayoutAdmin_layoutRoute,
   } as any)
-
-const LayoutAdminlayoutAdminUserGamesIndexRoute =
-  LayoutAdminlayoutAdminUserGamesIndexImport.update({
+const LayoutAdmin_layoutAdminUserGamesIndexRoute =
+  LayoutAdmin_layoutAdminUserGamesIndexRouteImport.update({
     id: '/admin/user-games/',
     path: '/admin/user-games/',
-    getParentRoute: () => LayoutAdminlayoutRoute,
+    getParentRoute: () => LayoutAdmin_layoutRoute,
   } as any)
-
-const LayoutAdminlayoutAdminGamesIndexRoute =
-  LayoutAdminlayoutAdminGamesIndexImport.update({
+const LayoutAdmin_layoutAdminGamesIndexRoute =
+  LayoutAdmin_layoutAdminGamesIndexRouteImport.update({
     id: '/admin/games/',
     path: '/admin/games/',
-    getParentRoute: () => LayoutAdminlayoutRoute,
+    getParentRoute: () => LayoutAdmin_layoutRoute,
   } as any)
-
-const LayoutAdminlayoutAdminResourcesPlatformsIndexRoute =
-  LayoutAdminlayoutAdminResourcesPlatformsIndexImport.update({
+const LayoutAdmin_layoutAdminResourcesPlatformsIndexRoute =
+  LayoutAdmin_layoutAdminResourcesPlatformsIndexRouteImport.update({
     id: '/admin/resources/platforms/',
     path: '/admin/resources/platforms/',
-    getParentRoute: () => LayoutAdminlayoutRoute,
+    getParentRoute: () => LayoutAdmin_layoutRoute,
   } as any)
 
-// Populate the FileRoutesByPath interface
-
-declare module '@tanstack/react-router' {
-  interface FileRoutesByPath {
-    '/_layout': {
-      id: '/_layout'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof LayoutImport
-      parentRoute: typeof rootRoute
-    }
-    '/_layout/_admin_layout': {
-      id: '/_layout/_admin_layout'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof LayoutAdminlayoutImport
-      parentRoute: typeof LayoutImport
-    }
-    '/_layout/': {
-      id: '/_layout/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof LayoutIndexImport
-      parentRoute: typeof LayoutImport
-    }
-    '/_layout/_admin_layout/admin/': {
-      id: '/_layout/_admin_layout/admin/'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof LayoutAdminlayoutAdminIndexImport
-      parentRoute: typeof LayoutAdminlayoutImport
-    }
-    '/_layout/_admin_layout/admin/games/': {
-      id: '/_layout/_admin_layout/admin/games/'
-      path: '/admin/games'
-      fullPath: '/admin/games'
-      preLoaderRoute: typeof LayoutAdminlayoutAdminGamesIndexImport
-      parentRoute: typeof LayoutAdminlayoutImport
-    }
-    '/_layout/_admin_layout/admin/user-games/': {
-      id: '/_layout/_admin_layout/admin/user-games/'
-      path: '/admin/user-games'
-      fullPath: '/admin/user-games'
-      preLoaderRoute: typeof LayoutAdminlayoutAdminUserGamesIndexImport
-      parentRoute: typeof LayoutAdminlayoutImport
-    }
-    '/_layout/_admin_layout/admin/users/': {
-      id: '/_layout/_admin_layout/admin/users/'
-      path: '/admin/users'
-      fullPath: '/admin/users'
-      preLoaderRoute: typeof LayoutAdminlayoutAdminUsersIndexImport
-      parentRoute: typeof LayoutAdminlayoutImport
-    }
-    '/_layout/_admin_layout/admin/resources/platforms/': {
-      id: '/_layout/_admin_layout/admin/resources/platforms/'
-      path: '/admin/resources/platforms'
-      fullPath: '/admin/resources/platforms'
-      preLoaderRoute: typeof LayoutAdminlayoutAdminResourcesPlatformsIndexImport
-      parentRoute: typeof LayoutAdminlayoutImport
-    }
-  }
-}
-
-// Create and export the route tree
-
-interface LayoutAdminlayoutRouteChildren {
-  LayoutAdminlayoutAdminIndexRoute: typeof LayoutAdminlayoutAdminIndexRoute
-  LayoutAdminlayoutAdminGamesIndexRoute: typeof LayoutAdminlayoutAdminGamesIndexRoute
-  LayoutAdminlayoutAdminUserGamesIndexRoute: typeof LayoutAdminlayoutAdminUserGamesIndexRoute
-  LayoutAdminlayoutAdminUsersIndexRoute: typeof LayoutAdminlayoutAdminUsersIndexRoute
-  LayoutAdminlayoutAdminResourcesPlatformsIndexRoute: typeof LayoutAdminlayoutAdminResourcesPlatformsIndexRoute
-}
-
-const LayoutAdminlayoutRouteChildren: LayoutAdminlayoutRouteChildren = {
-  LayoutAdminlayoutAdminIndexRoute: LayoutAdminlayoutAdminIndexRoute,
-  LayoutAdminlayoutAdminGamesIndexRoute: LayoutAdminlayoutAdminGamesIndexRoute,
-  LayoutAdminlayoutAdminUserGamesIndexRoute:
-    LayoutAdminlayoutAdminUserGamesIndexRoute,
-  LayoutAdminlayoutAdminUsersIndexRoute: LayoutAdminlayoutAdminUsersIndexRoute,
-  LayoutAdminlayoutAdminResourcesPlatformsIndexRoute:
-    LayoutAdminlayoutAdminResourcesPlatformsIndexRoute,
-}
-
-const LayoutAdminlayoutRouteWithChildren =
-  LayoutAdminlayoutRoute._addFileChildren(LayoutAdminlayoutRouteChildren)
-
-interface LayoutRouteChildren {
-  LayoutAdminlayoutRoute: typeof LayoutAdminlayoutRouteWithChildren
-  LayoutIndexRoute: typeof LayoutIndexRoute
-}
-
-const LayoutRouteChildren: LayoutRouteChildren = {
-  LayoutAdminlayoutRoute: LayoutAdminlayoutRouteWithChildren,
-  LayoutIndexRoute: LayoutIndexRoute,
-}
-
-const LayoutRouteWithChildren =
-  LayoutRoute._addFileChildren(LayoutRouteChildren)
-
 export interface FileRoutesByFullPath {
-  '': typeof LayoutAdminlayoutRouteWithChildren
   '/': typeof LayoutIndexRoute
-  '/admin': typeof LayoutAdminlayoutAdminIndexRoute
-  '/admin/games': typeof LayoutAdminlayoutAdminGamesIndexRoute
-  '/admin/user-games': typeof LayoutAdminlayoutAdminUserGamesIndexRoute
-  '/admin/users': typeof LayoutAdminlayoutAdminUsersIndexRoute
-  '/admin/resources/platforms': typeof LayoutAdminlayoutAdminResourcesPlatformsIndexRoute
+  '/admin': typeof LayoutAdmin_layoutAdminIndexRoute
+  '/admin/games': typeof LayoutAdmin_layoutAdminGamesIndexRoute
+  '/admin/user-games': typeof LayoutAdmin_layoutAdminUserGamesIndexRoute
+  '/admin/users': typeof LayoutAdmin_layoutAdminUsersIndexRoute
+  '/admin/resources/platforms': typeof LayoutAdmin_layoutAdminResourcesPlatformsIndexRoute
 }
-
 export interface FileRoutesByTo {
-  '': typeof LayoutAdminlayoutRouteWithChildren
   '/': typeof LayoutIndexRoute
-  '/admin': typeof LayoutAdminlayoutAdminIndexRoute
-  '/admin/games': typeof LayoutAdminlayoutAdminGamesIndexRoute
-  '/admin/user-games': typeof LayoutAdminlayoutAdminUserGamesIndexRoute
-  '/admin/users': typeof LayoutAdminlayoutAdminUsersIndexRoute
-  '/admin/resources/platforms': typeof LayoutAdminlayoutAdminResourcesPlatformsIndexRoute
+  '/admin': typeof LayoutAdmin_layoutAdminIndexRoute
+  '/admin/games': typeof LayoutAdmin_layoutAdminGamesIndexRoute
+  '/admin/user-games': typeof LayoutAdmin_layoutAdminUserGamesIndexRoute
+  '/admin/users': typeof LayoutAdmin_layoutAdminUsersIndexRoute
+  '/admin/resources/platforms': typeof LayoutAdmin_layoutAdminResourcesPlatformsIndexRoute
 }
-
 export interface FileRoutesById {
-  __root__: typeof rootRoute
+  __root__: typeof rootRouteImport
   '/_layout': typeof LayoutRouteWithChildren
-  '/_layout/_admin_layout': typeof LayoutAdminlayoutRouteWithChildren
+  '/_layout/_admin_layout': typeof LayoutAdmin_layoutRouteWithChildren
   '/_layout/': typeof LayoutIndexRoute
-  '/_layout/_admin_layout/admin/': typeof LayoutAdminlayoutAdminIndexRoute
-  '/_layout/_admin_layout/admin/games/': typeof LayoutAdminlayoutAdminGamesIndexRoute
-  '/_layout/_admin_layout/admin/user-games/': typeof LayoutAdminlayoutAdminUserGamesIndexRoute
-  '/_layout/_admin_layout/admin/users/': typeof LayoutAdminlayoutAdminUsersIndexRoute
-  '/_layout/_admin_layout/admin/resources/platforms/': typeof LayoutAdminlayoutAdminResourcesPlatformsIndexRoute
+  '/_layout/_admin_layout/admin/': typeof LayoutAdmin_layoutAdminIndexRoute
+  '/_layout/_admin_layout/admin/games/': typeof LayoutAdmin_layoutAdminGamesIndexRoute
+  '/_layout/_admin_layout/admin/user-games/': typeof LayoutAdmin_layoutAdminUserGamesIndexRoute
+  '/_layout/_admin_layout/admin/users/': typeof LayoutAdmin_layoutAdminUsersIndexRoute
+  '/_layout/_admin_layout/admin/resources/platforms/': typeof LayoutAdmin_layoutAdminResourcesPlatformsIndexRoute
 }
-
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | ''
     | '/'
     | '/admin'
     | '/admin/games'
@@ -216,7 +100,6 @@ export interface FileRouteTypes {
     | '/admin/resources/platforms'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | ''
     | '/'
     | '/admin'
     | '/admin/games'
@@ -235,70 +118,110 @@ export interface FileRouteTypes {
     | '/_layout/_admin_layout/admin/resources/platforms/'
   fileRoutesById: FileRoutesById
 }
-
 export interface RootRouteChildren {
   LayoutRoute: typeof LayoutRouteWithChildren
 }
 
-const rootRouteChildren: RootRouteChildren = {
-  LayoutRoute: LayoutRouteWithChildren,
-}
-
-export const routeTree = rootRoute
-  ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
-
-/* ROUTE_MANIFEST_START
-{
-  "routes": {
-    "__root__": {
-      "filePath": "__root.tsx",
-      "children": [
-        "/_layout"
-      ]
-    },
-    "/_layout": {
-      "filePath": "_layout.tsx",
-      "children": [
-        "/_layout/_admin_layout",
-        "/_layout/"
-      ]
-    },
-    "/_layout/_admin_layout": {
-      "filePath": "_layout/_admin_layout.tsx",
-      "parent": "/_layout",
-      "children": [
-        "/_layout/_admin_layout/admin/",
-        "/_layout/_admin_layout/admin/games/",
-        "/_layout/_admin_layout/admin/user-games/",
-        "/_layout/_admin_layout/admin/users/",
-        "/_layout/_admin_layout/admin/resources/platforms/"
-      ]
-    },
-    "/_layout/": {
-      "filePath": "_layout/index.tsx",
-      "parent": "/_layout"
-    },
-    "/_layout/_admin_layout/admin/": {
-      "filePath": "_layout/_admin_layout/admin/index.tsx",
-      "parent": "/_layout/_admin_layout"
-    },
-    "/_layout/_admin_layout/admin/games/": {
-      "filePath": "_layout/_admin_layout/admin/games/index.tsx",
-      "parent": "/_layout/_admin_layout"
-    },
-    "/_layout/_admin_layout/admin/user-games/": {
-      "filePath": "_layout/_admin_layout/admin/user-games/index.tsx",
-      "parent": "/_layout/_admin_layout"
-    },
-    "/_layout/_admin_layout/admin/users/": {
-      "filePath": "_layout/_admin_layout/admin/users/index.tsx",
-      "parent": "/_layout/_admin_layout"
-    },
-    "/_layout/_admin_layout/admin/resources/platforms/": {
-      "filePath": "_layout/_admin_layout/admin/resources/platforms/index.tsx",
-      "parent": "/_layout/_admin_layout"
+declare module '@tanstack/react-router' {
+  interface FileRoutesByPath {
+    '/_layout': {
+      id: '/_layout'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof LayoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_layout/': {
+      id: '/_layout/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof LayoutIndexRouteImport
+      parentRoute: typeof LayoutRoute
+    }
+    '/_layout/_admin_layout': {
+      id: '/_layout/_admin_layout'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof LayoutAdmin_layoutRouteImport
+      parentRoute: typeof LayoutRoute
+    }
+    '/_layout/_admin_layout/admin/': {
+      id: '/_layout/_admin_layout/admin/'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof LayoutAdmin_layoutAdminIndexRouteImport
+      parentRoute: typeof LayoutAdmin_layoutRoute
+    }
+    '/_layout/_admin_layout/admin/users/': {
+      id: '/_layout/_admin_layout/admin/users/'
+      path: '/admin/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof LayoutAdmin_layoutAdminUsersIndexRouteImport
+      parentRoute: typeof LayoutAdmin_layoutRoute
+    }
+    '/_layout/_admin_layout/admin/user-games/': {
+      id: '/_layout/_admin_layout/admin/user-games/'
+      path: '/admin/user-games'
+      fullPath: '/admin/user-games'
+      preLoaderRoute: typeof LayoutAdmin_layoutAdminUserGamesIndexRouteImport
+      parentRoute: typeof LayoutAdmin_layoutRoute
+    }
+    '/_layout/_admin_layout/admin/games/': {
+      id: '/_layout/_admin_layout/admin/games/'
+      path: '/admin/games'
+      fullPath: '/admin/games'
+      preLoaderRoute: typeof LayoutAdmin_layoutAdminGamesIndexRouteImport
+      parentRoute: typeof LayoutAdmin_layoutRoute
+    }
+    '/_layout/_admin_layout/admin/resources/platforms/': {
+      id: '/_layout/_admin_layout/admin/resources/platforms/'
+      path: '/admin/resources/platforms'
+      fullPath: '/admin/resources/platforms'
+      preLoaderRoute: typeof LayoutAdmin_layoutAdminResourcesPlatformsIndexRouteImport
+      parentRoute: typeof LayoutAdmin_layoutRoute
     }
   }
 }
-ROUTE_MANIFEST_END */
+
+interface LayoutAdmin_layoutRouteChildren {
+  LayoutAdmin_layoutAdminIndexRoute: typeof LayoutAdmin_layoutAdminIndexRoute
+  LayoutAdmin_layoutAdminGamesIndexRoute: typeof LayoutAdmin_layoutAdminGamesIndexRoute
+  LayoutAdmin_layoutAdminUserGamesIndexRoute: typeof LayoutAdmin_layoutAdminUserGamesIndexRoute
+  LayoutAdmin_layoutAdminUsersIndexRoute: typeof LayoutAdmin_layoutAdminUsersIndexRoute
+  LayoutAdmin_layoutAdminResourcesPlatformsIndexRoute: typeof LayoutAdmin_layoutAdminResourcesPlatformsIndexRoute
+}
+
+const LayoutAdmin_layoutRouteChildren: LayoutAdmin_layoutRouteChildren = {
+  LayoutAdmin_layoutAdminIndexRoute: LayoutAdmin_layoutAdminIndexRoute,
+  LayoutAdmin_layoutAdminGamesIndexRoute:
+    LayoutAdmin_layoutAdminGamesIndexRoute,
+  LayoutAdmin_layoutAdminUserGamesIndexRoute:
+    LayoutAdmin_layoutAdminUserGamesIndexRoute,
+  LayoutAdmin_layoutAdminUsersIndexRoute:
+    LayoutAdmin_layoutAdminUsersIndexRoute,
+  LayoutAdmin_layoutAdminResourcesPlatformsIndexRoute:
+    LayoutAdmin_layoutAdminResourcesPlatformsIndexRoute,
+}
+
+const LayoutAdmin_layoutRouteWithChildren =
+  LayoutAdmin_layoutRoute._addFileChildren(LayoutAdmin_layoutRouteChildren)
+
+interface LayoutRouteChildren {
+  LayoutAdmin_layoutRoute: typeof LayoutAdmin_layoutRouteWithChildren
+  LayoutIndexRoute: typeof LayoutIndexRoute
+}
+
+const LayoutRouteChildren: LayoutRouteChildren = {
+  LayoutAdmin_layoutRoute: LayoutAdmin_layoutRouteWithChildren,
+  LayoutIndexRoute: LayoutIndexRoute,
+}
+
+const LayoutRouteWithChildren =
+  LayoutRoute._addFileChildren(LayoutRouteChildren)
+
+const rootRouteChildren: RootRouteChildren = {
+  LayoutRoute: LayoutRouteWithChildren,
+}
+export const routeTree = rootRouteImport
+  ._addFileChildren(rootRouteChildren)
+  ._addFileTypes<FileRouteTypes>()
