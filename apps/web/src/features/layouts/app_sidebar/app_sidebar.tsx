@@ -44,6 +44,17 @@ const sidebarItems = [
   },
   {
     type: "default",
+    label: "Games",
+    items: [
+      {
+        label: "Search Games",
+        href: "/admin/games",
+        icon: Library,
+      },
+    ],
+  },
+  {
+    type: "default",
     label: "Resources",
     items: [
       {

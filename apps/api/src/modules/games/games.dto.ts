@@ -1,8 +1,11 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { ArgsType, Field, ObjectType } from '@nestjs/graphql';
 import { CoverDTO } from '../covers/covers.dto';
 import { PlatformDTO } from '../platforms/platforms.dto';
 import { GameReleaseDTO } from '../game_releases/game_releases.dto';
 import { GenresDto } from '../genres/genres.dto';
+import { PaginationDTO } from '../pagination/pagination.dto';
+import { PaginationArgs } from '../pagination/pagination.args';
+import { GameStatus } from '@prisma/client';
 
 @ObjectType({ description: 'Single Game' })
 export class GameDTO {
@@ -60,4 +63,27 @@ export class GameWithAllDataDTO {
   genres: GenresDto[];
   @Field(() => GameCompletionTimeDTO, { nullable: true })
   completionTime: GameCompletionTimeDTO | null;
+}
+
+@ObjectType('PaginatedGames')
+export class PaginatedGamesDTO {
+  @Field(() => [GameWithAllDataDTO])
+  items: GameDTO[];
+  @Field(() => PaginationDTO)
+  pagination: PaginationDTO;
+}
+
+@ArgsType()
+export class GetPaginatedGamesArgs extends PaginationArgs {
+  @Field(() => String, { nullable: true })
+  search: string | null;
+}
+
+@ObjectType('UpdateGameDataDTO')
+export class UpdateGameDataDTO {
+  @Field(() => Number)
+  hltbId: number;
+
+  @Field(() => String)
+  message: string;
 }

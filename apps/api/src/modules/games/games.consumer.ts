@@ -1,7 +1,6 @@
 import { Process, Processor } from '@nestjs/bull';
 import { Job } from 'bull';
 import { GamesRepository } from './games.repository';
-import { Prisma } from '@prisma/client';
 import { SearchGameResultDtoType } from '../search/search.dto';
 
 @Processor('games')

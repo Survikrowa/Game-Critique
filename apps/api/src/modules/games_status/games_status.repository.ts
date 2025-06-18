@@ -43,6 +43,7 @@ export class GamesStatusRepository {
         game: {
           name: {
             contains: search,
+            mode: 'insensitive',
           },
         },
         platform: this.buildPlatformFilter(filters),

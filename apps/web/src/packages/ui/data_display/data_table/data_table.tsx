@@ -3,6 +3,7 @@ import {
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
+  Updater,
   useReactTable,
 } from "@tanstack/react-table";
 import { useState } from "react";
@@ -21,14 +22,29 @@ type DataTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   withPagination?: boolean;
+  pagination?: PaginationState;
+  onPaginationChange?: (updater: Updater<PaginationState>) => void;
+  manualPagination?: boolean;
+  rowCount?: number;
+  pageCount?: number;
+};
+
+type PaginationState = {
+  pageIndex: number;
+  pageSize: number;
 };
 
 export const DataTable = <TData, TValue>({
   columns,
   data,
   withPagination,
+  manualPagination,
+  rowCount,
+  pagination,
+  onPaginationChange,
+  pageCount,
 }: DataTableProps<TData, TValue>) => {
-  const [pagination, setPagination] = useState({
+  const [internalPagination, setInternalPagination] = useState({
     pageIndex: 0,
     pageSize: 10,
   });
@@ -36,10 +52,23 @@ export const DataTable = <TData, TValue>({
   const table = useReactTable({
     columns,
     data,
+    rowCount,
+    pageCount,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: withPagination ? getPaginationRowModel() : undefined,
-    state: withPagination ? { pagination } : {},
-    onPaginationChange: withPagination ? setPagination : undefined,
+    state: withPagination
+      ? { pagination: manualPagination ? pagination : internalPagination }
+      : {},
+    onPaginationChange: (updaterOrValue) => {
+      if (manualPagination && onPaginationChange) {
+        return onPaginationChange(updaterOrValue);
+      }
+      if (withPagination) {
+        return setInternalPagination(updaterOrValue);
+      }
+      return undefined;
+    },
+    manualPagination,
   });
 
   return (

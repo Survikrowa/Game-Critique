@@ -45,4 +45,15 @@ export class HowLongToBeatScrapperService {
       platforms,
     };
   }
+
+  async getGameDetails(gameId: number) {
+    const { html } = await this.getHTMLGamePage(gameId);
+    const { genres, platforms } = await this.parseHTMlGamePage(html);
+
+    return {
+      gameId,
+      genres,
+      platforms,
+    };
+  }
 }

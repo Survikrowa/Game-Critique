@@ -1,9 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { HowLongToBeatService } from './howlongtobeat_parser.service';
+import { HowLongToBeatScrapperService } from './howlongtobeat_scrapper/howlongtobeat_scrapper.service';
 
 @Injectable()
 export class HowLongToBeatParserFacade {
-  constructor(private readonly hltbParserService: HowLongToBeatService) {}
+  constructor(
+    private readonly hltbParserService: HowLongToBeatService,
+    private readonly hltbScrapperService: HowLongToBeatScrapperService,
+  ) {}
 
   async fetchGames(input: string) {
     const games = await this.hltbParserService.search(input);
@@ -28,5 +32,14 @@ export class HowLongToBeatParserFacade {
 
   toHltbSearchUrl(title: string): string {
     return this.hltbParserService.transformToHltbSlug(title);
+  }
+
+  async fetchGameDetails(hltbId: number) {
+    const gameDetails = await this.hltbScrapperService.getGameDetails(hltbId);
+    return {
+      id: gameDetails.gameId,
+      genres: this.hltbParserService.getGenres(gameDetails.genres),
+      platforms: this.hltbParserService.getPlatforms(gameDetails.platforms),
+    };
   }
 }

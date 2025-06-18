@@ -1,0 +1,6 @@
+mutation updateGameDetails($hltbId: Float!) {
+    updateGameData(hltbId: $hltbId) {
+        hltbId
+        message
+    }
+}

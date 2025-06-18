@@ -207,6 +207,7 @@ type Mutation {
   """Admin mutation to remove game status by gameStatusId and user oauthId"""
   removeUserGameStatusByUserOauthId(gameStatusId: Float!, oauthId: String!): GameStatusRemovedResponseDTO!
   sendFriendRequest(receiverOauthId: String!): FriendRequestResponseDTO!
+  updateGameData(hltbId: Float!): UpdateGameDataDTO!
 
   """update platform display name"""
   updatePlatformDisplayName(displayName: String!, platformId: Float!): UpdatePlatformDisplayNameDTO!
@@ -219,6 +220,11 @@ type Mutation {
 input NewCollectionDTO {
   description: String!
   name: String!
+}
+
+type PaginatedGames {
+  items: [GameWithAllDataDTO!]!
+  pagination: PaginationDTO!
 }
 
 type PaginationDTO {
@@ -285,6 +291,7 @@ type Query {
   friendsList: FriendsList!
   friendsRequests: [GetFriendRequestsResponseDTO!]!
   game(hltbId: Float!): GameWithAllDataDTO!
+  games(search: String, skip: Float = 0, take: Float = 5): PaginatedGames!
 
   """Get games status sort options"""
   gamesStatusSortOptions: SortOptionsDTO!
@@ -373,6 +380,11 @@ input SortOptionsArg {
 """All possible sort options for games status"""
 type SortOptionsDTO {
   sortOptions: [SortOptions!]!
+}
+
+type UpdateGameDataDTO {
+  hltbId: Float!
+  message: String!
 }
 
 """Update Platform display name return"""

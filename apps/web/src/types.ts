@@ -239,6 +239,7 @@ export type Mutation = {
   /** Admin mutation to remove game status by gameStatusId and user oauthId */
   removeUserGameStatusByUserOauthId: GameStatusRemovedResponseDto;
   sendFriendRequest: FriendRequestResponseDto;
+  updateGameData: UpdateGameDataDto;
   /** update platform display name */
   updatePlatformDisplayName: UpdatePlatformDisplayNameDto;
   updateProfileInfo: ProfileInfoUpdateResponseDto;
@@ -283,6 +284,11 @@ export type MutationSendFriendRequestArgs = {
 };
 
 
+export type MutationUpdateGameDataArgs = {
+  hltbId: Scalars['Float']['input'];
+};
+
+
 export type MutationUpdatePlatformDisplayNameArgs = {
   displayName: Scalars['String']['input'];
   platformId: Scalars['Float']['input'];
@@ -307,6 +313,12 @@ export type MutationUpsertGameStatusArgs = {
 export type NewCollectionDto = {
   description: Scalars['String']['input'];
   name: Scalars['String']['input'];
+};
+
+export type PaginatedGames = {
+  __typename?: 'PaginatedGames';
+  items: Array<GameWithAllDataDto>;
+  pagination: PaginationDto;
 };
 
 export type PaginationDto = {
@@ -381,6 +393,7 @@ export type Query = {
   friendsList: FriendsList;
   friendsRequests: Array<GetFriendRequestsResponseDto>;
   game: GameWithAllDataDto;
+  games: PaginatedGames;
   /** Get games status sort options */
   gamesStatusSortOptions: SortOptionsDto;
   getAllUserGamesStatusByOauthId: Array<UserGamesStatusResponseDto>;
@@ -415,6 +428,13 @@ export type QueryCollectionArgs = {
 
 export type QueryGameArgs = {
   hltbId: Scalars['Float']['input'];
+};
+
+
+export type QueryGamesArgs = {
+  search?: InputMaybe<Scalars['String']['input']>;
+  skip?: InputMaybe<Scalars['Float']['input']>;
+  take?: InputMaybe<Scalars['Float']['input']>;
 };
 
 
@@ -531,6 +551,12 @@ export type SortOptionsArg = {
 export type SortOptionsDto = {
   __typename?: 'SortOptionsDTO';
   sortOptions: Array<SortOptions>;
+};
+
+export type UpdateGameDataDto = {
+  __typename?: 'UpdateGameDataDTO';
+  hltbId: Scalars['Float']['output'];
+  message: Scalars['String']['output'];
 };
 
 /** Update Platform display name return */

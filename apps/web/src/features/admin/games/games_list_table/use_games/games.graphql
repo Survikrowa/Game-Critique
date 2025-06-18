@@ -1,0 +1,15 @@
+query Games($search: String, $take: Float , $skip: Float) {
+    games(take: $take, skip: $skip, search: $search) {
+        items {
+            id
+            name
+            slug
+            hltbId
+        }
+        pagination {
+            total
+            take
+            skip
+        }
+    }
+}
