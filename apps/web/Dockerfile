@@ -3,7 +3,6 @@ FROM node:22-alpine AS node
 RUN apk add --no-cache libc6-compat
 
 FROM node AS builder
-ENV NODE_ENV=production
 ARG VITE_AUTH0_DOMAIN
 ARG VITE_AUTH0_CLIENT_ID
 ARG VITE_AUTH0_AUDIENCE
@@ -13,6 +12,7 @@ COPY . .
 RUN corepack enable
 RUN corepack install
 RUN yarn install
+ENV NODE_ENV=production
 RUN yarn build
 
 FROM nginx:alpine AS runner
