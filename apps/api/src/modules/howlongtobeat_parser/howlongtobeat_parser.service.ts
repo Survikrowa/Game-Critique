@@ -88,7 +88,7 @@ export class HowLongToBeatService implements HowLongToBeatServiceFields {
       AxiosResponse<HowLongToBeatSearchResponse>
     >(
       this.httpService.post(
-        `/api/seek/${this.howLongToBeatSearchUrl.searchHash}`,
+        `/api/locate/${this.howLongToBeatSearchUrl.searchHash}`,
         {
           ...hltbSearchPayload,
         },
