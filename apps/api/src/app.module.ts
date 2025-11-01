@@ -24,6 +24,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { RolesModule } from './modules/roles/roles.module';
 import { PlatformsModule } from './modules/platforms/platforms.module';
 import { UserStatsModule } from './modules/user_stats/user_stats.module';
+import { DoesItPlayScraperModule } from './modules/doesitplay_scraper/doesitplay_scraper.module';
 
 @Module({
   imports: [
@@ -63,6 +64,7 @@ import { UserStatsModule } from './modules/user_stats/user_stats.module';
     RolesModule,
     PlatformsModule,
     UserStatsModule,
+    DoesItPlayScraperModule,
   ],
   providers: [
     {

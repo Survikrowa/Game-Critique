@@ -47,10 +47,53 @@ type CoverDTO {
   smallUrl: String!
 }
 
+input CreateScrapingJobInput {
+  url: String!
+}
+
+type CreateScrapingJobResponse {
+  job: DoesItPlayScrapingJob!
+  success: Boolean!
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
+
+type DoesItPlayApiGame {
+  additionnalInfo: String
+  cover: String!
+  platform: String!
+  platformCode: String!
+  region: String
+  testedOn: String
+  title: String!
+  url: String!
+}
+
+enum DoesItPlayJobStatus {
+  COMPLETED
+  FAILED
+  IN_PROGRESS
+  PENDING
+}
+
+type DoesItPlayScrapingJob {
+  createdAt: DateTime!
+  error: String
+  id: Float!
+  jobId: String!
+  platform: String!
+  status: DoesItPlayJobStatus!
+  title: String!
+  updatedAt: DateTime!
+  url: String!
+}
+
+type DoesItPlaySearchResult {
+  games: [DoesItPlayApiGame!]!
+}
 
 input FiltersGameStatus {
   achievementsCompleted: String!
@@ -200,6 +243,7 @@ enum MigrationStatus {
 type Mutation {
   acceptFriendRequest(senderOauthId: String!): FriendRequestResponseDTO!
   addGameToCollection(collection: AddGameToCollectionDTO!): CollectionMutationResponseDTO!
+  createDoesItPlayScrapingJob(input: CreateScrapingJobInput!): CreateScrapingJobResponse!
   createNewCollection(collection: NewCollectionDTO!): CollectionDTO!
   removeCollection(collection: RemoveCollectionArgsDTO!): RemovedCollectionResponseDTO!
   removeGameStatus(gameStatusId: Float!): GameStatusSuccessResponseDTO!
@@ -284,9 +328,13 @@ type ProfileInfoUpdateResponseDTO {
 }
 
 type Query {
+  allDoesItPlayScrapingJobs: [DoesItPlayScrapingJob!]!
+
   """Get available games status progress states"""
   availableGamesStatusProgressStates: GameStatusProgressStateDTO!
   collection(id: Float!): CollectionWithGamesDTO!
+  doesItPlayScrapingJobByJobId(jobId: String!): DoesItPlayScrapingJob
+  doesItPlayScrapingJobByUrl(url: String!): DoesItPlayScrapingJob
   friendsActivity: [FriendsActivityDTO!]!
   friendsList: FriendsList!
   friendsRequests: [GetFriendRequestsResponseDTO!]!
@@ -307,6 +355,7 @@ type Query {
   profileInfo: ProfileInfoDTO!
   roles: [RoleDTO!]!
   search(input: String!): SearchResult!
+  searchDoesItPlay(gameName: String!): DoesItPlaySearchResult!
   user(oauthId: String!): UserDataDTO!
 
   """Query to get user"s friend games statuses"""
