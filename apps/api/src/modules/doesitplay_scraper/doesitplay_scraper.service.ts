@@ -1,16 +1,18 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-import { DoesItPlayScrapperService } from './doesitplay_scrapper/doesitplay_scrapper.service';
 import type {
   DoesItPlaySearchResult,
   DoesItPlayGameInfo,
   DoesItPlayApiSearchResult,
 } from './doesitplay_scraper.types';
 import { firstValueFrom } from 'rxjs';
+import axios from 'axios';
+import * as cheerio from 'cheerio';
 
 export interface DoesItPlayServiceFields {
-  searchGame: (title: string) => Promise<DoesItPlaySearchResult[]>;
+  searchGame: (title: string) => Promise<DoesItPlaySearchResult | null>;
   getGameDetails: (gameId: string) => Promise<DoesItPlayGameInfo | null>;
+  scrapGameHTML: (gameName: string) => Promise<DoesItPlayGameInfo | null>;
 }
 
 const MAX_RETRIES = 3;
@@ -18,26 +20,56 @@ const MAX_RETRIES = 3;
 @Injectable()
 export class DoesItPlayService implements DoesItPlayServiceFields {
   private readonly logger = new Logger(DoesItPlayService.name);
+  private readonly baseUrl = 'https://www.doesitplay.org';
 
-  constructor(
-    private readonly httpService: HttpService,
-    private readonly doesItPlayScrapper: DoesItPlayScrapperService,
-  ) {}
+  constructor(private readonly httpService: HttpService) {}
 
-  async searchGame(title: string): Promise<DoesItPlaySearchResult[]> {
-    this.logger.log(`Searching for game: ${title}`);
+  async scrapGameHTML(gameUrl: string): Promise<DoesItPlayGameInfo | null> {
+    const searchUrl = `${this.baseUrl}/${gameUrl}`;
+
+    try {
+      const response = await axios.get(searchUrl, {
+        headers: {
+          'User-Agent':
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+        },
+      });
+
+      const $ = cheerio.load(response.data);
+      const hasGameOnDisc = $('.requiredownload').text().includes('No');
+
+      return {
+        hasGameOnDisc,
+        hasPhysicalRelease: true,
+      };
+    } catch (error) {
+      // Handle 404 or other HTTP errors
+      if (axios.isAxiosError(error) && error.response?.status === 404) {
+        this.logger.log(`Game not found (404): ${gameUrl}`);
+        return {
+          hasPhysicalRelease: false,
+          hasGameOnDisc: false,
+        };
+      }
+      // Re-throw other errors to be handled by the retry logic
+      throw error;
+    }
+  }
+
+  async searchGame(gameUrl: string): Promise<DoesItPlaySearchResult | null> {
+    this.logger.log(`Searching for game: ${gameUrl}`);
 
     let retries = 0;
     while (retries < MAX_RETRIES) {
       try {
-        const results = await this.doesItPlayScrapper.searchGame(title);
+        const result = await this.scrapGameHTML(gameUrl);
 
-        return results.map((game) => ({
-          gameId: game.gameId,
-          gameName: game.gameName,
-          gameUrl: game.gameUrl,
-          steamDeckStatus: game.steamDeckVerification,
-        }));
+        if (!result) {
+          this.logger.log(`No results found for game: ${gameUrl}`);
+          return null;
+        }
+
+        return result;
       } catch (error) {
         retries++;
         const errorMessage =
@@ -55,7 +87,7 @@ export class DoesItPlayService implements DoesItPlayServiceFields {
       }
     }
 
-    return [];
+    return null;
   }
 
   async getGameDetails(gameId: string): Promise<DoesItPlayGameInfo | null> {

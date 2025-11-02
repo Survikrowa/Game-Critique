@@ -3,6 +3,7 @@ import { Job } from 'bull';
 import { Logger } from '@nestjs/common';
 import { DoesItPlayScrapingJobData } from './doesitplay_scraping_jobs.dto';
 import { DoesItPlayScrapingJobsService } from './doesitplay_scraping_jobs.service';
+import { DoesItPlayScraperFacade } from '../doesitplay_scraper.facade';
 
 @Processor('doesItPlayScraping')
 export class DoesItPlayScrapingJobsConsumer {
@@ -10,6 +11,7 @@ export class DoesItPlayScrapingJobsConsumer {
 
   constructor(
     private readonly doesItPlayScrappingJobsService: DoesItPlayScrapingJobsService,
+    private readonly doesItPlayScraperFacade: DoesItPlayScraperFacade,
   ) {}
 
   @Process('scrape')
@@ -22,10 +24,8 @@ export class DoesItPlayScrapingJobsConsumer {
         'IN_PROGRESS',
       );
 
-      // TODO: Implement actual scraping logic here
-      // For now, this is just a placeholder
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
+      const game = await this.doesItPlayScraperFacade.searchGame(data.url);
+      console.log(game);
       await this.doesItPlayScrappingJobsService.updateJobStatus(
         String(id),
         'COMPLETED',

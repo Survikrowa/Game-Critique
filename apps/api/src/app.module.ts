@@ -25,6 +25,7 @@ import { RolesModule } from './modules/roles/roles.module';
 import { PlatformsModule } from './modules/platforms/platforms.module';
 import { UserStatsModule } from './modules/user_stats/user_stats.module';
 import { DoesItPlayScraperModule } from './modules/doesitplay_scraper/doesitplay_scraper.module';
+import { DoesItPlayScrapingJobsModule } from './modules/doesitplay_scraper/doesitplay_scraping_jobs/doesitplay_scraping_jobs.module';
 
 @Module({
   imports: [
@@ -65,6 +66,7 @@ import { DoesItPlayScraperModule } from './modules/doesitplay_scraper/doesitplay
     PlatformsModule,
     UserStatsModule,
     DoesItPlayScraperModule,
+    DoesItPlayScrapingJobsModule,
   ],
   providers: [
     {

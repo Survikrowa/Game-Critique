@@ -1,32 +1,11 @@
 export type DoesItPlayGameInfo = {
-  gameId: string;
-  gameName: string;
-  gameUrl: string;
-  steamDeckVerification?: SteamDeckVerification;
-  compatibility?: CompatibilityInfo;
-};
-
-export enum SteamDeckVerification {
-  VERIFIED = 'verified',
-  PLAYABLE = 'playable',
-  UNSUPPORTED = 'unsupported',
-  UNKNOWN = 'unknown',
-}
-
-export type CompatibilityInfo = {
-  status: string;
-  details: string[];
-  notes?: string;
+  hasPhysicalRelease: boolean;
+  hasGameOnDisc: boolean;
 };
 
 export type DoesItPlaySearchResult = {
-  gameId: string;
-  gameName: string;
-  gameUrl: string;
-  steamDeckStatus?: SteamDeckVerification;
-  platformCompatibility?: {
-    [platform: string]: string;
-  };
+  hasPhysicalRelease: boolean;
+  hasGameOnDisc: boolean;
 };
 
 export type DoesItPlayApiSearchResult = {

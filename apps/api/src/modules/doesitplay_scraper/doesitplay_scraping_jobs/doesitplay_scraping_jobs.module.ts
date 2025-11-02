@@ -10,6 +10,7 @@ import { UpdateJobStatusCommandHandler } from './commands/update_job_status/upda
 import { GetJobByUrlQueryHandler } from './queries/get_job_by_url/get_job_by_url.handler';
 import { GetJobByJobIdQueryHandler } from './queries/get_job_by_job_id/get_job_by_job_id.handler';
 import { GetAllJobsQueryHandler } from './queries/get_all_jobs/get_all_jobs.handler';
+import { DoesItPlayScraperModule } from '../doesitplay_scraper.module';
 
 const commandHandlers = [
   CreateScrapingJobCommandHandler,
@@ -27,11 +28,13 @@ const queryHandlers = [
     CqrsModule,
     BullModule.registerQueue({ name: 'doesItPlayScraping' }),
     DatabaseModule,
+    DoesItPlayScraperModule,
   ],
   providers: [
     DoesItPlayScrapingJobsService,
     DoesItPlayScrapingJobsConsumer,
     DoesItPlayScrapingJobsResolver,
+
     ...commandHandlers,
     ...queryHandlers,
   ],
