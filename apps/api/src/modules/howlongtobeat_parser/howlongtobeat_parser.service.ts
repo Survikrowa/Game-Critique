@@ -1,4 +1,4 @@
-import { HttpStatus, Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import UserAgent from 'user-agents';
 import { firstValueFrom } from 'rxjs';
@@ -6,9 +6,9 @@ import {
   GameData,
   HowLongToBeatSearchResponse,
 } from './howlongtobeat_parser.types';
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { HowLongToBeatScrapperService } from './howlongtobeat_scrapper/howlongtobeat_scrapper.service';
-import { HowLongToBeatSearchUrl } from './howlongtobeat_search_url/howlongtobeat_search_url';
+import { HowLongToBeatSearchAuthService } from '../howlongtobeat_search_auth/howlongtobeat_search_auth.service';
 
 export type Platform = {
   name: string;
@@ -40,16 +40,14 @@ interface HowLongToBeatServiceFields {
   search: (title: string) => Promise<{ hltbSearchResult: SearchResult[] }>;
 }
 
-const MAX_RETRIES = 3;
-
 @Injectable()
 export class HowLongToBeatService implements HowLongToBeatServiceFields {
   constructor(
     private readonly httpService: HttpService,
     private readonly hltbScrapper: HowLongToBeatScrapperService,
+    private readonly hltbSearchAuth: HowLongToBeatSearchAuthService,
   ) {}
   private readonly logger = new Logger('HLTB Search Service');
-  private readonly howLongToBeatSearchUrl = new HowLongToBeatSearchUrl();
   private retries = 0;
   async search(title: string): Promise<{ hltbSearchResult: SearchResult[] }> {
     const searchTerms = title.split(' ');
@@ -65,18 +63,7 @@ export class HowLongToBeatService implements HowLongToBeatServiceFields {
       this.retries = 0;
       return { hltbSearchResult: searchResult };
     } catch (e: unknown) {
-      if (
-        axios.isAxiosError(e) &&
-        e.response?.status === HttpStatus.NOT_FOUND &&
-        this.retries <= MAX_RETRIES
-      ) {
-        this.logger.debug('Updating search hash');
-        await this.howLongToBeatSearchUrl.updateSearchHash();
-        this.logger.debug('Updated search hash');
-
-        return this.search(title);
-      }
-      this.logger.error('Something went terribly wrong');
+      this.logger.error(e);
       return { hltbSearchResult: [] };
     }
   }
@@ -84,11 +71,12 @@ export class HowLongToBeatService implements HowLongToBeatServiceFields {
   async fetchSearchResult(
     hltbSearchPayload: HowLongToBeatDefaultSearchPayload,
   ) {
+    const authToken = await this.hltbSearchAuth.getToken(this.retries > 2);
     const { data, status } = await firstValueFrom<
       AxiosResponse<HowLongToBeatSearchResponse>
     >(
       this.httpService.post(
-        `/api/search/${this.howLongToBeatSearchUrl.searchHash}`,
+        `/api/search`,
         {
           ...hltbSearchPayload,
         },
@@ -97,6 +85,7 @@ export class HowLongToBeatService implements HowLongToBeatServiceFields {
             'User-Agent': new UserAgent().toString(),
             origin: 'https://howlongtobeat.com',
             referer: 'https://howlongtobeat.com',
+            'x-auth-token': authToken,
           },
           timeout: 20000,
         },

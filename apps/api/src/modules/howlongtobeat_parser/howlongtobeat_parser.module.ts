@@ -5,6 +5,7 @@ import { HowLongToBeatScrapperService } from './howlongtobeat_scrapper/howlongto
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from '../auth/auth.module';
 import { HowLongToBeatParserFacade } from './howlongtobeat_parser.facade';
+import { HowLongToBeatSearchAuthModule } from '../howlongtobeat_search_auth/howlongtobeat_search_auth.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { HowLongToBeatParserFacade } from './howlongtobeat_parser.facade';
       inject: [ConfigService],
     }),
     AuthModule,
+    HowLongToBeatSearchAuthModule,
   ],
   providers: [
     HowLongToBeatService,
