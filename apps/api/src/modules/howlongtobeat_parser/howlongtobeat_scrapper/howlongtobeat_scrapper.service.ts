@@ -26,7 +26,7 @@ export class HowLongToBeatScrapperService {
     const $ = load(html);
     let genres: string[] = [];
     let platforms: string[] = [];
-    $('div[class*=GameSummary_profile_info__]').each((_, el) => {
+    $('div[class*=GameSummary]').each((_, el) => {
       const metaData = $(el).text();
       if (metaData.includes('Genres:')) {
         genres = metaData.replace(/\n/g, '').replace('Genres: ', '').split(',');
@@ -49,7 +49,10 @@ export class HowLongToBeatScrapperService {
   async getGameDetails(gameId: number) {
     const { html } = await this.getHTMLGamePage(gameId);
     const { genres, platforms } = await this.parseHTMlGamePage(html);
-
+    console.log(`Parsed game details for HLTB ID: ${gameId}`, {
+      genres,
+      platforms,
+    });
     return {
       gameId,
       genres,
