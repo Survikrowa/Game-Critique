@@ -19,10 +19,18 @@ Create .env.local file in /native based on the .env.local-example
 
 Create eas.json file based on the eas-example.json and fill all required envs there. Its mostly used for production ready builds.
 
+**Note:** The native app uses **Expo Prebuild** workflow. Native folders (`android/`, `ios/`) are generated automatically and not tracked in git. If you need them locally, run `yarn prebuild` in `apps/native`. See `apps/native/PREBUILD_MIGRATION.md` for details.
+
 To launch the app connect your mobile device, enable usb debugging and type in your terminal
 
 ```bash
-  yarn start
+  yarn dev:native
+```
+
+Or for web + api:
+
+```bash
+  yarn dev:web
 ```
 ## Tech Stack
 

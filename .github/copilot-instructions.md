@@ -120,6 +120,7 @@ Game Critique is a monorepo project built with Turborepo containing:
 - Custom theme configuration with dark mode
 - Moti for animations (react-native-reanimated)
 - Lucide icons via @tamagui/lucide-icons
+- **MCP Server Integration**: When modifying UI elements and the "use-gluestack-components" MCP server is connected, prioritize using Gluestack UI components for better accessibility and consistency. Consult the MCP server for component APIs, props, and usage patterns before implementing custom solutions.
 
 **Navigation**
 - Expo Router with stack and tabs layout
@@ -295,6 +296,10 @@ src/
 
 ### Adding UI Components
 - **Native**: Add to `ui/<category>/<component>/`
+  - **MCP Server**: If the "use-gluestack-components" MCP server is connected, check if a suitable Gluestack UI component exists before creating a custom component. Use the MCP server to get implementation examples and best practices.
+  - Follow existing patterns for props and exports
+  - Use TypeScript interfaces for props
+  - Include proper error handling and loading states
 - **Web**: Add to `src/features/<feature>` or shared location
 - Follow existing patterns for props and exports
 - Use TypeScript interfaces for props
@@ -341,6 +346,7 @@ src/
 8. Keep UI components pure and reusable
 9. Use debouncing for search inputs (use-debounce)
 10. Handle loading and error states consistently
+11. **Native UI Development**: When the "use-gluestack-components" MCP server is connected and you're working on React Native UI, always consult it first for component selection and implementation patterns. Prefer Gluestack UI components for accessibility and cross-platform consistency.
 
 ## Useful Commands
 ```bash

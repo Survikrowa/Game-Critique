@@ -9,6 +9,8 @@ license: MIT
 ## Overview
 This skill covers the Expo React Native mobile application that provides game tracking and social features for iOS and Android platforms.
 
+**MCP Server Integration**: When working with UI components and the "use-gluestack-components" MCP server is connected, prioritize consulting it for Gluestack UI component recommendations, APIs, props, and implementation patterns to ensure better accessibility and cross-platform consistency.
+
 ## Technology Stack
 - **Framework**: Expo SDK 49.x with React Native 0.72.10
 - **Navigation**: Expo Router 2.x (file-based routing)
@@ -104,6 +106,8 @@ export function GameScreen() {
 ```
 
 ## Tamagui UI Framework
+
+**MCP Server Note**: When the "use-gluestack-components" MCP server is connected, consult it first to check if Gluestack UI has a suitable component before implementing custom Tamagui solutions. This ensures better accessibility and follows React Native best practices.
 
 ### Theme Configuration
 ```typescript
@@ -420,6 +424,9 @@ export function NotificationExample() {
 ## UI Component Library
 
 ### Creating Reusable Components
+
+**MCP Server Best Practice**: Before creating custom components, check the "use-gluestack-components" MCP server (if connected) for existing Gluestack UI components that may fulfill your needs. Use the MCP server to get implementation examples, prop definitions, and accessibility guidelines.
+
 ```typescript
 // ui/data-display/game-card/game-card.tsx
 import { Card, YStack, XStack, Text, Image } from 'tamagui';
@@ -579,16 +586,17 @@ yarn lint                 # ESLint
 
 ## Best Practices
 
-1. **Use Tamagui components** for cross-platform consistency
-2. **Co-locate GraphQL operations** with components
-3. **Use TypeScript strictly** - no `any` types
-4. **Implement error boundaries** for graceful error handling
-5. **Use debouncing** for search inputs (`use-debounce`)
-6. **Handle loading states** - show skeletons, not blank screens
-7. **Use SecureStore** for sensitive data
-8. **Optimize images** - use appropriate resolutions
-9. **Test on both platforms** - iOS and Android can differ
-10. **Use EAS Build** for consistent builds
+1. **Consult MCP Server for UI Components** - If "use-gluestack-components" MCP server is connected, check it first for component selection and implementation patterns
+2. **Use Tamagui components** for cross-platform consistency when Gluestack components aren't suitable
+3. **Co-locate GraphQL operations** with components
+4. **Use TypeScript strictly** - no `any` types
+5. **Implement error boundaries** for graceful error handling
+6. **Use debouncing** for search inputs (`use-debounce`)
+7. **Handle loading states** - show skeletons, not blank screens
+8. **Use SecureStore** for sensitive data
+9. **Optimize images** - use appropriate resolutions
+10. **Test on both platforms** - iOS and Android can differ
+11. **Use EAS Build** for consistent builds
 
 ## Common Patterns
 

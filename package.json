@@ -13,7 +13,8 @@
     "test": "turbo run test",
     "lint": "turbo run lint",
     "dev:web": "turbo run dev --filter=web --filter=api",
-    "dev:api": "turbo run dev --filter=api"
+    "dev:api": "turbo run dev --filter=api",
+    "dev:native": "turbo run dev --filter=game-critique --filter=api"
   },
   "devDependencies": {
     "eslint-config-turbo": "1.10.16",
