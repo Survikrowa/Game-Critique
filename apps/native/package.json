@@ -2,7 +2,7 @@
   "name": "game-critique",
   "version": "1.0.0",
   "private": true,
-  "main": "index.js",
+  "main": "expo-router/entry",
   "scripts": {
     "prebuild": "npx expo prebuild --clean",
     "dev": "yarn clear-cache && adb reverse tcp:3001 tcp:3001 && expo start --dev-client --android --clear",
@@ -26,7 +26,6 @@
     "@dev-plugins/apollo-client": "^0.3.1",
     "@dotenvx/dotenvx": "^1.41.0",
     "@expo/html-elements": "^0.10.1",
-    "@expo/webpack-config": "^19.0.0",
     "@gluestack-ui/core": "^3.0.10",
     "@gluestack-ui/utils": "^3.0.11",
     "@graphql-codegen/cli": "^5.0.0",
@@ -92,8 +91,5 @@
     "prettier-plugin-tailwindcss": "^0.5.11",
     "tailwindcss": "^3.4.17",
     "typescript": "~5.9.2"
-  },
-  "resolutions": {
-    "react-refresh": "~0.14.0"
   }
 }
