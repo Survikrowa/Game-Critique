@@ -1,7 +1,8 @@
 import { ReactNode } from "react";
-import { XStack, YStack } from "tamagui";
 
-import { Text } from "../../../../../ui/typography/text";
+import { HStack } from "@/ui/layout/hstack/hstack";
+import { VStack } from "@/ui/layout/vstack/vstack";
+import { Text } from "@/ui/typography/text";
 
 type GamesStatusFiltersModalSectionProps = {
   title: string;
@@ -13,11 +14,11 @@ export const GamesStatusFiltersModalSection = ({
   children,
 }: GamesStatusFiltersModalSectionProps) => {
   return (
-    <YStack gap={8}>
+    <VStack className="gap-2">
       <Text size="large" weight="bold" color="white">
         {title}
       </Text>
-      <XStack>{children}</XStack>
-    </YStack>
+      <HStack>{children}</HStack>
+    </VStack>
   );
 };

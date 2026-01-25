@@ -3,6 +3,11 @@
   "compilerOptions": {
     "strict": true,
     "baseUrl": "./",
+    "include": ["./"],
+    "paths": {
+      "@/*": ["./*"],
+      "tailwind.config": ["./tailwind.config.js"]
+    }
   },
-  "include": ["./"]
+  "exclude": ["node_modules"]
 }

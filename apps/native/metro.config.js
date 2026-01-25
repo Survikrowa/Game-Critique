@@ -1,8 +1,9 @@
 // Learn more https://docs.expo.io/guides/customizing-metro
 const { getDefaultConfig } = require("expo/metro-config");
+const { withNativeWind } = require("nativewind/metro");
 const path = require("path");
 
-module.exports = (() => {
+const getModifiedConfig = () => {
   // Find the workspace root, this can be replaced with `find-yarn-workspace-root`
   const workspaceRoot = path.resolve(__dirname, "../../");
   const projectRoot = __dirname;
@@ -32,4 +33,8 @@ module.exports = (() => {
   };
 
   return config;
-})();
+};
+
+const modifiedConfig = getModifiedConfig();
+
+module.exports = withNativeWind(modifiedConfig, { input: "./global.css" });

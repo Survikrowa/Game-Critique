@@ -2,20 +2,16 @@ import { ChevronRight } from "@tamagui/lucide-icons";
 import { router } from "expo-router";
 import { Fragment, useState } from "react";
 import { RefreshControl } from "react-native-gesture-handler";
-import {
-  Card,
-  ScrollView,
-  Separator,
-  Spinner,
-  View,
-  XStack,
-  YStack,
-} from "tamagui";
+import { Card, ScrollView, Separator, Spinner, View } from "tamagui";
 import { Text } from "ui/typography/text";
 
 import { FriendsListFab } from "./friends_list_fab/friends_list_fab";
 import { useFriendsList } from "./use_friends_list/use_friends_list";
 import { UserAvatar } from "../../../user/user_avatar/user_avatar";
+
+import { Pressable } from "@/ui/forms/pressable/pressable";
+import { HStack } from "@/ui/layout/hstack/hstack";
+import { VStack } from "@/ui/layout/vstack/vstack";
 
 export const FriendsListScreen = () => {
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -46,33 +42,32 @@ export const FriendsListScreen = () => {
               Twoi znajomi
             </Text>
           </View>
-          <YStack>
+          <VStack>
             {friends.map((friend, index) => (
               <Fragment key={friend.id}>
-                <XStack
-                  justifyContent="space-between"
-                  alignItems="center"
+                <Pressable
+                  className="justify-between items-center"
                   onPress={() =>
                     router.push(
                       `/friends/user_profile/${friend.id}?take=5&skip=0`,
                     )
                   }
                 >
-                  <XStack key={friend.id} alignItems="center" gap={8}>
+                  <HStack className="items-center gap-2" key={friend.id}>
                     <UserAvatar avatarUrl={friend.avatarUrl || ""} size="$6" />
                     <Text size="medium" color="primary" weight="semiBold">
                       {friend.name}
                     </Text>
-                  </XStack>
+                  </HStack>
                   <ChevronRight color="white" />
-                </XStack>
+                </Pressable>
 
                 {friends.length > 1 && friends.length - 1 !== index && (
                   <Separator marginVertical={16} />
                 )}
               </Fragment>
             ))}
-          </YStack>
+          </VStack>
         </Card>
       </ScrollView>
       <FriendsListFab />

@@ -1,5 +1,7 @@
-import { Button, YStack } from "tamagui";
+import { Button } from "tamagui";
 import { Text } from "ui/typography/text";
+
+import { VStack } from "@/ui/layout/vstack/vstack";
 
 type GamePreparingInfoProps = {
   onRefreshClick: () => void;
@@ -9,7 +11,7 @@ export const GamePreparingInfo = ({
   onRefreshClick,
 }: GamePreparingInfoProps) => {
   return (
-    <YStack alignItems="center" gap={8}>
+    <VStack className="items-center gap-2">
       <Text size="medium" weight="bold" color="primary">
         Gra jest aktualnie pobierana do naszej bazy.
       </Text>
@@ -24,6 +26,6 @@ export const GamePreparingInfo = ({
       >
         Odśwież
       </Button>
-    </YStack>
+    </VStack>
   );
 };

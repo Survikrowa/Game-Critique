@@ -1,20 +1,17 @@
+import { PlusCircle } from "@tamagui/lucide-icons";
 import { router } from "expo-router";
-import { FloatingAction } from "react-native-floating-action";
-import { XStack } from "tamagui";
 
-import { ACTION_NAMES, FabOptions } from "./fab_options";
+import { Fab, FabIcon, FabLabel } from "@/ui/overlay/fab/fab";
 
 export const CollectionDetailsFab = () => {
   return (
-    <XStack position="absolute" bottom={10} right={10}>
-      <FloatingAction
-        actions={FabOptions}
-        onPressItem={(name) => {
-          if (name === ACTION_NAMES.ADD_GAME) {
-            router.push("collection/collection_game_search");
-          }
-        }}
-      />
-    </XStack>
+    <Fab
+      placement="bottom right"
+      size="lg"
+      onPress={() => router.push("collection/collection_game_search")}
+    >
+      <FabIcon as={PlusCircle} size="lg" />
+      <FabLabel size="lg">Dodaj grę do kolekcji</FabLabel>
+    </Fab>
   );
 };

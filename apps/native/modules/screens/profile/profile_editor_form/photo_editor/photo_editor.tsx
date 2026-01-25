@@ -1,8 +1,8 @@
-import { useToastController } from "@tamagui/toast";
 import * as ImagePicker from "expo-image-picker";
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { Button } from "tamagui";
+import { useToastController } from "ui/feedback/toast/use_toast_controller";
 import { Text } from "ui/typography/text";
 
 import { getFileInfo } from "../../../../files/get_file_info";

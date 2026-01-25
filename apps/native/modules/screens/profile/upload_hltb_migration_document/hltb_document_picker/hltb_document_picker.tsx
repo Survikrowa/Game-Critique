@@ -1,8 +1,10 @@
-import { Button, Spinner, YStack } from "tamagui";
+import { Button, Spinner } from "tamagui";
 import { Text } from "ui/typography/text";
 
 import { useHltbDocumentPicker } from "./use_hltb_document_picker";
-import { truncateString } from "../../../../strings/truncate_string";
+
+import { truncateString } from "@/modules/strings/truncate_string";
+import { VStack } from "@/ui/layout/vstack/vstack";
 
 type HltbDocumentPickerProps = {
   buttonVisible: boolean;
@@ -17,7 +19,7 @@ export const HltbDocumentPicker = ({
   }
   if (!buttonVisible) return null;
   return (
-    <YStack gap={8}>
+    <VStack className="gap-2">
       <Button
         color="white"
         backgroundColor="black"
@@ -31,6 +33,6 @@ export const HltbDocumentPicker = ({
           Wybrano: {truncateString(document.name, 20)}
         </Text>
       )}
-    </YStack>
+    </VStack>
   );
 };

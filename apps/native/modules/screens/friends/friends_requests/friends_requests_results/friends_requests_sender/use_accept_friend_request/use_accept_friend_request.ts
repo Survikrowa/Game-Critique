@@ -1,4 +1,4 @@
-import { useToastController } from "@tamagui/toast";
+import { useToastController } from "ui/feedback/toast/use_toast_controller";
 
 import { useAcceptFriendRequestMutation } from "./accept_friend_request_mutation.generated";
 

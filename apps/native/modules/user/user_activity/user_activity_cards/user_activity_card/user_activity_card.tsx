@@ -1,10 +1,13 @@
 import { Fragment } from "react";
-import { Image, Separator, View, XStack, YStack } from "tamagui";
+import { Image, Separator, View } from "tamagui";
 
-import { GameStatus } from "../../../../../__generated__/types";
-import { Text } from "../../../../../ui/typography/text";
-import { truncateString } from "../../../../strings/truncate_string";
 import { parseStatus } from "../../parse_activity_text";
+
+import { GameStatus } from "@/__generated__/types";
+import { truncateString } from "@/modules/strings/truncate_string";
+import { HStack } from "@/ui/layout/hstack/hstack";
+import { VStack } from "@/ui/layout/vstack/vstack";
+import { Text } from "@/ui/typography/text";
 
 type UserActivityCardProps = {
   game: Game;
@@ -26,12 +29,12 @@ export const UserActivityCard = ({
 }: UserActivityCardProps) => {
   return (
     <Fragment key={game.name + game.status}>
-      <XStack justifyContent="space-between">
-        <YStack justifyContent="space-between" gap={4}>
+      <HStack className="justify-between">
+        <VStack className="justify-between gap-1">
           <Text size="medium" color="primary" weight="bold">
             {truncateString(game.name, 20)}
           </Text>
-          <YStack>
+          <VStack>
             {ownerName && (
               <Text size="medium" color="primary" weight="bold">
                 {ownerName}{" "}
@@ -41,7 +44,7 @@ export const UserActivityCard = ({
             <Text size="medium" color="primary" weight="normal">
               Dodał do {parseStatus(game.status)}{" "}
             </Text>
-          </YStack>
+          </VStack>
 
           <Text
             size="medium"
@@ -51,7 +54,7 @@ export const UserActivityCard = ({
           >
             {game.formattedUpdatedAt}
           </Text>
-        </YStack>
+        </VStack>
         <View height="80" width="80">
           {game.cover && (
             <Image
@@ -64,7 +67,7 @@ export const UserActivityCard = ({
             />
           )}
         </View>
-      </XStack>
+      </HStack>
 
       {displaySeparator && <Separator marginVertical={8} />}
     </Fragment>

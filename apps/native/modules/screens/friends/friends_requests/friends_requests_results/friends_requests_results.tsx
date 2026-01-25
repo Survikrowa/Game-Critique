@@ -1,8 +1,10 @@
-import { ScrollView, YStack } from "tamagui";
+import { ScrollView } from "tamagui";
 import { Text } from "ui/typography/text";
 
 import { FriendsRequestsSender } from "./friends_requests_sender/friends_requests_sender";
-import { pluralizePolish } from "../../../../strings/pluralize";
+
+import { pluralizePolish } from "@/modules/strings/pluralize";
+import { VStack } from "@/ui/layout/vstack/vstack";
 
 type FriendsRequestsResultsProps = {
   friendsRequests: FriendRequest[];
@@ -20,7 +22,7 @@ export const FriendsRequestsResults = ({
 }: FriendsRequestsResultsProps) => {
   return (
     <ScrollView>
-      <YStack gap={32}>
+      <VStack className="gap-8">
         <Text size="large" weight="bold" color="primary">
           {pluralizePolish(
             friendsRequests.length,
@@ -46,7 +48,7 @@ export const FriendsRequestsResults = ({
             }}
           />
         ))}
-      </YStack>
+      </VStack>
     </ScrollView>
   );
 };

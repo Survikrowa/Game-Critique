@@ -9,7 +9,7 @@ export const UserGameStatusReviewSection = ({
   review,
 }: UserGameStatusReviewSectionProps) => {
   return (
-    <YStack alignItems="center" gap={8}>
+    <VStack alignItems="center" gap={8}>
       <Text size="large" weight="bold" color="primary">
         Moja recenzja:
       </Text>
@@ -18,6 +18,6 @@ export const UserGameStatusReviewSection = ({
           {review}
         </Text>
       </ScrollView>
-    </YStack>
+    </VStack>
   );
 };

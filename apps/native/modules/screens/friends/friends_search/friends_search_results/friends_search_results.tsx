@@ -1,7 +1,9 @@
-import { ScrollView, YStack } from "tamagui";
+import { ScrollView } from "tamagui";
 
 import { FriendsSearchEmpty } from "./friends_search_empty";
 import { FriendsSearchResult } from "./friends_search_result/friends_search_result";
+
+import { VStack } from "@/ui/layout/vstack/vstack";
 
 type FriendsSearchResultsProps = {
   users: User[];
@@ -20,7 +22,7 @@ export const FriendsSearchResults = ({ users }: FriendsSearchResultsProps) => {
   }
   return (
     <ScrollView maxHeight="90%" height="100%">
-      <YStack gap={8}>
+      <VStack className="gap-2">
         {users.map((user, index) => (
           <FriendsSearchResult
             key={user.oauthId}
@@ -32,7 +34,7 @@ export const FriendsSearchResults = ({ users }: FriendsSearchResultsProps) => {
             isFriendRequestSent={user.isFriendRequestSent}
           />
         ))}
-      </YStack>
+      </VStack>
     </ScrollView>
   );
 };

@@ -21,7 +21,7 @@ const getServerUrl = () => {
     if (!localhost) {
       return process.env.EXPO_PUBLIC_GRAPHQL_ENDPOINT;
     }
-    return localhost;
+    return `http://${localhost}:3001/graphql`;
   }
   if (
     process.env.EXPO_PUBLIC_GRAPHQL_ENDPOINT.includes("localhost") &&

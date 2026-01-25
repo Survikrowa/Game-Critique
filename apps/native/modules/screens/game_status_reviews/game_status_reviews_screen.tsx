@@ -1,13 +1,17 @@
 import { ChevronRight } from "@tamagui/lucide-icons";
 import { router, useLocalSearchParams } from "expo-router";
-import { ScrollView, Separator, Spinner, XStack, YStack } from "tamagui";
+import { ScrollView, Separator, Spinner, XStack } from "tamagui";
 
 import { useGameStatusReviewStore } from "./use_game_status_review_store/use_game_status_review_store";
-import { Text } from "../../../ui/typography/text";
 import { truncateString } from "../../strings/truncate_string";
 import { UserAvatar } from "../../user/user_avatar/user_avatar";
 import { useFriendsGameReviews } from "../user_game_status/user_game_status_friends_reviews/use_friends_game_reviews/use_friends_game_reviews";
 import { parseScore } from "../user_game_status/user_game_status_sections/user_game_status_score_section/parse_score";
+
+import { Pressable } from "@/ui/forms/pressable/pressable";
+import { HStack } from "@/ui/layout/hstack/hstack";
+import { VStack } from "@/ui/layout/vstack/vstack";
+import { Text } from "@/ui/typography/text";
 
 type GameStatusReviewsScreenProps = {
   redirect: {
@@ -55,11 +59,11 @@ export const GameStatusReviewsScreen = ({
   };
   return (
     <ScrollView maxHeight="99%">
-      <YStack padding={16}>
+      <VStack className="p-4">
         {friendsGameReviews.map((review) => {
           return (
-            <YStack
-              gap={8}
+            <Pressable
+              className="gap-2"
               key={review.profile?.avatarUrl}
               onPress={() => {
                 handleReviewClick({
@@ -68,13 +72,13 @@ export const GameStatusReviewsScreen = ({
                 });
               }}
             >
-              <XStack justifyContent="space-between" alignItems="center">
-                <XStack gap={8} alignItems="center">
+              <HStack className="justify-between items-center">
+                <HStack className="gap-2 items-center">
                   <UserAvatar
                     size="$3"
                     avatarUrl={review.profile?.avatarUrl || ""}
                   />
-                  <YStack gap={8}>
+                  <VStack className="gap-2">
                     <Text size="medium" weight="bold" color="primary">
                       {truncateString(review.profile?.name || "", 20)}
                     </Text>
@@ -93,15 +97,15 @@ export const GameStatusReviewsScreen = ({
                         </Text>
                       </>
                     )}
-                  </YStack>
-                </XStack>
+                  </VStack>
+                </HStack>
                 {review.review && <ChevronRight color="white" />}
-              </XStack>
+              </HStack>
               <Separator marginVertical={8} />
-            </YStack>
+            </Pressable>
           );
         })}
-      </YStack>
+      </VStack>
     </ScrollView>
   );
 };

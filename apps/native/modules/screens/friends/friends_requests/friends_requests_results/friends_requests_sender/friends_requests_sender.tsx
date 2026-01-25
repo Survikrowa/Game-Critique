@@ -1,8 +1,11 @@
-import { Button, Spinner, XStack, YStack } from "tamagui";
+import { Button, Spinner } from "tamagui";
 import { Text } from "ui/typography/text";
 
 import { useAcceptFriendRequest } from "./use_accept_friend_request/use_accept_friend_request";
-import { UserAvatar } from "../../../../../user/user_avatar/user_avatar";
+
+import { UserAvatar } from "@/modules/user/user_avatar/user_avatar";
+import { HStack } from "@/ui/layout/hstack/hstack";
+import { VStack } from "@/ui/layout/vstack/vstack";
 
 type FriendsRequestsSenderProps = {
   sender: Sender;
@@ -25,20 +28,15 @@ export const FriendsRequestsSender = ({
     acceptFriendRequest({ variables: { senderOauthId: sender.oauthId } });
   };
   return (
-    <YStack borderWidth="$0.25" padding={8} borderRadius={16}>
-      <XStack alignItems="center" gap={8}>
+    <VStack className="border p-2 rounded-2xl">
+      <HStack className="items-center gap-2">
         <UserAvatar avatarUrl={sender.profile?.avatarUrl || ""} size="$6" />
         <Text size="large" weight="semiBold" color="primary">
           {sender.profile?.name}
         </Text>
-      </XStack>
-      <XStack width="100%" alignItems="center" justifyContent="center">
-        <XStack
-          gap={4}
-          maxWidth={120}
-          alignItems="center"
-          justifyContent="center"
-        >
+      </HStack>
+      <HStack className="w-full items-center justify-center">
+        <HStack className="gap-1 max-w-[120px] items-center justify-center">
           <Button
             color="black"
             outlineColor="black"
@@ -55,8 +53,8 @@ export const FriendsRequestsSender = ({
           >
             {loading ? <Spinner size="small" /> : "Dodaj"}
           </Button>
-        </XStack>
-      </XStack>
-    </YStack>
+        </HStack>
+      </HStack>
+    </VStack>
   );
 };

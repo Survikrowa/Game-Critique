@@ -1,6 +1,6 @@
-import { useToastController } from "@tamagui/toast";
 import { router } from "expo-router";
 import { useForm } from "react-hook-form";
+import { useToastController } from "ui/feedback/toast/use_toast_controller";
 import { z } from "zod";
 
 import { useAddGameToCollection } from "./add_game_to_collection/use_game_to_collection";

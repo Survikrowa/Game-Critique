@@ -26,13 +26,13 @@ export const UserGameStatusGameCompletionSection = ({
   gameStatus,
 }: UserGameStatusGameCompletionSectionProps) => {
   return (
-    <XStack alignItems="flex-start" gap={8}>
+    <HStack alignItems="flex-start" gap={8}>
       <Text size="large" weight="bold" color="primary">
         Status:
       </Text>
       <Text size="large" weight="normal" color="primary">
         {parseStatus(gameStatus)}
       </Text>
-    </XStack>
+    </HStack>
   );
 };

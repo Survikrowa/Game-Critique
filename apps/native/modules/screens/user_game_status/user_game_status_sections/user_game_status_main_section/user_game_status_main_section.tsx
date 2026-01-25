@@ -1,7 +1,8 @@
-import { YStack } from "tamagui";
 import { Text } from "ui/typography/text";
 
 import { GameImage } from "../../../game/game_image/game_image";
+
+import { VStack } from "@/ui/layout/vstack/vstack";
 
 type UserGameStatusMainSectionProps = {
   gameCover?: string;
@@ -13,11 +14,11 @@ export const UserGameStatusMainSection = ({
   gameName,
 }: UserGameStatusMainSectionProps) => {
   return (
-    <YStack alignItems="center" gap={16}>
+    <VStack className="items-center gap-4">
       <GameImage uri={gameCover} />
       <Text size="extraLarge" weight="bold" color="primary">
         {gameName}
       </Text>
-    </YStack>
+    </VStack>
   );
 };

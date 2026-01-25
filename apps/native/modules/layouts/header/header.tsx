@@ -2,12 +2,13 @@ import { Link } from "expo-router";
 import { View } from "react-native";
 import { useAuth0 } from "react-native-auth0";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { XStack } from "tamagui";
 
 import { SearchButton } from "./search/search_button";
 import { UserProfileButton } from "./user_profile_button";
 import AppLogo from "../../../assets/logo/logo_app.svg";
-import { Text } from "../../../ui/typography/text";
+
+import { Box } from "@/ui/layout/box/box";
+import { HStack } from "@/ui/layout/hstack/hstack";
 
 export const Header = () => {
   const insets = useSafeAreaInsets();
@@ -15,25 +16,18 @@ export const Header = () => {
 
   return (
     <>
-      <View style={{ paddingTop: insets.top }} />
-      <XStack
-        backgroundColor="$color.container"
-        space
-        padding={8}
-        alignItems="center"
-        justifyContent="space-between"
-      >
-        {!user && <UserProfileButton />}
-        <Link href="/home">
-          <Text size="medium" color="primary" weight="semiBold">
+      <View style={{ paddingTop: insets.top }} pointerEvents="none" />
+      <HStack className="bg-black" space="md">
+        <Box>{!user && <UserProfileButton />}</Box>
+        <Box>
+          <Link href="/home">
             <AppLogo width={48} height={48} style={{ color: "white" }} />
-          </Text>
-        </Link>
-
-        <XStack gap={8}>
+          </Link>
+        </Box>
+        <Box>
           <SearchButton />
-        </XStack>
-      </XStack>
+        </Box>
+      </HStack>
     </>
   );
 };

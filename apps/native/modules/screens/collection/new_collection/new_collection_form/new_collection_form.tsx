@@ -1,11 +1,13 @@
 import { router } from "expo-router";
 import { Controller, FormProvider } from "react-hook-form";
-import { Button, Form, YStack } from "tamagui";
+import { Button, Form } from "tamagui";
 import { Input } from "ui/forms/input";
 import { TextArea } from "ui/forms/text_area";
 import { Text } from "ui/typography/text";
 
 import { useNewCollectionForm } from "./use_new_collection_form";
+
+import { VStack } from "@/ui/layout/vstack/vstack";
 
 export const NewCollectionForm = () => {
   const { methods, onSubmit } = useNewCollectionForm({
@@ -14,12 +16,7 @@ export const NewCollectionForm = () => {
   return (
     <FormProvider {...methods}>
       <Form onSubmit={onSubmit} display="flex" maxWidth={254} width="100%">
-        <YStack
-          gap={8}
-          alignItems="center"
-          justifyContent="center"
-          width="100%"
-        >
+        <VStack className="gap-2 items-center justify-center w-full">
           <Controller
             render={({ field: { onChange, value } }) => {
               return (
@@ -60,7 +57,7 @@ export const NewCollectionForm = () => {
           <Text size="small" weight="normal" color="primary">
             Pola oznaczone gwiazdką są wymagane
           </Text>
-        </YStack>
+        </VStack>
       </Form>
     </FormProvider>
   );

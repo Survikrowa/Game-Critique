@@ -1,10 +1,11 @@
 import { ClipboardList } from "@tamagui/lucide-icons";
 import { router } from "expo-router";
-import { YStack } from "tamagui";
 
 import { useFriendsGameReviews } from "./use_friends_game_reviews/use_friends_game_reviews";
-import { ButtonWithIcon } from "../../../../ui/forms/button_icon";
-import { Text } from "../../../../ui/typography/text";
+
+import { ButtonWithIcon } from "@/ui/forms/button_icon";
+import { VStack } from "@/ui/layout/vstack/vstack";
+import { Text } from "@/ui/typography/text";
 
 type UserGameStatusFriendsReviewsProps = {
   gameStatusId: number;
@@ -25,7 +26,7 @@ export const UserGameStatusFriendsReviews = ({
     return null;
   }
   return (
-    <YStack gap={16} marginTop={16}>
+    <VStack className="g-4 mt-4">
       <ButtonWithIcon
         borderColor="white"
         backgroundColor="transparent"
@@ -40,6 +41,6 @@ export const UserGameStatusFriendsReviews = ({
           Zobacz recenzje znajomych
         </Text>
       </ButtonWithIcon>
-    </YStack>
+    </VStack>
   );
 };

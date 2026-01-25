@@ -347,6 +347,7 @@ src/
 9. Use debouncing for search inputs (use-debounce)
 10. Handle loading and error states consistently
 11. **Native UI Development**: When the "use-gluestack-components" MCP server is connected and you're working on React Native UI, always consult it first for component selection and implementation patterns. Prefer Gluestack UI components for accessibility and cross-platform consistency.
+12. **NEVER use barrel exports** (index.ts/index.js files that re-export from other files). Always import directly from the source file (e.g., `import { Box } from "../layout/box/box"` instead of `import { Box } from "../layout/box"`). Barrel exports cause performance issues, circular dependency problems, and make it harder to track imports.
 
 ## Useful Commands
 ```bash
@@ -393,6 +394,7 @@ yarn build-android        # EAS build Android
 - **API**: Uses tsconfig paths (e.g., `@/modules/...`)
 - **Web**: `@/` → `src/`
 - **Native**: Relative imports for modules, absolute for ui
+- **Important**: Always import directly from source files, NOT from index.ts barrel exports (e.g., use `from "./box/box"` not `from "./box"`)
 
 ## Dependencies Management
 - Use exact versions for critical dependencies

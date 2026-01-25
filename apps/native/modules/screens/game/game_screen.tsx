@@ -1,6 +1,5 @@
-import { useLocalSearchParams, useNavigation } from "expo-router";
-import { useEffect } from "react";
-import { Spinner, YStack, ScrollView } from "tamagui";
+import { useLocalSearchParams } from "expo-router";
+import { Spinner, ScrollView } from "tamagui";
 
 import { GameCompletionTime } from "./game_completion_time/game_completion_time";
 import { GameImage } from "./game_image/game_image";
@@ -9,6 +8,8 @@ import { GamePreparingInfo } from "./game_preparing_info/game_preparing_info";
 import { GameTabs } from "./game_tabs/game_tabs";
 import { useGetGameInfo } from "./use_get_game_info/use_get_game_info";
 import { useSetHeaderTitle } from "../../router/use_set_header_title";
+
+import { VStack } from "@/ui/layout/vstack/vstack";
 
 type GameScreenProps = {
   redirect: {
@@ -34,14 +35,14 @@ export const GameScreen = ({ redirect }: GameScreenProps) => {
   const game = gameQuery.data.game;
   return (
     <ScrollView height="100%">
-      <YStack alignItems="center" gap={16} height="100%">
-        <YStack alignItems="center" gap={64}>
+      <VStack className="items-center gap-4 h-full">
+        <VStack className="items-center gap-14">
           <GameImage uri={game.cover?.mediumUrl} />
           <GameTabs
             game={{ name: game.name, hltbId: game_id }}
             redirect={redirect}
           />
-        </YStack>
+        </VStack>
 
         <GameInfo
           game={{
@@ -55,7 +56,7 @@ export const GameScreen = ({ redirect }: GameScreenProps) => {
           completionist={game.completionTime?.completionist}
           mainExtra={game.completionTime?.mainExtra}
         />
-      </YStack>
+      </VStack>
     </ScrollView>
   );
 };

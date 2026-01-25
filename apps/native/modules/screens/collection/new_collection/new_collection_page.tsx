@@ -1,10 +1,12 @@
-import { Card, YStack } from "tamagui";
+import { Card } from "tamagui";
 
 import { NewCollectionForm } from "./new_collection_form/new_collection_form";
 
+import { VStack } from "@/ui/layout/vstack/vstack";
+
 export const NewCollectionPage = () => {
   return (
-    <YStack padding={8}>
+    <VStack className="p-2">
       <Card
         size="$4"
         width="100%"
@@ -15,6 +17,6 @@ export const NewCollectionPage = () => {
       >
         <NewCollectionForm />
       </Card>
-    </YStack>
+    </VStack>
   );
 };

@@ -1,6 +1,6 @@
 import { Filter } from "@tamagui/lucide-icons";
 import { Link } from "expo-router";
-import { View, XStack, YStack } from "tamagui";
+import { View } from "tamagui";
 
 import { GamesStatusCategoriesFab } from "./games_status_categories_fab/games_status_categories_fab";
 import { GamesStatusList } from "./games_status_list/games_status_list";
@@ -8,14 +8,17 @@ import { mapGamesStatusToItem } from "./games_status_list/map_games_status_to_it
 import { GamesStatusListSearch } from "./games_status_list_search/games_status_list_search";
 import { useUserGamesStatus } from "./use_user_games_status/use_user_games_status";
 
+import { HStack } from "@/ui/layout/hstack/hstack";
+import { VStack } from "@/ui/layout/vstack/vstack";
+
 export const GamesScreen = () => {
   const gamesStatus = useUserGamesStatus();
   const items = mapGamesStatusToItem(
     gamesStatus.data?.userGamesStatus.userGamesStatus || [],
   );
   return (
-    <YStack flex={1} height="100%" gap={16}>
-      <XStack width="100%">
+    <VStack className="flex-1 h-full gap-4">
+      <HStack className="w-full">
         <GamesStatusListSearch />
         <Link asChild href="/games/filters/modal">
           <View
@@ -34,7 +37,7 @@ export const GamesScreen = () => {
             <Filter height="100%" width="100%" />
           </View>
         </Link>
-      </XStack>
+      </HStack>
       <GamesStatusList
         items={items}
         loading={gamesStatus.loading}
@@ -42,6 +45,6 @@ export const GamesScreen = () => {
         onRefresh={gamesStatus.onRefresh}
       />
       <GamesStatusCategoriesFab />
-    </YStack>
+    </VStack>
   );
 };

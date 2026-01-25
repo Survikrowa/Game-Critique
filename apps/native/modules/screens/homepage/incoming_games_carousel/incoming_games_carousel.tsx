@@ -1,7 +1,8 @@
-import { Text, YStack, Image } from "tamagui";
-import { Carousel } from "ui/data-display/carousel";
+import { Text, Image } from "tamagui";
 
-import { INCOMING_GAMES_MOCK } from "../../../../mocks/incoming_games_mock";
+import { INCOMING_GAMES_MOCK } from "@/mocks/incoming_games_mock";
+import { Carousel } from "@/ui/data-display/carousel";
+import { VStack } from "@/ui/layout/vstack/vstack";
 
 export const IncomingGamesCarousel = () => {
   return (
@@ -9,7 +10,7 @@ export const IncomingGamesCarousel = () => {
       data={INCOMING_GAMES_MOCK.filter((game) => game.game?.cover?.url)}
       renderItem={({ item }) => {
         return (
-          <YStack width={128} height={192} marginRight={16} alignItems="center">
+          <VStack className="w-32 h-48 m-4 items-center">
             <Image
               source={{
                 width: 100,
@@ -21,7 +22,7 @@ export const IncomingGamesCarousel = () => {
               borderRadius={8}
             />
             <Text textAlign="center">{item.game.name}</Text>
-          </YStack>
+          </VStack>
         );
       }}
     />

@@ -1,8 +1,9 @@
-import { XStack } from "tamagui";
 import { Text } from "ui/typography/text";
 
 import { getPlatformColor } from "./get_platform_color/get_platform_color";
-import { GameStatus } from "../../../../../__generated__/types";
+
+import { GameStatus } from "@/__generated__/types";
+import { HStack } from "@/ui/layout/hstack/hstack";
 
 export const getPlatformText = (status: GameStatus) => {
   switch (status) {
@@ -27,13 +28,13 @@ export const UserGameStatusPlatformSection = ({
   platformText,
 }: UserGameStatusPlatformSectionProps) => {
   return (
-    <XStack alignItems="flex-start" gap={8}>
+    <HStack className="items-start g-2">
       <Text size="large" weight="bold" color="primary">
         {platformText}
       </Text>
       <Text size="large" weight="normal" color={getPlatformColor(platformName)}>
         {platformName}
       </Text>
-    </XStack>
+    </HStack>
   );
 };

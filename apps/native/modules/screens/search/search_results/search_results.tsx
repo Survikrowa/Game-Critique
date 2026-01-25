@@ -1,7 +1,7 @@
-import { YStack } from "tamagui";
-
 import { SearchResult } from "./search_result/search_result";
 import { SearchGamesQuery } from "../search_input/use_search/search_query.generated";
+
+import { VStack } from "@/ui/layout/vstack/vstack";
 
 type SearchResultsProps = {
   results: SearchGamesQuery["search"]["games"];
@@ -9,10 +9,10 @@ type SearchResultsProps = {
 };
 export const SearchResults = ({ results, redirectTo }: SearchResultsProps) => {
   return (
-    <YStack gap={8}>
+    <VStack className="gap-2">
       {results.map((game) => (
         <SearchResult result={game} key={game.id} redirectTo={redirectTo} />
       ))}
-    </YStack>
+    </VStack>
   );
 };
