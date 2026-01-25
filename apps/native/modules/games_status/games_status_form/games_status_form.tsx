@@ -1,6 +1,6 @@
 import { ErrorMessage } from "@hookform/error-message";
 import { Controller, FormProvider } from "react-hook-form";
-import { Button, Form, Separator, View, XStack, YStack } from "tamagui";
+import { Button, Form, Separator, View } from "tamagui";
 import { Checkbox } from "ui/forms/checkbox";
 import { Input } from "ui/forms/input";
 import { Select } from "ui/forms/select";
@@ -15,6 +15,9 @@ import {
   useGamesStatusForm,
 } from "./use_games_status_form";
 import { GameInfoQuery } from "../../screens/game/use_get_game_info/game_info.generated";
+
+import { HStack } from "@/ui/layout/hstack/hstack";
+import { VStack } from "@/ui/layout/vstack/vstack";
 
 type GamesStatusFormProps = {
   initialValues?: InitialValues;
@@ -38,7 +41,7 @@ export const GamesStatusForm = ({
     <FormProvider {...methods}>
       <View>
         <Form onSubmit={onSubmit}>
-          <YStack gap={8}>
+          <VStack space="sm">
             <Text size="large" weight="bold" color="primary">
               Status*
             </Text>
@@ -73,13 +76,15 @@ export const GamesStatusForm = ({
               name="status"
               control={control}
             />
-          </YStack>
+          </VStack>
           <Separator marginVertical={16} />
 
           <Text size="large" weight="bold" color="primary">
             Czas gry
           </Text>
-          <XStack alignItems="center" justifyContent="space-evenly">
+          <HStack
+            style={{ alignItems: "center", justifyContent: "space-evenly" }}
+          >
             <View maxWidth={60}>
               <Controller
                 render={({
@@ -140,9 +145,9 @@ export const GamesStatusForm = ({
                 name="seconds"
               />
             </View>
-          </XStack>
+          </HStack>
           <Separator marginVertical={16} />
-          <YStack gap={8}>
+          <VStack space="sm">
             <Text size="large" weight="bold" color="primary">
               Platforma*
             </Text>
@@ -181,9 +186,9 @@ export const GamesStatusForm = ({
               name="platform"
               control={control}
             />
-          </YStack>
+          </VStack>
           <Separator marginVertical={16} />
-          <YStack gap={16}>
+          <VStack space="md">
             <Text size="large" weight="bold" color="primary">
               Osiągnięcia
             </Text>
@@ -210,13 +215,19 @@ export const GamesStatusForm = ({
                 Ta gra lub platforma nie posiada osiągnięć
               </Text>
             )}
-          </YStack>
+          </VStack>
           <Separator marginVertical={16} />
-          <YStack gap={8}>
+          <VStack space="sm">
             <Text size="large" weight="bold" color="primary">
               Ocena
             </Text>
-            <XStack alignItems="center" gap={16} justifyContent="center">
+            <HStack
+              style={{
+                alignItems: "center",
+                gap: 16,
+                justifyContent: "center",
+              }}
+            >
               <Controller
                 render={({
                   fieldState: { error },
@@ -251,7 +262,7 @@ export const GamesStatusForm = ({
                 control={control}
                 name="score"
               />
-            </XStack>
+            </HStack>
             <Controller
               render={({
                 fieldState: { error },
@@ -269,7 +280,7 @@ export const GamesStatusForm = ({
               control={control}
               name="review"
             />
-          </YStack>
+          </VStack>
 
           <Form.Trigger asChild marginTop={16}>
             <Button

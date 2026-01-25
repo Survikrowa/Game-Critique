@@ -1,5 +1,5 @@
 import { useGlobalSearchParams, useLocalSearchParams } from "expo-router";
-import { Card, ScrollView, Separator, Spinner, XStack } from "tamagui";
+import { Card, ScrollView, Separator, Spinner } from "tamagui";
 import { Text } from "ui/typography/text";
 
 import { getPlatformText } from "./get_platform_text/get_platform_text";
@@ -13,6 +13,7 @@ import { UserGameStatusPlatformSection } from "./user_game_status_sections/user_
 import { UserGameStatusReviewSection } from "./user_game_status_sections/user_game_status_review_section/user_game_status_review_section";
 import { UserGameStatusScoreSection } from "./user_game_status_sections/user_game_status_score_section/user_game_status_score_section";
 import { GameStatus } from "../../../__generated__/types";
+import { HStack } from "../../../ui/layout/hstack/hstack";
 import { useSetHeaderTitle } from "../../router/use_set_header_title";
 
 type UserGameStatusScreenProps = {
@@ -36,12 +37,12 @@ export const UserGameStatusScreen = ({
   useSetHeaderTitle(userGameStatusQuery.data?.userGameStatus?.game.name || "");
   if (userGameStatusQuery.loading || !userGameStatusQuery.data) {
     return (
-      <XStack width="100%" alignItems="center" gap={8}>
+      <HStack className="w-full items-center gap-2">
         <Spinner size="large" />
         <Text size="large" weight="bold" color="primary">
           Trwa ładowanie danych gry...
         </Text>
-      </XStack>
+      </HStack>
     );
   }
   const gameStatus = userGameStatusQuery.data.userGameStatus;

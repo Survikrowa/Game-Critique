@@ -1,10 +1,8 @@
 import { ReactNode } from "react";
-import {
-  Button,
-  XStack,
-  YStack,
-  AlertDialog as TamaguiAlertDialog,
-} from "tamagui";
+import { Button, AlertDialog as TamaguiAlertDialog } from "tamagui";
+
+import { HStack } from "@/ui/layout/hstack/hstack";
+import { VStack } from "@/ui/layout/vstack/vstack";
 
 type AlertDialogProps = {
   title: string;
@@ -58,13 +56,13 @@ export const AlertDialog = ({
           opacity={1}
           y={0}
         >
-          <YStack space>
+          <VStack space="md">
             <TamaguiAlertDialog.Title>{title}</TamaguiAlertDialog.Title>
             <TamaguiAlertDialog.Description>
               {description}
             </TamaguiAlertDialog.Description>
 
-            <XStack space="$3" justifyContent="flex-end" gap={8}>
+            <HStack space="md" style={{ justifyContent: "flex-end", gap: 8 }}>
               <Button onPress={onClose}>{buttonsText.decline}</Button>
               <TamaguiAlertDialog.Action asChild>
                 <Button
@@ -76,8 +74,8 @@ export const AlertDialog = ({
                   {buttonsText.approve}
                 </Button>
               </TamaguiAlertDialog.Action>
-            </XStack>
-          </YStack>
+            </HStack>
+          </VStack>
         </TamaguiAlertDialog.Content>
       </TamaguiAlertDialog.Portal>
     </TamaguiAlertDialog>

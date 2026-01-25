@@ -1,9 +1,11 @@
-import { ScrollView, Spinner, YStack } from "tamagui";
+import { ScrollView, Spinner } from "tamagui";
 import { Text } from "ui/typography/text";
 
 import { SearchInput } from "./search_input/search_input";
 import { SearchResults } from "./search_results/search_results";
 import { useSearchScreen } from "./use_search_screen";
+
+import { VStack } from "@/ui/layout/vstack/vstack";
 
 type SearchScreenProps = {
   redirectTo: string;
@@ -12,7 +14,7 @@ type SearchScreenProps = {
 export const SearchScreen = ({ redirectTo }: SearchScreenProps) => {
   const { handleSearchInputChange, input, loading, data } = useSearchScreen();
   return (
-    <YStack gap={6}>
+    <VStack className="gap-1.5">
       <Text size="large" weight="normal" color="primary">
         Wyszukiwarka
       </Text>
@@ -21,7 +23,7 @@ export const SearchScreen = ({ redirectTo }: SearchScreenProps) => {
         Używając powyższej wyszukiwarki możesz znaleźć dowolną grą z naszej
         bazy.
       </Text>
-      <YStack marginTop={8}>
+      <VStack className="mt-2">
         {loading && <Spinner size="large" />}
         {data && data.search.games.length > 0 && (
           <ScrollView>
@@ -31,7 +33,7 @@ export const SearchScreen = ({ redirectTo }: SearchScreenProps) => {
             />
           </ScrollView>
         )}
-      </YStack>
-    </YStack>
+      </VStack>
+    </VStack>
   );
 };

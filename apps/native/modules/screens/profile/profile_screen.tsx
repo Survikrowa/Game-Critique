@@ -1,5 +1,5 @@
 import { StickyNote } from "@tamagui/lucide-icons";
-import { Button, Card, Spinner, View, XStack, YStack } from "tamagui";
+import { Button, Card, Spinner, View } from "tamagui";
 import { Text } from "ui/typography/text";
 
 import { LogoutButton } from "./logout_button/logout_button";
@@ -8,6 +8,9 @@ import { ProfileFeatures } from "./profile_features/profile_features";
 import { useCurrentProfileView } from "./use_current_profile_view";
 import { useUserProfileInfo } from "./use_user_profile_info/use_user_profile_info";
 import { UserAvatar } from "../../user/user_avatar/user_avatar";
+
+import { HStack } from "@/ui/layout/hstack/hstack";
+import { VStack } from "@/ui/layout/vstack/vstack";
 
 export const ProfileScreen = () => {
   const userProfileInfo = useUserProfileInfo();
@@ -19,7 +22,7 @@ export const ProfileScreen = () => {
   if (currentProfileViewType === "edit") {
     return (
       <Card backgroundColor="$color.container">
-        <YStack display="flex" alignItems="center" padding="$4" gap={16}>
+        <VStack className="flex items-center p-4 gap-4">
           <ProfileEditorForm
             onSubmit={handleProfileViewChange}
             defaultValues={{
@@ -27,27 +30,27 @@ export const ProfileScreen = () => {
               avatar: userProfileInfo.data.profileInfo.avatarUrl,
             }}
           />
-        </YStack>
+        </VStack>
       </Card>
     );
   }
   return (
-    <YStack gap={16}>
+    <VStack className="gap-4">
       <Card backgroundColor="$color.container" padding={16}>
-        <XStack display="flex" alignItems="center" gap={16}>
+        <HStack className="flex items-center gap-4">
           <UserAvatar
             avatarUrl={userProfileInfo.data.profileInfo.avatarUrl}
             size="$6"
           />
-          <YStack>
+          <VStack>
             <View>
               <Text size="medium" color="primary" weight="bold">
                 {userProfileInfo.data.profileInfo.name}
               </Text>
             </View>
-          </YStack>
-        </XStack>
-        <XStack alignItems="center" justifyContent="center">
+          </VStack>
+        </HStack>
+        <HStack className="items-center justify-center">
           <Button
             color="white"
             outlineColor="white"
@@ -55,19 +58,19 @@ export const ProfileScreen = () => {
             onPress={handleProfileViewChange}
             height="min-content"
           >
-            <YStack alignItems="center" padding={8}>
+            <VStack className="items-center p-2">
               <StickyNote width={16} height={16} color="white" />
               <Text size="small" color="primary" weight="bold">
                 Edytuj profil
               </Text>
-            </YStack>
+            </VStack>
           </Button>
-        </XStack>
+        </HStack>
       </Card>
       <ProfileFeatures />
       <View>
         <LogoutButton />
       </View>
-    </YStack>
+    </VStack>
   );
 };

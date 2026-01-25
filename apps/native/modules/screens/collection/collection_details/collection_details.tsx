@@ -1,14 +1,5 @@
-import { useLocalSearchParams, useNavigation } from "expo-router";
-import { useEffect } from "react";
-import {
-  Card,
-  Image,
-  ScrollView,
-  Spinner,
-  View,
-  XStack,
-  YStack,
-} from "tamagui";
+import { useLocalSearchParams } from "expo-router";
+import { Card, Image, ScrollView, Spinner, View } from "tamagui";
 import { Text } from "ui/typography/text";
 
 import { CollectionDetailsEmpty } from "./collection_details_empty/collection_details_empty";
@@ -16,6 +7,9 @@ import { CollectionDetailsFab } from "./collection_details_fab/collection_detail
 import { useCollectionDetails } from "./use_collection_details/use_collection_details";
 import { useResetCollectionHeaderTitle } from "./use_reset_collection_header_title";
 import { useSetHeaderTitle } from "../../../router/use_set_header_title";
+
+import { HStack } from "@/ui/layout/hstack/hstack";
+import { VStack } from "@/ui/layout/vstack/vstack";
 
 export const CollectionDetails = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -37,7 +31,7 @@ export const CollectionDetails = () => {
 
   const collection = collectionDetailQuery.data.collection;
   return (
-    <YStack height="100%">
+    <VStack className="h-full">
       <ScrollView maxHeight="90%">
         {collection.games.map((game) => {
           return (
@@ -47,7 +41,7 @@ export const CollectionDetails = () => {
               marginBottom={8}
             >
               <Card.Header>
-                <XStack gap={8} alignItems="center">
+                <HStack className="gap-2 items-center">
                   <View maxHeight={50} maxWidth={50} height="100%">
                     <Image
                       resizeMode="contain"
@@ -60,7 +54,7 @@ export const CollectionDetails = () => {
                       {game.name}
                     </Text>
                   </View>
-                </XStack>
+                </HStack>
               </Card.Header>
             </Card>
           );
@@ -68,6 +62,6 @@ export const CollectionDetails = () => {
       </ScrollView>
 
       <CollectionDetailsFab />
-    </YStack>
+    </VStack>
   );
 };

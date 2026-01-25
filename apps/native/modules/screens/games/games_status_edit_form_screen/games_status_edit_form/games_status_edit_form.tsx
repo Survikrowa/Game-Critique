@@ -1,10 +1,12 @@
 import { KeyboardAvoidingView } from "react-native";
-import { Card, ScrollView, Separator, XStack } from "tamagui";
+import { Card, ScrollView, Separator } from "tamagui";
 import { Text } from "ui/typography/text";
 
-import { GamesStatusForm } from "../../../../games_status/games_status_form/games_status_form";
-import { truncateString } from "../../../../strings/truncate_string";
 import { UserGameStatusQuery } from "../../../user_game_status/use_user_game_status/user_game_status_query.generated";
+
+import { GamesStatusForm } from "@/modules/games_status/games_status_form/games_status_form";
+import { truncateString } from "@/modules/strings/truncate_string";
+import { HStack } from "@/ui/layout/hstack/hstack";
 
 type GamesStatusEditFormProps = {
   gameStatus: UserGameStatusQuery["userGameStatus"];
@@ -23,14 +25,14 @@ export const GamesStatusEditForm = ({
           height="100%"
         >
           <Card.Header>
-            <XStack alignItems="center" gap={4} justifyContent="center">
+            <HStack className="items-center gap-2 justify-center">
               <Text size="medium" weight="semiBold" color="primary">
                 Aktualnie edytujesz:
               </Text>
               <Text size="large" weight="bold" color="primary">
                 {truncateString(gameStatus.game.name, 15)}
               </Text>
-            </XStack>
+            </HStack>
             <Separator marginVertical={16} />
             <GamesStatusForm
               initialValues={{

@@ -1,7 +1,7 @@
-import { XStack } from "tamagui";
 import { Text } from "ui/typography/text";
 
-import { pluralizePolish } from "../../../../strings/pluralize";
+import { pluralizePolish } from "@/modules/strings/pluralize";
+import { HStack } from "@/ui/layout/hstack/hstack";
 
 type UserGameStatusCompletedInSectionProps = {
   hours: number | null | undefined;
@@ -15,7 +15,7 @@ export const UserGameStatusCompletedInSection = ({
   seconds,
 }: UserGameStatusCompletedInSectionProps) => {
   return (
-    <XStack alignItems="flex-start" gap={8} flexWrap="wrap">
+    <HStack className="items-start gap-2 flex-wrap">
       <Text size="large" weight="bold" color="primary">
         Ukończono w:
       </Text>
@@ -25,6 +25,6 @@ export const UserGameStatusCompletedInSection = ({
         {seconds}{" "}
         {pluralizePolish(seconds || 0, "sekunda", "sekundy", "sekund")}
       </Text>
-    </XStack>
+    </HStack>
   );
 };

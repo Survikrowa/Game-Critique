@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useToastController } from "@tamagui/toast";
 import { useForm } from "react-hook-form";
+import { useToastController } from "ui/feedback/toast/use_toast_controller";
 
 import {
   NewCollectionPageFields,

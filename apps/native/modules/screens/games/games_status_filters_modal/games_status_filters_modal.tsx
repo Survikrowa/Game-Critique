@@ -1,6 +1,5 @@
-import { BulletList } from "react-content-loader/native";
 import { FormProvider } from "react-hook-form";
-import { Button, Form, YStack } from "tamagui";
+import { Button, Form } from "tamagui";
 
 import { GamesStatusFiltersModalAchievements } from "./games_status_filters_modal_achievements/games_status_filters_modal_achievements";
 import { GamesStatusFiltersModalGameState } from "./games_status_filters_modal_game_state/games_status_filters_modal_game_state";
@@ -10,21 +9,24 @@ import { GamesStatusFiltersModalSortBy } from "./games_status_filters_modal_sort
 import { useGamesStatusFiltersForm } from "./use_games_status_filters_form/use_games_status_filters_form";
 import { useGetGamesStatusFilters } from "../use_get_games_status_filters/use_get_games_status_filters";
 
+import { SkeletonText } from "@/ui/feedback/skeleton/skeleton";
+import { VStack } from "@/ui/layout/vstack/vstack";
+
 export const GamesStatusFiltersModal = () => {
   const { data, loading } = useGetGamesStatusFilters();
   const { form, handleSubmit } = useGamesStatusFiltersForm();
   if (loading || !data) {
     return (
-      <YStack flex={1} alignItems="center">
-        <BulletList />
-      </YStack>
+      <VStack className="flex-1 items-center justify-center gap-4 p-4">
+        <SkeletonText _lines={8} gap={3} className="h-4 w-full" />
+      </VStack>
     );
   }
   return (
-    <YStack flex={1}>
+    <VStack className="flex-1">
       <FormProvider {...form}>
         <Form gap={32} onSubmit={handleSubmit}>
-          <YStack gap={8}>
+          <VStack className="gap-2">
             <GamesStatusFiltersModalSection title="Sortuj po">
               <GamesStatusFiltersModalSortBy
                 items={data.gamesStatusSortOptions.sortOptions}
@@ -46,7 +48,7 @@ export const GamesStatusFiltersModal = () => {
             <GamesStatusFiltersModalSection title="Osiągnięcia">
               <GamesStatusFiltersModalAchievements />
             </GamesStatusFiltersModalSection>
-          </YStack>
+          </VStack>
 
           <Form.Trigger asChild marginTop={16}>
             <Button
@@ -60,6 +62,6 @@ export const GamesStatusFiltersModal = () => {
           </Form.Trigger>
         </Form>
       </FormProvider>
-    </YStack>
+    </VStack>
   );
 };
