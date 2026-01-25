@@ -21,8 +21,6 @@ module.exports = function (api) {
         },
       ],
       "react-native-worklets/plugin",
-      // Explicitly enable React Refresh for Fast Refresh
-      process.env.NODE_ENV !== "production" && "react-refresh/babel",
-    ].filter(Boolean),
+    ],
   };
 };
