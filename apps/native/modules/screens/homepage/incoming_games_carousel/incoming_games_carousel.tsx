@@ -7,6 +7,7 @@ import { VStack } from "@/ui/layout/vstack/vstack";
 export const IncomingGamesCarousel = () => {
   return (
     <Carousel
+      itemWidth={128}
       data={INCOMING_GAMES_MOCK.filter((game) => game.game?.cover?.url)}
       renderItem={({ item }) => {
         return (

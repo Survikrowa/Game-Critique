@@ -19,6 +19,44 @@ module.exports = {
     },
   ],
   theme: {
+    colors: {
+      dark: {
+        900: "#0B0B0B", // opcjonalnie bardzo ciemne tło
+        800: "#121212", // główne tło aplikacji
+        700: "#1B1B23FF", // ciemniejszy panel/karta
+      },
+      surface: {
+        900: "#141414", // alternatywne tła kart
+        800: "#1A1A1A",
+      },
+      accent: {
+        purple: "#6200EA", // neonowy fiolet (główny accent)
+        blue: "#00B0FF", // elektryzujący błękit (alternatywa)
+      },
+      text: {
+        primary: "#FFFFFF", // główny tekst
+        muted: "#B3B3B3", // jasnoszary tekst
+        subtle: "#9E9E9E", // jeszcze bardziej stonowany
+      },
+      card: {
+        bg: "#151515", // tło kart
+        border: "#262626", // delikatna ramka/podział
+      },
+      overlay: {
+        soft: "rgba(0,0,0,0.45)", // przyciemnienie obrazów/hero
+        glass: "rgba(255,255,255,0.03)", // subtelne szkło
+      },
+      neon: {
+        "purple-glow": "#8A5CFF66", // półprzezroczyste do glow
+        "blue-glow": "#00C8FF66",
+      },
+      danger: {
+        500: "#FF4D4F",
+      },
+      success: {
+        500: "#4CAF50",
+      },
+    },
     extend: {
       colors: {
         primary: {
