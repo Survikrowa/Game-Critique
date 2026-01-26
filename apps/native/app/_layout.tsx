@@ -41,34 +41,41 @@ const RootLayout = () => {
     return null;
   }
   return (
-    <GluestackUIProvider mode="dark">
-      <TamaguiProvider config={tamaguiConfig}>
-        <Auth0Provider clientId={AUTH0_CLIENT_ID} domain={AUTH0_DOMAIN}>
-          <SafeAreaProvider
-            onLayout={onLayoutRootView}
-            initialMetrics={initialWindowMetrics}
-          >
-            <StatusBar style="dark" animated />
-            <ApolloProvider>
-              <Stack>
-                <Stack.Screen
-                  name="(app)/(tabs)"
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="(app)/search"
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="(app)/auth"
-                  options={{ headerShown: true, header: Header }}
-                />
-              </Stack>
-            </ApolloProvider>
-          </SafeAreaProvider>
-        </Auth0Provider>
-      </TamaguiProvider>
-    </GluestackUIProvider>
+    <GestureHandlerRootView>
+      <GluestackUIProvider mode="dark">
+        <TamaguiProvider config={tamaguiConfig}>
+          <Auth0Provider clientId={AUTH0_CLIENT_ID} domain={AUTH0_DOMAIN}>
+            <SafeAreaProvider
+              onLayout={onLayoutRootView}
+              initialMetrics={initialWindowMetrics}
+            >
+              <StatusBar
+                style="light"
+                backgroundColor="#121212"
+                animated
+                translucent={false}
+              />
+              <ApolloProvider>
+                <Stack>
+                  <Stack.Screen
+                    name="(app)/(tabs)"
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="(app)/search"
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="(app)/auth"
+                    options={{ headerShown: true, header: Header }}
+                  />
+                </Stack>
+              </ApolloProvider>
+            </SafeAreaProvider>
+          </Auth0Provider>
+        </TamaguiProvider>
+      </GluestackUIProvider>
+    </GestureHandlerRootView>
   );
 };
 

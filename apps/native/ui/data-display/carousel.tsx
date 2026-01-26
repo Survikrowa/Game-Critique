@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import {
-  Dimensions,
   NativeScrollEvent,
   NativeSyntheticEvent,
   ScrollView,
@@ -8,7 +7,7 @@ import {
 
 import { Box } from "../layout/box/box";
 
-type CarouselRenderItemInfo<T> = {
+export type CarouselRenderItemInfo<T> = {
   item: T;
   index: number;
 };
@@ -16,21 +15,23 @@ type CarouselRenderItemInfo<T> = {
 type CarouselProps<T> = {
   data: T[];
   renderItem: (info: CarouselRenderItemInfo<T>) => React.ReactElement;
+  itemWidth: number;
   autoPlay?: boolean;
   autoPlayInterval?: number;
   loop?: boolean;
+  itemSpacing?: number;
 };
 
-const { width } = Dimensions.get("window");
-const ITEM_WIDTH = width / 3;
 const ITEM_SPACING = 16;
 
 export const Carousel = <T,>({
   data,
   renderItem,
+  itemWidth,
   autoPlay = true,
   autoPlayInterval = 3000,
   loop = true,
+  itemSpacing = ITEM_SPACING,
 }: CarouselProps<T>) => {
   const scrollViewRef = useRef<any>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -51,7 +52,7 @@ export const Carousel = <T,>({
       }
     } else {
       scrollViewRef.current?.scrollTo({
-        x: (ITEM_WIDTH + ITEM_SPACING) * nextIndex,
+        x: (itemWidth + itemSpacing) * nextIndex,
         animated: true,
       });
       setCurrentIndex(nextIndex);
@@ -76,7 +77,7 @@ export const Carousel = <T,>({
   // Handle scroll position to update current index
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const scrollPosition = event.nativeEvent.contentOffset.x;
-    const index = Math.round(scrollPosition / (ITEM_WIDTH + ITEM_SPACING));
+    const index = Math.round(scrollPosition / (itemWidth + itemSpacing));
     if (index !== currentIndex && index >= 0 && index < data.length) {
       setCurrentIndex(index);
     }
@@ -107,19 +108,25 @@ export const Carousel = <T,>({
         ref={scrollViewRef}
         horizontal
         showsHorizontalScrollIndicator={false}
-        snapToInterval={ITEM_WIDTH + ITEM_SPACING}
+        snapToInterval={itemWidth + itemSpacing}
         decelerationRate="fast"
         onScroll={handleScroll}
         scrollEventThrottle={16}
         onScrollBeginDrag={onScrollBeginDrag}
         onScrollEndDrag={onScrollEndDrag}
         contentContainerStyle={{
+          paddingLeft: 16,
           paddingRight: 16,
-          gap: 16,
         }}
       >
         {data.map((item, index) => (
-          <Box key={`carousel-item-${index}`} style={{ width: ITEM_WIDTH }}>
+          <Box
+            key={`carousel-item-${index}`}
+            style={{
+              width: itemWidth,
+              marginRight: index < data.length - 1 ? itemSpacing : 0,
+            }}
+          >
             {renderItem({ item, index })}
           </Box>
         ))}
