@@ -21,7 +21,7 @@ export const GamesStatusAddFormScreen = () => {
   const game = gameQuery.data.game;
   return (
     <KeyboardAvoidingView behavior="position">
-      <ScrollView>
+      <ScrollView maxHeight="90%" height="100%">
         <Card
           padding={16}
           gap={8}

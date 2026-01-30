@@ -114,10 +114,6 @@ export const Carousel = <T,>({
         scrollEventThrottle={16}
         onScrollBeginDrag={onScrollBeginDrag}
         onScrollEndDrag={onScrollEndDrag}
-        contentContainerStyle={{
-          paddingLeft: 16,
-          paddingRight: 16,
-        }}
       >
         {data.map((item, index) => (
           <Box

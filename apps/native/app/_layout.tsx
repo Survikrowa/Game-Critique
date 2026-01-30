@@ -66,6 +66,10 @@ const RootLayout = () => {
                     options={{ headerShown: false }}
                   />
                   <Stack.Screen
+                    name="(app)/(authorized)"
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
                     name="(app)/auth"
                     options={{ headerShown: true, header: Header }}
                   />

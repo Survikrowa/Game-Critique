@@ -1,4 +1,4 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import {
   UpsertGameStatusArgsDTO,
   GameStatusSuccessResponseDTO,
@@ -9,6 +9,7 @@ import {
   SortOptionsDTO,
   GameStatusProgressStateDTO,
   UserFriendGamesStatusResponseWithPaginationDTO,
+  LastEditedGamesStatusDTO,
 } from './games_status.dto';
 import { GamesStatusService } from './games_status.service';
 import { HttpException, HttpStatus, UseGuards } from '@nestjs/common';
@@ -20,10 +21,15 @@ import {
   GetAllUserGamesStatusArgs,
 } from './games_status.args';
 import { AdminUserGuard } from '../auth/guards/admin-user.guard';
+import { QueryBus } from '@nestjs/cqrs';
+import { GetLastEditedGamesQuery } from './queries/get_last_edited_games/get_last_edited_games.query';
 
 @Resolver()
 export class GamesStatusResolver {
-  constructor(private readonly gamesStatusService: GamesStatusService) {}
+  constructor(
+    private readonly gamesStatusService: GamesStatusService,
+    private readonly queryBus: QueryBus,
+  ) {}
   @UseGuards(JwtAuthGuard)
   @Mutation(() => GameStatusSuccessResponseDTO)
   async upsertGameStatus(
@@ -216,5 +222,16 @@ export class GamesStatusResolver {
       gameStatusProgressState:
         this.gamesStatusService.getAvailableGamesStatusProgressStates(),
     };
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Query(() => [LastEditedGamesStatusDTO], {
+    name: 'lastEditedGames',
+  })
+  async getLastEditedGames(
+    @User() user: UserAuthDTO,
+    @Args('limit', { type: () => Int, defaultValue: 5 }) limit: number,
+  ) {
+    return this.queryBus.execute(new GetLastEditedGamesQuery(user.sub, limit));
   }
 }

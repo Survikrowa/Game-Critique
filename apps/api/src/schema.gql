@@ -189,6 +189,14 @@ type HowLongToBeatMigrationStatusDTO {
   status: MigrationStatus
 }
 
+"""User last edited games statuses"""
+type LastEditedGamesStatusDTO {
+  cover: CoverDTO
+  id: Float!
+  name: String!
+  status: GameStatus!
+}
+
 """The status of the migration of a user's HowLongToBeat account"""
 enum MigrationStatus {
   FAILED
@@ -297,6 +305,7 @@ type Query {
   gamesStatusSortOptions: SortOptionsDTO!
   getAllUserGamesStatusByOauthId(oauthId: String!): [UserGamesStatusResponseDTO!]!
   getProfileCollections: [CollectionDTO!]!
+  lastEditedGames(limit: Int! = 5): [LastEditedGamesStatusDTO!]!
   migrationStatus: HowLongToBeatMigrationStatusDTO!
 
   """Get user and friends game status reviews"""
