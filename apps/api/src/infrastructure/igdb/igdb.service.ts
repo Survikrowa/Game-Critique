@@ -48,7 +48,6 @@ export class IgdbService implements IGamesProvider {
           },
         }),
       );
-      this.logger.log(JSON.stringify(data, null, 2));
       return data.map(this.mapToDto);
     } catch (e) {
       this.logger.error('Error fetching games from IGDB', e);
