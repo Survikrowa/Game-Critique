@@ -26,7 +26,7 @@ export const LastUpdatedGameStatus = () => {
       gameStatus: mapGameStatusToLabel(game.status),
     })) ?? [];
 
-  if (true) {
+  if (data.length === 0) {
     return (
       <HomepageSection heading="Twoje ostatnie zmiany">
         <GText size="xl" className="text-center">

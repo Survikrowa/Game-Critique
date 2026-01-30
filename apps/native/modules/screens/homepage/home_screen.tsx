@@ -37,10 +37,9 @@ export const HomeScreen = () => {
             <Box className="px-3">
               <LastUpdatedGameStatus />
             </Box>
-            <GText size="lg" bold className="text-white">
-              Nadchodzące premiery
-            </GText>
-            <IncomingGamesCarousel />
+            <Box className="px-3">
+              <IncomingGamesCarousel />
+            </Box>
           </VStack>
           <FriendsActivity />
         </VStack>

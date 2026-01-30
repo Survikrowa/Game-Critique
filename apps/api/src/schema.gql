@@ -52,6 +52,20 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type ExternalGameDTO {
+  backgroundUrl: String
+  coverUrl: String
+  id: String!
+  name: String!
+  platforms: [ExternalGamePlatformDTO!]!
+  releaseDate: DateTime!
+}
+
+type ExternalGamePlatformDTO {
+  id: String!
+  name: String!
+}
+
 input FiltersGameStatus {
   achievementsCompleted: String!
   platform: String!
@@ -316,6 +330,7 @@ type Query {
   profileInfo: ProfileInfoDTO!
   roles: [RoleDTO!]!
   search(input: String!): SearchResult!
+  upcomingGames(limit: Float!): [ExternalGameDTO!]!
   user(oauthId: String!): UserDataDTO!
 
   """Query to get user"s friend games statuses"""

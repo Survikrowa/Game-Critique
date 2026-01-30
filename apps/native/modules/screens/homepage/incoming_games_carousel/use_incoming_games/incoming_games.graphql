@@ -1,0 +1,13 @@
+query IncomingGames {
+    upcomingGames(limit: 20) {
+        id
+        name
+        platforms {
+            id
+            name
+        }
+        coverUrl
+        backgroundUrl
+        releaseDate
+    }
+}
