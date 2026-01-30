@@ -1,0 +1,10 @@
+query LastEditedGames($limit: Int!) {
+  lastEditedGames(limit: $limit) {
+    id
+    name
+    status
+    cover {
+      bigUrl
+    }
+  }
+}
