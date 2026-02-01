@@ -13,16 +13,16 @@ import {
 } from './games_status.dto';
 import { GamesStatusService } from './games_status.service';
 import { HttpException, HttpStatus, UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/guards/auth-jwt.guard';
-import { User } from '../auth/auth.decorators';
-import { UserAuthDTO } from '../auth/auth.dto';
+import { JwtAuthGuard } from '../auth/infrastructure/guards/auth-jwt.guard';
+import { User } from '../auth/infrastructure/decorators/auth.decorators';
+import { UserAuthDTO } from '../auth/infrastructure/graphql/auth.dto';
 import {
   GetAllUserFriendGamesStatusArgs,
   GetAllUserGamesStatusArgs,
 } from './games_status.args';
-import { AdminUserGuard } from '../auth/guards/admin-user.guard';
 import { QueryBus } from '@nestjs/cqrs';
 import { GetLastEditedGamesQuery } from './queries/get_last_edited_games/get_last_edited_games.query';
+import { AdminUserGuard } from '../auth/infrastructure/guards/admin-user.guard';
 
 @Resolver()
 export class GamesStatusResolver {

@@ -12,8 +12,8 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ParseCsvFilePipe } from './howlongtobeat_migration.pipe';
 import { HowLongToBeatMigrationService } from './howlongtobeat_migration.service';
 import { HowLongToBeatAccountCsvGamesSchema } from './howlongtobeat_migration.dto';
-import { JwtAuthGuard } from '../auth/guards/auth-jwt.guard';
-import { RequestWithUser } from '../auth/auth.dto';
+import { JwtAuthGuard } from '../auth/infrastructure/guards/auth-jwt.guard';
+import { RequestWithUser } from '../auth/infrastructure/graphql/auth.dto';
 import { HowLongToBeatMigrationStatusService } from './howlongtobeat_migration_status/howlongtobeat_migration_status.service';
 import { MigrationStatus } from '@prisma/client';
 

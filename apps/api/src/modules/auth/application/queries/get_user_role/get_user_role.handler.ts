@@ -1,6 +1,6 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { GetUserRoleQuery } from './get_user_role.query';
-import { PrismaService } from '../../../database/prisma.service';
+import { PrismaService } from '../../../../database/prisma.service';
 
 @QueryHandler(GetUserRoleQuery)
 export class GetUserRoleQueryHandler

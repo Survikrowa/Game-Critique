@@ -8,8 +8,8 @@ import {
   UpdateGameDataDTO,
 } from './games.dto';
 import { UseGuards } from '@nestjs/common';
-import { AdminUserGuard } from '../auth/guards/admin-user.guard';
-import { JwtAuthGuard } from '../auth/guards/auth-jwt.guard';
+import { AdminUserGuard } from '../auth/infrastructure/guards/admin-user.guard';
+import { JwtAuthGuard } from '../auth/infrastructure/guards/auth-jwt.guard';
 import { QueryBus } from '@nestjs/cqrs';
 import { GetUpcomingGamesQuery } from './queries/get_upcoming_games/get_upcoming_games.query';
 

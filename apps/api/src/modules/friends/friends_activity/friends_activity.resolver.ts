@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException, UseGuards } from '@nestjs/common';
 import { FriendsActivityService } from './friends_activity.service';
-import { JwtAuthGuard } from '../../auth/guards/auth-jwt.guard';
-import { User } from '../../auth/auth.decorators';
-import { UserAuthDTO } from '../../auth/auth.dto';
+import { JwtAuthGuard } from '../../auth/infrastructure/guards/auth-jwt.guard';
+import { User } from '../../auth/infrastructure/decorators/auth.decorators';
+import { UserAuthDTO } from '../../auth/infrastructure/graphql/auth.dto';
 import { FriendsActivityDTO } from './friends_activity.dto';
 import { Query } from '@nestjs/graphql';
 
