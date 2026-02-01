@@ -1,9 +1,9 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/guards/auth-jwt.guard';
+import { JwtAuthGuard } from '../auth/infrastructure/guards/auth-jwt.guard';
 import { PlatformsService } from './platforms.service';
 import { PlatformsDTO, UpdatePlatformDisplayNameDTO } from './platforms.dto';
-import { AdminUserGuard } from '../auth/guards/admin-user.guard';
+import { AdminUserGuard } from '../auth/infrastructure/guards/admin-user.guard';
 
 @Resolver()
 export class PlatformsResolver {

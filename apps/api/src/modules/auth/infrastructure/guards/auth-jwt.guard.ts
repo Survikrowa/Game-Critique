@@ -1,11 +1,12 @@
 import { ExecutionContext, Injectable } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { GqlExecutionContext } from '@nestjs/graphql';
-import { AuthService } from '../auth.service';
+import { QueryBus } from '@nestjs/cqrs';
+import { GetUserRoleQuery } from '../../application/queries/get_user_role/get_user_role.query';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
-  constructor(private readonly authService: AuthService) {
+  constructor(private readonly queryBus: QueryBus) {
     super();
   }
 
@@ -16,7 +17,9 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     }
     const request = this.getRequest(context);
     const user = request.user;
-    const userWithRole = await this.authService.getUserRole(user.sub);
+    const userWithRole = await this.queryBus.execute(
+      new GetUserRoleQuery(user.sub),
+    );
     if (userWithRole) {
       request.user = {
         ...user,

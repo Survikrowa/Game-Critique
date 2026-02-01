@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { ImagesService } from './images.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { JwtAuthGuard } from '../auth/guards/auth-jwt.guard';
+import { JwtAuthGuard } from '../auth/infrastructure/guards/auth-jwt.guard';
 import { ZodValidationPipe } from '../validation/validation.pipe';
 import {
   ImageUploadDTO,

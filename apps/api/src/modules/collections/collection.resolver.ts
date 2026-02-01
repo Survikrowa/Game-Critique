@@ -1,6 +1,6 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { HttpException, HttpStatus, UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/guards/auth-jwt.guard';
+import { JwtAuthGuard } from '../auth/infrastructure/guards/auth-jwt.guard';
 import {
   AddGameToCollectionDTO,
   CollectionDTO,
@@ -10,8 +10,8 @@ import {
   RemoveCollectionArgsDTO,
   RemovedCollectionResponseDTO,
 } from './collections.dto';
-import { UserAuthDTO } from '../auth/auth.dto';
-import { User } from '../auth/auth.decorators';
+import { UserAuthDTO } from '../auth/infrastructure/graphql/auth.dto';
+import { User } from '../auth/infrastructure/decorators/auth.decorators';
 import { ProfilesService } from '../profiles/profiles.service';
 import { CollectionsService } from './collections.service';
 

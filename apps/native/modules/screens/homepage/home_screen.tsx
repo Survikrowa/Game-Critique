@@ -40,10 +40,10 @@ export const HomeScreen = () => {
             <Box className="px-3 mt-2">
               <IncomingGamesCarousel />
             </Box>
+            <Box className="px-3 mt-2">
+              <FriendsActivity />
+            </Box>
           </VStack>
-          <Box className="px-3 mt-2">
-            <FriendsActivity />
-          </Box>
         </VStack>
       </ScrollView>
     </>

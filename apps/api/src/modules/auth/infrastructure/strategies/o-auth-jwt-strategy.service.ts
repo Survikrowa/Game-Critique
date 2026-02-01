@@ -3,7 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
 import { passportJwtSecret } from 'jwks-rsa';
-import { UserAuthDTO } from '../auth.dto';
+import { UserAuthDTO } from '../graphql/auth.dto';
 
 type OAuthPayload = {
   sub: string;
