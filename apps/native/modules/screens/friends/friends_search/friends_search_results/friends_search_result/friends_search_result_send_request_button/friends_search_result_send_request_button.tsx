@@ -1,5 +1,7 @@
-import { Button, Spinner, YStack } from "tamagui";
+import { Button, Spinner } from "tamagui";
 import { Text } from "ui/typography/text";
+
+import { VStack } from "@/ui/layout/vstack/vstack";
 
 type FriendsSearchResultSendRequestButtonProps = {
   isFriendRequestSent: boolean;
@@ -18,14 +20,14 @@ export const FriendsSearchResultSendRequestButton = ({
 }: FriendsSearchResultSendRequestButtonProps) => {
   if (isFriendRequestSent) {
     return (
-      <YStack>
+      <VStack>
         <Text size="small" weight="bold" color="primary">
           Oczekuje na
         </Text>
         <Text size="small" weight="bold" color="primary">
           akceptacje
         </Text>
-      </YStack>
+      </VStack>
     );
   }
 

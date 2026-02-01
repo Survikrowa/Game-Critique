@@ -1,13 +1,13 @@
 import { Injectable, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query } from '@nestjs/graphql';
-import { JwtAuthGuard } from '../../auth/guards/auth-jwt.guard';
+import { JwtAuthGuard } from '../../auth/infrastructure/guards/auth-jwt.guard';
 import {
   FriendRequestResponseDTO,
   GetFriendRequestsResponseDTO,
 } from './friends_requests.dto';
-import { User } from '../../auth/auth.decorators';
+import { User } from '../../auth/infrastructure/decorators/auth.decorators';
 import { FriendsRequestsService } from './friends_requests.service';
-import { UserAuthDTO } from '../../auth/auth.dto';
+import { UserAuthDTO } from '../../auth/infrastructure/graphql/auth.dto';
 
 @Injectable()
 export class FriendsRequestsResolver {

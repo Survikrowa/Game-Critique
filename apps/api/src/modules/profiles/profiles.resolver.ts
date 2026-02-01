@@ -5,9 +5,9 @@ import {
   ProfileInfoUpdateResponseDTO,
 } from './profiles.dto';
 import { UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/guards/auth-jwt.guard';
-import { User } from '../auth/auth.decorators';
-import { UserAuthDTO } from '../auth/auth.dto';
+import { JwtAuthGuard } from '../auth/infrastructure/guards/auth-jwt.guard';
+import { UserAuthDTO } from '../auth/infrastructure/graphql/auth.dto';
+import { User } from '../auth/infrastructure/decorators/auth.decorators';
 import { ProfilesRepository } from './profiles.repository';
 
 @Resolver()

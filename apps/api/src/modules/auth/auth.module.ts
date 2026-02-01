@@ -1,15 +1,17 @@
 import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
-import { OAuthJwtStrategy } from './strategies/o-auth-jwt-strategy.service';
-import { AuthResolver } from './auth.resolver';
+import { OAuthJwtStrategy } from './infrastructure/strategies/o-auth-jwt-strategy.service';
+import { AuthResolver } from './infrastructure/graphql/auth.resolver';
 import { ConfigService } from '@nestjs/config';
-import { AuthService } from './auth.service';
+import { AuthService } from './infrastructure/services/auth.service';
 import { DatabaseModule } from '../database/database.module';
 import { BullModule } from '@nestjs/bull';
 import { HttpModule } from '@nestjs/axios';
 import { CqrsModule } from '@nestjs/cqrs';
-import { GetUserRoleQueryHandler } from './queries/get_user_role/get_user_role.handler';
-import { CreateUserCommandHandler } from './commands/create_user/create_user.handler';
+import { GetUserRoleQueryHandler } from './application/queries/get_user_role/get_user_role.handler';
+import { CreateUserCommandHandler } from './application/commands/create_user/create_user.handler';
+import { AUTH_REPOSITORY } from './domain/ports/auth.repository.port';
+import { PrismaAuthRepository } from './infrastructure/adapters/prisma-auth.repository';
 
 const handlers = [GetUserRoleQueryHandler, CreateUserCommandHandler];
 
@@ -26,7 +28,16 @@ const handlers = [GetUserRoleQueryHandler, CreateUserCommandHandler];
       inject: [ConfigService],
     }),
   ],
-  providers: [OAuthJwtStrategy, AuthResolver, AuthService, ...handlers],
+  providers: [
+    OAuthJwtStrategy,
+    AuthResolver,
+    AuthService,
+    ...handlers,
+    {
+      provide: AUTH_REPOSITORY,
+      useClass: PrismaAuthRepository,
+    },
+  ],
   exports: [PassportModule, AuthService],
 })
 export class AuthModule {}

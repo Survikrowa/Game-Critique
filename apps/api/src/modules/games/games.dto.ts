@@ -87,3 +87,33 @@ export class UpdateGameDataDTO {
   @Field(() => String)
   message: string;
 }
+
+@ObjectType()
+export class ExternalGamePlatformDTO {
+  @Field()
+  id: string;
+
+  @Field()
+  name: string;
+}
+
+@ObjectType()
+export class ExternalGameDTO {
+  @Field()
+  id: string;
+
+  @Field()
+  name: string;
+
+  @Field({ nullable: true })
+  coverUrl?: string;
+
+  @Field({ nullable: true })
+  backgroundUrl?: string; // Np. screenshot
+
+  @Field()
+  releaseDate: Date;
+
+  @Field(() => [ExternalGamePlatformDTO])
+  platforms: ExternalGamePlatformDTO[];
+}

@@ -1,9 +1,12 @@
 import { useState } from "react";
-import { BarChart } from "react-native-gifted-charts";
-import { Separator, View, YStack, XStack, Group, Button } from "tamagui";
+import { Separator, View, Group, Button } from "tamagui";
 
 import { useGetUserStats } from "./use_get_user_stats/use_get_user_stats";
-import { Text } from "../../../ui/typography/text";
+
+import { BarChart } from "@/ui/data-display/bar-chart/bar-chart";
+import { HStack } from "@/ui/layout/hstack/hstack";
+import { VStack } from "@/ui/layout/vstack/vstack";
+import { Text } from "@/ui/typography/text";
 
 const selectData = [
   {
@@ -27,12 +30,12 @@ export const UserStatsScreen = () => {
   });
   const userStats = userStatsQuery.data?.userStats || [];
   return (
-    <YStack backgroundColor="$color.container" padding={8} borderRadius={8}>
-      <XStack justifyContent="center" alignItems="center" gap={8}>
+    <VStack className="bg-background-0 p-2 rounded-lg">
+      <HStack className="justify-center items-center gap-2">
         <Text size="extraLarge" weight="normal" color="white">
           Obczaj swoje staty
         </Text>
-      </XStack>
+      </HStack>
 
       <BarChart
         showScrollIndicator
@@ -67,24 +70,13 @@ export const UserStatsScreen = () => {
           marginTop: -44,
           color: "white",
         }}
-        renderTooltip={(item: { label: string; value: string }) => {
+        renderTooltip={(item: { label: string; value: number }) => {
           return (
-            <YStack
-              style={{
-                marginBottom: 10,
-                backgroundColor: "black",
-                borderColor: "white",
-                borderWidth: 1,
-                paddingHorizontal: 4,
-                paddingVertical: 4,
-                borderRadius: 4,
-                width: "100%",
-              }}
-            >
+            <VStack className="mb-2.5 bg-black border-white border pv-1 ph-1 rounded-sm w-full">
               <Text size="small" weight="normal" color="white">
                 {item.label}
               </Text>
-            </YStack>
+            </VStack>
           );
         }}
       />
@@ -112,6 +104,6 @@ export const UserStatsScreen = () => {
           ))}
         </Group>
       </View>
-    </YStack>
+    </VStack>
   );
 };

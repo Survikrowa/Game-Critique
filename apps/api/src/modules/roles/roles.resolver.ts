@@ -2,8 +2,8 @@ import { Injectable, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query } from '@nestjs/graphql';
 import { RoleDTO, UpdateUserRoleDTO, UpdateUserRoleInput } from './roles.dto';
 import { RolesService } from './roles.service';
-import { JwtAuthGuard } from '../auth/guards/auth-jwt.guard';
-import { AdminUserGuard } from '../auth/guards/admin-user.guard';
+import { JwtAuthGuard } from '../auth/infrastructure/guards/auth-jwt.guard';
+import { AdminUserGuard } from '../auth/infrastructure/guards/admin-user.guard';
 
 @Injectable()
 export class RolesResolver {

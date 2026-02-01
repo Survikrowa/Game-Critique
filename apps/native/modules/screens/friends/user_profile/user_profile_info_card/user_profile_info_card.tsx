@@ -1,9 +1,10 @@
 import { RefreshCcw } from "@tamagui/lucide-icons";
-import { Card, View, XStack } from "tamagui";
+import { Card, View } from "tamagui";
 import { ButtonWithIcon } from "ui/forms/button_icon";
 import { Text } from "ui/typography/text";
 
-import { UserAvatar } from "../../../../user/user_avatar/user_avatar";
+import { UserAvatar } from "@/modules/user/user_avatar/user_avatar";
+import { HStack } from "@/ui/layout/hstack/hstack";
 
 type UserProfileInfoCardProps = {
   name?: string | null;
@@ -18,20 +19,20 @@ export const UserProfileInfoCard = ({
 }: UserProfileInfoCardProps) => {
   return (
     <Card position="relative" padding={16} backgroundColor="$color.container">
-      <XStack alignItems="center" gap={16}>
+      <HStack className="items-center gap-4">
         <UserAvatar avatarUrl={avatarUrl || ""} size="$6" />
-        <XStack gap={4}>
+        <HStack className="gap-2">
           <Text size="medium" weight="bold" color="primary">
             Nazwa:
           </Text>
           <Text size="medium" weight="semiBold" color="primary">
             {name}
           </Text>
-        </XStack>
+        </HStack>
         <View position="absolute" top={0} right={0}>
           <ButtonWithIcon onPress={onRefreshClick} icon={<RefreshCcw />} />
         </View>
-      </XStack>
+      </HStack>
     </Card>
   );
 };

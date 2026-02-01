@@ -1,10 +1,12 @@
-import { Separator, XStack } from "tamagui";
+import { Separator } from "tamagui";
 import { Text } from "ui/typography/text";
 
 import { FriendsSearchResultSendRequestButton } from "./friends_search_result_send_request_button/friends_search_result_send_request_button";
-import { truncateString } from "../../../../../strings/truncate_string";
-import { UserAvatar } from "../../../../../user/user_avatar/user_avatar";
 import { useSendFriendRequest } from "../use_send_friend_request/use_send_friend_request";
+
+import { truncateString } from "@/modules/strings/truncate_string";
+import { UserAvatar } from "@/modules/user/user_avatar/user_avatar";
+import { HStack } from "@/ui/layout/hstack/hstack";
 
 type FriendsSearchResultProps = {
   oauthId: string;
@@ -34,13 +36,13 @@ export const FriendsSearchResult = ({
 
   return (
     <>
-      <XStack justifyContent="space-between" alignItems="center">
-        <XStack alignItems="center" gap={8}>
+      <HStack className="justify-between items-center">
+        <HStack className="items-center gap-2">
           <UserAvatar avatarUrl={avatarUrl || ""} size="$6" />
           <Text size="medium" color="primary" weight="normal">
             {truncateString(name || "", 20)}
           </Text>
-        </XStack>
+        </HStack>
         <FriendsSearchResultSendRequestButton
           isFriendRequestSent={isFriendRequestSent}
           handleSendFriendRequest={handleSendFriendRequest}
@@ -48,7 +50,7 @@ export const FriendsSearchResult = ({
           sendFriendRequestLoading={loading}
           receiverId={data?.sendFriendRequest.receiverId}
         />
-      </XStack>
+      </HStack>
       {usersLength > 1 && usersLength - 1 !== currentIndex && (
         <Separator marginVertical={8} />
       )}

@@ -1,9 +1,9 @@
 import { Query, Resolver } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '../../auth/guards/auth-jwt.guard';
+import { JwtAuthGuard } from '../../auth/infrastructure/guards/auth-jwt.guard';
 import { HowLongToBeatMigrationStatusService } from './howlongtobeat_migration_status.service';
-import { User } from '../../auth/auth.decorators';
-import { UserAuthDTO } from '../../auth/auth.dto';
+import { User } from '../../auth/infrastructure/decorators/auth.decorators';
+import { UserAuthDTO } from '../../auth/infrastructure/graphql/auth.dto';
 import { HowLongToBeatMigrationStatusDTO } from './howlongtobeat_migration_status.dto';
 
 @Resolver()

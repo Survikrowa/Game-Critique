@@ -1,5 +1,5 @@
-import { useGlobalSearchParams, useLocalSearchParams } from "expo-router";
-import { Card, ScrollView, Separator, Spinner, XStack } from "tamagui";
+import { useLocalSearchParams } from "expo-router";
+import { Card, ScrollView, Separator, Spinner } from "tamagui";
 import { Text } from "ui/typography/text";
 
 import { getPlatformText } from "./get_platform_text/get_platform_text";
@@ -12,8 +12,10 @@ import { UserGameStatusMainSection } from "./user_game_status_sections/user_game
 import { UserGameStatusPlatformSection } from "./user_game_status_sections/user_game_status_platform_section/user_game_status_platform_section";
 import { UserGameStatusReviewSection } from "./user_game_status_sections/user_game_status_review_section/user_game_status_review_section";
 import { UserGameStatusScoreSection } from "./user_game_status_sections/user_game_status_score_section/user_game_status_score_section";
-import { GameStatus } from "../../../__generated__/types";
 import { useSetHeaderTitle } from "../../router/use_set_header_title";
+
+import { GameStatus } from "@/__generated__/types";
+import { HStack } from "@/ui/layout/hstack/hstack";
 
 type UserGameStatusScreenProps = {
   redirect: {
@@ -32,16 +34,16 @@ export const UserGameStatusScreen = ({
     gameStatusId: games_status_id,
     oauthId: oauth_id,
   });
-
+  console.log(userGameStatusQuery.data);
   useSetHeaderTitle(userGameStatusQuery.data?.userGameStatus?.game.name || "");
   if (userGameStatusQuery.loading || !userGameStatusQuery.data) {
     return (
-      <XStack width="100%" alignItems="center" gap={8}>
+      <HStack className="w-full items-center gap-2">
         <Spinner size="large" />
         <Text size="large" weight="bold" color="primary">
           Trwa ładowanie danych gry...
         </Text>
-      </XStack>
+      </HStack>
     );
   }
   const gameStatus = userGameStatusQuery.data.userGameStatus;

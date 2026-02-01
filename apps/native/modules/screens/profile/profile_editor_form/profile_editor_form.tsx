@@ -1,8 +1,10 @@
 import { Controller, FormProvider } from "react-hook-form";
-import { Button, Form, Input, Label, Spinner, XStack } from "tamagui";
+import { Button, Form, Input, Label, Spinner } from "tamagui";
 
 import { PhotoEditor } from "./photo_editor/photo_editor";
 import { useProfileEditorForm } from "./use_profile_editor_form";
+
+import { HStack } from "@/ui/layout/hstack/hstack";
 
 type ProfileEditorFormProps = {
   onSubmit: () => void;
@@ -28,7 +30,7 @@ export const ProfileEditorForm = ({
         style={{ display: "flex", alignItems: "center", gap: 16 }}
       >
         <PhotoEditor />
-        <XStack gap={8}>
+        <HStack className="gap-2">
           <Controller
             render={({ field: { onChange, value } }) => {
               return (
@@ -43,7 +45,7 @@ export const ProfileEditorForm = ({
             name="name"
             control={methods.control}
           />
-        </XStack>
+        </HStack>
 
         <Form.Trigger asChild>
           <Button

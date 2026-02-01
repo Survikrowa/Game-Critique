@@ -1,6 +1,6 @@
 import { Filter } from "@tamagui/lucide-icons";
 import { Link, useLocalSearchParams } from "expo-router";
-import { ScrollView, Spinner, View, XStack, YStack } from "tamagui";
+import { Spinner, View } from "tamagui";
 
 import { useUserFriendGamesStatus } from "./use_user_friend_games_status/use_user_friend_games_status";
 import { useUserProfile } from "./use_user_profile/use_user_profile";
@@ -8,6 +8,9 @@ import { UserProfileInfoCard } from "./user_profile_info_card/user_profile_info_
 import { GamesStatusList } from "../../games/games_status_list/games_status_list";
 import { mapGamesStatusToItem } from "../../games/games_status_list/map_games_status_to_item";
 import { GamesStatusListSearch } from "../../games/games_status_list_search/games_status_list_search";
+
+import { HStack } from "@/ui/layout/hstack/hstack";
+import { VStack } from "@/ui/layout/vstack/vstack";
 
 export const UserProfileScreen = () => {
   const localSearchParams = useLocalSearchParams<{ oauth_id: string }>();
@@ -27,7 +30,7 @@ export const UserProfileScreen = () => {
     userFriendGamesStatus.data?.userFriendGamesStatus.userGamesStatus || [],
   );
   return (
-    <YStack gap={16} height="100%">
+    <VStack className="gap-4 h-full">
       {!userProfileQuery.loading && userProfileQuery.data ? (
         <UserProfileInfoCard
           name={userProfileQuery.data.user.profile?.name}
@@ -37,7 +40,7 @@ export const UserProfileScreen = () => {
       ) : (
         <Spinner size="large" />
       )}
-      <XStack width="100%" gap={16}>
+      <HStack className="w-full gap-4">
         <GamesStatusListSearch />
         <Link
           asChild
@@ -58,7 +61,7 @@ export const UserProfileScreen = () => {
             <Filter height="100%" width="100%" />
           </View>
         </Link>
-      </XStack>
+      </HStack>
       <GamesStatusList
         onRefresh={userFriendGamesStatus.onRefresh}
         onEndReached={userFriendGamesStatus.fetchMoreGamesStatus}
@@ -66,6 +69,6 @@ export const UserProfileScreen = () => {
         items={items}
         oauthId={userProfileQuery.data?.user.oauthId}
       />
-    </YStack>
+    </VStack>
   );
 };

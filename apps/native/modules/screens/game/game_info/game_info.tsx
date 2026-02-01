@@ -1,5 +1,7 @@
-import { Card, XStack } from "tamagui";
+import { Card } from "tamagui";
 import { Text } from "ui/typography/text";
+
+import { HStack } from "@/ui/layout/hstack/hstack";
 
 type GameInfoProps = {
   game: {
@@ -16,7 +18,7 @@ export const GameInfo = ({ game }: GameInfoProps) => {
         <Text size="extraLarge" weight="bold" color="primary">
           {game.name}
         </Text>
-        <XStack marginTop={4} flexWrap="wrap">
+        <HStack className="mt-1 flex-wrap">
           {game.releaseYear && (
             <Text size="medium" weight="normal" color="secondary">
               {game.releaseYear}
@@ -40,7 +42,7 @@ export const GameInfo = ({ game }: GameInfoProps) => {
                   : platform}
               </Text>
             ))}
-        </XStack>
+        </HStack>
       </Card.Header>
     </Card>
   );

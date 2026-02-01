@@ -1,7 +1,9 @@
-import { Check, Plus } from "@tamagui/lucide-icons";
+import { Check } from "@tamagui/lucide-icons";
 import { router } from "expo-router";
-import { Card, Separator, View, YStack } from "tamagui";
+import { Card, View } from "tamagui";
 import { Text } from "ui/typography/text";
+
+import { VStack } from "@/ui/layout/vstack/vstack";
 
 type GameTabsProps = {
   game: {
@@ -14,10 +16,6 @@ type GameTabsProps = {
 };
 
 export const GameTabs = ({ game, redirect }: GameTabsProps) => {
-  const redirectToCollectionAddForm = () => {
-    router.push(`/collection/collection_add_form/${game.hltbId}`);
-  };
-
   const redirectToGamesStatusAddForm = () => {
     router.push(`${redirect.addToGameStatusUrl}/${game.hltbId}`);
   };
@@ -36,14 +34,14 @@ export const GameTabs = ({ game, redirect }: GameTabsProps) => {
     >
       <View alignItems="center" flex={1} onPress={redirectToGamesStatusAddForm}>
         <Check size="$2" color="white" />
-        <YStack alignItems="center">
+        <VStack className="items-center">
           <Text size="small" weight="semiBold" color="primary">
             Dodaj do
           </Text>
           <Text size="small" weight="semiBold" color="primary">
             swoich gier
           </Text>
-        </YStack>
+        </VStack>
       </View>
     </Card>
   );

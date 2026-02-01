@@ -1,13 +1,15 @@
 import { useState } from "react";
-import { Image, YStack } from "tamagui";
+import { Image } from "tamagui";
 
 import { GamesStatusListItemButtons } from "./games_status_list_item_buttons/games_status_list_item_buttons";
 import { useRemoveGameStatus } from "./games_status_list_item_buttons/use_remove_game_status/use_remove_game_status";
-import { ClearButton } from "../../../../../ui/forms/clear_button";
-import { Sheet } from "../../../../../ui/panels/sheet/sheet";
-import { Text } from "../../../../../ui/typography/text";
-import { truncateString } from "../../../../strings/truncate_string";
 import { useGameStatusStore } from "../../games_status_store/use_games_status_store";
+
+import { truncateString } from "@/modules/strings/truncate_string";
+import { ClearButton } from "@/ui/forms/clear_button";
+import { VStack } from "@/ui/layout/vstack/vstack";
+import { Sheet } from "@/ui/panels/sheet/sheet";
+import { Text } from "@/ui/typography/text";
 
 type GamesStatusListItemProps = {
   item: {
@@ -34,7 +36,7 @@ export const GamesStatusListItem = ({
 
   return (
     <ClearButton onPress={() => setIsSheetOpen(true)}>
-      <YStack gap={8}>
+      <VStack className="gap-2">
         <Image
           borderRadius={4}
           source={{ uri: item.cover, width: 112, height: 142 }}
@@ -42,7 +44,7 @@ export const GamesStatusListItem = ({
             objectFit: "fill",
           }}
         />
-        <YStack>
+        <VStack>
           <Text size="medium" weight="bold" color="primary">
             {truncateString(item.title, 12)}
           </Text>
@@ -54,14 +56,14 @@ export const GamesStatusListItem = ({
               Ocena: {item.score.replace("-", ",")}
             </Text>
           )}
-        </YStack>
+        </VStack>
         <Sheet
           onOpenChange={setIsSheetOpen}
           snapPointsMode="constant"
           isOpen={isSheetOpen}
           displayAsModal
         >
-          <YStack padding={16} gap={16} alignItems="center">
+          <VStack className="p-4 gap-4 items-center">
             <Text size="medium" weight="bold" color="primary">
               {item.title}
             </Text>
@@ -77,9 +79,9 @@ export const GamesStatusListItem = ({
               }}
               onRemoveAccept={removeGameStatus}
             />
-          </YStack>
+          </VStack>
         </Sheet>
-      </YStack>
+      </VStack>
     </ClearButton>
   );
 };

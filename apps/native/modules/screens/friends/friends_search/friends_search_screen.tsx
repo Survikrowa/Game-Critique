@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Spinner, YStack } from "tamagui";
+import { Spinner } from "tamagui";
 import { Text } from "ui/typography/text";
 import { useDebounce } from "use-debounce";
 
@@ -7,12 +7,14 @@ import { FriendsSearchResults } from "./friends_search_results/friends_search_re
 import { useGetUsersSearch } from "./use_get_users_search/use_get_users_search";
 import { SearchInput } from "../../search/search_input/search_input";
 
+import { VStack } from "@/ui/layout/vstack/vstack";
+
 export const FriendsSearchScreen = () => {
   const [username, setUsername] = useState("");
   const [debouncedUsername] = useDebounce(username, 1000);
   const { data, loading } = useGetUsersSearch({ input: debouncedUsername });
   return (
-    <YStack padding={16} gap={6}>
+    <VStack className="p-4 gap-1.5">
       <Text size="large" weight="normal" color="secondary">
         Wyszukiwarka
       </Text>
@@ -21,7 +23,7 @@ export const FriendsSearchScreen = () => {
         Używając powyższego inputa możesz wyszukać użytkownków i dodać ich do
         znajomych.
       </Text>
-      <YStack marginTop={8}>
+      <VStack className="mt-2">
         {loading && <Spinner size="large" />}
         {data && data.usersSearch && (
           <FriendsSearchResults
@@ -33,7 +35,7 @@ export const FriendsSearchScreen = () => {
             }))}
           />
         )}
-      </YStack>
-    </YStack>
+      </VStack>
+    </VStack>
   );
 };

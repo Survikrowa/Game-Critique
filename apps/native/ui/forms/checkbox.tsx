@@ -1,6 +1,8 @@
 import { Check } from "@tamagui/lucide-icons";
-import { Checkbox as TamaguiCheckbox, Label, XStack } from "tamagui";
+import { Checkbox as TamaguiCheckbox, Label } from "tamagui";
 import { Text } from "ui/typography/text";
+
+import { HStack } from "@/ui/layout/hstack/hstack";
 
 type CheckboxProps<T> = {
   onChange: (isChecked: boolean) => void;
@@ -17,7 +19,7 @@ export const Checkbox = <T,>({
   label,
 }: CheckboxProps<T>) => {
   return (
-    <XStack alignItems="center" gap={8}>
+    <HStack style={{ alignItems: "center", gap: 8 }}>
       <Label>
         <Text size="medium" weight="semiBold" color="primary">
           {label}
@@ -33,6 +35,6 @@ export const Checkbox = <T,>({
           {errorMessage}
         </Text>
       )}
-    </XStack>
+    </HStack>
   );
 };

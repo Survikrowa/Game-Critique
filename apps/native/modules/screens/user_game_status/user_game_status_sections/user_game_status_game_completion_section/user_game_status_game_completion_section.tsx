@@ -1,7 +1,7 @@
-import { XStack } from "tamagui";
 import { Text } from "ui/typography/text";
 
-import { GameStatus } from "../../../../../__generated__/types";
+import { GameStatus } from "@/__generated__/types";
+import { HStack } from "@/ui/layout/hstack/hstack";
 
 const parseStatus = (status: GameStatus) => {
   switch (status) {
@@ -26,13 +26,13 @@ export const UserGameStatusGameCompletionSection = ({
   gameStatus,
 }: UserGameStatusGameCompletionSectionProps) => {
   return (
-    <XStack alignItems="flex-start" gap={8}>
+    <HStack className="flex items-start gap-2">
       <Text size="large" weight="bold" color="primary">
         Status:
       </Text>
       <Text size="large" weight="normal" color="primary">
         {parseStatus(gameStatus)}
       </Text>
-    </XStack>
+    </HStack>
   );
 };

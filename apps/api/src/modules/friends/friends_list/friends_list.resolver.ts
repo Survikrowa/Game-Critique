@@ -1,9 +1,9 @@
 import { Injectable, UseGuards } from '@nestjs/common';
 import { Query } from '@nestjs/graphql';
-import { JwtAuthGuard } from '../../auth/guards/auth-jwt.guard';
+import { JwtAuthGuard } from '../../auth/infrastructure/guards/auth-jwt.guard';
 import { FriendsListService } from './friends_list.service';
-import { User } from '../../auth/auth.decorators';
-import { UserAuthDTO } from '../../auth/auth.dto';
+import { User } from '../../auth/infrastructure/decorators/auth.decorators';
+import { UserAuthDTO } from '../../auth/infrastructure/graphql/auth.dto';
 import { FriendsListDTO } from './friends_list.dto';
 
 @Injectable()

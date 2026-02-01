@@ -1,5 +1,4 @@
 import { forwardRef, Module } from '@nestjs/common';
-import { IgdbModule } from '../igdb/igdb.module';
 import { DatabaseModule } from '../database/database.module';
 import { SearchResolver } from './search.resolver';
 import { SearchService } from './search.service';
@@ -15,7 +14,6 @@ const handlers = [FetchGamesFromHltbQueryHandler];
   imports: [
     CqrsModule,
     ConfigModule,
-    forwardRef(() => IgdbModule),
     forwardRef(() => DatabaseModule),
     GamesModule,
     forwardRef(() => HowLongToBeatParserModule),
