@@ -37,11 +37,13 @@ export const HomeScreen = () => {
             <Box className="px-3">
               <LastUpdatedGameStatus />
             </Box>
-            <Box className="px-3">
+            <Box className="px-3 mt-2">
               <IncomingGamesCarousel />
             </Box>
           </VStack>
-          <FriendsActivity />
+          <Box className="px-3 mt-2">
+            <FriendsActivity />
+          </Box>
         </VStack>
       </ScrollView>
     </>
