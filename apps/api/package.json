@@ -24,7 +24,7 @@
     "prisma-seed": "ts-node prisma/seeders/seed.ts"
   },
   "dependencies": {
-    "@apollo/server": "^4.9.5",
+    "@apollo/server": "^4.13.0",
     "@narando/nest-axios-interceptor": "^3.0.0",
     "@nestjs/apollo": "^12.0.11",
     "@nestjs/axios": "^3.0.1",
