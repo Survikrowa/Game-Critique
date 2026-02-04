@@ -38,6 +38,10 @@ Or for web + api:
 
 **Server:** Node, TypeScript, NestJS, Prisma, PostgreSQL, Apollo, Sentry, Auth0, Cloudinary
 
+## Security Updates
+
+- **2026-02-04**: Updated `@apollo/server` from 4.9.5 to 4.13.0 to fix CVE-2026-23897, a security vulnerability affecting versions 4.2.0 to 4.12.x.
+
 
 ## Authors
 
