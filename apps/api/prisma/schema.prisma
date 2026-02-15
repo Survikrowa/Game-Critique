@@ -348,3 +348,22 @@ enum MigrationStatus {
   FINISHED
   FAILED
 }
+
+model DoesItPlayScrapingJob {
+  id        Int                 @id @default(autoincrement())
+  url       String              @unique
+  jobId     String              @unique @map("job_id")
+  status    DoesItPlayJobStatus @default(PENDING)
+  error     String?
+  createdAt DateTime            @default(now()) @map("created_at")
+  updatedAt DateTime            @updatedAt @map("updated_at")
+
+  @@map("does_it_play_scraping_jobs")
+}
+
+enum DoesItPlayJobStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  FAILED
+}
