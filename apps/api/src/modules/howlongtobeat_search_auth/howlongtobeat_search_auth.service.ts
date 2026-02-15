@@ -31,7 +31,7 @@ export class HowLongToBeatSearchAuthService {
     try {
       const { data } = await firstValueFrom(
         this.httpService.get<HowLongToBeatSearchInitResponse>(
-          `/api/search/init`,
+          `/api/finder/init`,
           {
             headers: {
               'User-Agent': this.getUserAgent(),
