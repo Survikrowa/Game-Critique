@@ -1,6 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-import UserAgent from 'user-agents';
 import { firstValueFrom } from 'rxjs';
 import {
   GameData,
@@ -71,26 +70,33 @@ export class HowLongToBeatService implements HowLongToBeatServiceFields {
   async fetchSearchResult(
     hltbSearchPayload: HowLongToBeatDefaultSearchPayload,
   ) {
-    const authToken = await this.hltbSearchAuth.getToken(this.retries > 2);
+    const { token, hpKey, hpVal, userAgent } =
+      await this.hltbSearchAuth.getAuthData(this.retries > 2);
     const { data, status } = await firstValueFrom<
       AxiosResponse<HowLongToBeatSearchResponse>
     >(
       this.httpService.post(
-        `/api/finder`,
+        `/api/find`,
         {
           ...hltbSearchPayload,
+          [hpKey]: hpVal,
         },
         {
           headers: {
-            'User-Agent': new UserAgent().toString(),
-            origin: 'https://howlongtobeat.com',
-            referer: 'https://howlongtobeat.com',
-            'x-auth-token': authToken,
+            'content-type': 'application/json',
+            accept: '*/*',
+            'User-Agent': userAgent,
+            Origin: 'https://howlongtobeat.com/',
+            Referer: 'https://howlongtobeat.com/',
+            'x-auth-token': token,
+            'x-hp-key': hpKey,
+            'x-hp-val': hpVal,
           },
           timeout: 20000,
         },
       ),
     );
+
     return { data, status };
   }
 
