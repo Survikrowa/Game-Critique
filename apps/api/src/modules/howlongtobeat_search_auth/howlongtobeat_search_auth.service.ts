@@ -36,7 +36,7 @@ export class HowLongToBeatSearchAuthService {
 
     try {
       const { data } = await firstValueFrom(
-        this.httpService.get<Record<string, unknown>>(`/api/find/init`, {
+        this.httpService.get<Record<string, unknown>>(`/api/bleed/init`, {
           headers: {
             'User-Agent': userAgent,
             referer: 'https://howlongtobeat.com/',
