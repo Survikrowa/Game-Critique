@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 
 import { Box } from "@/ui/layout/box/box";
 import { VStack } from "@/ui/layout/vstack/vstack";
-import { GText } from "@/ui/typography/text";
+import { Text } from "@/ui/typography/text";
 
 type HomepageSectionProps = {
   heading: string;
@@ -15,10 +15,10 @@ export const HomepageSection = ({
 }: HomepageSectionProps) => {
   return (
     <VStack>
-      <GText size="2xl" bold className="my-4">
+      <Text size="extraLarge" weight="bold" color="primary">
         {heading}
-      </GText>
-      <Box>{children}</Box>
+      </Text>
+      <Box className="mt-3">{children}</Box>
     </VStack>
   );
 };

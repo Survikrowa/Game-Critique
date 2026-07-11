@@ -1,4 +1,4 @@
-import { ScrollView } from "tamagui";
+import { ScrollView } from "react-native";
 
 import { Text } from "../../../../ui/typography/text";
 import { useSetHeaderTitle } from "../../../router/use_set_header_title";
@@ -11,7 +11,7 @@ export const GameStatusReviewScreen = () => {
 
   useSetHeaderTitle(currentReview.authorName);
   return (
-    <ScrollView maxHeight="99%" width="100%">
+    <ScrollView className="max-h-[99%] w-full">
       <Text size="large" weight="normal" color="primary">
         {currentReview.message}
       </Text>

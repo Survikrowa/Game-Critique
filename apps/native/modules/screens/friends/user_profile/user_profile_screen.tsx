@@ -1,6 +1,6 @@
-import { Filter } from "@tamagui/lucide-icons";
+import { Filter } from "lucide-react-native";
+import { ActivityIndicator, Pressable } from "react-native";
 import { Link, useLocalSearchParams } from "expo-router";
-import { Spinner, View } from "tamagui";
 
 import { useUserFriendGamesStatus } from "./use_user_friend_games_status/use_user_friend_games_status";
 import { useUserProfile } from "./use_user_profile/use_user_profile";
@@ -38,7 +38,7 @@ export const UserProfileScreen = () => {
           onRefreshClick={handleRefresh}
         />
       ) : (
-        <Spinner size="large" />
+        <ActivityIndicator size="large" color="#3B82F6" />
       )}
       <HStack className="w-full gap-4">
         <GamesStatusListSearch />
@@ -46,20 +46,9 @@ export const UserProfileScreen = () => {
           asChild
           href={`/friends/user_profile/${userProfileQuery.data?.user.oauthId}/modal`}
         >
-          <View
-            style={{
-              maxWidth: 42,
-              borderRadius: 8,
-              alignItems: "center",
-              display: "flex",
-              justifyContent: "center",
-              flex: 1,
-              backgroundColor: "white",
-              borderColor: "black",
-            }}
-          >
-            <Filter height="100%" width="100%" />
-          </View>
+          <Pressable className="max-w-[42px] rounded-lg items-center justify-center flex-1 bg-primary-500 min-h-[44px]">
+            <Filter size={20} color="#ffffff" />
+          </Pressable>
         </Link>
       </HStack>
       <GamesStatusList

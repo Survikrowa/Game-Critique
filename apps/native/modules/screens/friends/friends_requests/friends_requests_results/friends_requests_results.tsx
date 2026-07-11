@@ -1,4 +1,4 @@
-import { ScrollView } from "tamagui";
+import { ScrollView } from "react-native";
 import { Text } from "ui/typography/text";
 
 import { FriendsRequestsSender } from "./friends_requests_sender/friends_requests_sender";

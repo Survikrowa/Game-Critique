@@ -1,7 +1,8 @@
-import { Eye } from "@tamagui/lucide-icons";
+import { Eye } from "lucide-react-native";
 import { router } from "expo-router";
 
 import { ButtonWithIcon } from "../../../../../../ui/forms/button_icon";
+import { haptic } from "../../../../../../modules/haptics/haptic";
 
 type GamesStatusListItemButtonGoToDetailsProps = {
   gameStatusId: number;
@@ -19,13 +20,15 @@ export const GamesStatusListItemButtonGoToDetails = ({
   }/games_status_info/${gameStatusId}?oauth_id=${oauthId}`;
   return (
     <ButtonWithIcon
+      action="secondary"
+      className="w-full min-h-[44px]"
       onPress={() => {
+        haptic.light();
         onClick();
+        // @ts-ignore — pre-existing route type issue
         router.push(targetUrl);
       }}
-      icon={<Eye />}
-      backgroundColor="$red1"
-      width="100%"
+      icon={<Eye size={16} color="#fff" />}
     >
       Przejdź do szczegółów
     </ButtonWithIcon>

@@ -1,4 +1,4 @@
-import { Spinner } from "tamagui";
+import { ActivityIndicator } from "react-native";
 
 import { GoogleLogo } from "./assets/google_logo";
 import { useAuth } from "./use_auth";
@@ -14,12 +14,12 @@ export const AuthScreen = () => {
     <VStack className="flex items-center justify-center h-1/2">
       <AppLogo width={128} height={128} fill="white" />
       {isLoading ? (
-        <Spinner size="large" />
+        <ActivityIndicator size="large" color="#3B82F6" />
       ) : (
         <ButtonWithIcon
           onPress={onLogin}
           icon={<GoogleLogo />}
-          borderRadius={8}
+          className="rounded-lg"
         >
           Zaloguj się
         </ButtonWithIcon>

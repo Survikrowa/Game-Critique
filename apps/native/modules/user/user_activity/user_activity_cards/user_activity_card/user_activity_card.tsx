@@ -1,11 +1,12 @@
 import { Fragment } from "react";
-import { Image, Separator, View } from "tamagui";
+import { Image, View } from "react-native";
 
 import { parseStatus } from "../../parse_activity_text";
 
 import { GameStatus } from "@/__generated__/types";
 import { truncateString } from "@/modules/strings/truncate_string";
 import { HStack } from "@/ui/layout/hstack/hstack";
+import { Separator } from "@/ui/layout/separator/separator";
 import { VStack } from "@/ui/layout/vstack/vstack";
 import { Text } from "@/ui/typography/text";
 
@@ -40,12 +41,10 @@ export const UserActivityCard = ({
                 {ownerName}{" "}
               </Text>
             )}
-
             <Text size="medium" color="primary" weight="normal">
               Dodał do {parseStatus(game.status)}{" "}
             </Text>
           </VStack>
-
           <Text
             size="medium"
             color="primary"
@@ -55,21 +54,18 @@ export const UserActivityCard = ({
             {game.formattedUpdatedAt}
           </Text>
         </VStack>
-        <View height="80" width="80">
+        <View className="w-20 h-20">
           {game.cover && (
             <Image
               resizeMode="contain"
-              source={{
-                uri: game.cover,
-                width: 100,
-                height: 80,
-              }}
+              source={{ uri: game.cover }}
+              className="w-full h-full"
             />
           )}
         </View>
       </HStack>
 
-      {displaySeparator && <Separator marginVertical={8} />}
+      {displaySeparator && <Separator spacing="xs" />}
     </Fragment>
   );
 };

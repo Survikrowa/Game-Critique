@@ -1,5 +1,4 @@
-import { RefreshControl } from "react-native-gesture-handler";
-import { ScrollView, View } from "tamagui";
+import { RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "ui/typography/text";
 
 import UndrawSearch from "../assets/undraw_mobile_search.svg";
@@ -22,13 +21,7 @@ export const FriendsRequestsEmpty = ({
       }
     >
       <VStack className="justify-center gap-8">
-        <View
-          maxHeight={400}
-          maxWidth={400}
-          alignItems="center"
-          display="flex"
-          justifyContent="center"
-        >
+        <View className="max-h-[400px] max-w-[400px] items-center justify-center">
           <UndrawSearch width="100%" height="100%" />
         </View>
         <VStack className="items-center justify-center gap-2">

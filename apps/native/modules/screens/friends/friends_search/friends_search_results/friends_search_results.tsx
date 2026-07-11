@@ -1,4 +1,4 @@
-import { ScrollView } from "tamagui";
+import { ScrollView } from "react-native";
 
 import { FriendsSearchEmpty } from "./friends_search_empty";
 import { FriendsSearchResult } from "./friends_search_result/friends_search_result";
@@ -21,7 +21,7 @@ export const FriendsSearchResults = ({ users }: FriendsSearchResultsProps) => {
     return <FriendsSearchEmpty />;
   }
   return (
-    <ScrollView maxHeight="90%" height="100%">
+    <ScrollView className="max-h-[90%] h-full">
       <VStack className="gap-2">
         {users.map((user, index) => (
           <FriendsSearchResult

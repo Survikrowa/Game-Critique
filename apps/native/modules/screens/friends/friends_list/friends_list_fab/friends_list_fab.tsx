@@ -1,4 +1,4 @@
-import { Search } from "@tamagui/lucide-icons";
+import { Search } from "lucide-react-native";
 import { router } from "expo-router";
 
 import { Fab, FabIcon, FabLabel } from "@/ui/overlay/fab/fab";

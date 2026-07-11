@@ -1,13 +1,14 @@
 import * as ImagePicker from "expo-image-picker";
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";
-import { Button } from "tamagui";
 import { useToastController } from "ui/feedback/toast/use_toast_controller";
 import { Text } from "ui/typography/text";
 
 import { getFileInfo } from "../../../../files/get_file_info";
 import { useUploadPhoto } from "../../../../photos/use_upload_photo/use_upload_photo";
 import { UserAvatar } from "../../../../user/user_avatar/user_avatar";
+
+import { Button, ButtonText } from "@/ui/forms/button/button";
 
 export const PhotoEditor = () => {
   const { setError, formState, clearErrors, setValue, getValues } =
@@ -22,7 +23,6 @@ export const PhotoEditor = () => {
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
-
         allowsEditing: true,
         quality: 1,
       });
@@ -59,8 +59,10 @@ export const PhotoEditor = () => {
 
   return (
     <>
-      <Button onPress={selectPhoto}>Wybierz zdjęcie na twój nowy avatar</Button>
-      <Text size="medium" weight="bold" color="secondary">
+      <Button action="secondary" onPress={selectPhoto}>
+        <ButtonText>Wybierz zdjęcie na twój nowy avatar</ButtonText>
+      </Button>
+      <Text size="medium" weight="bold" color="red">
         {formState.errors.avatar && formState.errors.avatar.message}
       </Text>
       {image && (

@@ -1,23 +1,24 @@
-import { ReactNode } from "react";
-import { PressableProps } from "react-native";
-import { Button, ButtonIcon, ButtonProps } from "tamagui";
+import React, { ReactNode } from "react";
+import { PressableProps, View } from "react-native";
 
-type ButtonIconProps = {
+import { Button, ButtonText } from "@/ui/forms/button/button";
+
+type ButtonWithIconProps = {
   children?: ReactNode;
   onPress: PressableProps["onPress"];
   icon: ReactNode;
-} & ButtonProps;
+} & Omit<React.ComponentProps<typeof Button>, "onPress">;
 
 export const ButtonWithIcon = ({
   children,
   onPress,
   icon,
   ...props
-}: ButtonIconProps) => {
+}: ButtonWithIconProps) => {
   return (
-    <Button onPress={onPress} {...props} alignItems="center">
-      <ButtonIcon>{icon}</ButtonIcon>
-      {children}
+    <Button onPress={onPress} {...props}>
+      <View>{icon}</View>
+      {children ? <ButtonText>{children}</ButtonText> : null}
     </Button>
   );
 };

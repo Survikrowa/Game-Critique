@@ -2,7 +2,7 @@ import { OverlayProvider } from "@gluestack-ui/core/overlay/creator";
 import { ToastProvider } from "@gluestack-ui/core/toast/creator";
 import { useColorScheme } from "nativewind";
 import React, { useEffect } from "react";
-import { View, ViewProps } from "react-native";
+import { Appearance, View, ViewProps } from "react-native";
 
 import { config } from "./config";
 
@@ -18,15 +18,23 @@ export function GluestackUIProvider({
 }) {
   const { colorScheme, setColorScheme } = useColorScheme();
 
+  // Set synchronously on mount to avoid flash of wrong theme
+  if (mode !== "system" && colorScheme !== mode) {
+    setColorScheme(mode);
+  }
+
   useEffect(() => {
     setColorScheme(mode);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode]);
 
+  const resolvedScheme =
+    mode === "system" ? Appearance.getColorScheme() ?? "light" : mode;
+
   return (
     <View
       style={[
-        config[colorScheme!],
+        config[resolvedScheme],
         { flex: 1, height: "100%", width: "100%" },
         props.style,
       ]}

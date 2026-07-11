@@ -1,6 +1,6 @@
-import { Filter } from "@tamagui/lucide-icons";
+import { Filter } from "lucide-react-native";
 import { Link } from "expo-router";
-import { View } from "tamagui";
+import { Pressable, View } from "react-native";
 
 import { GamesStatusCategoriesFab } from "./games_status_categories_fab/games_status_categories_fab";
 import { GamesStatusList } from "./games_status_list/games_status_list";
@@ -21,21 +21,9 @@ export const GamesScreen = () => {
       <HStack className="w-full">
         <GamesStatusListSearch />
         <Link asChild href="/games/filters/modal">
-          <View
-            style={{
-              maxWidth: 42,
-              borderRadius: 8,
-              alignItems: "center",
-              display: "flex",
-              justifyContent: "center",
-              flex: 1,
-              backgroundColor: "white",
-              borderColor: "black",
-              marginLeft: 16,
-            }}
-          >
-            <Filter height="100%" width="100%" />
-          </View>
+          <Pressable className="items-center justify-center ml-4 rounded-lg bg-background-50 border border-outline-0 w-[44px] h-[44px]">
+            <Filter size={20} color="#64748B" />
+          </Pressable>
         </Link>
       </HStack>
       <GamesStatusList

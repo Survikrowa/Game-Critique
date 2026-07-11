@@ -1,4 +1,4 @@
-import { Image, View } from "tamagui";
+import { Image, View } from "react-native";
 import { Text } from "ui/typography/text";
 
 import { VStack } from "@/ui/layout/vstack/vstack";
@@ -11,8 +11,8 @@ export const UserGameStatusAchievementsCompletedSection = () => {
       <Text size="large" weight="bold" color="primary">
         Posiadam platyne
       </Text>
-      <View width={32} height={64}>
-        <Image source={{ uri: TrophyPlatinium, width: 32, height: 64 }} />
+      <View className="w-8 h-16">
+        <Image source={TrophyPlatinium} className="w-full h-full" />
       </View>
     </VStack>
   );

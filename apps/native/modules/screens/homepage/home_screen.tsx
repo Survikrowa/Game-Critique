@@ -1,7 +1,5 @@
 import { useState } from "react";
-import { RefreshControl } from "react-native-gesture-handler";
-import { ScrollView } from "tamagui";
-import { GText } from "ui/typography/text";
+import { RefreshControl, ScrollView } from "react-native";
 
 import { FriendsActivity } from "./friends_activity/friends_activity";
 import { IncomingGamesCarousel } from "./incoming_games_carousel/incoming_games_carousel";
@@ -26,24 +24,22 @@ export const HomeScreen = () => {
     <>
       <Divider />
       <ScrollView
-        maxHeight="95%"
-        height="100%"
+        style={{ maxHeight: "95%", height: "100%" }}
+        contentContainerStyle={{ paddingTop: 16, paddingBottom: 24 }}
         refreshControl={
           <RefreshControl onRefresh={onRefresh} refreshing={isRefreshing} />
         }
       >
-        <VStack className="gap-2">
-          <VStack className="gap-2">
-            <Box className="px-3">
-              <LastUpdatedGameStatus />
-            </Box>
-            <Box className="px-3 mt-2">
-              <IncomingGamesCarousel />
-            </Box>
-            <Box className="px-3 mt-2">
-              <FriendsActivity />
-            </Box>
-          </VStack>
+        <VStack className="gap-6">
+          <Box className="px-4">
+            <LastUpdatedGameStatus />
+          </Box>
+          <Box className="px-4">
+            <IncomingGamesCarousel />
+          </Box>
+          <Box className="px-4">
+            <FriendsActivity />
+          </Box>
         </VStack>
       </ScrollView>
     </>

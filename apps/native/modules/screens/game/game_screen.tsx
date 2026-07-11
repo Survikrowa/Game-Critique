@@ -1,5 +1,5 @@
 import { useLocalSearchParams } from "expo-router";
-import { Spinner, ScrollView } from "tamagui";
+import { ActivityIndicator, ScrollView } from "react-native";
 
 import { GameCompletionTime } from "./game_completion_time/game_completion_time";
 import { GameImage } from "./game_image/game_image";
@@ -9,6 +9,7 @@ import { GameTabs } from "./game_tabs/game_tabs";
 import { useGetGameInfo } from "./use_get_game_info/use_get_game_info";
 import { useSetHeaderTitle } from "../../router/use_set_header_title";
 
+import { ErrorState } from "@/ui/feedback/error_state/error_state";
 import { VStack } from "@/ui/layout/vstack/vstack";
 
 type GameScreenProps = {
@@ -27,14 +28,20 @@ export const GameScreen = ({ redirect }: GameScreenProps) => {
     gameQuery.refetch();
   };
   if (gameQuery.error) {
-    return <GamePreparingInfo onRefreshClick={onRefreshClick} />;
+    return (
+      <ErrorState
+        title="Nie udało się załadować gry"
+        description="Gra może być aktualnie pobierana do naszej bazy."
+        onRetry={onRefreshClick}
+      />
+    );
   }
   if (gameQuery.loading || !gameQuery.data || !game_id) {
-    return <Spinner size="large" />;
+    return <ActivityIndicator size="large" color="#3B82F6" />;
   }
   const game = gameQuery.data.game;
   return (
-    <ScrollView height="100%">
+    <ScrollView className="h-full">
       <VStack className="items-center gap-4 h-full">
         <VStack className="items-center gap-14">
           <GameImage uri={game.cover?.mediumUrl} />

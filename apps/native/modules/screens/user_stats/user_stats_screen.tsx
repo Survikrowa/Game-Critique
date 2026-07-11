@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Separator, View, Group, Button } from "tamagui";
+import { Pressable, View } from "react-native";
+import { tva } from "@gluestack-ui/utils/nativewind-utils";
 
 import { useGetUserStats } from "./use_get_user_stats/use_get_user_stats";
 
@@ -8,31 +9,30 @@ import { HStack } from "@/ui/layout/hstack/hstack";
 import { VStack } from "@/ui/layout/vstack/vstack";
 import { Text } from "@/ui/typography/text";
 
+const tabItemStyle = tva({
+  base: "px-3 py-2 min-h-[44px] justify-center items-center",
+  variants: {
+    active: {
+      true: "bg-background-100",
+      false: "bg-transparent",
+    },
+  },
+});
+
 const selectData = [
-  {
-    name: "Platformy",
-    value: "platforms",
-  },
-  {
-    name: "Oceny",
-    value: "ratings",
-  },
-  {
-    name: "Rok wydania",
-    value: "release_year",
-  },
+  { name: "Platformy", value: "platforms" },
+  { name: "Oceny", value: "ratings" },
+  { name: "Rok wydania", value: "release_year" },
 ];
 
 export const UserStatsScreen = () => {
   const [selectedItem, setSelectedItem] = useState("ratings");
-  const userStatsQuery = useGetUserStats({
-    type: selectedItem,
-  });
+  const userStatsQuery = useGetUserStats({ type: selectedItem });
   const userStats = userStatsQuery.data?.userStats || [];
   return (
     <VStack className="bg-background-0 p-2 rounded-lg">
       <HStack className="justify-center items-center gap-2">
-        <Text size="extraLarge" weight="normal" color="white">
+        <Text size="extraLarge" weight="normal" color="primary">
           Obczaj swoje staty
         </Text>
       </HStack>
@@ -43,11 +43,7 @@ export const UserStatsScreen = () => {
         labelWidth={100}
         showValuesAsTopLabel
         horizontal
-        topLabelContainerStyle={{
-          width: 40,
-          marginLeft: -10,
-          marginTop: -10,
-        }}
+        topLabelContainerStyle={{ width: 40, marginLeft: -10, marginTop: -10 }}
         topLabelTextStyle={{
           color: "white",
           fontSize: 12,
@@ -73,36 +69,27 @@ export const UserStatsScreen = () => {
         renderTooltip={(item: { label: string; value: number }) => {
           return (
             <VStack className="mb-2.5 bg-black border-white border pv-1 ph-1 rounded-sm w-full">
-              <Text size="small" weight="normal" color="white">
+              <Text size="small" weight="normal" color="primary">
                 {item.label}
               </Text>
             </VStack>
           );
         }}
       />
-      <View alignItems="center">
-        <Group
-          borderWidth={1}
-          borderColor="white"
-          orientation="horizontal"
-          separator={<Separator vertical />}
-        >
+      <View className="items-center">
+        <HStack className="border border-outline-0 rounded-lg overflow-hidden">
           {selectData.map((item) => (
-            <Group.Item key={item.value}>
-              <Button
-                onPress={() => {
-                  setSelectedItem(item.value);
-                }}
-                backgroundColor={
-                  selectedItem === item.value ? "gray" : "transparent"
-                }
-                color="white"
-              >
+            <Pressable
+              key={item.value}
+              onPress={() => setSelectedItem(item.value)}
+              className={tabItemStyle({ active: selectedItem === item.value })}
+            >
+              <Text size="small" weight="normal" color="primary">
                 {item.name}
-              </Button>
-            </Group.Item>
+              </Text>
+            </Pressable>
           ))}
-        </Group>
+        </HStack>
       </View>
     </VStack>
   );

@@ -20,12 +20,12 @@ export const GoBackHeader = ({ goBackUrl, text }: GoBackHeaderProps) => {
   return (
     <>
       <View style={{ paddingTop: insets.top }} pointerEvents="none" />
-      <HStack className="bg-dark-800 p-8 justify-between items-center">
+      <HStack className="bg-background-50 border-b border-outline-0 px-4 py-3 justify-between items-center">
         <Button variant="link" onPress={() => router.back()}>
-          <ButtonIcon as={ArrowLeft} className="h-8 w-8" />
+          <ButtonIcon as={ArrowLeft} className="h-6 w-6" />
         </Button>
         <HStack className="pr-3">
-          <Text size="large" weight="bold" color="white">
+          <Text size="large" weight="bold" color="primary">
             {truncateString(text, 20)}
           </Text>
         </HStack>

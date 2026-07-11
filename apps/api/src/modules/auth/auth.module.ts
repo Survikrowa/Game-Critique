@@ -38,6 +38,6 @@ const handlers = [GetUserRoleQueryHandler, CreateUserCommandHandler];
       useClass: PrismaAuthRepository,
     },
   ],
-  exports: [PassportModule, AuthService],
+  exports: [PassportModule, AuthService, CqrsModule],
 })
 export class AuthModule {}

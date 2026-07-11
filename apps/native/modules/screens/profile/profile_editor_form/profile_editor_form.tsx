@@ -1,10 +1,14 @@
+import { ActivityIndicator } from "react-native";
 import { Controller, FormProvider } from "react-hook-form";
-import { Button, Form, Input, Label, Spinner } from "tamagui";
+import { Input } from "ui/forms/input";
+import { Text } from "ui/typography/text";
 
 import { PhotoEditor } from "./photo_editor/photo_editor";
 import { useProfileEditorForm } from "./use_profile_editor_form";
 
+import { Button, ButtonText } from "@/ui/forms/button/button";
 import { HStack } from "@/ui/layout/hstack/hstack";
+import { VStack } from "@/ui/layout/vstack/vstack";
 
 type ProfileEditorFormProps = {
   onSubmit: () => void;
@@ -25,20 +29,18 @@ export const ProfileEditorForm = ({
     });
   return (
     <FormProvider {...methods}>
-      <Form
-        onSubmit={handleProfileEditorFormSubmit}
-        style={{ display: "flex", alignItems: "center", gap: 16 }}
-      >
+      <VStack className="items-center gap-4 w-full">
         <PhotoEditor />
-        <HStack className="gap-2">
+        <HStack className="gap-2 items-center">
           <Controller
             render={({ field: { onChange, value } }) => {
               return (
                 <>
-                  <Label htmlFor="name" color="white">
-                    Zmiana nazwy
-                  </Label>
-                  <Input onChangeText={onChange} value={value} flex={1} />
+                  <Input
+                    onChange={onChange}
+                    value={value}
+                    label="Zmiana nazwy"
+                  />
                 </>
               );
             }}
@@ -46,18 +48,18 @@ export const ProfileEditorForm = ({
             control={methods.control}
           />
         </HStack>
-
-        <Form.Trigger asChild>
-          <Button
-            color="white"
-            outlineColor="white"
-            backgroundColor="black"
-            themeInverse
-          >
-            {isUpdatingUserProfile ? <Spinner size="small" /> : "Zapisz zmiany"}
-          </Button>
-        </Form.Trigger>
-      </Form>
+        <Button
+          action="primary"
+          onPress={handleProfileEditorFormSubmit}
+          isDisabled={isUpdatingUserProfile}
+        >
+          {isUpdatingUserProfile ? (
+            <ActivityIndicator size="small" color="#ffffff" />
+          ) : (
+            <ButtonText>Zapisz zmiany</ButtonText>
+          )}
+        </Button>
+      </VStack>
     </FormProvider>
   );
 };

@@ -10,6 +10,7 @@ import {
 import { useUpsertGameStatus } from "./use_upsert_game_status/use_upsert_game_status";
 import { GameStatus } from "../../../__generated__/types";
 import { GameInfoQuery } from "../../screens/game/use_get_game_info/game_info.generated";
+import { haptic } from "../../haptics/haptic";
 
 export const DEFAULT_VALUES = {
   hours: "",
@@ -118,8 +119,11 @@ export const useGamesStatusForm = ({
 
     if (!errors || errors.length === 0) {
       reset(DEFAULT_VALUES);
+      haptic.success();
       displaySuccessToast();
       router.push("/games/games");
+    } else {
+      haptic.error();
     }
   });
 

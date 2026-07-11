@@ -1,6 +1,6 @@
-import { ChevronRight } from "@tamagui/lucide-icons";
+import { ChevronRight, MessageSquare } from "lucide-react-native";
 import { router, useLocalSearchParams } from "expo-router";
-import { ScrollView, Separator, Spinner, XStack } from "tamagui";
+import { ActivityIndicator, ScrollView } from "react-native";
 
 import { useGameStatusReviewStore } from "./use_game_status_review_store/use_game_status_review_store";
 import { truncateString } from "../../strings/truncate_string";
@@ -8,8 +8,10 @@ import { UserAvatar } from "../../user/user_avatar/user_avatar";
 import { useFriendsGameReviews } from "../user_game_status/user_game_status_friends_reviews/use_friends_game_reviews/use_friends_game_reviews";
 import { parseScore } from "../user_game_status/user_game_status_sections/user_game_status_score_section/parse_score";
 
+import { EmptyState } from "@/ui/feedback/empty_state/empty_state";
 import { Pressable } from "@/ui/forms/pressable/pressable";
 import { HStack } from "@/ui/layout/hstack/hstack";
+import { Separator } from "@/ui/layout/separator/separator";
 import { VStack } from "@/ui/layout/vstack/vstack";
 import { Text } from "@/ui/typography/text";
 
@@ -31,15 +33,21 @@ export const GameStatusReviewsScreen = ({
   );
   if (friendsGameReviewsQuery.loading || !friendsGameReviewsQuery.data) {
     return (
-      <XStack alignItems="center" width="100%">
-        <Spinner size="large" />
-      </XStack>
+      <HStack className="items-center w-full">
+        <ActivityIndicator size="large" color="#3B82F6" />
+      </HStack>
     );
   }
   if (
     friendsGameReviewsQuery.data?.ownerAndFriendsGameStatusReviews.length === 0
   ) {
-    return null;
+    return (
+      <EmptyState
+        title="Brak recenzji"
+        description="Żaden ze znajomych nie ocenił jeszcze tej gry"
+        icon={<MessageSquare size={32} color="#3B82F6" />}
+      />
+    );
   }
   if (!game_status_id) {
     return null;
@@ -58,7 +66,7 @@ export const GameStatusReviewsScreen = ({
     router.push(`/${redirect.review}/game_status_review`);
   };
   return (
-    <ScrollView maxHeight="99%">
+    <ScrollView className="max-h-[99%]">
       <VStack className="p-4">
         {friendsGameReviews.map((review) => {
           return (
@@ -99,9 +107,9 @@ export const GameStatusReviewsScreen = ({
                     )}
                   </VStack>
                 </HStack>
-                {review.review && <ChevronRight color="white" />}
+                {review.review && <ChevronRight size={16} color="#64748B" />}
               </HStack>
-              <Separator marginVertical={8} />
+              <Separator spacing="xs" />
             </Pressable>
           );
         })}

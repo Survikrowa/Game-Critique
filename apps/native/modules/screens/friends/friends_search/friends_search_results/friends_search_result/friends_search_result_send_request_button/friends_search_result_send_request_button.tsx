@@ -1,6 +1,7 @@
-import { Button, Spinner } from "tamagui";
+import { ActivityIndicator } from "react-native";
 import { Text } from "ui/typography/text";
 
+import { Button, ButtonText } from "@/ui/forms/button/button";
 import { VStack } from "@/ui/layout/vstack/vstack";
 
 type FriendsSearchResultSendRequestButtonProps = {
@@ -41,13 +42,15 @@ export const FriendsSearchResultSendRequestButton = ({
 
   return (
     <Button
-      theme="active"
-      backgroundColor="black"
-      color="white"
-      disabled={sendFriendRequestLoading}
+      action="primary"
+      isDisabled={sendFriendRequestLoading}
       onPress={() => handleSendFriendRequest(oauthId)}
     >
-      {sendFriendRequestLoading ? <Spinner size="small" /> : "Dodaj"}
+      {sendFriendRequestLoading ? (
+        <ActivityIndicator size="small" color="#ffffff" />
+      ) : (
+        <ButtonText>Dodaj</ButtonText>
+      )}
     </Button>
   );
 };

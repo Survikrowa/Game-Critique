@@ -1,8 +1,9 @@
-import { FlatList } from "react-native-gesture-handler";
-import { Spinner, View } from "tamagui";
+import { ActivityIndicator, FlatList, View } from "react-native";
+import { Gamepad2 } from "lucide-react-native";
 
 import { GamesStatusListItem } from "./games_status_list_item/games_status_list_item";
 
+import { EmptyState } from "@/ui/feedback/empty_state/empty_state";
 import { Skeleton, SkeletonText } from "@/ui/feedback/skeleton/skeleton";
 import { HStack } from "@/ui/layout/hstack/hstack";
 import { VStack } from "@/ui/layout/vstack/vstack";
@@ -49,19 +50,17 @@ export const GamesStatusList = ({
   }
 
   return (
-    <View flex={1} key={items.length > 0 ? items[0].id : 0}>
+    <View style={{ flex: 1 }} key={items.length > 0 ? items[0].id : 0}>
       <FlatList
         keyExtractor={(item) => item.id.toString()}
         data={items}
         numColumns={3}
         contentContainerStyle={{
-          display: "flex",
           gap: 12,
           paddingBottom: 20,
         }}
         columnWrapperStyle={{
           flex: 1,
-          display: "flex",
           justifyContent: "space-between",
         }}
         onRefresh={onRefresh}
@@ -72,10 +71,17 @@ export const GamesStatusList = ({
           }
         }}
         onEndReachedThreshold={0.2}
+        ListEmptyComponent={
+          <EmptyState
+            title="Brak gier"
+            description="Dodaj swoją pierwszą grę klikając przycisk +"
+            icon={<Gamepad2 size={32} color="#3B82F6" />}
+          />
+        }
         ListFooterComponent={
           loading ? (
             <VStack className="items-center flex-1 h-[42px]">
-              <Spinner size="large" />
+              <ActivityIndicator size="large" color="#3B82F6" />
             </VStack>
           ) : null
         }

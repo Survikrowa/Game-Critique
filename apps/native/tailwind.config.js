@@ -213,6 +213,20 @@ module.exports = {
           info: "rgb(var(--color-indicator-info)/<alpha-value>)",
           error: "rgb(var(--color-indicator-error)/<alpha-value>)",
         },
+        /* Semantic app tokens — use these in screens/components */
+        "app-bg": "#0A0F1E",
+        "app-surface": "#111827",
+        "app-surface2": "#1a2235",
+        "app-border": "#1e2d47",
+        "app-accent": "#3B82F6",
+        "app-accent-dark": "#2563EB",
+        "app-accent-press": "#1D4ED8",
+        "app-text": "#F1F5F9",
+        "app-text-secondary": "#CBD5E1",
+        "app-muted": "#64748B",
+        "app-success": "#22C55E",
+        "app-error": "#EF4444",
+        "app-warning": "#EAB308",
       },
       fontFamily: {
         heading: undefined,
@@ -229,6 +243,12 @@ module.exports = {
       },
       fontSize: {
         "2xs": "10px",
+        label: "11px",
+        caption: "12px",
+        body: "15px",
+        heading: "17px",
+        title: "20px",
+        display: "28px",
       },
       boxShadow: {
         "hard-1": "-2px 2px 8px 0px rgba(38, 38, 38, 0.20)",

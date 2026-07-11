@@ -1,5 +1,5 @@
+import { ActivityIndicator } from "react-native";
 import { useState } from "react";
-import { Spinner } from "tamagui";
 import { Text } from "ui/typography/text";
 import { useDebounce } from "use-debounce";
 
@@ -24,7 +24,7 @@ export const FriendsSearchScreen = () => {
         znajomych.
       </Text>
       <VStack className="mt-2">
-        {loading && <Spinner size="large" />}
+        {loading && <ActivityIndicator size="large" color="#3B82F6" />}
         {data && data.usersSearch && (
           <FriendsSearchResults
             users={data.usersSearch.map((user) => ({

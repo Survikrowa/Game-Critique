@@ -1,6 +1,13 @@
 import { ReactNode } from "react";
-import { Button, AlertDialog as TamaguiAlertDialog } from "tamagui";
+import {
+  Modal,
+  Pressable,
+  Text,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 
+import { Button, ButtonText } from "@/ui/forms/button/button";
 import { HStack } from "@/ui/layout/hstack/hstack";
 import { VStack } from "@/ui/layout/vstack/vstack";
 
@@ -27,57 +34,39 @@ export const AlertDialog = ({
   description,
 }: AlertDialogProps) => {
   return (
-    <TamaguiAlertDialog open={open} onOpenChange={onOpen}>
-      <TamaguiAlertDialog.Trigger />
-      <TamaguiAlertDialog.Portal>
-        <TamaguiAlertDialog.Overlay
-          key="overlay"
-          animation="quick"
-          opacity={0.5}
-          enterStyle={{ opacity: 0 }}
-          exitStyle={{ opacity: 0 }}
-        />
-        <TamaguiAlertDialog.Content
-          bordered
-          elevate
-          key="content"
-          animation={[
-            "quick",
-            {
-              opacity: {
-                overshootClamping: true,
-              },
-            },
-          ]}
-          enterStyle={{ x: 0, y: -20, opacity: 0, scale: 0.9 }}
-          exitStyle={{ x: 0, y: 10, opacity: 0, scale: 0.95 }}
-          x={0}
-          scale={1}
-          opacity={1}
-          y={0}
-        >
-          <VStack space="md">
-            <TamaguiAlertDialog.Title>{title}</TamaguiAlertDialog.Title>
-            <TamaguiAlertDialog.Description>
-              {description}
-            </TamaguiAlertDialog.Description>
-
-            <HStack space="md" style={{ justifyContent: "flex-end", gap: 8 }}>
-              <Button onPress={onClose}>{buttonsText.decline}</Button>
-              <TamaguiAlertDialog.Action asChild>
-                <Button
-                  theme="active"
-                  backgroundColor="black"
-                  color="white"
-                  onPress={onApprove}
+    <Modal
+      visible={open}
+      transparent
+      animationType="fade"
+      onRequestClose={() => onOpen(false)}
+    >
+      <TouchableWithoutFeedback onPress={() => onOpen(false)}>
+        <View className="flex-1 items-center justify-center bg-black/60">
+          <TouchableWithoutFeedback>
+            <View className="bg-background-50 rounded-2xl p-6 mx-6 w-full max-w-sm border border-outline-0">
+              <VStack space="md">
+                <Text className="text-typography-100 text-heading font-semibold">
+                  {title}
+                </Text>
+                <Text className="text-typography-500 text-base">
+                  {description}
+                </Text>
+                <HStack
+                  space="md"
+                  style={{ justifyContent: "flex-end", gap: 8 }}
                 >
-                  {buttonsText.approve}
-                </Button>
-              </TamaguiAlertDialog.Action>
-            </HStack>
-          </VStack>
-        </TamaguiAlertDialog.Content>
-      </TamaguiAlertDialog.Portal>
-    </TamaguiAlertDialog>
+                  <Button action="default" variant="outline" onPress={onClose}>
+                    <ButtonText>{buttonsText.decline}</ButtonText>
+                  </Button>
+                  <Button action="negative" onPress={onApprove}>
+                    <ButtonText>{buttonsText.approve}</ButtonText>
+                  </Button>
+                </HStack>
+              </VStack>
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
+      </TouchableWithoutFeedback>
+    </Modal>
   );
 };

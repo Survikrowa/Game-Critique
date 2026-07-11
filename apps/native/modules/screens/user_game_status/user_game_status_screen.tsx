@@ -1,5 +1,5 @@
 import { useLocalSearchParams } from "expo-router";
-import { Card, ScrollView, Separator, Spinner } from "tamagui";
+import { ActivityIndicator, ScrollView } from "react-native";
 import { Text } from "ui/typography/text";
 
 import { getPlatformText } from "./get_platform_text/get_platform_text";
@@ -15,7 +15,11 @@ import { UserGameStatusScoreSection } from "./user_game_status_sections/user_gam
 import { useSetHeaderTitle } from "../../router/use_set_header_title";
 
 import { GameStatus } from "@/__generated__/types";
+import { ErrorState } from "@/ui/feedback/error_state/error_state";
+import { Card } from "@/ui/panels/card/card";
 import { HStack } from "@/ui/layout/hstack/hstack";
+import { Separator } from "@/ui/layout/separator/separator";
+import { VStack } from "@/ui/layout/vstack/vstack";
 
 type UserGameStatusScreenProps = {
   redirect: {
@@ -34,16 +38,24 @@ export const UserGameStatusScreen = ({
     gameStatusId: games_status_id,
     oauthId: oauth_id,
   });
-  console.log(userGameStatusQuery.data);
   useSetHeaderTitle(userGameStatusQuery.data?.userGameStatus?.game.name || "");
   if (userGameStatusQuery.loading || !userGameStatusQuery.data) {
     return (
       <HStack className="w-full items-center gap-2">
-        <Spinner size="large" />
+        <ActivityIndicator size="large" color="#3B82F6" />
         <Text size="large" weight="bold" color="primary">
           Trwa ładowanie danych gry...
         </Text>
       </HStack>
+    );
+  }
+  if (userGameStatusQuery.error) {
+    return (
+      <ErrorState
+        title="Nie udało się załadować"
+        description="Spróbuj ponownie za chwilę"
+        onRetry={() => userGameStatusQuery.refetch()}
+      />
     );
   }
   const gameStatus = userGameStatusQuery.data.userGameStatus;
@@ -54,13 +66,9 @@ export const UserGameStatusScreen = ({
       gameStatus.completedIn.minutes != null ||
       gameStatus.completedIn.seconds != null);
   return (
-    <ScrollView>
-      <Card
-        backgroundColor="$color.container"
-        height="min-content"
-        width="100%"
-      >
-        <Card.Header gap={16}>
+    <ScrollView className="h-full">
+      <Card className="w-full">
+        <VStack className="gap-4 p-4">
           <UserGameStatusMainSection
             gameName={gameStatus.game.name}
             gameCover={gameStatus.game.cover?.bigUrl}
@@ -70,7 +78,6 @@ export const UserGameStatusScreen = ({
             platformName={gameStatus.platform.name}
             platformText={getPlatformText(gameStatus.status)}
           />
-
           {shouldDisplayCompletedIn && (
             <UserGameStatusCompletedInSection
               hours={gameStatus.completedIn?.hours}
@@ -82,7 +89,7 @@ export const UserGameStatusScreen = ({
             <UserGameStatusScoreSection score={gameStatus.score} />
           )}
           {(gameStatus.achievementsCompleted || gameStatus.review) && (
-            <Separator marginVertical={8} />
+            <Separator spacing="xs" />
           )}
           {gameStatus.achievementsCompleted && (
             <UserGameStatusAchievementsCompletedSection />
@@ -94,7 +101,7 @@ export const UserGameStatusScreen = ({
             redirect={redirect}
             gameStatusId={gameStatus.id}
           />
-        </Card.Header>
+        </VStack>
       </Card>
     </ScrollView>
   );

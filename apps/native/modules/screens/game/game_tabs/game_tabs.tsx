@@ -1,8 +1,9 @@
-import { Check } from "@tamagui/lucide-icons";
+import { Check } from "lucide-react-native";
 import { router } from "expo-router";
-import { Card, View } from "tamagui";
+import { Pressable } from "react-native";
 import { Text } from "ui/typography/text";
 
+import { Card } from "@/ui/panels/card/card";
 import { VStack } from "@/ui/layout/vstack/vstack";
 
 type GameTabsProps = {
@@ -17,23 +18,16 @@ type GameTabsProps = {
 
 export const GameTabs = ({ game, redirect }: GameTabsProps) => {
   const redirectToGamesStatusAddForm = () => {
+    // @ts-ignore — pre-existing route type issue
     router.push(`${redirect.addToGameStatusUrl}/${game.hltbId}`);
   };
   return (
-    <Card
-      maxWidth="100%"
-      width="100%"
-      borderRadius="$2"
-      padding={8}
-      gap={8}
-      backgroundColor="$color.container"
-      overflow="hidden"
-      justifyContent="space-between"
-      height="min-content"
-      flexDirection="row"
-    >
-      <View alignItems="center" flex={1} onPress={redirectToGamesStatusAddForm}>
-        <Check size="$2" color="white" />
+    <Card className="w-full flex-row justify-between overflow-hidden">
+      <Pressable
+        className="items-center flex-1"
+        onPress={redirectToGamesStatusAddForm}
+      >
+        <Check size={16} color="#3B82F6" />
         <VStack className="items-center">
           <Text size="small" weight="semiBold" color="primary">
             Dodaj do
@@ -42,7 +36,7 @@ export const GameTabs = ({ game, redirect }: GameTabsProps) => {
             swoich gier
           </Text>
         </VStack>
-      </View>
+      </Pressable>
     </Card>
   );
 };

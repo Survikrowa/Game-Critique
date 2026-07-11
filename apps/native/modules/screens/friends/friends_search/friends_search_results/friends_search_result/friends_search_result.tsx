@@ -1,4 +1,3 @@
-import { Separator } from "tamagui";
 import { Text } from "ui/typography/text";
 
 import { FriendsSearchResultSendRequestButton } from "./friends_search_result_send_request_button/friends_search_result_send_request_button";
@@ -7,6 +6,7 @@ import { useSendFriendRequest } from "../use_send_friend_request/use_send_friend
 import { truncateString } from "@/modules/strings/truncate_string";
 import { UserAvatar } from "@/modules/user/user_avatar/user_avatar";
 import { HStack } from "@/ui/layout/hstack/hstack";
+import { Separator } from "@/ui/layout/separator/separator";
 
 type FriendsSearchResultProps = {
   oauthId: string;
@@ -52,7 +52,7 @@ export const FriendsSearchResult = ({
         />
       </HStack>
       {usersLength > 1 && usersLength - 1 !== currentIndex && (
-        <Separator marginVertical={8} />
+        <Separator spacing="xs" />
       )}
     </>
   );

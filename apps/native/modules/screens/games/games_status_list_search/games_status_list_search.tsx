@@ -1,4 +1,4 @@
-import { Search, Trash } from "@tamagui/lucide-icons";
+import { Search, Trash } from "lucide-react-native";
 import { useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 
@@ -37,14 +37,13 @@ export const GamesStatusListSearch = () => {
       icon={
         value ? (
           <ButtonWithIcon
-            backgroundColor="transparent"
-            width={24}
-            height={24}
+            action="default"
+            size="xs"
             onPress={clearValue}
-            icon={<Trash />}
+            icon={<Trash size={16} color="#64748B" />}
           />
         ) : (
-          <Search />
+          <Search size={18} color="#64748B" />
         )
       }
     />

@@ -1,5 +1,0 @@
-mutation RemoveCollection($collection: RemoveCollectionArgsDTO!) {
-    removeCollection(collection: $collection) {
-        success
-    }
-}

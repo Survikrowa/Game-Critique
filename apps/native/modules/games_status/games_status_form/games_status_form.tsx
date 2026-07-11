@@ -1,6 +1,6 @@
 import { ErrorMessage } from "@hookform/error-message";
 import { Controller, FormProvider } from "react-hook-form";
-import { Button, Form, Separator, View } from "tamagui";
+import { View } from "react-native";
 import { Checkbox } from "ui/forms/checkbox";
 import { Input } from "ui/forms/input";
 import { Select } from "ui/forms/select";
@@ -16,7 +16,9 @@ import {
 } from "./use_games_status_form";
 import { GameInfoQuery } from "../../screens/game/use_get_game_info/game_info.generated";
 
+import { Button, ButtonText } from "@/ui/forms/button/button";
 import { HStack } from "@/ui/layout/hstack/hstack";
+import { Separator } from "@/ui/layout/separator/separator";
 import { VStack } from "@/ui/layout/vstack/vstack";
 
 type GamesStatusFormProps = {
@@ -40,8 +42,8 @@ export const GamesStatusForm = ({
   return (
     <FormProvider {...methods}>
       <View>
-        <Form onSubmit={onSubmit}>
-          <VStack space="sm">
+        <VStack className="gap-4">
+          <VStack className="gap-1">
             <Text size="large" weight="bold" color="primary">
               Status*
             </Text>
@@ -49,49 +51,44 @@ export const GamesStatusForm = ({
               render={({
                 fieldState: { error },
                 field: { onChange, value },
-              }) => {
-                return (
-                  <>
-                    <Select
-                      placeholder="Wybierz status gry..."
-                      onChange={onChange}
-                      value={value}
-                      label="Status"
-                      items={GAMES_STATUSES}
-                    />
-                    <ErrorMessage
-                      name="status"
-                      message={error?.message}
-                      render={(data) => {
-                        return (
-                          <Text size="small" weight="normal" color="warning">
-                            {data.message}
-                          </Text>
-                        );
-                      }}
-                    />
-                  </>
-                );
-              }}
+              }) => (
+                <>
+                  <Select
+                    placeholder="Wybierz status gry..."
+                    onChange={onChange}
+                    value={value}
+                    label="Status"
+                    items={GAMES_STATUSES}
+                  />
+                  <ErrorMessage
+                    name="status"
+                    message={error?.message}
+                    render={(data) => (
+                      <Text size="small" weight="normal" color="warning">
+                        {data.message}
+                      </Text>
+                    )}
+                  />
+                </>
+              )}
               name="status"
               control={control}
             />
           </VStack>
-          <Separator marginVertical={16} />
 
-          <Text size="large" weight="bold" color="primary">
-            Czas gry
-          </Text>
-          <HStack
-            style={{ alignItems: "center", justifyContent: "space-evenly" }}
-          >
-            <View maxWidth={60}>
-              <Controller
-                render={({
-                  fieldState: { error },
-                  field: { onChange, value },
-                }) => {
-                  return (
+          <Separator />
+
+          <VStack className="gap-1">
+            <Text size="large" weight="bold" color="primary">
+              Czas gry
+            </Text>
+            <HStack className="items-center justify-evenly">
+              <View className="max-w-[60px]">
+                <Controller
+                  render={({
+                    fieldState: { error },
+                    field: { onChange, value },
+                  }) => (
                     <Input
                       onChange={onChange}
                       value={value || DEFAULT_VALUES.hours}
@@ -99,19 +96,17 @@ export const GamesStatusForm = ({
                       errorMessage={error?.message}
                       inputMode="numeric"
                     />
-                  );
-                }}
-                control={control}
-                name="hours"
-              />
-            </View>
-            <View maxWidth={60}>
-              <Controller
-                render={({
-                  fieldState: { error },
-                  field: { onChange, value },
-                }) => {
-                  return (
+                  )}
+                  control={control}
+                  name="hours"
+                />
+              </View>
+              <View className="max-w-[60px]">
+                <Controller
+                  render={({
+                    fieldState: { error },
+                    field: { onChange, value },
+                  }) => (
                     <Input
                       onChange={onChange}
                       value={value || DEFAULT_VALUES.minutes}
@@ -119,19 +114,17 @@ export const GamesStatusForm = ({
                       errorMessage={error?.message}
                       inputMode="numeric"
                     />
-                  );
-                }}
-                control={control}
-                name="minutes"
-              />
-            </View>
-            <View maxWidth={60}>
-              <Controller
-                render={({
-                  fieldState: { error },
-                  field: { onChange, value },
-                }) => {
-                  return (
+                  )}
+                  control={control}
+                  name="minutes"
+                />
+              </View>
+              <View className="max-w-[60px]">
+                <Controller
+                  render={({
+                    fieldState: { error },
+                    field: { onChange, value },
+                  }) => (
                     <Input
                       onChange={onChange}
                       value={value || DEFAULT_VALUES.seconds}
@@ -139,15 +132,17 @@ export const GamesStatusForm = ({
                       errorMessage={error?.message}
                       inputMode="numeric"
                     />
-                  );
-                }}
-                control={control}
-                name="seconds"
-              />
-            </View>
-          </HStack>
-          <Separator marginVertical={16} />
-          <VStack space="sm">
+                  )}
+                  control={control}
+                  name="seconds"
+                />
+              </View>
+            </HStack>
+          </VStack>
+
+          <Separator />
+
+          <VStack className="gap-1">
             <Text size="large" weight="bold" color="primary">
               Platforma*
             </Text>
@@ -155,40 +150,38 @@ export const GamesStatusForm = ({
               render={({
                 fieldState: { error },
                 field: { onChange, value },
-              }) => {
-                return (
-                  <>
-                    <Select
-                      defaultValue={initialValues?.platform || ""}
-                      placeholder="Wybierz platforme..."
-                      onChange={onChange}
-                      value={value}
-                      label="Platforma"
-                      items={game.platforms.map((platform) => ({
-                        name: platform.name,
-                        value: String(platform.id),
-                      }))}
-                    />
-                    <ErrorMessage
-                      name="platform"
-                      message={error?.message}
-                      render={(data) => {
-                        return (
-                          <Text size="small" weight="normal" color="warning">
-                            {data.message}
-                          </Text>
-                        );
-                      }}
-                    />
-                  </>
-                );
-              }}
+              }) => (
+                <>
+                  <Select
+                    defaultValue={initialValues?.platform || ""}
+                    placeholder="Wybierz platforme..."
+                    onChange={onChange}
+                    value={value}
+                    label="Platforma"
+                    items={game.platforms.map((platform) => ({
+                      name: platform.name,
+                      value: String(platform.id),
+                    }))}
+                  />
+                  <ErrorMessage
+                    name="platform"
+                    message={error?.message}
+                    render={(data) => (
+                      <Text size="small" weight="normal" color="warning">
+                        {data.message}
+                      </Text>
+                    )}
+                  />
+                </>
+              )}
               name="platform"
               control={control}
             />
           </VStack>
-          <Separator marginVertical={16} />
-          <VStack space="md">
+
+          <Separator />
+
+          <VStack className="gap-2">
             <Text size="large" weight="bold" color="primary">
               Osiągnięcia
             </Text>
@@ -197,17 +190,15 @@ export const GamesStatusForm = ({
                 render={({
                   fieldState: { error },
                   field: { onChange, value },
-                }) => {
-                  return (
-                    <Checkbox
-                      onChange={onChange}
-                      value={value}
-                      isChecked={value}
-                      label="Osiągnieto 100% gry"
-                      errorMessage={error?.message}
-                    />
-                  );
-                }}
+                }) => (
+                  <Checkbox
+                    onChange={onChange}
+                    value={value}
+                    isChecked={value}
+                    label="Osiągnieto 100% gry"
+                    errorMessage={error?.message}
+                  />
+                )}
                 name="platinium"
               />
             ) : (
@@ -216,85 +207,68 @@ export const GamesStatusForm = ({
               </Text>
             )}
           </VStack>
-          <Separator marginVertical={16} />
-          <VStack space="sm">
+
+          <Separator />
+
+          <VStack className="gap-1">
             <Text size="large" weight="bold" color="primary">
               Ocena
             </Text>
-            <HStack
-              style={{
-                alignItems: "center",
-                gap: 16,
-                justifyContent: "center",
-              }}
-            >
-              <Controller
-                render={({
-                  fieldState: { error },
-                  field: { onChange, value },
-                }) => {
-                  return (
-                    <>
-                      <Select
-                        placeholder="Wybierz ocene..."
-                        onChange={onChange}
-                        value={value || ""}
-                        label="Ocena"
-                        items={GAMES_SCORES.map((score) => ({
-                          name: score.name,
-                          value: score.value,
-                        }))}
-                      />
-                      <ErrorMessage
-                        name="score"
-                        message={error?.message}
-                        render={(data) => {
-                          return (
-                            <Text size="small" weight="normal" color="warning">
-                              {data.message}
-                            </Text>
-                          );
-                        }}
-                      />
-                    </>
-                  );
-                }}
-                control={control}
-                name="score"
-              />
-            </HStack>
             <Controller
               render={({
                 fieldState: { error },
                 field: { onChange, value },
-              }) => {
-                return (
-                  <TextArea
+              }) => (
+                <>
+                  <Select
+                    placeholder="Wybierz ocene..."
                     onChange={onChange}
-                    value={value || DEFAULT_VALUES.review}
-                    label="Opcjonalne miejsce na recenzje"
-                    errorMessage={error?.message}
+                    value={value || ""}
+                    label="Ocena"
+                    items={GAMES_SCORES.map((score) => ({
+                      name: score.name,
+                      value: score.value,
+                    }))}
                   />
-                );
-              }}
+                  <ErrorMessage
+                    name="score"
+                    message={error?.message}
+                    render={(data) => (
+                      <Text size="small" weight="normal" color="warning">
+                        {data.message}
+                      </Text>
+                    )}
+                  />
+                </>
+              )}
+              control={control}
+              name="score"
+            />
+            <Controller
+              render={({
+                fieldState: { error },
+                field: { onChange, value },
+              }) => (
+                <TextArea
+                  onChange={onChange}
+                  value={value || DEFAULT_VALUES.review}
+                  label="Opcjonalne miejsce na recenzje"
+                  errorMessage={error?.message}
+                />
+              )}
               control={control}
               name="review"
             />
           </VStack>
 
-          <Form.Trigger asChild marginTop={16}>
-            <Button
-              theme="active"
-              backgroundColor="black"
-              color="white"
-              borderColor="white"
-            >
+          <Button action="primary" className="mt-4" onPress={onSubmit}>
+            <ButtonText>
               {methods.formState.isSubmitting
                 ? "Trwa zapisywanie..."
                 : "Zapisz"}
-            </Button>
-          </Form.Trigger>
-        </Form>
+            </ButtonText>
+          </Button>
+        </VStack>
       </View>
     </FormProvider>
   );

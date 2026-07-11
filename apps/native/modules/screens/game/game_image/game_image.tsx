@@ -1,4 +1,4 @@
-import { Image, View } from "tamagui";
+import { Image } from "react-native";
 
 type GameImageProps = {
   uri: string | undefined;
@@ -6,8 +6,10 @@ type GameImageProps = {
 
 export const GameImage = ({ uri }: GameImageProps) => {
   return (
-    <View maxWidth={200} maxHeight={200}>
-      <Image resizeMode="contain" source={{ uri, width: 200, height: 200 }} />
-    </View>
+    <Image
+      resizeMode="contain"
+      source={{ uri }}
+      className="w-[200px] h-[200px] max-w-[200px] max-h-[200px]"
+    />
   );
 };

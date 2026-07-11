@@ -1,8 +1,10 @@
-import { Card, View } from "tamagui";
 import { Text } from "ui/typography/text";
 
 import { UserActivityCard } from "./user_activity_card/user_activity_card";
 import { GameStatus } from "../../../../__generated__/types";
+
+import { Card } from "@/ui/panels/card/card";
+import { VStack } from "@/ui/layout/vstack/vstack";
 
 type UserActivityCardsProps = {
   activities: Activity[];
@@ -21,16 +23,16 @@ type Activity = {
 export const UserActivityCards = ({ activities }: UserActivityCardsProps) => {
   if (activities.length === 0) {
     return (
-      <View display="flex" alignItems="center">
+      <VStack className="items-center">
         <Text size="large" weight="semiBold" color="primary">
           Brak aktywności
         </Text>
-      </View>
+      </VStack>
     );
   }
   return (
-    <Card backgroundColor="$color.container" bordered>
-      <Card.Header gap={8}>
+    <Card variant="bordered">
+      <VStack className="gap-2">
         {activities.map((activity, index) => (
           <UserActivityCard
             key={activity.game.name + activity.game.status}
@@ -46,7 +48,7 @@ export const UserActivityCards = ({ activities }: UserActivityCardsProps) => {
             }
           />
         ))}
-      </Card.Header>
+      </VStack>
     </Card>
   );
 };

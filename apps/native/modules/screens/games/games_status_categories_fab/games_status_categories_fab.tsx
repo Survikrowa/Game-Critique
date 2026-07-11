@@ -1,4 +1,4 @@
-import { PlusCircle } from "@tamagui/lucide-icons";
+import { PlusCircle } from "lucide-react-native";
 import { router } from "expo-router";
 
 import { Fab, FabIcon, FabLabel } from "@/ui/overlay/fab/fab";

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Image } from "tamagui";
+import { Image } from "react-native";
 
 import { GamesStatusListItemButtons } from "./games_status_list_item_buttons/games_status_list_item_buttons";
 import { useRemoveGameStatus } from "./games_status_list_item_buttons/use_remove_game_status/use_remove_game_status";
@@ -38,11 +38,9 @@ export const GamesStatusListItem = ({
     <ClearButton onPress={() => setIsSheetOpen(true)}>
       <VStack className="gap-2">
         <Image
-          borderRadius={4}
-          source={{ uri: item.cover, width: 112, height: 142 }}
-          style={{
-            objectFit: "fill",
-          }}
+          source={{ uri: item.cover }}
+          style={{ width: 112, height: 142, borderRadius: 4 }}
+          resizeMode="cover"
         />
         <VStack>
           <Text size="medium" weight="bold" color="primary">

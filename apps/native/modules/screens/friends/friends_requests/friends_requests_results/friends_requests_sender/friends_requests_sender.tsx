@@ -1,9 +1,10 @@
-import { Button, Spinner } from "tamagui";
+import { ActivityIndicator } from "react-native";
 import { Text } from "ui/typography/text";
 
 import { useAcceptFriendRequest } from "./use_accept_friend_request/use_accept_friend_request";
 
 import { UserAvatar } from "@/modules/user/user_avatar/user_avatar";
+import { Button, ButtonText } from "@/ui/forms/button/button";
 import { HStack } from "@/ui/layout/hstack/hstack";
 import { VStack } from "@/ui/layout/vstack/vstack";
 
@@ -28,7 +29,7 @@ export const FriendsRequestsSender = ({
     acceptFriendRequest({ variables: { senderOauthId: sender.oauthId } });
   };
   return (
-    <VStack className="border p-2 rounded-2xl">
+    <VStack className="border border-outline-0 p-2 rounded-2xl">
       <HStack className="items-center gap-2">
         <UserAvatar avatarUrl={sender.profile?.avatarUrl || ""} size="$6" />
         <Text size="large" weight="semiBold" color="primary">
@@ -37,21 +38,19 @@ export const FriendsRequestsSender = ({
       </HStack>
       <HStack className="w-full items-center justify-center">
         <HStack className="gap-1 max-w-[120px] items-center justify-center">
-          <Button
-            color="black"
-            outlineColor="black"
-            backgroundColor="$background"
-            borderColor="black"
-          >
-            Odrzuć
+          <Button action="secondary">
+            <ButtonText>Odrzuć</ButtonText>
           </Button>
           <Button
-            color="white"
-            outlineColor="white"
-            backgroundColor="black"
+            action="primary"
             onPress={handleConfirmButton}
+            isDisabled={loading}
           >
-            {loading ? <Spinner size="small" /> : "Dodaj"}
+            {loading ? (
+              <ActivityIndicator size="small" color="#ffffff" />
+            ) : (
+              <ButtonText>Dodaj</ButtonText>
+            )}
           </Button>
         </HStack>
       </HStack>
