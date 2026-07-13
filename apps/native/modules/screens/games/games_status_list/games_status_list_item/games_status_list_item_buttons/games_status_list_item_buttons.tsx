@@ -4,14 +4,12 @@ import { GamesStatusListItemButtonRemove } from "./games_status_list_item_button
 
 type GamesStatusListItemButtonsProps = {
   gameStatusId: number;
-  oauthId?: string;
   onClick: () => void;
   onRemoveAccept: () => void;
 };
 
 export const GamesStatusListItemButtons = ({
   gameStatusId,
-  oauthId,
   onClick,
   onRemoveAccept,
 }: GamesStatusListItemButtonsProps) => {
@@ -19,7 +17,6 @@ export const GamesStatusListItemButtons = ({
     <>
       <GamesStatusListItemButtonGoToDetails
         gameStatusId={gameStatusId}
-        oauthId={oauthId}
         onClick={onClick}
       />
       <GamesStatusListItemButtonEdit

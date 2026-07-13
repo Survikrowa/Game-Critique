@@ -5,6 +5,7 @@ import {
   View,
   ScrollView,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type SheetProps = {
   isOpen: boolean;
@@ -20,6 +21,8 @@ export const Sheet = ({
   displayAsModal,
   children,
 }: SheetProps) => {
+  const insets = useSafeAreaInsets();
+
   return (
     <Modal
       visible={isOpen}
@@ -32,7 +35,11 @@ export const Sheet = ({
           <TouchableWithoutFeedback>
             <View className="bg-background-50 rounded-t-3xl border-t border-outline-0 max-h-[85%]">
               <View className="w-12 h-1 bg-outline-200 rounded-full self-center my-3" />
-              <ScrollView>{children}</ScrollView>
+              <ScrollView
+                contentContainerStyle={{ paddingBottom: insets.bottom + 16 }}
+              >
+                {children}
+              </ScrollView>
             </View>
           </TouchableWithoutFeedback>
         </View>

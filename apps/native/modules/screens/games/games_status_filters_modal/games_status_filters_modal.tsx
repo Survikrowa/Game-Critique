@@ -8,8 +8,8 @@ import { GamesStatusFiltersModalSortBy } from "./games_status_filters_modal_sort
 import { useGamesStatusFiltersForm } from "./use_games_status_filters_form/use_games_status_filters_form";
 import { useGetGamesStatusFilters } from "../use_get_games_status_filters/use_get_games_status_filters";
 
-import { Button, ButtonText } from "@/ui/forms/button/button";
 import { SkeletonText } from "@/ui/feedback/skeleton/skeleton";
+import { Button, ButtonText } from "@/ui/forms/button/button";
 import { VStack } from "@/ui/layout/vstack/vstack";
 
 export const GamesStatusFiltersModal = () => {
@@ -23,10 +23,10 @@ export const GamesStatusFiltersModal = () => {
     );
   }
   return (
-    <VStack className="flex-1">
+    <VStack className="flex-1 px-4 pt-2 pb-4">
       <FormProvider {...form}>
         <VStack className="gap-8">
-          <VStack className="gap-2">
+          <VStack className="gap-4">
             <GamesStatusFiltersModalSection title="Sortuj po">
               <GamesStatusFiltersModalSortBy
                 items={data.gamesStatusSortOptions.sortOptions}

@@ -1,17 +1,17 @@
 import { useState } from "react";
-import { Image, View } from "react-native";
 
 import { GamesStatusListItemButtons } from "./games_status_list_item_buttons/games_status_list_item_buttons";
 import { useRemoveGameStatus } from "./games_status_list_item_buttons/use_remove_game_status/use_remove_game_status";
-import { GamesStatusListItemStatusBadge } from "./games_status_list_item_status_badge/games_status_list_item_status_badge";
 import { GamesStatusListItemStatusMenu } from "./games_status_list_item_status_menu/games_status_list_item_status_menu";
 import { GameStatus } from "../../../../../__generated__/types";
 import { GameStatusFinishModal } from "../../../../games_status/game_status_finish_modal/game_status_finish_modal";
 import { useQuickGameStatusAction } from "../../../../games_status/use_quick_game_status_action/use_quick_game_status_action";
-import { useGameStatusStore } from "../../games_status_store/use_games_status_store";
+import {
+  GAMES_STATUS_RESET_TAKE,
+  useGameStatusStore,
+} from "../../games_status_store/use_games_status_store";
+import { GamesStatusCard } from "../games_status_card/games_status_card";
 
-import { truncateString } from "@/modules/strings/truncate_string";
-import { ClearButton } from "@/ui/forms/clear_button";
 import { VStack } from "@/ui/layout/vstack/vstack";
 import { Sheet } from "@/ui/panels/sheet/sheet";
 import { Text } from "@/ui/typography/text";
@@ -28,13 +28,9 @@ type GamesStatusListItemProps = {
     gameId: number;
     achievementsCompleted: boolean;
   };
-  oauthId?: string;
 };
 
-export const GamesStatusListItem = ({
-  item,
-  oauthId,
-}: GamesStatusListItemProps) => {
+export const GamesStatusListItem = ({ item }: GamesStatusListItemProps) => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [isStatusMenuOpen, setIsStatusMenuOpen] = useState(false);
   const [finishStatus, setFinishStatus] = useState<GameStatus | null>(null);
@@ -89,58 +85,34 @@ export const GamesStatusListItem = ({
 
   return (
     <>
-      <ClearButton onPress={() => setIsSheetOpen(true)}>
-        <VStack className="gap-2">
-          <View className="relative">
-            <Image
-              source={{ uri: item.cover }}
-              style={{ width: 112, height: 142, borderRadius: 4 }}
-              resizeMode="cover"
-            />
-            <GamesStatusListItemStatusBadge
-              status={item.status}
-              onPress={() => setIsStatusMenuOpen(true)}
-            />
-          </View>
-          <VStack>
-            <Text size="medium" weight="bold" color="primary">
-              {truncateString(item.title, 12)}
-            </Text>
-            <Text size="small" weight="normal" color="secondary">
-              {item.platform}
-            </Text>
-            {item.score && (
-              <Text size="small" weight="bold" color="secondary">
-                Ocena: {item.score.replace("-", ",")}
-              </Text>
-            )}
-          </VStack>
-          <Sheet
-            onOpenChange={setIsSheetOpen}
-            snapPointsMode="constant"
-            isOpen={isSheetOpen}
-            displayAsModal
-          >
-            <VStack className="p-4 gap-4 items-center">
-              <Text size="medium" weight="bold" color="primary">
-                {item.title}
-              </Text>
-              <GamesStatusListItemButtons
-                gameStatusId={item.id}
-                oauthId={oauthId}
-                onClick={() => {
-                  paginationStore.setPagination({
-                    skip: 0,
-                    take: 9,
-                  });
-                  setIsSheetOpen(false);
-                }}
-                onRemoveAccept={removeGameStatus}
-              />
-            </VStack>
-          </Sheet>
+      <GamesStatusCard
+        item={item}
+        onPress={() => setIsSheetOpen(true)}
+        onBadgePress={() => setIsStatusMenuOpen(true)}
+      />
+      <Sheet
+        onOpenChange={setIsSheetOpen}
+        snapPointsMode="constant"
+        isOpen={isSheetOpen}
+        displayAsModal
+      >
+        <VStack className="p-4 gap-4 items-center">
+          <Text size="medium" weight="bold" color="primary">
+            {item.title}
+          </Text>
+          <GamesStatusListItemButtons
+            gameStatusId={item.id}
+            onClick={() => {
+              paginationStore.setPagination({
+                skip: 0,
+                take: GAMES_STATUS_RESET_TAKE,
+              });
+              setIsSheetOpen(false);
+            }}
+            onRemoveAccept={removeGameStatus}
+          />
         </VStack>
-      </ClearButton>
+      </Sheet>
       <Sheet
         isOpen={isStatusMenuOpen}
         onOpenChange={setIsStatusMenuOpen}

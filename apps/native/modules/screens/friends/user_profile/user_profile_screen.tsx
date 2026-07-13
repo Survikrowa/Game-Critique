@@ -1,14 +1,15 @@
-import { Filter } from "lucide-react-native";
-import { ActivityIndicator, Pressable } from "react-native";
 import { Link, useLocalSearchParams } from "expo-router";
+import { Filter } from "lucide-react-native";
+import { ActivityIndicator } from "react-native";
 
+import { FriendGamesStatusList } from "./friend_games_status_list/friend_games_status_list";
 import { useUserFriendGamesStatus } from "./use_user_friend_games_status/use_user_friend_games_status";
 import { useUserProfile } from "./use_user_profile/use_user_profile";
 import { UserProfileInfoCard } from "./user_profile_info_card/user_profile_info_card";
-import { GamesStatusList } from "../../games/games_status_list/games_status_list";
 import { mapGamesStatusToItem } from "../../games/games_status_list/map_games_status_to_item";
 import { GamesStatusListSearch } from "../../games/games_status_list_search/games_status_list_search";
 
+import { ButtonWithIcon } from "@/ui/forms/button_icon";
 import { HStack } from "@/ui/layout/hstack/hstack";
 import { VStack } from "@/ui/layout/vstack/vstack";
 
@@ -40,23 +41,26 @@ export const UserProfileScreen = () => {
       ) : (
         <ActivityIndicator size="large" color="#3B82F6" />
       )}
-      <HStack className="w-full gap-4">
+      <HStack className="w-full gap-3 items-center">
         <GamesStatusListSearch />
         <Link
           asChild
           href={`/friends/user_profile/${userProfileQuery.data?.user.oauthId}/modal`}
         >
-          <Pressable className="max-w-[42px] rounded-lg items-center justify-center flex-1 bg-primary-500 min-h-[44px]">
-            <Filter size={20} color="#ffffff" />
-          </Pressable>
+          <ButtonWithIcon
+            action="primary"
+            className="w-[44px] h-[44px]"
+            onPress={() => {}}
+            icon={<Filter size={20} color="#ffffff" />}
+          />
         </Link>
       </HStack>
-      <GamesStatusList
+      <FriendGamesStatusList
+        oauthId={userProfileQuery.data?.user.oauthId || ""}
         onRefresh={userFriendGamesStatus.onRefresh}
         onEndReached={userFriendGamesStatus.fetchMoreGamesStatus}
         loading={userProfileQuery.loading}
         items={items}
-        oauthId={userProfileQuery.data?.user.oauthId}
       />
     </VStack>
   );

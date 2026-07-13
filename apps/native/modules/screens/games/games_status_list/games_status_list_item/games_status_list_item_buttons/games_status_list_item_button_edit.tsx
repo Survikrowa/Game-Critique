@@ -1,8 +1,8 @@
-import { Edit3 } from "lucide-react-native";
 import { router } from "expo-router";
+import { Edit3 } from "lucide-react-native";
 
-import { ButtonWithIcon } from "../../../../../../ui/forms/button_icon";
-import { haptic } from "../../../../../../modules/haptics/haptic";
+import { haptic } from "@/modules/haptics/haptic";
+import { ButtonWithIcon } from "@/ui/forms/button_icon";
 
 type GamesStatusListItemButtonEditProps = {
   gameStatusId: number;

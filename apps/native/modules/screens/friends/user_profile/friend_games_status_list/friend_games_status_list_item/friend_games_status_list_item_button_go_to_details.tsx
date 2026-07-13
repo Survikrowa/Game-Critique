@@ -4,16 +4,18 @@ import { Eye } from "lucide-react-native";
 import { haptic } from "@/modules/haptics/haptic";
 import { ButtonWithIcon } from "@/ui/forms/button_icon";
 
-type GamesStatusListItemButtonGoToDetailsProps = {
+type FriendGamesStatusListItemButtonGoToDetailsProps = {
   gameStatusId: number;
+  oauthId: string;
   onClick: () => void;
 };
 
-export const GamesStatusListItemButtonGoToDetails = ({
+export const FriendGamesStatusListItemButtonGoToDetails = ({
   gameStatusId,
+  oauthId,
   onClick,
-}: GamesStatusListItemButtonGoToDetailsProps) => {
-  const targetUrl = `games/games_status_info/${gameStatusId}`;
+}: FriendGamesStatusListItemButtonGoToDetailsProps) => {
+  const targetUrl = `friends/games_status_info/${gameStatusId}?oauth_id=${oauthId}`;
   return (
     <ButtonWithIcon
       action="secondary"

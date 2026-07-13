@@ -2,9 +2,13 @@ import { Search, Trash } from "lucide-react-native";
 import { useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 
-import { ButtonWithIcon } from "../../../../ui/forms/button_icon";
-import { Input } from "../../../../ui/forms/input";
-import { useGameStatusStore } from "../games_status_store/use_games_status_store";
+import {
+  GAMES_STATUS_RESET_TAKE,
+  useGameStatusStore,
+} from "../games_status_store/use_games_status_store";
+
+import { ButtonWithIcon } from "@/ui/forms/button_icon";
+import { Input } from "@/ui/forms/input";
 
 export const GamesStatusListSearch = () => {
   const [value, setValue] = useState("");
@@ -25,7 +29,7 @@ export const GamesStatusListSearch = () => {
     updateStore(text);
     setPagination({
       skip: 0,
-      take: 9,
+      take: GAMES_STATUS_RESET_TAKE,
     });
   };
 

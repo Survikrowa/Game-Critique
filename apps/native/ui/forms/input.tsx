@@ -1,6 +1,5 @@
 import { ReactNode, useRef } from "react";
-import { Animated, StyleSheet, TextInput, View } from "react-native";
-import { Text } from "react-native";
+import { Animated, StyleSheet, TextInput, View, Text } from "react-native";
 
 type InputProps = {
   onChange: (text: string) => void;
@@ -49,7 +48,7 @@ export const Input = ({
       <View
         className={[
           "flex-row items-center justify-between",
-          "bg-background-50 border-2 rounded-xl p-1",
+          "bg-background-50 border-2 rounded-xl h-[44px] px-1",
           errorMessage ? "border-error-400" : "border-outline-200",
           icon ? "pr-2" : "pr-1",
         ].join(" ")}
@@ -73,10 +72,10 @@ export const Input = ({
           onChangeText={onChange}
           disableFullscreenUI
           inputMode={inputMode}
-          className="text-[13px] text-typography-100 flex-1 p-1 pl-4"
+          className="text-[13px] text-typography-100 flex-1 pl-4"
         />
         {icon ? (
-          <View className="w-[42px] h-[42px] items-center justify-center">
+          <View className="w-[36px] h-[36px] items-center justify-center">
             {icon}
           </View>
         ) : null}

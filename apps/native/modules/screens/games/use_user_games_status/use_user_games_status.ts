@@ -1,5 +1,8 @@
 import { useUserGamesStatusQueryQuery } from "./user_games_status_query.generated";
-import { useGameStatusStore } from "../games_status_store/use_games_status_store";
+import {
+  GAMES_STATUS_PAGE_SIZE,
+  useGameStatusStore,
+} from "../games_status_store/use_games_status_store";
 
 export const useUserGamesStatus = () => {
   const gamesStatusStore = useGameStatusStore((state) => ({
@@ -10,7 +13,7 @@ export const useUserGamesStatus = () => {
     variables: {
       status: gamesStatusStore.filters.status,
       skip: 0,
-      take: 12,
+      take: GAMES_STATUS_PAGE_SIZE,
       search: gamesStatusStore.filters.search,
       filters: {
         platform: gamesStatusStore.filters.platform,
@@ -26,7 +29,8 @@ export const useUserGamesStatus = () => {
   const fetchMoreGamesStatus = () => {
     if (userGamesStatusQuery.data?.userGamesStatus.pagination.hasMore) {
       const newSkip =
-        userGamesStatusQuery.data.userGamesStatus.pagination.skip + 12;
+        userGamesStatusQuery.data.userGamesStatus.pagination.skip +
+        GAMES_STATUS_PAGE_SIZE;
       const take = userGamesStatusQuery.data.userGamesStatus.pagination.take;
 
       userGamesStatusQuery.fetchMore({
@@ -60,7 +64,7 @@ export const useUserGamesStatus = () => {
   const onRefresh = () => {
     userGamesStatusQuery.refetch({
       skip: 0,
-      take: 12,
+      take: GAMES_STATUS_PAGE_SIZE,
     });
   };
 
