@@ -1,42 +1,45 @@
+import { ScrollView, View } from "react-native";
 import { Text } from "ui/typography/text";
+import { Calendar, Gamepad2 } from "lucide-react-native";
 
-import { Card } from "@/ui/panels/card/card";
-import { HStack } from "@/ui/layout/hstack/hstack";
+import { GameChip } from "../game_chip/game_chip";
 
 type GameInfoProps = {
   game: {
     name: string;
     releaseYear?: number | null;
     platforms?: string[];
+    genres?: string[];
   };
 };
 
 export const GameInfo = ({ game }: GameInfoProps) => {
   return (
-    <Card className="w-full">
+    <View style={{ gap: 10 }}>
       <Text size="extraLarge" weight="bold" color="primary">
         {game.name}
       </Text>
-      <HStack className="mt-1 flex-wrap">
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{ gap: 8, paddingRight: 4 }}
+      >
         {game.releaseYear && (
-          <Text size="medium" weight="normal" color="secondary">
-            {game.releaseYear}
-          </Text>
+          <GameChip
+            label={String(game.releaseYear)}
+            icon={<Calendar size={12} color="#64748B" />}
+          />
         )}
-        {game.releaseYear && game.platforms && (
-          <Text size="medium" weight="normal" color="secondary">
-            {" - "}
-          </Text>
-        )}
-        {game.platforms &&
-          game.platforms.map((platform, index) => (
-            <Text key={platform} size="medium" weight="bold" color="secondary">
-              {index + 1 !== game.platforms?.length
-                ? `${platform}, `
-                : platform}
-            </Text>
-          ))}
-      </HStack>
-    </Card>
+        {game.genres?.map((genre) => <GameChip key={genre} label={genre} />)}
+        {game.platforms?.map((platform) => (
+          <GameChip
+            key={platform}
+            label={platform}
+            variant="primary"
+            icon={<Gamepad2 size={12} color="#3B82F6" />}
+          />
+        ))}
+      </ScrollView>
+    </View>
   );
 };

@@ -7,17 +7,25 @@ import { SearchGamesQuery } from "../../search_input/use_search/search_query.gen
 
 import { haptic } from "@/modules/haptics/haptic";
 
+export type SearchGameResult = SearchGamesQuery["search"]["games"][number];
+
 type SearchResultProps = {
-  result: SearchGamesQuery["search"]["games"][number];
+  result: SearchGameResult;
   redirectTo: string;
+  onBeforeNavigate?: (result: SearchGameResult) => void;
 };
 
-export const SearchResult = ({ result, redirectTo }: SearchResultProps) => {
+export const SearchResult = ({
+  result,
+  redirectTo,
+  onBeforeNavigate,
+}: SearchResultProps) => {
   return (
     <Pressable
       android_ripple={{ color: "rgba(255,255,255,0.06)" }}
       onPress={() => {
         haptic.light();
+        onBeforeNavigate?.(result);
         // @ts-ignore — pre-existing route type issue
         router.push(`${redirectTo}/${result.id}`);
       }}

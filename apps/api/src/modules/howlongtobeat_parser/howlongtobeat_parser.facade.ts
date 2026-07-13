@@ -24,7 +24,7 @@ export class HowLongToBeatParserFacade {
         completionTime: {
           mainStory: game.comp_main,
           mainExtra: game.comp_plus,
-          completionist: game.comp_all,
+          completionist: game.comp_100,
         },
       };
     });

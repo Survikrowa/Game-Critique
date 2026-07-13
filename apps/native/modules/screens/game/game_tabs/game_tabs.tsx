@@ -1,10 +1,9 @@
-import { Check } from "lucide-react-native";
 import { router } from "expo-router";
-import { Pressable } from "react-native";
+import { PlusCircle } from "lucide-react-native";
+import { Pressable, View } from "react-native";
 import { Text } from "ui/typography/text";
 
-import { Card } from "@/ui/panels/card/card";
-import { VStack } from "@/ui/layout/vstack/vstack";
+import { haptic } from "@/modules/haptics/haptic";
 
 type GameTabsProps = {
   game: {
@@ -17,26 +16,23 @@ type GameTabsProps = {
 };
 
 export const GameTabs = ({ game, redirect }: GameTabsProps) => {
-  const redirectToGamesStatusAddForm = () => {
+  const handlePress = () => {
+    haptic.medium();
     // @ts-ignore — pre-existing route type issue
     router.push(`${redirect.addToGameStatusUrl}/${game.hltbId}`);
   };
+
   return (
-    <Card className="w-full flex-row justify-between overflow-hidden">
-      <Pressable
-        className="items-center flex-1"
-        onPress={redirectToGamesStatusAddForm}
-      >
-        <Check size={16} color="#3B82F6" />
-        <VStack className="items-center">
-          <Text size="small" weight="semiBold" color="primary">
-            Dodaj do
-          </Text>
-          <Text size="small" weight="semiBold" color="primary">
-            swoich gier
-          </Text>
-        </VStack>
-      </Pressable>
-    </Card>
+    <Pressable
+      onPress={handlePress}
+      style={({ pressed }) => ({ opacity: pressed ? 0.85 : 1 })}
+    >
+      <View className="flex-row items-center justify-center gap-2 bg-primary-500 rounded-2xl py-4 px-6">
+        <PlusCircle size={20} color="#FFFFFF" />
+        <Text size="medium" weight="bold" color="white">
+          Dodaj do swoich gier
+        </Text>
+      </View>
+    </Pressable>
   );
 };

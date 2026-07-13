@@ -41,12 +41,7 @@ const GamesLayout = () => {
           header: () => <GoBackHeader text="Znajdź grę" />,
         }}
       />
-      <Stack.Screen
-        name="game/[game_id]"
-        options={{
-          header: () => <GoBackHeader text="NAZWA GRY" />,
-        }}
-      />
+      <Stack.Screen name="game/[game_id]" options={{ headerShown: false }} />
       <Stack.Screen
         name="(game_status_reviews)"
         options={{ headerShown: false }}

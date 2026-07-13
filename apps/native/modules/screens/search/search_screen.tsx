@@ -1,11 +1,19 @@
+import { useRouter } from "expo-router";
+import {
+  ArrowLeft,
+  Clock,
+  Gamepad2,
+  Search,
+  SearchX,
+  X,
+} from "lucide-react-native";
 import { useRef } from "react";
 import { FlatList, Pressable, TextInput, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useRouter } from "expo-router";
-import { ArrowLeft, Gamepad2, Search, SearchX, X } from "lucide-react-native";
 import { Text } from "ui/typography/text";
 
 import { SearchResult } from "./search_results/search_result/search_result";
+import { useRecentSearches } from "./use_recent_searches/use_recent_searches";
 import { useSearchScreen } from "./use_search_screen";
 
 import { Skeleton } from "@/ui/feedback/skeleton/skeleton";
@@ -42,6 +50,8 @@ export const SearchScreen = ({ redirectTo }: SearchScreenProps) => {
     hasInput,
   } = useSearchScreen();
 
+  const { recentSearches, addRecentSearch } = useRecentSearches();
+  console.log(recentSearches);
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const inputRef = useRef<TextInput>(null);
@@ -91,18 +101,44 @@ export const SearchScreen = ({ redirectTo }: SearchScreenProps) => {
       </View>
 
       {showEmpty && (
-        <View className="flex-1 items-center justify-center gap-4 px-8">
-          <View className="w-20 h-20 rounded-full bg-background-100 items-center justify-center">
-            <Gamepad2 size={36} color="#475569" />
-          </View>
-          <View className="items-center gap-1">
-            <Text size="large" weight="bold" color="primary">
-              Szukaj gier
-            </Text>
-            <Text size="small" weight="normal" color="secondary">
-              Wpisz tytuł gry, którą chcesz znaleźć
-            </Text>
-          </View>
+        <View className="flex-1 px-4 pt-6">
+          {recentSearches.length > 0 ? (
+            <View style={{ gap: 12 }}>
+              <View className="flex-row items-center gap-2">
+                <Clock size={16} color="#64748B" />
+                <Text size="small" weight="semiBold" color="secondary">
+                  Ostatnio wyszukiwane
+                </Text>
+              </View>
+              <View style={{ gap: 8 }}>
+                {recentSearches.map((game) => (
+                  <SearchResult
+                    key={game.id}
+                    result={game}
+                    redirectTo={redirectTo}
+                    onBeforeNavigate={(game) => {
+                      addRecentSearch(game);
+                      handleClearInput();
+                    }}
+                  />
+                ))}
+              </View>
+            </View>
+          ) : (
+            <View className="flex-1 items-center justify-center gap-4 px-8">
+              <View className="w-20 h-20 rounded-full bg-background-100 items-center justify-center">
+                <Gamepad2 size={36} color="#475569" />
+              </View>
+              <View className="items-center gap-1">
+                <Text size="large" weight="bold" color="primary">
+                  Szukaj gier
+                </Text>
+                <Text size="small" weight="normal" color="secondary">
+                  Wpisz tytuł gry, którą chcesz znaleźć
+                </Text>
+              </View>
+            </View>
+          )}
         </View>
       )}
 
@@ -124,7 +160,7 @@ export const SearchScreen = ({ redirectTo }: SearchScreenProps) => {
         </View>
       )}
 
-      {showResults && (
+      {!showEmpty && showResults && (
         <FlatList
           data={games}
           keyExtractor={(item) => String(item.id)}
@@ -132,7 +168,14 @@ export const SearchScreen = ({ redirectTo }: SearchScreenProps) => {
           keyboardShouldPersistTaps="handled"
           keyboardDismissMode="on-drag"
           renderItem={({ item }) => (
-            <SearchResult result={item} redirectTo={redirectTo} />
+            <SearchResult
+              result={item}
+              redirectTo={redirectTo}
+              onBeforeNavigate={(game) => {
+                addRecentSearch(game);
+                handleClearInput();
+              }}
+            />
           )}
         />
       )}
