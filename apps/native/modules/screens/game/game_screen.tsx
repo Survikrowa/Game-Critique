@@ -8,21 +8,19 @@ import { GameImage } from "./game_image/game_image";
 import { GameInfo } from "./game_info/game_info";
 import { GameRatingsSection } from "./game_ratings_section/game_ratings_section";
 import { GameSkeleton } from "./game_skeleton/game_skeleton";
-import { GameTabs } from "./game_tabs/game_tabs";
+import { GameStatusExistingAction } from "./game_status_existing_action/game_status_existing_action";
+import { GameStatusQuickActions } from "./game_status_quick_actions/game_status_quick_actions";
 import { GameTrophyGuidesSection } from "./game_trophy_guides_section/game_trophy_guides_section";
 import { useGetGameInfo } from "./use_get_game_info/use_get_game_info";
+import { useMyGameStatusForGame } from "./use_my_game_status_for_game/use_my_game_status_for_game";
 
 import { ErrorState } from "@/ui/feedback/error_state/error_state";
 
-type GameScreenProps = {
-  redirect: {
-    addToGameStatusUrl: string;
-  };
-};
-
-export const GameScreen = ({ redirect }: GameScreenProps) => {
+export const GameScreen = () => {
   const { game_id } = useLocalSearchParams<{ game_id: string }>();
   const gameQuery = useGetGameInfo(game_id);
+  const router = useRouter();
+  const myGameStatusQuery = useMyGameStatusForGame(gameQuery.data?.game.id);
 
   if (gameQuery.error) {
     return (
@@ -39,7 +37,6 @@ export const GameScreen = ({ redirect }: GameScreenProps) => {
   }
 
   const game = gameQuery.data.game;
-  const router = useRouter();
 
   return (
     <SafeAreaView className="flex-1 bg-background-0" edges={["top"]}>
@@ -77,10 +74,18 @@ export const GameScreen = ({ redirect }: GameScreenProps) => {
             }}
           />
 
-          <GameTabs
-            game={{ name: game.name, hltbId: game_id }}
-            redirect={redirect}
-          />
+          {myGameStatusQuery.loading ? (
+            <View className="h-[44px]" />
+          ) : myGameStatusQuery.data?.myGameStatusForGame ? (
+            <GameStatusExistingAction
+              status={myGameStatusQuery.data.myGameStatusForGame.status}
+            />
+          ) : (
+            <GameStatusQuickActions
+              game={{ id: game.id, platforms: game.platforms }}
+              onSuccess={() => myGameStatusQuery.refetch()}
+            />
+          )}
 
           <GameCompletionTime
             main={game.completionTime?.main}

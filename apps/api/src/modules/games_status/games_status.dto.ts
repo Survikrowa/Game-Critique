@@ -195,6 +195,14 @@ export class UserGameStatusResponseDTO {
   game: GameWithAllDataDTO;
 }
 
+@ObjectType({ description: 'Current user GameStatus for a given game' })
+export class MyGameStatusForGameDTO {
+  @Field(() => Number)
+  id: number;
+  @Field(() => GameStatus)
+  status: GameStatus;
+}
+
 @ObjectType({})
 export class FriendsGameStatusReviewsDTO {
   @Field(() => ProfileInfoDTO, { nullable: true })

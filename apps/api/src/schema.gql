@@ -238,6 +238,12 @@ type Mutation {
   upsertGameStatus(upsertGameStatusArgs: UpsertGameStatusArgsDTO!): GameStatusSuccessResponseDTO!
 }
 
+"""Current user GameStatus for a given game"""
+type MyGameStatusForGameDTO {
+  id: Float!
+  status: GameStatus!
+}
+
 """New Collection"""
 input NewCollectionDTO {
   description: String!
@@ -321,6 +327,11 @@ type Query {
   getProfileCollections: [CollectionDTO!]!
   lastEditedGames(limit: Int! = 5): [LastEditedGamesStatusDTO!]!
   migrationStatus: HowLongToBeatMigrationStatusDTO!
+
+  """
+  Returns the current user existing GameStatus for a given gameId, or null if none exists
+  """
+  myGameStatusForGame(gameId: Float!): MyGameStatusForGameDTO
 
   """Get user and friends game status reviews"""
   ownerAndFriendsGameStatusReviews(gameStatusId: Float!): [FriendsGameStatusReviewsDTO!]!

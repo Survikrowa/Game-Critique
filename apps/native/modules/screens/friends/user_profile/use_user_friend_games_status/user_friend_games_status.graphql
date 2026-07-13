@@ -14,6 +14,7 @@ query UserFriendGamesStatusQuery($oauthId: String!, $take: Float, $skip: Float, 
             }
             status
             platform {
+                id
                 name
             }
             score

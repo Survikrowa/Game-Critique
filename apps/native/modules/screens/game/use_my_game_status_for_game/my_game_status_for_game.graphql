@@ -1,0 +1,6 @@
+query MyGameStatusForGame($gameId: Float!) {
+    myGameStatusForGame(gameId: $gameId) {
+        id
+        status
+    }
+}

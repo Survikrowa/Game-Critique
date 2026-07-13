@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { router } from "expo-router";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useToastController } from "ui/feedback/toast/use_toast_controller";
 
@@ -9,8 +10,8 @@ import {
 } from "./games_status_form_schema";
 import { useUpsertGameStatus } from "./use_upsert_game_status/use_upsert_game_status";
 import { GameStatus } from "../../../__generated__/types";
-import { GameInfoQuery } from "../../screens/game/use_get_game_info/game_info.generated";
 import { haptic } from "../../haptics/haptic";
+import { GameInfoQuery } from "../../screens/game/use_get_game_info/game_info.generated";
 
 export const DEFAULT_VALUES = {
   hours: "",
@@ -58,6 +59,7 @@ export const useGamesStatusForm = ({
   gameStatusId,
   game,
 }: UseGamesStatusFormArgs) => {
+  const [isQuickMode, setIsQuickMode] = useState(true);
   const methods = useForm<GamesStatusAddFormFields>({
     resolver: zodResolver(GamesStatusAddFormSchema),
     defaultValues: getInitialValues(initialValues),
@@ -133,5 +135,7 @@ export const useGamesStatusForm = ({
     DEFAULT_VALUES,
     onSubmit,
     methods,
+    isQuickMode,
+    setIsQuickMode,
   };
 };

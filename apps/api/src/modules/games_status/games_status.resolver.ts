@@ -10,6 +10,7 @@ import {
   GameStatusProgressStateDTO,
   UserFriendGamesStatusResponseWithPaginationDTO,
   LastEditedGamesStatusDTO,
+  MyGameStatusForGameDTO,
 } from './games_status.dto';
 import { GamesStatusService } from './games_status.service';
 import { HttpException, HttpStatus, UseGuards } from '@nestjs/common';
@@ -165,6 +166,20 @@ export class GamesStatusResolver {
       );
     }
     return userGameStatus;
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Query(() => MyGameStatusForGameDTO, {
+    name: 'myGameStatusForGame',
+    nullable: true,
+    description:
+      'Returns the current user existing GameStatus for a given gameId, or null if none exists',
+  })
+  async getMyGameStatusForGame(
+    @User() user: UserAuthDTO,
+    @Args('gameId') gameId: number,
+  ): Promise<MyGameStatusForGameDTO | null> {
+    return this.gamesStatusService.getMyGameStatusForGame(user.sub, gameId);
   }
 
   @UseGuards(JwtAuthGuard)

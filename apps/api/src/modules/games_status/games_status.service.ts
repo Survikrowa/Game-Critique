@@ -158,6 +158,13 @@ export class GamesStatusService {
       platformId,
     );
   }
+
+  async getMyGameStatusForGame(oauthId: string, gameId: number) {
+    return this.gamesStatusRepository.getGamesStatusByProfileAndGameId(
+      oauthId,
+      gameId,
+    );
+  }
   async upsertGameStatus(
     createGameStatusArgs: UpsertGameStatusArgsDTO,
     oauthId: string,

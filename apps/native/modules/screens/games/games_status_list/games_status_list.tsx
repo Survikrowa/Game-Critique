@@ -1,7 +1,8 @@
-import { ActivityIndicator, FlatList, View } from "react-native";
 import { Gamepad2 } from "lucide-react-native";
+import { ActivityIndicator, FlatList, View } from "react-native";
 
 import { GamesStatusListItem } from "./games_status_list_item/games_status_list_item";
+import { GameStatus } from "../../../../__generated__/types";
 
 import { EmptyState } from "@/ui/feedback/empty_state/empty_state";
 import { Skeleton, SkeletonText } from "@/ui/feedback/skeleton/skeleton";
@@ -18,8 +19,11 @@ type GamesStatusListProps = {
 
 type Item = {
   id: number;
+  gameId: number;
   title: string;
   platform: string;
+  platformId: number;
+  status: GameStatus;
   score: string;
   cover: string;
   achievementsCompleted: boolean;
