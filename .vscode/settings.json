@@ -4,5 +4,6 @@
       "mode": "auto"
     }
   ],
-  "editor.formatOnSave": false
+  "editor.formatOnSave": false,
+  "prisma.pinToPrisma6": true
 }

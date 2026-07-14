@@ -40,6 +40,9 @@ yarn-error.log*
 
 # IDE
 .idea
+.vscode
 
 # yarn
 .yarn
+
+docs/superpowers/*
