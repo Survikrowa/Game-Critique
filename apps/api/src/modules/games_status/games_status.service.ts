@@ -7,7 +7,8 @@ import {
 import { UsersActivityService } from '../users/users_activity/users_activity.service';
 import { PrismaService } from '../database/prisma.service';
 import { GameStatus } from '@prisma/client';
-import { CommandBus, QueryBus } from '@nestjs/cqrs';
+import { CommandBus, EventBus, QueryBus } from '@nestjs/cqrs';
+import { GameStatusChangedEvent } from '../notifications/application/events/game_status_changed.event';
 import { GetAllUserGamesStatusByOauthIdQuery } from './queries/get_all_user_games_status_by_oauthid/get_all_user_games_status_by_oauthid.query';
 import { RemoveUserGameStatusByUserOauthIdCommand } from './commands/remove_user_game_status_by_user_oauth_id/remove_user_game_status_by_user_oauth_id.command';
 import { SORT_OPTIONS } from './games_status.data';
@@ -19,6 +20,7 @@ export class GamesStatusService {
     private readonly prismaService: PrismaService,
     private readonly queryBus: QueryBus,
     private readonly commandBus: CommandBus,
+    private readonly eventBus: EventBus,
   ) {}
 
   async getAllUserGamesStatusPaginatedData({
@@ -169,7 +171,7 @@ export class GamesStatusService {
     createGameStatusArgs: UpsertGameStatusArgsDTO,
     oauthId: string,
   ) {
-    return this.prismaService.$transaction(async () => {
+    const result = await this.prismaService.$transaction(async () => {
       await this.usersActivityService.registerNewUserActivity({
         oauthId,
         activity: createGameStatusArgs.gameStatus,
@@ -180,6 +182,22 @@ export class GamesStatusService {
         oauthId,
       );
     });
+
+    const friendOauthIds = await this.getFriendOauthIds(oauthId);
+    const gameTitle = await this.getGameTitle(createGameStatusArgs.gameId);
+    this.eventBus.publish(
+      new GameStatusChangedEvent(
+        oauthId,
+        createGameStatusArgs.gameId,
+        gameTitle,
+        result.status,
+        result.score,
+        result.review,
+        friendOauthIds,
+      ),
+    );
+
+    return result;
   }
 
   async removeGameStatus(gameStatusId: number) {
@@ -227,6 +245,25 @@ export class GamesStatusService {
       }
       return [];
     });
+  }
+
+  private async getFriendOauthIds(oauthId: string): Promise<string[]> {
+    const friendsList = await this.prismaService.friendsList.findUnique({
+      where: { ownerId: oauthId },
+      include: {
+        FriendsListForFriends: { include: { friend: true } },
+      },
+    });
+    if (!friendsList) return [];
+    return friendsList.FriendsListForFriends.map((f) => f.friend.oauthId);
+  }
+
+  private async getGameTitle(gameId: number): Promise<string> {
+    const game = await this.prismaService.game.findUnique({
+      where: { hltbId: gameId },
+      select: { name: true },
+    });
+    return game?.name ?? '';
   }
 }
 
