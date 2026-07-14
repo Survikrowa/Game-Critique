@@ -12,6 +12,8 @@ import {
 import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
 import { ApolloProvider } from "@/modules/graphql/apollo_provider";
 import { Header } from "@/modules/layouts/header/header";
+import { useNotificationsSetup } from "@/modules/notifications/use_notifications_setup/use_notifications_setup";
+import { useNotificationHandler } from "@/modules/notifications/use_notification_handler/use_notification_handler";
 
 import "@/global.css";
 
@@ -23,6 +25,9 @@ const AUTH0_CLIENT_ID = process.env.EXPO_PUBLIC_AUTH0_CLIENT_ID;
 LogBox.ignoreLogs([/bad setState[\s\S]*Themed/]);
 
 const RootLayout = () => {
+  useNotificationsSetup();
+  useNotificationHandler();
+
   useEffect(() => {
     SplashScreen.hideAsync();
   }, []);

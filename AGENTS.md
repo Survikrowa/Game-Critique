@@ -22,6 +22,9 @@
 ## Code Style
 - **NIGDY nie używaj `any`** — zawsze konkretny typ
 - **ZERO komentarzy** w kodzie — jeśli kod wymaga wyjaśnienia, wyciągnij logikę do funkcji z nazwą opisującą co robi
+- **Priorytetyzuj auto-generated hooki z `.generated.ts`** — zamiast `useMutation(Document)` używaj wygenerowanego hooka (np. `useRegisterPushTokenMutation` z `xxx.generated.ts`)
+- **Zawsze używaj `type` zamiast `interface`** — `type ToggleConfig = { ... }` zamiast `interface ToggleConfig { ... }`
+- **Zawsze używaj arrow functions** — `const fn = () => {}` zamiast `function fn() {}`
 
 ## Touch & Haptic
 - **Touch targets minimum 44pt** (`min-h-[44px]`) na wszystkich klikalnych elementach
@@ -43,6 +46,7 @@
 - `useQuery`, `useMutation` z auto-generated hooków
 - `skip: !user` dla zapytań wymagających autoryzacji
 - Schema: EXPO_PUBLIC_GRAPHQL_ENDPOINT
+- Po dodaniu/zmianie `.graphql` pliku, uruchom `yarn generate-graph` w `apps/native/` aby wygenerować hooki i typy
 
 ## State Management
 - Zustand dla lokalnego stanu

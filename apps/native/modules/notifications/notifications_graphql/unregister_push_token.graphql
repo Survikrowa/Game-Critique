@@ -1,0 +1,3 @@
+mutation UnregisterPushToken($token: String!) {
+  unregisterPushToken(token: $token)
+}

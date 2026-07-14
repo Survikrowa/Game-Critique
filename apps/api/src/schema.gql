@@ -223,13 +223,16 @@ type Mutation {
   acceptFriendRequest(senderOauthId: String!): FriendRequestResponseDTO!
   addGameToCollection(collection: AddGameToCollectionDTO!): CollectionMutationResponseDTO!
   createNewCollection(collection: NewCollectionDTO!): CollectionDTO!
+  registerPushToken(platform: String!, token: String!): Boolean!
   removeCollection(collection: RemoveCollectionArgsDTO!): RemovedCollectionResponseDTO!
   removeGameStatus(gameStatusId: Float!): GameStatusSuccessResponseDTO!
 
   """Admin mutation to remove game status by gameStatusId and user oauthId"""
   removeUserGameStatusByUserOauthId(gameStatusId: Float!, oauthId: String!): GameStatusRemovedResponseDTO!
   sendFriendRequest(receiverOauthId: String!): FriendRequestResponseDTO!
+  unregisterPushToken(token: String!): Boolean!
   updateGameData(hltbId: Float!): UpdateGameDataDTO!
+  updateNotificationPreferences(input: NotificationPreferencesInput!): Boolean!
 
   """update platform display name"""
   updatePlatformDisplayName(displayName: String!, platformId: Float!): UpdatePlatformDisplayNameDTO!
@@ -248,6 +251,20 @@ type MyGameStatusForGameDTO {
 input NewCollectionDTO {
   description: String!
   name: String!
+}
+
+input NotificationPreferencesInput {
+  friendActivity: Boolean
+  friendInvites: Boolean
+  releaseReminders: Boolean
+  weeklySummary: Boolean
+}
+
+type NotificationPreferencesObject {
+  friendActivity: Boolean!
+  friendInvites: Boolean!
+  releaseReminders: Boolean!
+  weeklySummary: Boolean!
 }
 
 type PaginatedGames {
@@ -324,6 +341,7 @@ type Query {
   """Get games status sort options"""
   gamesStatusSortOptions: SortOptionsDTO!
   getAllUserGamesStatusByOauthId(oauthId: String!): [UserGamesStatusResponseDTO!]!
+  getNotificationPreferences: NotificationPreferencesObject
   getProfileCollections: [CollectionDTO!]!
   lastEditedGames(limit: Int! = 5): [LastEditedGamesStatusDTO!]!
   migrationStatus: HowLongToBeatMigrationStatusDTO!
