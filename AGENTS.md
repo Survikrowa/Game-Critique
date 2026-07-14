@@ -81,3 +81,6 @@
 - `JwtAuthGuard` wymaga eksportu `CqrsModule` z `AuthModule` dla modułów importujących
 - HLTB: `comp_100` = 100% completionist (w sekundach), zaokrąglaj do 0.5h
 - `timeToRelative`: argumenty `pluralizePolish(count, singular, few, many)`
+
+## Code Quality
+- **ZERO magic numbers** — wszystkie wartości liczbowe (poza 0, 1) wyciągaj do stałych z nazwą opisującą cel
