@@ -31,6 +31,8 @@ model User {
   role                                UserRole?
   FriendsRequestsForUsersOwner        FriendsRequestsForUsers[]            @relation(name: "FriendRequestOwner")
   FriendsRequestsForUsersReceiver     FriendsRequestsForUsers[]            @relation(name: "FriendRequestReceiver")
+  pushTokens                          PushToken[]
+  notificationPreferences             NotificationPreferences?
 
   @@map("users")
 }
@@ -115,6 +117,7 @@ model Game {
   gamesCollection GamesCollection[]
   gamesStatus     GamesStatus[]
   userActivity    UserActivity[]
+  game_metadata   game_metadata?
 
   @@map("games")
 }
@@ -331,6 +334,58 @@ model UserActivity {
   @@map("user_activity")
 }
 
+model PushToken {
+  id        Int      @id @default(autoincrement())
+  oauthId   String   @map("oauth_id")
+  token     String   @unique
+  platform  String
+  createdAt DateTime @default(now()) @map("created_at")
+  user      User     @relation(fields: [oauthId], references: [oauthId], onDelete: Cascade)
+
+  @@map("push_tokens")
+}
+
+model NotificationPreferences {
+  oauthId          String  @id @map("oauth_id")
+  friendActivity   Boolean @default(true)  @map("friend_activity")
+  friendInvites    Boolean @default(true)  @map("friend_invites")
+  weeklySummary    Boolean @default(true)  @map("weekly_summary")
+  releaseReminders Boolean @default(false) @map("release_reminders")
+  user             User    @relation(fields: [oauthId], references: [oauthId], onDelete: Cascade)
+
+  @@map("notification_preferences")
+}
+
+model does_it_play_scraping_jobs {
+  id         Int                 @id @default(autoincrement())
+  url        String              @unique
+  job_id     String              @unique
+  status     DoesItPlayJobStatus @default(PENDING)
+  error      String?
+  created_at DateTime            @default(now())
+  updated_at DateTime
+}
+
+model game_metadata {
+  id                   Int                    @id @default(autoincrement())
+  created_at           DateTime               @default(now())
+  updated_at           DateTime
+  game_id              Int                    @unique
+  games                Game                   @relation(fields: [game_id], references: [id])
+  games_physical_media games_physical_media[]
+}
+
+model games_physical_media {
+  id                   Int           @id @default(autoincrement())
+  platform             String?
+  has_physical_release Boolean
+  has_game_on_disc     Boolean
+  created_at           DateTime      @default(now())
+  updated_at           DateTime
+  game_metadata_id     Int
+  game_metadata        game_metadata @relation(fields: [game_metadata_id], references: [id])
+}
+
 model HowLongToBeatAccountMigrationStatus {
   id        Int             @id @default(autoincrement())
   oauthId   String          @unique @map("oauth_id")
@@ -346,5 +401,12 @@ enum MigrationStatus {
   WAITING
   IN_PROGRESS
   FINISHED
+  FAILED
+}
+
+enum DoesItPlayJobStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
   FAILED
 }
