@@ -121,6 +121,11 @@ export class GamesRepository {
         },
         release: true,
         completionTime: true,
+        game_metadata: {
+          include: {
+            games_physical_media: true,
+          },
+        },
       },
     });
   }

@@ -39,6 +39,7 @@ export class GamesService {
       genres,
       release,
       completionTime,
+      game_metadata,
       ...baseGame
     } = game;
 
@@ -49,6 +50,17 @@ export class GamesService {
       releases: release,
       genres: genres.map(({ genre }) => genre),
       completionTime,
+      gameMetadata: game_metadata
+        ? {
+            physicalMedia: game_metadata.games_physical_media?.length
+              ? game_metadata.games_physical_media.map((entry) => ({
+                  platform: entry.platform,
+                  hasPhysicalRelease: entry.has_physical_release,
+                  hasGameOnDisc: entry.has_game_on_disc,
+                }))
+              : [],
+          }
+        : null,
     };
   }
 

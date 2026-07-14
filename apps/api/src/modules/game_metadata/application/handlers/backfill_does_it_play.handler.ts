@@ -30,8 +30,12 @@ export class BackfillDoesItPlayHandler {
 
       const metadata = await this.prisma.game_metadata.upsert({
         where: { game_id: game.id },
-        create: { game_id: game.id },
-        update: {},
+        create: {
+          game_id: game.id,
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+        update: { updated_at: new Date() },
       });
 
       await this.prisma.games_physical_media.createMany({
@@ -40,6 +44,8 @@ export class BackfillDoesItPlayHandler {
           platform: e.testedOn,
           has_physical_release: e.has_physical_release,
           has_game_on_disc: e.has_game_on_disc,
+          created_at: new Date(),
+          updated_at: new Date(),
         })),
       });
     }
