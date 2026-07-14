@@ -1,6 +1,9 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { Image, Pressable, View } from "react-native";
 
+import { AchievementCenterGlow } from "./achievement_glow_border/achievement_center_glow";
+import { AchievementGlowBorder } from "./achievement_glow_border/achievement_glow_border";
+import { getPlatformGlowColor } from "./achievement_glow_border/get_platform_glow_color";
 import { GameStatus } from "../../../../../__generated__/types";
 import { getGameStatusVisual } from "../games_status_list_item/games_status_visuals";
 
@@ -13,6 +16,7 @@ export type GamesStatusCardItem = {
   status: GameStatus;
   score: string;
   cover: string;
+  achievementsCompleted?: boolean;
 };
 
 type GamesStatusCardProps = {
@@ -28,6 +32,9 @@ export const GamesStatusCard = ({
 }: GamesStatusCardProps) => {
   const visual = getGameStatusVisual(item.status);
   const badgeContent = visual.icon(visual.color, 16);
+  const glowColor = item.achievementsCompleted
+    ? getPlatformGlowColor(item.platform)
+    : null;
 
   return (
     <Pressable
@@ -41,6 +48,7 @@ export const GamesStatusCard = ({
           className="absolute inset-0 w-full h-full"
           resizeMode="cover"
         />
+        {glowColor ? <AchievementCenterGlow color={glowColor} /> : null}
         <LinearGradient
           colors={["rgba(0,0,0,0.05)", "rgba(0,0,0,0.65)", "rgba(0,0,0,0.95)"]}
           locations={[0, 0.45, 1]}
@@ -78,6 +86,7 @@ export const GamesStatusCard = ({
           </View>
         )}
       </View>
+      {glowColor ? <AchievementGlowBorder color={glowColor} /> : null}
     </Pressable>
   );
 };

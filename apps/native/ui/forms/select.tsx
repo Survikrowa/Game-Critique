@@ -2,9 +2,9 @@ import { tva } from "@gluestack-ui/utils/nativewind-utils";
 import { ChevronDown } from "lucide-react-native";
 import { ReactNode, useState } from "react";
 import {
-  FlatList,
   Modal,
   Pressable,
+  ScrollView,
   Text,
   TouchableWithoutFeedback,
   View,
@@ -86,11 +86,13 @@ export const Select = ({
                 <Text className="text-typography-100 text-heading font-semibold px-5 mb-3">
                   {label}
                 </Text>
-                <FlatList
-                  data={items}
-                  keyExtractor={(item) => item.value}
-                  renderItem={({ item }) => (
+                <ScrollView
+                  className="max-h-[360px]"
+                  keyboardShouldPersistTaps="handled"
+                >
+                  {items.map((item) => (
                     <Pressable
+                      key={item.value}
                       className={itemStyle({ selected: item.value === value })}
                       onPress={() => {
                         onChange(item.value);
@@ -107,8 +109,8 @@ export const Select = ({
                         {item.name}
                       </Text>
                     </Pressable>
-                  )}
-                />
+                  ))}
+                </ScrollView>
               </View>
             </TouchableWithoutFeedback>
           </View>

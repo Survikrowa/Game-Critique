@@ -20,7 +20,7 @@ export const GamesScreen = () => {
     <VStack className="flex-1 h-full gap-4 px-4 pt-4">
       <HStack className="w-full gap-3 items-center">
         <GamesStatusListSearch />
-        <Link asChild href="/games/filters/modal" prefetch>
+        <Link asChild href="/games/filters/modal">
           <ButtonWithIcon
             action="secondary"
             variant="outline"

@@ -1,5 +1,10 @@
 import { useEffect, useMemo, useRef } from "react";
-import { FlatList, View } from "react-native";
+import {
+  NativeSyntheticEvent,
+  NativeScrollEvent,
+  ScrollView,
+  View,
+} from "react-native";
 
 import { Text } from "@/ui/typography/text";
 
@@ -15,8 +20,10 @@ type WheelPickerProps = {
 };
 
 /**
- * Vertical scroll-wheel picker (iOS duration-picker style) built on FlatList
- * with snap-to-item scrolling — no extra native dependency required.
+ * Vertical scroll-wheel picker (iOS duration-picker style) built on ScrollView
+ * with snap-to-item scrolling — no extra native dependency required. Uses
+ * ScrollView instead of FlatList so it can be safely nested inside the
+ * surrounding form's vertical ScrollView.
  */
 export const WheelPicker = ({
   data,
@@ -26,7 +33,7 @@ export const WheelPicker = ({
   itemHeight = 40,
   visibleItemCount = 5,
 }: WheelPickerProps) => {
-  const listRef = useRef<FlatList<number>>(null);
+  const listRef = useRef<ScrollView>(null);
   const paddingCount = Math.floor(visibleItemCount / 2);
   const containerHeight = itemHeight * visibleItemCount;
 
@@ -36,23 +43,26 @@ export const WheelPicker = ({
   );
 
   useEffect(() => {
-    listRef.current?.scrollToOffset({
-      offset: selectedIndex * itemHeight,
+    listRef.current?.scrollTo({
+      y: selectedIndex * itemHeight,
       animated: false,
     });
     // Only re-sync when the externally controlled value changes.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedIndex]);
 
-  const handleMomentumScrollEnd = (offsetY: number) => {
+  const handleMomentumScrollEnd = (
+    event: NativeSyntheticEvent<NativeScrollEvent>,
+  ) => {
+    const offsetY = event.nativeEvent.contentOffset.y;
     const index = Math.round(offsetY / itemHeight);
     const clampedIndex = Math.min(Math.max(index, 0), data.length - 1);
     const nextValue = data[clampedIndex];
     if (nextValue !== value) {
       onChange(nextValue);
     }
-    listRef.current?.scrollToOffset({
-      offset: clampedIndex * itemHeight,
+    listRef.current?.scrollTo({
+      y: clampedIndex * itemHeight,
       animated: true,
     });
   };
@@ -64,26 +74,19 @@ export const WheelPicker = ({
         className="absolute left-0 right-0 border-y-2 border-primary-500 z-10"
         style={{ top: paddingCount * itemHeight, height: itemHeight }}
       />
-      <FlatList
+      <ScrollView
         ref={listRef}
-        data={data}
-        keyExtractor={(item) => String(item)}
         showsVerticalScrollIndicator={false}
         snapToInterval={itemHeight}
         decelerationRate="fast"
-        getItemLayout={(_, index) => ({
-          length: itemHeight,
-          offset: itemHeight * index,
-          index,
-        })}
         contentContainerStyle={{
           paddingVertical: paddingCount * itemHeight,
         }}
-        onMomentumScrollEnd={(e) =>
-          handleMomentumScrollEnd(e.nativeEvent.contentOffset.y)
-        }
-        renderItem={({ item }) => (
+        onMomentumScrollEnd={handleMomentumScrollEnd}
+      >
+        {data.map((item) => (
           <View
+            key={item}
             style={{ height: itemHeight }}
             className="items-center justify-center"
           >
@@ -95,8 +98,8 @@ export const WheelPicker = ({
               {formatLabel(item)}
             </Text>
           </View>
-        )}
-      />
+        ))}
+      </ScrollView>
     </View>
   );
 };
