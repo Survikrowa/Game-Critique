@@ -23,12 +23,14 @@ type GamesStatusCardProps = {
   item: GamesStatusCardItem;
   onPress: () => void;
   onBadgePress?: () => void;
+  onMorePress?: () => void;
 };
 
 export const GamesStatusCard = ({
   item,
   onPress,
   onBadgePress,
+  onMorePress,
 }: GamesStatusCardProps) => {
   const visual = getGameStatusVisual(item.status);
   const badgeContent = visual.icon(visual.color, 16);
@@ -85,6 +87,19 @@ export const GamesStatusCard = ({
             {badgeContent}
           </View>
         )}
+        {onMorePress ? (
+          <Pressable
+            onPress={onMorePress}
+            className="absolute top-2 right-2 w-9 h-9 rounded-full items-center justify-center bg-background-0/90"
+            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+          >
+            <View className="w-5 h-5 items-center justify-center">
+              <View className="w-1 h-1 rounded-full bg-typography-400 mb-[2px]" />
+              <View className="w-1 h-1 rounded-full bg-typography-400 mb-[2px]" />
+              <View className="w-1 h-1 rounded-full bg-typography-400" />
+            </View>
+          </Pressable>
+        ) : null}
       </View>
       {glowColor ? <AchievementGlowBorder color={glowColor} /> : null}
     </Pressable>

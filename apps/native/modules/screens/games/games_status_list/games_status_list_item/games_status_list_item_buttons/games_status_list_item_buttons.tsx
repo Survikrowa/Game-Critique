@@ -1,5 +1,4 @@
 import { GamesStatusListItemButtonEdit } from "./games_status_list_item_button_edit";
-import { GamesStatusListItemButtonGoToDetails } from "./games_status_list_item_button_go_to_details";
 import { GamesStatusListItemButtonRemove } from "./games_status_list_item_button_remove";
 
 type GamesStatusListItemButtonsProps = {
@@ -15,10 +14,6 @@ export const GamesStatusListItemButtons = ({
 }: GamesStatusListItemButtonsProps) => {
   return (
     <>
-      <GamesStatusListItemButtonGoToDetails
-        gameStatusId={gameStatusId}
-        onClick={onClick}
-      />
       <GamesStatusListItemButtonEdit
         gameStatusId={gameStatusId}
         onClick={onClick}

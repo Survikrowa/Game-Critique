@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { router } from "expo-router";
 
 import { GamesStatusListItemButtons } from "./games_status_list_item_buttons/games_status_list_item_buttons";
 import { useRemoveGameStatus } from "./games_status_list_item_buttons/use_remove_game_status/use_remove_game_status";
@@ -12,6 +13,7 @@ import {
 } from "../../games_status_store/use_games_status_store";
 import { GamesStatusCard } from "../games_status_card/games_status_card";
 
+import { haptic } from "@/modules/haptics/haptic";
 import { VStack } from "@/ui/layout/vstack/vstack";
 import { Sheet } from "@/ui/panels/sheet/sheet";
 import { Text } from "@/ui/typography/text";
@@ -87,8 +89,12 @@ export const GamesStatusListItem = ({ item }: GamesStatusListItemProps) => {
     <>
       <GamesStatusCard
         item={item}
-        onPress={() => setIsSheetOpen(true)}
+        onPress={() => {
+          haptic.light();
+          router.push(`/games/game/${item.gameId}`);
+        }}
         onBadgePress={() => setIsStatusMenuOpen(true)}
+        onMorePress={() => setIsSheetOpen(true)}
       />
       <Sheet
         onOpenChange={setIsSheetOpen}
