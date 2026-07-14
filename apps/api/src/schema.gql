@@ -104,6 +104,10 @@ type GameCompletionTimeDTO {
   mainExtra: Float!
 }
 
+type GameMetadataDTO {
+  physicalMedia: [PhysicalMediaEntryDTO!]
+}
+
 """Single Game Release(Year) Date"""
 type GameReleaseDTO {
   date: Float
@@ -168,6 +172,7 @@ type GameStatusSuccessResponseDTO {
 type GameWithAllDataDTO {
   completionTime: GameCompletionTimeDTO
   cover: CoverDTO
+  gameMetadata: GameMetadataDTO
   genres: [GenresDto!]!
   hltbId: Float!
   id: Float!
@@ -223,6 +228,7 @@ type Mutation {
   acceptFriendRequest(senderOauthId: String!): FriendRequestResponseDTO!
   addGameToCollection(collection: AddGameToCollectionDTO!): CollectionMutationResponseDTO!
   createNewCollection(collection: NewCollectionDTO!): CollectionDTO!
+  fetchDoesItPlayData(hltbId: Float!): Boolean!
   registerPushToken(platform: String!, token: String!): Boolean!
   removeCollection(collection: RemoveCollectionArgsDTO!): RemovedCollectionResponseDTO!
   removeGameStatus(gameStatusId: Float!): GameStatusSuccessResponseDTO!
@@ -278,6 +284,12 @@ type PaginationDTO {
   skip: Float!
   take: Float!
   total: Float!
+}
+
+type PhysicalMediaEntryDTO {
+  hasGameOnDisc: Boolean!
+  hasPhysicalRelease: Boolean!
+  platform: String
 }
 
 """Platform"""

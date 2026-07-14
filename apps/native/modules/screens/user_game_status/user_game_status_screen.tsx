@@ -1,5 +1,6 @@
-import { useLocalSearchParams } from "expo-router";
-import { ActivityIndicator, ScrollView } from "react-native";
+import { useLocalSearchParams, router } from "expo-router";
+import { ActivityIndicator, Pressable, ScrollView } from "react-native";
+import { ArrowRight } from "lucide-react-native";
 import { Text } from "ui/typography/text";
 
 import { getPlatformText } from "./get_platform_text/get_platform_text";
@@ -74,6 +75,15 @@ export const UserGameStatusScreen = ({
             gameCover={gameStatus.game.cover?.bigUrl}
           />
           <UserGameStatusGameCompletionSection gameStatus={gameStatus.status} />
+          <Pressable
+            onPress={() =>
+              router.push("/search/game/" + gameStatus.game.hltbId)
+            }
+            className="min-h-[44px] flex-row items-center justify-center gap-2 rounded-full bg-background-100 px-4"
+          >
+            <Text color="primary">Zobacz grę</Text>
+            <ArrowRight size={18} color="#64748B" />
+          </Pressable>
           <UserGameStatusPlatformSection
             platformName={gameStatus.platform.name}
             platformText={getPlatformText(gameStatus.status)}

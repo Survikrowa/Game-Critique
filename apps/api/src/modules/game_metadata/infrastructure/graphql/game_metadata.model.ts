@@ -2,7 +2,7 @@ import { Field, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 export class PhysicalMediaEntryDTO {
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   platform: string | null;
   @Field()
   hasPhysicalRelease: boolean;

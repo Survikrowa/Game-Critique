@@ -21,5 +21,12 @@ query GameInfo($hltbId: Float!) {
             mainExtra
             completionist
         }
+        gameMetadata {
+            physicalMedia {
+                platform
+                hasPhysicalRelease
+                hasGameOnDisc
+            }
+        }
     }
 }

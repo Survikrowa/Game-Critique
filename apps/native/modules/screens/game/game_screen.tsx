@@ -11,6 +11,7 @@ import { GameSkeleton } from "./game_skeleton/game_skeleton";
 import { GameStatusExistingAction } from "./game_status_existing_action/game_status_existing_action";
 import { GameStatusQuickActions } from "./game_status_quick_actions/game_status_quick_actions";
 import { GameTrophyGuidesSection } from "./game_trophy_guides_section/game_trophy_guides_section";
+import { DoesItPlaySection } from "./does_it_play_section/does_it_play_section";
 import { useGetGameInfo } from "./use_get_game_info/use_get_game_info";
 import { useMyGameStatusForGame } from "./use_my_game_status_for_game/use_my_game_status_for_game";
 
@@ -96,6 +97,12 @@ export const GameScreen = () => {
           <GameRatingsSection />
 
           <GameTrophyGuidesSection />
+
+          <DoesItPlaySection
+            entries={game.gameMetadata?.physicalMedia}
+            hltbId={game.hltbId}
+            onDataFetched={gameQuery.refetch}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
