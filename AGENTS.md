@@ -88,3 +88,141 @@
 
 ## Code Quality
 - **ZERO magic numbers** — wszystkie wartości liczbowe (poza 0, 1) wyciągaj do stałych z nazwą opisującą cel
+
+## Testing — NestJS (API)
+
+### Konfiguracja
+- Framework: **Jest** (`jest@^29`), transformer: `ts-jest`, rootDir: `src`, testRegex: `.*\.spec\.ts$`
+- Uruchamianie: `yarn test:implement` (w `apps/api/`)
+- Coverage: `yarn test:cov`
+- E2E: `yarn test:e2e` (oddzielna konfiguracja w `test/jest-e2e.json`)
+
+### Wzorce testowania
+
+**1. Pure function tests** — dla funkcji utilowych/extracted logic:
+```typescript
+import { getWeekNumber } from './weekly_summary.handler';
+
+describe('getWeekNumber', () => {
+  it('returns 1 for first week of 2024', () => {
+    expect(getWeekNumber(new Date('2024-01-01T12:00:00Z'))).toBe(1);
+  });
+});
+```
+
+**2. Handler tests z mockowanym prisma** — dla CQRS handlerów:
+```typescript
+import { Test, TestingModule } from '@nestjs/testing';
+import { PrismaService } from '../../../database/prisma.service';
+
+const mockPrisma = {
+  profile: { findUnique: jest.fn() },
+  gamesStatus: { findMany: jest.fn() },
+  notificationPreferences: { findMany: jest.fn() },
+  pushToken: { findMany: jest.fn() },
+};
+
+describe('GameStatusChangedHandler', () => {
+  let module: TestingModule;
+
+  beforeAll(async () => {
+    module = await Test.createTestingModule({
+      providers: [
+        GameStatusChangedHandler,
+        { provide: PrismaService, useValue: mockPrisma },
+        { provide: PUSH_TOKEN_REPOSITORY, useValue: mockPushTokenRepo },
+        { provide: NOTIFICATIONS_SERVICE, useValue: mockNotificationsService },
+      ],
+    }).compile();
+  });
+
+  it('sends push when friend completes a game', async () => {
+    mockPrisma.profile.findUnique.mockResolvedValue({ name: 'Jan' });
+    // ... assert
+  });
+});
+```
+
+**3. Service tests z mockowanym fetch** — dla zewnętrznych API:
+```typescript
+global.fetch = jest.fn();
+
+describe('ExpoNotificationsService', () => {
+  it('returns success count from Expo API', async () => {
+    (global.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      json: async () => ({ data: [{ status: 'ok' }, { status: 'error' }] }),
+    });
+    const result = await service.sendBulkPush(['tok1', 'tok2'], 'Title', 'Body');
+    expect(result).toBe(1);
+  });
+});
+```
+
+### Zasady
+- Testy pisz w **ko-lokacji** z implementacją: `file.ts` → `file.spec.ts` w tym samym folderze
+- Mockuj tylko bezpośrednie zależności (repository, prisma, fetch) — nie mockuj całego NestJS contextu jeśli nie trzeba
+- `Test.createTestingModule` tylko dla handlerów które wymagają DI
+- Dla prostych funkcji — pure Jest, bez NestJS testing module
+- Każdy test musi być **deterministyczny** — nie używaj `Date.now()` bez mockowania
+
+## Testing — React Native (Frontend)
+
+### Konfiguracja
+- Framework: **Jest** (`jest-expo` + `@testing-library/react-native`)
+- Plik konfiguracyjny: `jest.config.js` lub `jest.config.ts` w `apps/native/`
+- Uruchamianie: `yarn test` (w `apps/native/`)
+- Setup: `jest-setup.js` z mockami dla expo modules
+
+### Wzorce testowania
+
+**1. Hook tests** — testuj hooki przez `renderHook` z `@testing-library/react-native`:
+```typescript
+import { renderHook } from '@testing-library/react-native';
+import { useNotificationPreferences } from './use_notification_preferences';
+
+jest.mock('../notifications_graphql/get_notification_preferences.generated', () => ({
+  useGetNotificationPreferencesQuery: jest.fn(() => ({
+    data: { getNotificationPreferences: { friendActivity: true } },
+    loading: false,
+    error: undefined,
+  })),
+}));
+
+describe('useNotificationPreferences', () => {
+  it('returns preferences from query', () => {
+    const { result } = renderHook(() => useNotificationPreferences());
+    expect(result.current.preferences?.friendActivity).toBe(true);
+  });
+});
+```
+
+**2. Component tests** — renderuj komponent i sprawdź output:
+```typescript
+import { render, fireEvent } from '@testing-library/react-native';
+
+describe('NotificationsSettings', () => {
+  it('renders all toggle options', () => {
+    const { getByText } = render(<NotificationsSettings />);
+    expect(getByText('Aktywność znajomych')).toBeTruthy();
+  });
+});
+```
+
+### Mockowanie expo modules
+- `expo-notifications`, `expo-device`, `expo-haptics` — mockuj w `jest-setup.js`
+- Apollo Client — mockuj przez `MockedProvider`:
+```typescript
+import { MockedProvider } from '@apollo/client/testing';
+
+const wrapper = ({ children }: { children: React.ReactNode }) => (
+  <MockedProvider mocks={mocks}>{children}</MockedProvider>
+);
+```
+
+### Zasady
+- Testy w ko-lokacji: `component.tsx` → `component.spec.tsx` w tym samym folderze
+- `renderHook` dla hooków, `render` dla komponentów
+- Mockuj Apollo queries/mutations przez `MockedProvider` z `@apollo/client/testing`
+- Nie testuj implementacji detali — testuj zachowanie (co user widzi, co się dzieje po kliknięciu)
+- `fireEvent.press()` dla przycisków, `fireEvent.changeText()` dla inputów
