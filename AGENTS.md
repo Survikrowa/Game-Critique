@@ -26,6 +26,7 @@
 - **Zawsze używaj `type` zamiast `interface`** — `type ToggleConfig = { ... }` zamiast `interface ToggleConfig { ... }`
 - **Zawsze używaj arrow functions** — `const fn = () => {}` zamiast `function fn() {}`
 - **Prisma schema: nowe modele w PascalCase z `@@map` na snake_case** — np. `model DoesItPlayEntry` + `@@map("does_it_play_entry")`
+- **Prisma schema: pola w camelCase z `@map` na snake_case** — np. `testedOn String @map("tested_on")`
 
 ## Touch & Haptic
 - **Touch targets minimum 44pt** (`min-h-[44px]`) na wszystkich klikalnych elementach
