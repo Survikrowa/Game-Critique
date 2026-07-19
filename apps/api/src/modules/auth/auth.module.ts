@@ -5,13 +5,14 @@ import { AuthResolver } from './infrastructure/graphql/auth.resolver';
 import { ConfigService } from '@nestjs/config';
 import { AuthService } from './infrastructure/services/auth.service';
 import { DatabaseModule } from '../database/database.module';
-import { BullModule } from '@nestjs/bull';
 import { HttpModule } from '@nestjs/axios';
 import { CqrsModule } from '@nestjs/cqrs';
 import { GetUserRoleQueryHandler } from './application/queries/get_user_role/get_user_role.handler';
 import { CreateUserCommandHandler } from './application/commands/create_user/create_user.handler';
 import { AUTH_REPOSITORY } from './domain/ports/auth.repository.port';
+import { PROFILE_REPOSITORY } from './domain/ports/profile.repository.port';
 import { PrismaAuthRepository } from './infrastructure/adapters/prisma-auth.repository';
+import { PrismaProfileRepository } from './infrastructure/adapters/prisma-profile.repository';
 
 const handlers = [GetUserRoleQueryHandler, CreateUserCommandHandler];
 
@@ -19,7 +20,6 @@ const handlers = [GetUserRoleQueryHandler, CreateUserCommandHandler];
   imports: [
     CqrsModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
-    BullModule.registerQueue({ name: 'user_created' }),
     DatabaseModule,
     HttpModule.registerAsync({
       useFactory: async (configService: ConfigService) => ({
@@ -36,6 +36,10 @@ const handlers = [GetUserRoleQueryHandler, CreateUserCommandHandler];
     {
       provide: AUTH_REPOSITORY,
       useClass: PrismaAuthRepository,
+    },
+    {
+      provide: PROFILE_REPOSITORY,
+      useClass: PrismaProfileRepository,
     },
   ],
   exports: [PassportModule, AuthService, CqrsModule],

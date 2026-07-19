@@ -2,5 +2,13 @@
   "extends": "universe/native",
   "env": {
     "node": true
+  },
+  "ignorePatterns": [
+    "__generated__",
+    "*.generated.ts",
+    "node_modules"
+  ],
+  "rules": {
+    "@typescript-eslint/no-explicit-any": "error"
   }
 }

@@ -5,7 +5,14 @@ import {
   AUTH_REPOSITORY,
   AuthRepositoryPort,
 } from '../../../domain/ports/auth.repository.port';
+import {
+  PROFILE_REPOSITORY,
+  ProfileRepositoryPort,
+} from '../../../domain/ports/profile.repository.port';
 import { AuthUser, UserRole } from '../../../domain/models/auth-user.model';
+
+const DEFAULT_AVATAR_URL =
+  'https://res.cloudinary.com/survikrowa/image/upload/v1705345880/y5oklavnu42orgau8cyc.png';
 
 @CommandHandler(CreateUserCommand)
 export class CreateUserCommandHandler
@@ -14,6 +21,8 @@ export class CreateUserCommandHandler
   constructor(
     @Inject(AUTH_REPOSITORY)
     private readonly authRepository: AuthRepositoryPort,
+    @Inject(PROFILE_REPOSITORY)
+    private readonly profileRepository: ProfileRepositoryPort,
   ) {}
 
   async execute(command: CreateUserCommand) {
@@ -23,6 +32,12 @@ export class CreateUserCommandHandler
     });
 
     const savedUser = await this.authRepository.save(newUser);
+
+    await this.profileRepository.createProfile({
+      userId: savedUser.id,
+      name: command.username,
+      avatarUrl: DEFAULT_AVATAR_URL,
+    });
 
     return {
       id: savedUser.id,
