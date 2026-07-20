@@ -1,4 +1,5 @@
-import { Bell, LogIn, Search } from "lucide-react-native";
+import { LogIn, Search } from "lucide-react-native";
+import { NotificationBell } from "./notifications/notification_bell";
 import { router } from "expo-router";
 import { useAuth0 } from "react-native-auth0";
 
@@ -46,9 +47,7 @@ const AuthenticatedHeaderContent = () => {
         >
           <Search size={18} color="#64748B" />
         </HeaderIconButton>
-        <HeaderIconButton onPress={() => {}}>
-          <Bell size={18} color="#64748B" />
-        </HeaderIconButton>
+        <NotificationBell onPress={() => router.push("/(app)/notifications")} />
         <Pressable
           onPress={() => {}}
           className="min-h-[44px] min-w-[44px] items-center justify-center"
@@ -97,7 +96,7 @@ export const HeaderContent = () => {
   const { user } = useAuth0();
 
   return (
-    <HStack className="bg-background-50 items-center justify-between w-full py-3 px-4 border-b border-outline-0">
+    <HStack className="w-full items-center justify-between border-b border-outline-0 bg-background-50 px-4 py-3">
       {user ? <AuthenticatedHeaderContent /> : <GuestHeaderContent />}
     </HStack>
   );
