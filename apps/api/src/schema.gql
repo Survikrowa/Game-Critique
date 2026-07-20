@@ -230,6 +230,7 @@ type Mutation {
   createNewCollection(collection: NewCollectionDTO!): CollectionDTO!
   fetchDoesItPlayData(hltbId: Float!): Boolean!
   registerPushToken(platform: String!, token: String!): Boolean!
+  rejectFriendRequest(senderOauthId: String!): FriendRequestResponseDTO!
   removeCollection(collection: RemoveCollectionArgsDTO!): RemovedCollectionResponseDTO!
   removeGameStatus(gameStatusId: Float!): GameStatusSuccessResponseDTO!
 

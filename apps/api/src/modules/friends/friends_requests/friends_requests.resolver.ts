@@ -52,6 +52,22 @@ export class FriendsRequestsResolver {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Mutation(() => FriendRequestResponseDTO)
+  async rejectFriendRequest(
+    @User() user: UserAuthDTO,
+    @Args('senderOauthId') senderOauthId: string,
+  ): Promise<FriendRequestResponseDTO> {
+    await this.friendsRequestsService.removeFriendRequest({
+      from: senderOauthId,
+      to: user.sub,
+    });
+
+    return {
+      receiverId: senderOauthId,
+    };
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Query(() => [GetFriendRequestsResponseDTO], { name: 'friendsRequests' })
   async getFriendRequests(
     @User() user: UserAuthDTO,
