@@ -1,4 +1,4 @@
-import { Text } from "ui/typography/text";
+import { Text } from "@/ui/typography/text";
 
 import { useAcceptFriendRequest } from "./use_accept_friend_request/use_accept_friend_request";
 import { useRejectFriendRequest } from "./use_reject_friend_request/use_reject_friend_request";
