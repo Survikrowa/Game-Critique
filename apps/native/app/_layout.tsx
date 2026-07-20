@@ -33,6 +33,10 @@ const AuthenticatedLayout = () => {
       <Stack.Screen name="(app)/(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="(app)/search" options={{ headerShown: false }} />
       <Stack.Screen
+        name="(app)/notifications"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
         name="(app)/(authorized)"
         options={{ headerShown: false }}
       />
