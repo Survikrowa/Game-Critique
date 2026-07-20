@@ -1,9 +1,10 @@
-import { FlatList, RefreshControl, View } from "react-native";
-import { Bell, ChevronRight, Search, Users } from "lucide-react-native";
 import { router } from "expo-router";
+import { Bell, ChevronRight, Search, Users } from "lucide-react-native";
+import { FlatList, RefreshControl, View } from "react-native";
 
-import { SpeedDialFab } from "@/ui/overlay/fab/speed_dial_fab";
 import { useFriendsList } from "./use_friends_list/use_friends_list";
+
+import { haptic } from "@/modules/haptics/haptic";
 import { UserAvatar } from "@/modules/user/user_avatar/user_avatar";
 import { EmptyState } from "@/ui/feedback/empty_state/empty_state";
 import { Skeleton } from "@/ui/feedback/skeleton/skeleton";
@@ -11,8 +12,8 @@ import { Pressable } from "@/ui/forms/pressable/pressable";
 import { HStack } from "@/ui/layout/hstack/hstack";
 import { Separator } from "@/ui/layout/separator/separator";
 import { VStack } from "@/ui/layout/vstack/vstack";
+import { SpeedDialFab } from "@/ui/overlay/fab/speed_dial_fab";
 import { Text } from "@/ui/typography/text";
-import { haptic } from "@/modules/haptics/haptic";
 import { FriendsListQuery } from "./use_friends_list/friends_list_query.generated";
 
 type Friend = FriendsListQuery["friendsList"]["friends"][number];
@@ -38,7 +39,7 @@ export const FriendsListScreen = () => {
   const { friends } = friendsListQuery.data.friendsList;
 
   return (
-    <>
+    <View className="flex-1">
       <FlatList
         data={friends}
         keyExtractor={(item) => item.id}
@@ -80,7 +81,7 @@ export const FriendsListScreen = () => {
             refreshing={friendsListQuery.loading}
           />
         }
-        className="h-full"
+        className="flex-1"
       />
       <SpeedDialFab
         actions={[
@@ -96,6 +97,6 @@ export const FriendsListScreen = () => {
           },
         ]}
       />
-    </>
+    </View>
   );
 };

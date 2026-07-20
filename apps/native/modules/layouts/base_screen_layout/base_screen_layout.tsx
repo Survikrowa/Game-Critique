@@ -7,6 +7,6 @@ type BaseScreenLayoutProps = {
 };
 export const BaseScreenLayout = ({ children }: BaseScreenLayoutProps) => {
   return (
-    <Box className="relative z-[1] h-full bg-background-0">{children}</Box>
+    <Box className="relative z-[1] flex-1 bg-background-0">{children}</Box>
   );
 };

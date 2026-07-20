@@ -1,3 +1,5 @@
+import { tva } from "@gluestack-ui/utils/nativewind-utils";
+import { Plus } from "lucide-react-native";
 import { useState } from "react";
 import { Pressable, View } from "react-native";
 import Animated, {
@@ -6,12 +8,20 @@ import Animated, {
   withSpring,
   withTiming,
 } from "react-native-reanimated";
-import { Plus } from "lucide-react-native";
 
 import { FabLabel } from "./fab";
+
 import { haptic } from "@/modules/haptics/haptic";
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
+
+const mainButtonStyle = tva({
+  base: "bg-primary-500 rounded-full p-4 flex-row items-center justify-center shadow-hard-2",
+});
+
+const actionItemStyle = tva({
+  base: "flex-row items-center gap-2 rounded-full bg-background-0 px-4 py-3 shadow-hard-2",
+});
 
 type LucideIcon = typeof Plus;
 
@@ -70,7 +80,7 @@ export const SpeedDialFab = ({ actions }: SpeedDialFabProps) => {
             {[...actions].reverse().map((action) => (
               <Pressable
                 key={action.label}
-                className="min-h-[44px] flex-row items-center gap-2 rounded-full bg-background-0 px-4 py-3 shadow-hard-2"
+                className={actionItemStyle({})}
                 onPress={() => {
                   closeMenu();
                   action.onPress();
@@ -83,7 +93,7 @@ export const SpeedDialFab = ({ actions }: SpeedDialFabProps) => {
           </View>
         )}
         <AnimatedPressable
-          className="min-h-[44px] min-w-[44px] flex-row items-center justify-center rounded-full bg-primary-500 p-4 shadow-hard-2"
+          className={mainButtonStyle({})}
           style={rotateStyle}
           onPress={toggleMenu}
         >
