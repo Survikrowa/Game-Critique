@@ -26,7 +26,7 @@ export const FriendsSearchResultSendRequestButton = ({
           Oczekuje na
         </Text>
         <Text size="small" weight="bold" color="primary">
-          akceptacje
+          akceptację
         </Text>
       </VStack>
     );

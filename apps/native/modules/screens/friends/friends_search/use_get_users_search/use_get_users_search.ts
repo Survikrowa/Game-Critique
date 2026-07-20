@@ -1,14 +1,12 @@
 import { useUsersSearchQuery } from "./users_search_query.generated";
 
-type UseGetUsersSearchArgs = {
-  input: string;
-};
-
-export const useGetUsersSearch = ({ input }: UseGetUsersSearchArgs) => {
+export const useGetUsersSearch = (
+  variables: { input: string },
+  options?: { skip?: boolean },
+) => {
   return useUsersSearchQuery({
+    variables,
     fetchPolicy: "network-only",
-    variables: {
-      input,
-    },
+    ...options,
   });
 };

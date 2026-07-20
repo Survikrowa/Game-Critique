@@ -1,4 +1,4 @@
-import { Text } from "ui/typography/text";
+import { View } from "react-native";
 
 import { FriendsSearchResultSendRequestButton } from "./friends_search_result_send_request_button/friends_search_result_send_request_button";
 import { useSendFriendRequest } from "../use_send_friend_request/use_send_friend_request";
@@ -6,7 +6,7 @@ import { useSendFriendRequest } from "../use_send_friend_request/use_send_friend
 import { truncateString } from "@/modules/strings/truncate_string";
 import { UserAvatar } from "@/modules/user/user_avatar/user_avatar";
 import { HStack } from "@/ui/layout/hstack/hstack";
-import { Separator } from "@/ui/layout/separator/separator";
+import { Text } from "@/ui/typography/text";
 
 type FriendsSearchResultProps = {
   oauthId: string;
@@ -35,8 +35,8 @@ export const FriendsSearchResult = ({
   };
 
   return (
-    <>
-      <HStack className="justify-between items-center">
+    <View className="rounded-xl bg-background-0 p-3">
+      <HStack className="items-center justify-between">
         <HStack className="items-center gap-2">
           <UserAvatar avatarUrl={avatarUrl || ""} size="$6" />
           <Text size="medium" color="primary" weight="normal">
@@ -51,9 +51,6 @@ export const FriendsSearchResult = ({
           receiverId={data?.sendFriendRequest.receiverId}
         />
       </HStack>
-      {usersLength > 1 && usersLength - 1 !== currentIndex && (
-        <Separator spacing="xs" />
-      )}
-    </>
+    </View>
   );
 };

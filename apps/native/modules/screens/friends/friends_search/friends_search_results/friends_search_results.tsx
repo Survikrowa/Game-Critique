@@ -21,7 +21,7 @@ export const FriendsSearchResults = ({ users }: FriendsSearchResultsProps) => {
     return <FriendsSearchEmpty />;
   }
   return (
-    <ScrollView className="max-h-[90%] h-full">
+    <ScrollView className="max-h-[70%]">
       <VStack className="gap-2">
         {users.map((user, index) => (
           <FriendsSearchResult
