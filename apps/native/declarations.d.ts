@@ -19,6 +19,7 @@ declare let process: {
     EXPO_PUBLIC_AUTH0_DOMAIN: string;
     EXPO_PUBLIC_AUTH0_CLIENT_ID: string;
     EXPO_PUBLIC_BASE_API_URL: string;
+    EXPO_PUBLIC_BYPASS_DEVICE_CHECK?: string;
     NODE_ENV: string;
   };
 };

@@ -21,6 +21,7 @@
 
 ## Code Style
 - **NIGDY nie używaj `any`** — zawsze konkretny typ
+- **NIGDY `as` castów** dla danych z zewnątrz — używaj Zod `safeParse` lub type guards
 - **ZERO komentarzy** w kodzie — jeśli kod wymaga wyjaśnienia, wyciągnij logikę do funkcji z nazwą opisującą co robi
 - **Priorytetyzuj auto-generated hooki z `.generated.ts`** — zamiast `useMutation(Document)` używaj wygenerowanego hooka (np. `useRegisterPushTokenMutation` z `xxx.generated.ts`)
 - **Zawsze używaj `type` zamiast `interface`** — `type ToggleConfig = { ... }` zamiast `interface ToggleConfig { ... }`

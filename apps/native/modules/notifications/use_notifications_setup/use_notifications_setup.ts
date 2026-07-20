@@ -1,8 +1,12 @@
+import * as Device from "expo-device";
+import * as Notifications from "expo-notifications";
 import { useEffect, useState } from "react";
 import { Platform } from "react-native";
-import * as Notifications from "expo-notifications";
-import * as Device from "expo-device";
+
 import { useRegisterPushTokenMutation } from "../notifications_graphql/register_push_token.generated";
+
+const BYPASS_DEVICE_CHECK =
+  process.env.EXPO_PUBLIC_BYPASS_DEVICE_CHECK === "true";
 
 export const useNotificationsSetup = () => {
   const [expoPushToken, setExpoPushToken] = useState<string | null>(null);
@@ -21,7 +25,7 @@ const registerForPushNotifications = async (
   register: (token: string, platform: string) => Promise<void>,
   setToken: (token: string | null) => void,
 ): Promise<void> => {
-  if (!Device.isDevice) return;
+  if (!Device.isDevice && !BYPASS_DEVICE_CHECK) return;
 
   const permissionGranted = await requestPushPermission();
   if (!permissionGranted) return;
