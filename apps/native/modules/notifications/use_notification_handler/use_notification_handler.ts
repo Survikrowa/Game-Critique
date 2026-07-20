@@ -1,41 +1,72 @@
 import { useEffect } from "react";
 import * as Notifications from "expo-notifications";
 import { router } from "expo-router";
-import { NotificationData } from "../notification_types";
+
+import { useNotificationHistoryStore } from "../notification_history_store";
+import { NotificationDataSchema } from "../notification_types";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
-    shouldShowAlert: true,
+    shouldShowBanner: true,
+    shouldShowList: true,
     shouldPlaySound: true,
     shouldSetBadge: false,
   }),
 });
 
-export const useNotificationHandler = () => {
-  useEffect(() => {
-    const subscription = Notifications.addNotificationResponseReceivedListener(
-      (response) => {
-        const data = response.notification.request.content
-          .data as NotificationData;
-        navigateFromNotification(data);
-      },
-    );
-    return () => subscription.remove();
-  }, []);
-};
+const navigateFromNotification = (data: unknown): void => {
+  const parsed = NotificationDataSchema.safeParse(data);
+  if (!parsed.success) return;
 
-const navigateFromNotification = (data: NotificationData): void => {
-  if (!data?.type) return;
+  const { type } = parsed.data;
 
-  switch (data.type) {
+  switch (type) {
     case "game":
-      if (data.hltbId) router.push(`/game/${data.hltbId}`);
+      router.push(`/game/${parsed.data.hltbId}`);
       break;
     case "friend":
-      if (data.oauthId) router.push(`/friends/${data.oauthId}`);
+      router.push(`/friends/user_profile/${parsed.data.oauthId}`);
       break;
     case "stats":
       router.push("/profile");
       break;
   }
+};
+
+export const useNotificationHandler = () => {
+  const addNotification = useNotificationHistoryStore((s) => s.addNotification);
+  const markAsRead = useNotificationHistoryStore((s) => s.markAsRead);
+
+  useEffect(() => {
+    const receivedSubscription = Notifications.addNotificationReceivedListener(
+      (notification) => {
+        const parsed = NotificationDataSchema.safeParse(
+          notification.request.content.data,
+        );
+        if (!parsed.success) return;
+
+        addNotification({
+          id: notification.request.identifier,
+          type: parsed.data.type,
+          title: notification.request.content.title || "",
+          body: notification.request.content.body || "",
+          data: parsed.data,
+          receivedAt: new Date().toISOString(),
+          isRead: false,
+        });
+      },
+    );
+
+    const responseSubscription =
+      Notifications.addNotificationResponseReceivedListener((response) => {
+        const data = response.notification.request.content.data;
+        markAsRead(response.notification.request.identifier);
+        navigateFromNotification(data);
+      });
+
+    return () => {
+      receivedSubscription.remove();
+      responseSubscription.remove();
+    };
+  }, [addNotification, markAsRead]);
 };
