@@ -1,5 +1,5 @@
-import { ClipboardList } from "lucide-react-native";
 import { router } from "expo-router";
+import { ClipboardList } from "lucide-react-native";
 
 import { useFriendsGameReviews } from "./use_friends_game_reviews/use_friends_game_reviews";
 
@@ -26,15 +26,18 @@ export const UserGameStatusFriendsReviews = ({
     return null;
   }
   return (
-    <VStack className="gap-4 mt-4">
+    <VStack className="mt-4 gap-4">
       <ButtonWithIcon
         action="default"
         variant="outline"
         onPress={() => {
-          // @ts-ignore — pre-existing route type issue
-          router.push(
-            `/${redirect.review}/game_status_reviews/${gameStatusId}`,
-          );
+          router.push({
+            pathname:
+              redirect.review === "friends"
+                ? "/friends/game_status_reviews/[game_status_id]"
+                : "/games/game_status_reviews/[game_status_id]",
+            params: { game_status_id: gameStatusId },
+          });
         }}
         icon={<ClipboardList size={18} color="#3B82F6" />}
       >

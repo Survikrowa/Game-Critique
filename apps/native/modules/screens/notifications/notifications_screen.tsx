@@ -18,24 +18,25 @@ export const NotificationsScreen = () => {
   const handlePress = (notification: (typeof notifications)[number]) => {
     haptic.light();
     markAsRead(notification.id);
-    switch (notification.type) {
+    const { data } = notification;
+    switch (data.type) {
       case "game":
-        // @ts-ignore — pre-existing route type limitation
-        router.push(
-          `/friends/games_status_info/${notification.data.gamesStatusId}?oauth_id=${notification.data.oauthId}`,
-        );
+        router.push({
+          pathname: "/friends/games_status_info/[games_status_id]",
+          params: {
+            games_status_id: data.gamesStatusId,
+            oauth_id: data.oauthId,
+          },
+        });
         break;
       case "friend_request":
-        // @ts-ignore — pre-existing route type limitation
         router.push("/friends/friends_requests");
         break;
       case "friend_accepted":
-        // @ts-ignore — pre-existing route type limitation
         router.push("/friends/friends_list");
         break;
       case "stats":
-        // @ts-ignore — pre-existing route type limitation
-        router.push("/profile");
+        router.push("/user");
         break;
     }
   };

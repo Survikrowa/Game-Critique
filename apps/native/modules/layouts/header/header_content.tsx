@@ -1,17 +1,18 @@
-import { LogIn, Search } from "lucide-react-native";
-import { NotificationBell } from "./notifications/notification_bell";
 import { router } from "expo-router";
+import { LogIn, Search } from "lucide-react-native";
 import { useAuth0 } from "react-native-auth0";
+
+import { NotificationBell } from "./notifications/notification_bell";
 
 import { useUserProfileInfo } from "@/modules/screens/profile/use_user_profile_info/use_user_profile_info";
 import { truncateString } from "@/modules/strings/truncate_string";
+import { Pressable } from "@/ui/forms/pressable/pressable";
+import { HStack } from "@/ui/layout/hstack/hstack";
 import {
   Avatar,
   AvatarFallbackText,
   AvatarImage,
 } from "@/ui/media_and_icons/avatar/avatar";
-import { Pressable } from "@/ui/forms/pressable/pressable";
-import { HStack } from "@/ui/layout/hstack/hstack";
 import { Text } from "@/ui/typography/text";
 
 const HeaderIconButton = ({
@@ -39,12 +40,7 @@ const AuthenticatedHeaderContent = () => {
         Siema, {truncateString(user?.name ?? "", 15)}
       </Text>
       <HStack className="items-center gap-2">
-        <HeaderIconButton
-          onPress={() =>
-            // @ts-ignore — pre-existing route type
-            router.push("/(app)/search/search")
-          }
-        >
+        <HeaderIconButton onPress={() => router.push("/(app)/search/search")}>
           <Search size={18} color="#64748B" />
         </HeaderIconButton>
         <NotificationBell onPress={() => router.push("/(app)/notifications")} />
@@ -72,20 +68,10 @@ const GuestHeaderContent = () => (
       Game Critique
     </Text>
     <HStack className="items-center gap-2">
-      <HeaderIconButton
-        onPress={() =>
-          // @ts-ignore — pre-existing route type
-          router.push("/(app)/search/search")
-        }
-      >
+      <HeaderIconButton onPress={() => router.push("/(app)/search/search")}>
         <Search size={18} color="#64748B" />
       </HeaderIconButton>
-      <HeaderIconButton
-        onPress={() =>
-          // @ts-ignore — pre-existing route type
-          router.push("/(app)/auth")
-        }
-      >
+      <HeaderIconButton onPress={() => router.push("/(app)/auth")}>
         <LogIn size={18} color="#3B82F6" />
       </HeaderIconButton>
     </HStack>

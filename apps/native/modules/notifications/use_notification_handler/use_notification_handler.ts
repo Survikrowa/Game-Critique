@@ -18,13 +18,15 @@ const navigateFromNotification = (data: unknown): void => {
   const parsed = NotificationDataSchema.safeParse(data);
   if (!parsed.success) return;
 
-  const { type } = parsed.data;
-
-  switch (type) {
+  switch (parsed.data.type) {
     case "game":
-      router.push(
-        `/friends/games_status_info/${parsed.data.gamesStatusId}?oauth_id=${parsed.data.oauthId}`,
-      );
+      router.push({
+        pathname: "/friends/games_status_info/[games_status_id]",
+        params: {
+          games_status_id: parsed.data.gamesStatusId,
+          oauth_id: parsed.data.oauthId,
+        },
+      });
       break;
     case "friend_request":
       router.push("/friends/friends_requests");
@@ -33,7 +35,7 @@ const navigateFromNotification = (data: unknown): void => {
       router.push("/friends/friends_list");
       break;
     case "stats":
-      router.push("/profile");
+      router.push("/user");
       break;
   }
 };

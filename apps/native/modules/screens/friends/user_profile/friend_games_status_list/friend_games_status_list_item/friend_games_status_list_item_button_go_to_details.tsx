@@ -15,16 +15,17 @@ export const FriendGamesStatusListItemButtonGoToDetails = ({
   oauthId,
   onClick,
 }: FriendGamesStatusListItemButtonGoToDetailsProps) => {
-  const targetUrl = `friends/games_status_info/${gameStatusId}?oauth_id=${oauthId}`;
   return (
     <ButtonWithIcon
       action="secondary"
-      className="w-full min-h-[44px]"
+      className="min-h-[44px] w-full"
       onPress={() => {
         haptic.light();
         onClick();
-        // @ts-ignore — pre-existing route type issue
-        router.push(targetUrl);
+        router.push({
+          pathname: "/friends/games_status_info/[games_status_id]",
+          params: { games_status_id: gameStatusId, oauth_id: oauthId },
+        });
       }}
       icon={<Eye size={16} color="#fff" />}
     >

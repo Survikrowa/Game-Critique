@@ -16,11 +16,13 @@ export const GamesStatusListItemButtonEdit = ({
   return (
     <ButtonWithIcon
       action="positive"
-      className="w-full min-h-[44px]"
+      className="min-h-[44px] w-full"
       onPress={() => {
         haptic.medium();
-        // @ts-ignore — pre-existing route type issue
-        router.push(`/games/games_status_edit_form/${gameStatusId}`);
+        router.push({
+          pathname: "/games/games_status_edit_form/[game_status_id]",
+          params: { game_status_id: gameStatusId },
+        });
         onClick();
       }}
       icon={<Edit3 size={16} color="#fff" />}

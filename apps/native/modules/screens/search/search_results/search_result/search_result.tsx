@@ -26,12 +26,15 @@ export const SearchResult = ({
       onPress={() => {
         haptic.light();
         onBeforeNavigate?.(result);
-        // @ts-ignore — pre-existing route type issue
-        router.push(`${redirectTo}/${result.id}`);
+        const pathname =
+          redirectTo === "/games/game" || redirectTo === "games/game"
+            ? "/games/game/[game_id]"
+            : "/search/game/[game_id]";
+        router.push({ pathname, params: { game_id: result.id } });
       }}
       style={({ pressed }) => ({ opacity: pressed ? 0.75 : 1 })}
     >
-      <View className="flex-row items-center gap-3 px-4 py-3 bg-background-50 rounded-2xl">
+      <View className="flex-row items-center gap-3 rounded-2xl bg-background-50 px-4 py-3">
         <Image
           source={{ uri: result.cover.small_url }}
           style={{ width: 52, height: 68, borderRadius: 8 }}

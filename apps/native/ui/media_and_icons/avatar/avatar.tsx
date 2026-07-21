@@ -6,7 +6,7 @@ import {
 } from "@gluestack-ui/utils/nativewind-utils";
 import type { VariantProps } from "@gluestack-ui/utils/nativewind-utils";
 import React from "react";
-import { View, Text, Image, Platform } from "react-native";
+import { View, Text, Image } from "react-native";
 const SCOPE = "AVATAR";
 
 const UIAvatar = createAvatar({
@@ -151,12 +151,6 @@ const AvatarImage = React.forwardRef<
       className={avatarImageStyle({
         class: className,
       })}
-      // @ts-expect-error : This is a workaround to fix the issue with the image style on web.
-      style={
-        Platform.OS === "web"
-          ? { height: "revert-layer", width: "revert-layer" }
-          : undefined
-      }
     />
   );
 });

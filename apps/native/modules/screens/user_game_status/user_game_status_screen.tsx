@@ -1,6 +1,6 @@
 import { useLocalSearchParams, router } from "expo-router";
-import { ActivityIndicator, Pressable, ScrollView } from "react-native";
 import { ArrowRight } from "lucide-react-native";
+import { ActivityIndicator, Pressable, ScrollView } from "react-native";
 import { Text } from "ui/typography/text";
 
 import { getPlatformText } from "./get_platform_text/get_platform_text";
@@ -17,10 +17,10 @@ import { useSetHeaderTitle } from "../../router/use_set_header_title";
 
 import { GameStatus } from "@/__generated__/types";
 import { ErrorState } from "@/ui/feedback/error_state/error_state";
-import { Card } from "@/ui/panels/card/card";
 import { HStack } from "@/ui/layout/hstack/hstack";
 import { Separator } from "@/ui/layout/separator/separator";
 import { VStack } from "@/ui/layout/vstack/vstack";
+import { Card } from "@/ui/panels/card/card";
 
 type UserGameStatusScreenProps = {
   redirect: {
@@ -77,11 +77,16 @@ export const UserGameStatusScreen = ({
           <UserGameStatusGameCompletionSection gameStatus={gameStatus.status} />
           <Pressable
             onPress={() =>
-              router.push("/search/game/" + gameStatus.game.hltbId)
+              router.push({
+                pathname: "/search/game/[game_id]",
+                params: { game_id: gameStatus.game.hltbId },
+              })
             }
             className="min-h-[44px] flex-row items-center justify-center gap-2 rounded-full bg-background-100 px-4"
           >
-            <Text color="primary">Zobacz grę</Text>
+            <Text weight="normal" size="medium" color="primary">
+              Zobacz grę
+            </Text>
             <ArrowRight size={18} color="#64748B" />
           </Pressable>
           <UserGameStatusPlatformSection
