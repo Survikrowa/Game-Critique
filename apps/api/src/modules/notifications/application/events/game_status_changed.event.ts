@@ -9,5 +9,6 @@ export class GameStatusChangedEvent implements IEvent {
     public readonly score: string | null,
     public readonly review: string | null,
     public readonly friendOauthIds: string[],
+    public readonly gamesStatusId: number,
   ) {}
 }

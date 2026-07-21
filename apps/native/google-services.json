@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "604028036030",
+    "project_id": "game-critique",
+    "storage_bucket": "game-critique.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:604028036030:android:04880ffdf95b311d26cfef",
+        "android_client_info": {
+          "package_name": "com.gamecritique.mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABpy8YUt9lB6ugrGpdCU_hmu_5E1SmvU8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

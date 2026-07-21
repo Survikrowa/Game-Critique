@@ -46,7 +46,12 @@ export class GameStatusChangedHandler
       tokens.map((t) => t.token),
       'Aktywność znajomych',
       body,
-      { type: 'game', hltbId: event.hltbId },
+      {
+        type: 'game',
+        hltbId: event.hltbId,
+        oauthId: event.oauthId,
+        gamesStatusId: event.gamesStatusId,
+      },
     );
   }
 
@@ -81,20 +86,7 @@ export class GameStatusChangedHandler
   private async resolveRecipients(
     event: GameStatusChangedEvent,
   ): Promise<string[]> {
-    if (event.status === 'COMPLETED' || event.score || event.review) {
-      return event.friendOauthIds;
-    }
-    if (event.status === 'IN_PROGRESS') {
-      const friendsWithGame = await this.prisma.gamesStatus.findMany({
-        where: {
-          oauthId: { in: event.friendOauthIds },
-          gameId: event.hltbId,
-        },
-        select: { oauthId: true },
-      });
-      return friendsWithGame.map((f) => f.oauthId);
-    }
-    return [];
+    return event.friendOauthIds;
   }
 
   private async filterByPreference(

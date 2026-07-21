@@ -65,6 +65,7 @@ describe('GameStatusChangedHandler', () => {
         '9',
         null,
         ['friend1', 'friend2'],
+        1,
       ),
     );
 
@@ -72,7 +73,7 @@ describe('GameStatusChangedHandler', () => {
       ['tok1', 'tok2'],
       'Aktywność znajomych',
       'Jan ukończył Elden Ring i dał 9/10',
-      { type: 'game', hltbId: 123 },
+      { type: 'game', hltbId: 123, oauthId: 'auth0|jan', gamesStatusId: 1 },
     );
   });
 
@@ -94,6 +95,7 @@ describe('GameStatusChangedHandler', () => {
         null,
         null,
         ['friend1'],
+        2,
       ),
     );
 
@@ -101,15 +103,15 @@ describe('GameStatusChangedHandler', () => {
       ['tok1'],
       'Aktywność znajomych',
       'Anna ukończył Hollow Knight',
-      { type: 'game', hltbId: 456 },
+      { type: 'game', hltbId: 456, oauthId: 'auth0|anna', gamesStatusId: 2 },
     );
   });
 
-  it('sends push only to friends who have the game when IN_PROGRESS', async () => {
+  it('sends push to all friends when IN_PROGRESS', async () => {
     mockPrisma.profile.findUnique.mockResolvedValue({ name: 'Maria' });
-    mockPrisma.gamesStatus.findMany.mockResolvedValue([{ oauthId: 'friend1' }]);
     mockPrisma.notificationPreferences.findMany.mockResolvedValue([
       { oauthId: 'friend1', friendActivity: true },
+      { oauthId: 'friend2', friendActivity: true },
     ]);
     mockPrisma.pushToken.findMany.mockResolvedValue([
       { token: 'tok1', oauthId: 'friend1', platform: 'ios' },
@@ -124,18 +126,15 @@ describe('GameStatusChangedHandler', () => {
         null,
         null,
         ['friend1', 'friend2'],
+        3,
       ),
     );
 
-    expect(mockPrisma.gamesStatus.findMany).toHaveBeenCalledWith({
-      where: { oauthId: { in: ['friend1', 'friend2'] }, gameId: 789 },
-      select: { oauthId: true },
-    });
     expect(mockNotificationsService.sendBulkPush).toHaveBeenCalledWith(
       ['tok1'],
       'Aktywność znajomych',
       'Maria zaczął grać w Cyberpunk 2077',
-      { type: 'game', hltbId: 789 },
+      { type: 'game', hltbId: 789, oauthId: 'auth0|maria', gamesStatusId: 3 },
     );
   });
 
@@ -154,6 +153,7 @@ describe('GameStatusChangedHandler', () => {
         '10',
         null,
         ['friend1'],
+        4,
       ),
     );
 
@@ -172,6 +172,7 @@ describe('GameStatusChangedHandler', () => {
         null,
         null,
         [],
+        5,
       ),
     );
 
@@ -196,6 +197,7 @@ describe('GameStatusChangedHandler', () => {
         '8',
         null,
         ['f1'],
+        6,
       ),
     );
 
@@ -203,7 +205,7 @@ describe('GameStatusChangedHandler', () => {
       ['tok1'],
       'Aktywność znajomych',
       'Ktoś ukończył Game i dał 8/10',
-      { type: 'game', hltbId: 333 },
+      { type: 'game', hltbId: 333, oauthId: 'auth0|x', gamesStatusId: 6 },
     );
   });
 
@@ -225,6 +227,7 @@ describe('GameStatusChangedHandler', () => {
         null,
         'Świetna gra, polecam!',
         ['f1'],
+        7,
       ),
     );
 
@@ -232,7 +235,7 @@ describe('GameStatusChangedHandler', () => {
       ['tok1'],
       'Aktywność znajomych',
       'Piotr napisał recenzję Disco Elysium',
-      { type: 'game', hltbId: 444 },
+      { type: 'game', hltbId: 444, oauthId: 'auth0|piotr', gamesStatusId: 7 },
     );
   });
 });

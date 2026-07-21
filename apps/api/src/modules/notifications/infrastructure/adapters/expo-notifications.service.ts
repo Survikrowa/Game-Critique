@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import axios from 'axios';
 import {
   NotificationsServicePort,
   PushNotificationData,
@@ -52,23 +53,20 @@ export class ExpoNotificationsService implements NotificationsServicePort {
 
   private async sendToExpo(messages: ExpoPushMessage[]): Promise<number> {
     try {
-      const response = await fetch(EXPO_API_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
+      const response = await axios.post<ExpoPushResponse>(
+        EXPO_API_URL,
+        messages,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+          timeout: 10000,
         },
-        body: JSON.stringify(messages),
-      });
+      );
 
-      if (!response.ok) {
-        console.error(`Expo API error: ${response.status}`);
-        return 0;
-      }
-
-      const result: ExpoPushResponse = await response.json();
       const successes =
-        result.data?.filter((d) => d.status === 'ok').length ?? 0;
+        response.data.data?.filter((d) => d.status === 'ok').length ?? 0;
       return successes;
     } catch (error) {
       console.error(

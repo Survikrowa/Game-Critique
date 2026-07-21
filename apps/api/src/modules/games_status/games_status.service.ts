@@ -194,6 +194,7 @@ export class GamesStatusService {
         result.score,
         result.review,
         friendOauthIds,
+        result.id,
       ),
     );
 
@@ -260,7 +261,7 @@ export class GamesStatusService {
 
   private async getGameTitle(gameId: number): Promise<string> {
     const game = await this.prismaService.game.findUnique({
-      where: { hltbId: gameId },
+      where: { id: gameId },
       select: { name: true },
     });
     return game?.name ?? '';

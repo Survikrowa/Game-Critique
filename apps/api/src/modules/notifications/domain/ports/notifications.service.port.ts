@@ -1,9 +1,16 @@
 export const NOTIFICATIONS_SERVICE = Symbol('NOTIFICATIONS_SERVICE');
 
+export type PushNotificationType =
+  | 'game'
+  | 'friend_request'
+  | 'friend_accepted'
+  | 'stats';
+
 export interface PushNotificationData {
-  type: 'game' | 'friend' | 'stats';
+  type: PushNotificationType;
   hltbId?: number;
   oauthId?: string;
+  gamesStatusId?: number;
 }
 
 export interface NotificationsServicePort {

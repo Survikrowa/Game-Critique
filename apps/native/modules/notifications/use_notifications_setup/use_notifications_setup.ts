@@ -1,3 +1,4 @@
+import Constants from "expo-constants";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 import { useEffect, useState } from "react";
@@ -7,6 +8,9 @@ import { useRegisterPushTokenMutation } from "../notifications_graphql/register_
 
 const BYPASS_DEVICE_CHECK =
   process.env.EXPO_PUBLIC_BYPASS_DEVICE_CHECK === "true";
+
+const PROJECT_ID =
+  Constants.expoConfig?.extra?.eas?.projectId ?? Constants.easConfig?.projectId;
 
 export const useNotificationsSetup = () => {
   const [expoPushToken, setExpoPushToken] = useState<string | null>(null);
@@ -27,10 +31,21 @@ const registerForPushNotifications = async (
 ): Promise<void> => {
   if (!Device.isDevice && !BYPASS_DEVICE_CHECK) return;
 
+  if (Platform.OS === "android") {
+    await Notifications.setNotificationChannelAsync("default", {
+      name: "default",
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: "#FF231F7C",
+    });
+  }
+
   const permissionGranted = await requestPushPermission();
   if (!permissionGranted) return;
 
-  const tokenData = await Notifications.getExpoPushTokenAsync();
+  const tokenData = await Notifications.getExpoPushTokenAsync({
+    projectId: PROJECT_ID,
+  });
   setToken(tokenData.data);
 
   await register(tokenData.data, Platform.OS);

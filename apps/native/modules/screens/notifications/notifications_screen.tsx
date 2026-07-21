@@ -21,11 +21,17 @@ export const NotificationsScreen = () => {
     switch (notification.type) {
       case "game":
         // @ts-ignore — pre-existing route type limitation
-        router.push(`/game/${notification.data.hltbId}`);
+        router.push(
+          `/friends/games_status_info/${notification.data.gamesStatusId}?oauth_id=${notification.data.oauthId}`,
+        );
         break;
-      case "friend":
+      case "friend_request":
         // @ts-ignore — pre-existing route type limitation
-        router.push(`/friends/user_profile/${notification.data.oauthId}`);
+        router.push("/friends/friends_requests");
+        break;
+      case "friend_accepted":
+        // @ts-ignore — pre-existing route type limitation
+        router.push("/friends/friends_list");
         break;
       case "stats":
         // @ts-ignore — pre-existing route type limitation

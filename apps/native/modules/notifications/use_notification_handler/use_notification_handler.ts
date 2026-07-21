@@ -1,6 +1,6 @@
-import { useEffect } from "react";
 import * as Notifications from "expo-notifications";
 import { router } from "expo-router";
+import { useEffect } from "react";
 
 import { useNotificationHistoryStore } from "../notification_history_store";
 import { NotificationDataSchema } from "../notification_types";
@@ -22,10 +22,15 @@ const navigateFromNotification = (data: unknown): void => {
 
   switch (type) {
     case "game":
-      router.push(`/game/${parsed.data.hltbId}`);
+      router.push(
+        `/friends/games_status_info/${parsed.data.gamesStatusId}?oauth_id=${parsed.data.oauthId}`,
+      );
       break;
-    case "friend":
-      router.push(`/friends/user_profile/${parsed.data.oauthId}`);
+    case "friend_request":
+      router.push("/friends/friends_requests");
+      break;
+    case "friend_accepted":
+      router.push("/friends/friends_list");
       break;
     case "stats":
       router.push("/profile");

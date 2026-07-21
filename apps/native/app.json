@@ -31,9 +31,11 @@
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.gamecritique.mobile",
-      "permissions": ["INTERNET"]
+      "permissions": ["INTERNET"],
+      "googleServicesFile": "./google-services.json"
     },
     "plugins": [
+      "expo-notifications",
       [
         "expo-build-properties",
         {

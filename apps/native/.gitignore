@@ -33,3 +33,5 @@ eas.json
 
 expo-env.d.ts
 # @end expo-cli
+
+credentials/*

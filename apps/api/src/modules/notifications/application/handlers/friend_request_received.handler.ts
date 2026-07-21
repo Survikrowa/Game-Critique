@@ -31,7 +31,7 @@ export class FriendRequestReceivedHandler
       tokens.map((t) => t.token),
       'Nowe zaproszenie',
       `${event.senderName} chce Cię dodać do znajomych`,
-      { type: 'friend', oauthId: event.senderOauthId },
+      { type: 'friend_request', oauthId: event.senderOauthId },
     );
   }
 }

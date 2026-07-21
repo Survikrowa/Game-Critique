@@ -30,7 +30,7 @@ export class FriendRequestAcceptedHandler
         requesterTokens.map((t) => t.token),
         'Zaproszenie przyjęte',
         `${event.accepterName} zaakceptował Twoje zaproszenie!`,
-        { type: 'friend', oauthId: event.accepterOauthId },
+        { type: 'friend_accepted', oauthId: event.accepterOauthId },
       );
     }
 
@@ -42,7 +42,7 @@ export class FriendRequestAcceptedHandler
         accepterTokens.map((t) => t.token),
         'Nowy znajomy',
         `${event.requesterName} jest teraz Twoim znajomym!`,
-        { type: 'friend', oauthId: event.requesterOauthId },
+        { type: 'friend_accepted', oauthId: event.requesterOauthId },
       );
     }
   }

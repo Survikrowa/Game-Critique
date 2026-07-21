@@ -1,16 +1,16 @@
+import { router } from "expo-router";
 import { ArrowLeft } from "lucide-react-native";
 import { Pressable, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { useNotificationPreferences } from "@/modules/notifications/use_notification_preferences/use_notification_preferences";
 import { haptic } from "@/modules/haptics/haptic";
-import { Pressable as UIPressable } from "@/ui/forms/pressable/pressable";
-import { Text } from "@/ui/typography/text";
-import { VStack } from "@/ui/layout/vstack/vstack";
-import { HStack } from "@/ui/layout/hstack/hstack";
-import { Skeleton } from "@/ui/feedback/skeleton/skeleton";
+import { useNotificationPreferences } from "@/modules/notifications/use_notification_preferences/use_notification_preferences";
 import { ErrorState } from "@/ui/feedback/error_state/error_state";
-import { router } from "expo-router";
+import { Skeleton } from "@/ui/feedback/skeleton/skeleton";
+import { Pressable as UIPressable } from "@/ui/forms/pressable/pressable";
+import { HStack } from "@/ui/layout/hstack/hstack";
+import { VStack } from "@/ui/layout/vstack/vstack";
+import { Text } from "@/ui/typography/text";
 
 type ToggleConfig = {
   key:
@@ -59,7 +59,7 @@ export const NotificationsSettings = () => {
   if (loading) {
     return (
       <SafeAreaView edges={["top"]} className="flex-1 bg-background-0">
-        <VStack className="px-4 py-4 gap-4">
+        <VStack className="gap-4 px-4 py-4">
           {Array.from({ length: 4 }).map((_, i) => (
             <Skeleton
               key={i}
@@ -85,31 +85,33 @@ export const NotificationsSettings = () => {
 
   return (
     <SafeAreaView edges={["top"]} className="flex-1 bg-background-0">
-      <VStack className="px-4 py-4 gap-4">
-        <HStack className="items-center gap-4 mb-2">
+      <VStack className="gap-4 px-4 py-4">
+        <HStack className="mb-2 items-center gap-4">
           <Pressable
             onPress={() => router.back()}
             className="min-h-[44px] min-w-[44px] items-center justify-center"
           >
             <ArrowLeft size={24} color="#64748B" />
           </Pressable>
-          <Text size="xl" weight="bold" color="primary">
+          <Text size="large" weight="bold" color="primary">
             Powiadomienia
           </Text>
         </HStack>
         {TOGGLE_CONFIGS.map(({ key, label, description }) => (
           <VStack key={key} className="gap-1">
             <HStack className="items-center justify-between">
-              <Text color="primary">{label}</Text>
+              <Text weight="normal" size="small" color="primary">
+                {label}
+              </Text>
               <ToggleSwitch
                 value={preferences?.[key] ?? true}
                 onToggle={(val) => handleToggle(key, val)}
               />
             </HStack>
-            <Text size="sm" color="secondary">
+            <Text weight="normal" size="small" color="secondary">
               {description}
             </Text>
-            <View className="h-px bg-background-100 mt-2" />
+            <View className="mt-2 h-px bg-background-100" />
           </VStack>
         ))}
       </VStack>
@@ -126,10 +128,12 @@ const ToggleSwitch = ({
 }) => (
   <UIPressable
     onPress={() => onToggle(!value)}
-    className={`min-h-[44px] min-w-[44px] items-center justify-center px-4 rounded-full ${
+    className={`min-h-[44px] min-w-[44px] items-center justify-center rounded-full px-4 ${
       value ? "bg-primary-500" : "bg-background-100"
     }`}
   >
-    <Text>{value ? "ON" : "OFF"}</Text>
+    <Text color="primary" size="medium" weight="normal">
+      {value ? "ON" : "OFF"}
+    </Text>
   </UIPressable>
 );
