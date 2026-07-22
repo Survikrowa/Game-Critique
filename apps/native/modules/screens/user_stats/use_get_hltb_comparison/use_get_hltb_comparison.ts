@@ -1,11 +1,12 @@
 import { useHltbComparisonQuery } from "./user_stats.generated";
 
 type UseHltbComparisonArgs = {
-  gameStatusId: number;
+  gameStatusId?: number;
 };
 
 export const useHltbComparison = ({ gameStatusId }: UseHltbComparisonArgs) => {
   return useHltbComparisonQuery({
-    variables: { gameStatusId },
+    variables: { gameStatusId: gameStatusId || 0 },
+    skip: !gameStatusId,
   });
 };

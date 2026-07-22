@@ -12,6 +12,12 @@ type AuthUserVerification {
   role: Role
 }
 
+type BacklogProgressDTO {
+  added: Int!
+  completed: Int!
+  ratio: Float!
+}
+
 """Single Collection"""
 type CollectionDTO {
   counter: Float!
@@ -204,6 +210,13 @@ type GetFriendRequestsResponseDTO {
   senderProfile: ProfileInfoDTO
 }
 
+type HLTBComparisonDTO {
+  completionistHours: Int
+  mainStoryHours: Int
+  myHours: Int
+  myMinutes: Int
+}
+
 type HowLongToBeatMigrationStatusDTO {
   status: MigrationStatus
 }
@@ -222,6 +235,12 @@ enum MigrationStatus {
   FINISHED
   IN_PROGRESS
   WAITING
+}
+
+type MonthlyActivityDTO {
+  gamesCompleted: Int!
+  hoursPlayed: Float!
+  month: Int!
 }
 
 type Mutation {
@@ -344,6 +363,7 @@ type ProfileInfoUpdateResponseDTO {
 type Query {
   """Get available games status progress states"""
   availableGamesStatusProgressStates: GameStatusProgressStateDTO!
+  backlogProgress(year: Int!): BacklogProgressDTO!
   collection(id: Float!): CollectionWithGamesDTO!
   friendsActivity: [FriendsActivityDTO!]!
   friendsList: FriendsList!
@@ -356,8 +376,10 @@ type Query {
   getAllUserGamesStatusByOauthId(oauthId: String!): [UserGamesStatusResponseDTO!]!
   getNotificationPreferences: NotificationPreferencesObject
   getProfileCollections: [CollectionDTO!]!
+  hltbComparison(gameStatusId: Int!): HLTBComparisonDTO!
   lastEditedGames(limit: Int! = 5): [LastEditedGamesStatusDTO!]!
   migrationStatus: HowLongToBeatMigrationStatusDTO!
+  monthlyActivity(year: Int!): [MonthlyActivityDTO!]!
 
   """
   Returns the current user existing GameStatus for a given gameId, or null if none exists
@@ -372,6 +394,7 @@ type Query {
   profileInfo: ProfileInfoDTO!
   roles: [RoleDTO!]!
   search(input: String!): SearchResult!
+  streak: StreakDTO!
   upcomingGames(limit: Float!): [ExternalGameDTO!]!
   user(oauthId: String!): UserDataDTO!
 
@@ -387,12 +410,11 @@ type Query {
   If oauthId is not provided it will use the id of the user that called the query
   """
   userGamesStatus(filters: FiltersGameStatus, search: String, skip: Float = 0, sort: SortOptionsArg!, status: GameStatus!, take: Float = 5): UserGamesStatusResponseWithPaginationDTO!
-
-  """Get user stats"""
   userStats(type: String!): [UserStatsDTO!]!
   users: [UserDTO!]!
   usersSearch(input: String!): [UserSearchResultDTO!]!
   verify: AuthUserVerification!
+  yearlySummary(year: Int!): YearlySummaryDTO!
 }
 
 """Required arguments to remove a collection"""
@@ -446,6 +468,11 @@ input SortOptionsArg {
 """All possible sort options for games status"""
 type SortOptionsDTO {
   sortOptions: [SortOptions!]!
+}
+
+type StreakDTO {
+  currentStreak: Int!
+  longestStreak: Int!
 }
 
 type UpdateGameDataDTO {
@@ -553,4 +580,15 @@ type UserSearchResultDTO {
 type UserStatsDTO {
   label: String!
   value: Float!
+}
+
+type YearlySummaryDTO {
+  averageScore: Float
+  backlogAddedThisYear: Int!
+  completedThisYear: Int!
+  totalGames: Int!
+  totalHours: Float!
+  yearlyAverageScore: Float
+  yearlyGames: Int!
+  yearlyHours: Float!
 }

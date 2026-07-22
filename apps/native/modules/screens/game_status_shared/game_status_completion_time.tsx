@@ -7,13 +7,14 @@ import { Text } from "@/ui/typography/text";
 type GameStatusCompletionTimeProps = {
   hours: number | null | undefined;
   minutes: number | null | undefined;
-  seconds: number | null | undefined;
 };
+
+const HOURS_PLURAL = ["godzina", "godziny", "godzin"] as const;
+const MINUTES_PLURAL = ["minuta", "minuty", "minut"] as const;
 
 export const GameStatusCompletionTime = ({
   hours,
   minutes,
-  seconds,
 }: GameStatusCompletionTimeProps) => {
   return (
     <View className="mx-4 rounded-2xl bg-background-50 p-4">
@@ -25,10 +26,8 @@ export const GameStatusCompletionTime = ({
       </View>
       <View className="mt-2">
         <Text size="medium" weight="normal" color="primary">
-          {hours} {pluralizePolish(hours || 0, "godzina", "godziny", "godzin")},{" "}
-          {minutes} {pluralizePolish(minutes || 0, "minuta", "minuty", "minut")}{" "}
-          i {seconds}{" "}
-          {pluralizePolish(seconds || 0, "sekunda", "sekundy", "sekund")}
+          {hours} {pluralizePolish(hours || 0, ...HOURS_PLURAL)}, {minutes}{" "}
+          {pluralizePolish(minutes || 0, ...MINUTES_PLURAL)}
         </Text>
       </View>
     </View>

@@ -6,11 +6,13 @@ import { useSetHeaderTitle } from "../../router/use_set_header_title";
 import { GameStatusAchievements } from "../game_status_shared/game_status_achievements";
 import { GameStatusCompletionTime } from "../game_status_shared/game_status_completion_time";
 import { GameStatusHero } from "../game_status_shared/game_status_hero";
+import { GameStatusHLTBComparison } from "../game_status_shared/game_status_hltb_comparison";
 import { GameStatusInfoCards } from "../game_status_shared/game_status_info_cards";
 import { GameStatusReview } from "../game_status_shared/game_status_review";
 import { getPlatformText } from "../game_status_shared/get_platform_text";
 import { useUserGameStatus } from "../user_game_status/use_user_game_status/use_user_game_status";
 import { UserGameStatusFriendsReviews } from "../user_game_status/user_game_status_friends_reviews/user_game_status_friends_reviews";
+import { useHltbComparison } from "../user_stats/use_get_hltb_comparison/use_get_hltb_comparison";
 
 import { GameStatus } from "@/__generated__/types";
 import { ErrorState } from "@/ui/feedback/error_state/error_state";
@@ -48,6 +50,9 @@ export const OwnGameStatusScreen = () => {
     gameStatusId: games_status_id,
     oauthId: oauth_id,
   });
+  const hltbComparison = useHltbComparison({
+    gameStatusId: Number(games_status_id) || undefined,
+  });
   useSetHeaderTitle(userGameStatusQuery.data?.userGameStatus.game.name || "");
 
   if (userGameStatusQuery.loading || !userGameStatusQuery.data) {
@@ -70,8 +75,9 @@ export const OwnGameStatusScreen = () => {
     gameStatus.status === GameStatus.Completed &&
     gameStatus.completedIn &&
     (gameStatus.completedIn.hours != null ||
-      gameStatus.completedIn.minutes != null ||
-      gameStatus.completedIn.seconds != null);
+      gameStatus.completedIn.minutes != null);
+
+  const hltbData = hltbComparison.data?.hltbComparison;
 
   return (
     <ScrollView
@@ -96,9 +102,15 @@ export const OwnGameStatusScreen = () => {
           <GameStatusCompletionTime
             hours={gameStatus.completedIn?.hours}
             minutes={gameStatus.completedIn?.minutes}
-            seconds={gameStatus.completedIn?.seconds}
           />
         )}
+
+        <GameStatusHLTBComparison
+          myHours={gameStatus.completedIn?.hours ?? null}
+          myMinutes={gameStatus.completedIn?.minutes ?? null}
+          mainStoryHours={hltbData?.mainStoryHours ?? null}
+          completionistHours={hltbData?.completionistHours ?? null}
+        />
 
         {gameStatus.achievementsCompleted && <GameStatusAchievements />}
 
