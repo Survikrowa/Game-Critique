@@ -1,4 +1,4 @@
-import { Gamepad2, Star, Trophy } from "lucide-react-native";
+import { Gamepad2, Star } from "lucide-react-native";
 import { View } from "react-native";
 
 import { parseScore } from "../user_game_status/user_game_status_sections/user_game_status_score_section/parse_score";

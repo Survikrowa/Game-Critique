@@ -6,7 +6,6 @@
 - Kolory tokenowe: `bg-background-0/50/100`, `text-typography-100/400/white`, `text-primary-500`
 - `LinearGradient` z `expo-linear-gradient` — używaj inline `style`, nie `className`
 - Gluestack `Image` nadpisuje `style` na webzie — do absolutnego pozycjonowania używaj `Image as RNImage` z `react-native`
-- **NIE używaj `className` na `Text`** — spacing rob przez kontenery `View`
 
 ## Safe Area
 - **ZAWSZE używaj `SafeAreaView` z `edges={['top']}`** dla screenów z własnym headerem (`headerShown: false`)
