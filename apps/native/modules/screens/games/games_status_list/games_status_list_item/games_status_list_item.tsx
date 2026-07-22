@@ -1,5 +1,5 @@
-import { useState } from "react";
 import { router } from "expo-router";
+import { useState } from "react";
 
 import { GamesStatusListItemButtons } from "./games_status_list_item_buttons/games_status_list_item_buttons";
 import { useRemoveGameStatus } from "./games_status_list_item_buttons/use_remove_game_status/use_remove_game_status";
@@ -91,7 +91,10 @@ export const GamesStatusListItem = ({ item }: GamesStatusListItemProps) => {
         item={item}
         onPress={() => {
           haptic.light();
-          router.push(`/games/game/${item.gameId}`);
+          router.push({
+            pathname: "/games_status/games_status_info/[games_status_id]",
+            params: { games_status_id: item.id },
+          });
         }}
         onBadgePress={() => setIsStatusMenuOpen(true)}
         onMorePress={() => setIsSheetOpen(true)}
@@ -102,7 +105,7 @@ export const GamesStatusListItem = ({ item }: GamesStatusListItemProps) => {
         isOpen={isSheetOpen}
         displayAsModal
       >
-        <VStack className="p-4 gap-4 items-center">
+        <VStack className="items-center gap-4 p-4">
           <Text size="medium" weight="bold" color="primary">
             {item.title}
           </Text>

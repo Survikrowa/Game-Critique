@@ -5,5 +5,8 @@ query YearlySummary($year: Int!) {
     averageScore
     completedThisYear
     backlogAddedThisYear
+    yearlyGames
+    yearlyHours
+    yearlyAverageScore
   }
 }

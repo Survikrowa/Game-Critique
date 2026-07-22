@@ -8,7 +8,7 @@ export type YearlySummaryQueryVariables = Types.Exact<{
 }>;
 
 
-export type YearlySummaryQuery = { __typename?: 'Query', yearlySummary: { __typename?: 'YearlySummaryDTO', totalGames: number, totalHours: number, averageScore?: number | null, completedThisYear: number, backlogAddedThisYear: number } };
+export type YearlySummaryQuery = { __typename?: 'Query', yearlySummary: { __typename?: 'YearlySummaryDTO', totalGames: number, totalHours: number, averageScore?: number | null, completedThisYear: number, backlogAddedThisYear: number, yearlyGames: number, yearlyHours: number, yearlyAverageScore?: number | null } };
 
 
 export const YearlySummaryDocument = gql`
@@ -19,6 +19,9 @@ export const YearlySummaryDocument = gql`
     averageScore
     completedThisYear
     backlogAddedThisYear
+    yearlyGames
+    yearlyHours
+    yearlyAverageScore
   }
 }
     `;

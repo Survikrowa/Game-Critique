@@ -44,22 +44,36 @@ export class GetYearlySummaryHandler
     let totalSeconds = 0;
     let scoreSum = 0;
     let scoreCount = 0;
+    let yearlyGames = 0;
+    let yearlySeconds = 0;
+    let yearlyScoreSum = 0;
+    let yearlyScoreCount = 0;
 
     for (const status of allStatuses) {
+      const isYearly =
+        status.updatedAt >= yearStart && status.updatedAt < yearEnd;
+
       if (status.completedIn) {
         const h = status.completedIn.hours || 0;
         const m = status.completedIn.minutes || 0;
         const s = status.completedIn.seconds || 0;
-        totalSeconds +=
+        const seconds =
           h * MINUTES_IN_HOUR * SECONDS_IN_MINUTE + m * SECONDS_IN_MINUTE + s;
+        totalSeconds += seconds;
+        if (isYearly) yearlySeconds += seconds;
       }
       if (status.score) {
         const parsed = parseFloat(status.score.replace('-', '.'));
         if (!isNaN(parsed)) {
           scoreSum += parsed;
           scoreCount++;
+          if (isYearly) {
+            yearlyScoreSum += parsed;
+            yearlyScoreCount++;
+          }
         }
       }
+      if (isYearly) yearlyGames++;
     }
 
     const totalHours =
@@ -67,6 +81,13 @@ export class GetYearlySummaryHandler
       10;
     const averageScore =
       scoreCount > 0 ? Math.round((scoreSum / scoreCount) * 10) / 10 : null;
+    const yearlyHours =
+      Math.round((yearlySeconds / (MINUTES_IN_HOUR * SECONDS_IN_MINUTE)) * 10) /
+      10;
+    const yearlyAverageScore =
+      yearlyScoreCount > 0
+        ? Math.round((yearlyScoreSum / yearlyScoreCount) * 10) / 10
+        : null;
 
     return {
       totalGames,
@@ -74,6 +95,9 @@ export class GetYearlySummaryHandler
       averageScore,
       completedThisYear,
       backlogAddedThisYear,
+      yearlyGames,
+      yearlyHours,
+      yearlyAverageScore,
     };
   }
 }

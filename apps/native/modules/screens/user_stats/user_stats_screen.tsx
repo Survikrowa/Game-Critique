@@ -91,9 +91,9 @@ export const UserStatsScreen = () => {
         {isLoaded && summary && streakData && monthlyData && backlogData ? (
           <>
             <StatsSummaryCards
-              totalGames={summary.totalGames}
-              totalHours={summary.totalHours}
-              averageScore={summary.averageScore ?? null}
+              totalGames={summary.yearlyGames}
+              totalHours={summary.yearlyHours}
+              averageScore={summary.yearlyAverageScore ?? null}
             />
 
             <StatsStreak

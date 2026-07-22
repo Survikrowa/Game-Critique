@@ -31,6 +31,15 @@ export class YearlySummaryDTO {
 
   @Field(() => Int)
   backlogAddedThisYear: number;
+
+  @Field(() => Int)
+  yearlyGames: number;
+
+  @Field(() => Float)
+  yearlyHours: number;
+
+  @Field(() => Float, { nullable: true })
+  yearlyAverageScore: number | null;
 }
 
 @ObjectType()
