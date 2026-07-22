@@ -88,6 +88,8 @@
 - `JwtAuthGuard` wymaga eksportu `CqrsModule` z `AuthModule` dla modułów importujących
 - HLTB: `comp_100` = 100% completionist (w sekundach), zaokrąglaj do 0.5h
 - `timeToRelative`: argumenty `pluralizePolish(count, singular, few, many)`
+- **Prisma `$transaction`**: przy 2+ zapytaniach Prisma w jednej metodzie, gdzie co najmniej jedno robi update/create/delete — zawsze używaj `this.prisma.$transaction(async (tx) => { ... })`
+- **Filtrowanie po dacie w Prisma**: używaj `{ gte: dateStart, lt: dateEnd }` w where — nie pobieraj wszystkich rekordów i nie filtruj w JS
 
 ## Code Quality
 - **ZERO magic numbers** — wszystkie wartości liczbowe (poza 0, 1) wyciągaj do stałych z nazwą opisującą cel
