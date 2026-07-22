@@ -1,5 +1,5 @@
 import { Link } from "expo-router";
-import { BarChart, Import } from "lucide-react-native";
+import { Award, BarChart, Import } from "lucide-react-native";
 import { FlatList, Pressable } from "react-native";
 import { Text } from "ui/typography/text";
 
@@ -9,6 +9,12 @@ const FEATURE_LIST = [
     description: "Wyświetl swoje statystyki.",
     route: "/user/stats" as const,
     Icon: BarChart,
+  },
+  {
+    title: "Gaming Wrapped",
+    description: "Podsumowanie Twojego roku.",
+    route: "/user/wrapped" as const,
+    Icon: Award,
   },
   {
     title: "HLTB Migracja",

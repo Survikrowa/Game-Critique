@@ -24,6 +24,12 @@ const UserLayout = () => {
           header: () => <GoBackHeader text="Statystyki" />,
         }}
       />
+      <Stack.Screen
+        name="wrapped"
+        options={{
+          header: () => <GoBackHeader text="Twój rok 2026" />,
+        }}
+      />
     </Stack>
   );
 };
