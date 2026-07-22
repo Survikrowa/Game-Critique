@@ -10,6 +10,7 @@ type TextProps = {
   color: keyof typeof TEXT_COLOR_CLASS;
   children: ReactNode;
   transform?: "uppercase" | "lowercase" | "capitalize";
+  numberOfLines?: number;
 };
 
 const TEXT_SIZE = {
@@ -44,10 +45,12 @@ export const Text = ({
   children,
   color,
   transform,
+  numberOfLines,
 }: TextProps) => {
   return (
     <RNText
       className={TEXT_COLOR_CLASS[color]}
+      numberOfLines={numberOfLines}
       style={StyleSheet.flatten([
         { fontSize: TEXT_SIZE[size], fontWeight: TEXT_WEIGHT[weight] },
         transform ? { textTransform: transform } : undefined,
