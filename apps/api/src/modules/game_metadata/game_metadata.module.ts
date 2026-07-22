@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { HttpModule } from '@nestjs/axios';
 import { CqrsModule } from '@nestjs/cqrs';
 import { DatabaseModule } from '../database/database.module';
 import { PrismaGameMetadataRepository } from './infrastructure/adapters/prisma-game-metadata.repository';
@@ -11,7 +12,7 @@ const CommandHandlers = [FetchDoesItPlayDataHandler];
 const EventHandlers = [BackfillDoesItPlayHandler];
 
 @Module({
-  imports: [CqrsModule, DatabaseModule],
+  imports: [CqrsModule, DatabaseModule, HttpModule],
   providers: [
     ...CommandHandlers,
     ...EventHandlers,
