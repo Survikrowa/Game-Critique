@@ -12,7 +12,10 @@ type GameStatusHeroProps = {
   };
 };
 
-const BADGE_COLOR_CLASS: Record<string, string> = {
+const BADGE_COLOR_CLASS: Record<
+  GameStatusHeroProps["statusBadge"]["color"],
+  string
+> = {
   success: "bg-success-500",
   primary: "bg-primary-500",
   warning: "bg-warning-500",

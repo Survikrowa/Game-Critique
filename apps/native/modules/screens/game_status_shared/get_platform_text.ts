@@ -8,7 +8,7 @@ export const getPlatformText = (status: GameStatus) => {
       return "Ukończona na: ";
     case GameStatus.Retired:
       return "Porzucona na:";
-    default:
-      return "Nieznany";
+    case GameStatus.Backlog:
+      return "Dodana do backlogu na:";
   }
 };
