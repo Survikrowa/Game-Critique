@@ -2,7 +2,7 @@ import { Image, View } from "react-native";
 
 import { Text } from "@/ui/typography/text";
 
-const TrophyPlatinium = require("../user_game_status/user_game_status_sections/user_game_status_achievements_completed_section/assets/trophy-platinium.png");
+const TrophyPlatinium = require("./assets/trophy-platinium.png");
 
 export const GameStatusAchievements = () => {
   return (

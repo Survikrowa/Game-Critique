@@ -1,12 +1,12 @@
-import { ChevronRight, MessageSquare } from "lucide-react-native";
 import { router, useLocalSearchParams } from "expo-router";
+import { ChevronRight, MessageSquare } from "lucide-react-native";
 import { ActivityIndicator, ScrollView } from "react-native";
 
 import { useGameStatusReviewStore } from "./use_game_status_review_store/use_game_status_review_store";
 import { truncateString } from "../../strings/truncate_string";
 import { UserAvatar } from "../../user/user_avatar/user_avatar";
+import { parseScore } from "../game_status_shared/parse_score";
 import { useFriendsGameReviews } from "../user_game_status/user_game_status_friends_reviews/use_friends_game_reviews/use_friends_game_reviews";
-import { parseScore } from "../user_game_status/user_game_status_sections/user_game_status_score_section/parse_score";
 
 import { EmptyState } from "@/ui/feedback/empty_state/empty_state";
 import { Pressable } from "@/ui/forms/pressable/pressable";
@@ -33,7 +33,7 @@ export const GameStatusReviewsScreen = ({
   );
   if (friendsGameReviewsQuery.loading || !friendsGameReviewsQuery.data) {
     return (
-      <HStack className="items-center w-full">
+      <HStack className="w-full items-center">
         <ActivityIndicator size="large" color="#3B82F6" />
       </HStack>
     );
@@ -80,8 +80,8 @@ export const GameStatusReviewsScreen = ({
                 });
               }}
             >
-              <HStack className="justify-between items-center">
-                <HStack className="gap-2 items-center">
+              <HStack className="items-center justify-between">
+                <HStack className="items-center gap-2">
                   <UserAvatar
                     size="$3"
                     avatarUrl={review.profile?.avatarUrl || ""}

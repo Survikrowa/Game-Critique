@@ -1,15 +1,15 @@
 import { useLocalSearchParams } from "expo-router";
 import { ScrollView, View } from "react-native";
 
-import { getPlatformText } from "../user_game_status/get_platform_text/get_platform_text";
-import { useUserGameStatus } from "../user_game_status/use_user_game_status/use_user_game_status";
-import { UserGameStatusFriendsReviews } from "../user_game_status/user_game_status_friends_reviews/user_game_status_friends_reviews";
+import { useSetHeaderTitle } from "../../router/use_set_header_title";
 import { GameStatusAchievements } from "../game_status_shared/game_status_achievements";
 import { GameStatusCompletionTime } from "../game_status_shared/game_status_completion_time";
 import { GameStatusHero } from "../game_status_shared/game_status_hero";
 import { GameStatusInfoCards } from "../game_status_shared/game_status_info_cards";
 import { GameStatusReview } from "../game_status_shared/game_status_review";
-import { useSetHeaderTitle } from "../../router/use_set_header_title";
+import { getPlatformText } from "../game_status_shared/get_platform_text";
+import { useUserGameStatus } from "../user_game_status/use_user_game_status/use_user_game_status";
+import { UserGameStatusFriendsReviews } from "../user_game_status/user_game_status_friends_reviews/user_game_status_friends_reviews";
 
 import { GameStatus } from "@/__generated__/types";
 import { ErrorState } from "@/ui/feedback/error_state/error_state";

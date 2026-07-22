@@ -1,8 +1,8 @@
 import { Gamepad2, Star } from "lucide-react-native";
 import { View } from "react-native";
 
-import { parseScore } from "../user_game_status/user_game_status_sections/user_game_status_score_section/parse_score";
-import { getPlatformColor } from "../user_game_status/user_game_status_sections/user_game_status_platform_section/get_platform_color/get_platform_color";
+import { getPlatformColor } from "./get_platform_color";
+import { parseScore } from "./parse_score";
 
 import { Text } from "@/ui/typography/text";
 

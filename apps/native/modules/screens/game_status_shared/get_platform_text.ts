@@ -1,4 +1,4 @@
-import { GameStatus } from "../../../../__generated__/types";
+import { GameStatus } from "../../../__generated__/types";
 
 export const getPlatformText = (status: GameStatus) => {
   switch (status) {
