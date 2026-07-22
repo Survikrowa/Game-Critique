@@ -1,0 +1,6 @@
+query Streak {
+  streak {
+    currentStreak
+    longestStreak
+  }
+}
