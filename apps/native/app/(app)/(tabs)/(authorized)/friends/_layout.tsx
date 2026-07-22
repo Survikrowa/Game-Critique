@@ -41,7 +41,7 @@ const FriendsLayout = () => {
       <Stack.Screen
         name="games_status_info/[games_status_id]"
         options={{
-          headerShown: false,
+          header: () => <GoBackHeader text="" />,
         }}
       />
       <Stack.Screen

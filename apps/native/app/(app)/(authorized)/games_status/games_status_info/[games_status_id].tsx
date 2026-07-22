@@ -1,6 +1,7 @@
 import { Stack } from "expo-router";
 
 import { BaseScreenLayout } from "@/modules/layouts/base_screen_layout/base_screen_layout";
+import { GoBackHeader } from "@/modules/layouts/go_back_header/go_back_header";
 import { OwnGameStatusScreen } from "@/modules/screens/own_game_status/own_game_status_screen";
 
 const GamesStatusInfo = () => {
@@ -8,7 +9,7 @@ const GamesStatusInfo = () => {
     <BaseScreenLayout>
       <Stack.Screen
         options={{
-          headerShown: false,
+          header: () => <GoBackHeader text="" />,
         }}
       />
       <OwnGameStatusScreen />
