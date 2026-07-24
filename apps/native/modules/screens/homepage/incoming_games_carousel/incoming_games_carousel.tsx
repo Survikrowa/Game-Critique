@@ -1,17 +1,17 @@
 import { LinearGradient } from "expo-linear-gradient";
+import { router } from "expo-router";
 import { Bell, BellRing, ExternalLink } from "lucide-react-native";
 import { Image as RNImage, Pressable, View } from "react-native";
-import { router } from "expo-router";
 
 import { formatReleaseDateToPolishLocale } from "@/modules/dates/date_to_polish_locale";
+import { useReminderAction } from "@/modules/release_reminders/use_reminder_action/use_reminder_action";
+import { useCheckReminderStatus } from "@/modules/release_reminders/use_user_reminders/use_user_reminders";
 import { HomepageSection } from "@/modules/screens/homepage/homepage_section/homepage_section";
 import { HomepageSectionCarousel } from "@/modules/screens/homepage/homepage_section/homepage_section_carousel";
 import { IncomingGamesQuery } from "@/modules/screens/homepage/incoming_games_carousel/use_incoming_games/incoming_games.generated";
 import { useIncomingGames } from "@/modules/screens/homepage/incoming_games_carousel/use_incoming_games/use_incoming_games";
 import { truncateString } from "@/modules/strings/truncate_string";
 import { Text } from "@/ui/typography/text";
-import { useCheckReminderStatus } from "@/modules/release_reminders/use_user_reminders/use_user_reminders";
-import { useReminderAction } from "@/modules/release_reminders/use_reminder_action/use_reminder_action";
 
 export const IncomingGamesCarousel = () => {
   const { data } = useIncomingGames();
@@ -102,7 +102,7 @@ const IncomingGamesCarouselItem = ({
           <Pressable
             onPress={handleRemind}
             disabled={isReminded}
-            className={`min-h-[32px] flex-row items-center gap-1 rounded-full px-3 py-1.5 ${
+            className={`min-h-[44px] flex-row items-center gap-1 rounded-full px-4 py-1.5 ${
               isReminded ? "bg-primary-500/30" : "bg-primary-500"
             }`}
           >
@@ -118,7 +118,7 @@ const IncomingGamesCarouselItem = ({
           {item.gameUrl ? (
             <Pressable
               onPress={handleOpenLink}
-              className="min-h-[32px] min-w-[32px] items-center justify-center rounded-full bg-background-0/30 p-1.5"
+              className="min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-background-0/30 p-1.5"
             >
               <ExternalLink size={14} color="#fff" />
             </Pressable>
