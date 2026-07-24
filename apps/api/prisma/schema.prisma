@@ -33,8 +33,26 @@ model User {
   FriendsRequestsForUsersReceiver     FriendsRequestsForUsers[]            @relation(name: "FriendRequestReceiver")
   pushTokens                          PushToken[]
   notificationPreferences             NotificationPreferences?
+  gameReminders                       GameReminder[]
 
   @@map("users")
+}
+
+model GameReminder {
+  id                 Int      @id @default(autoincrement())
+  oauthId            String   @map("oauth_id")
+  igdbId             Int      @map("igdb_id")
+  gameName           String   @map("game_name")
+  gameUrl            String   @map("game_url")
+  releaseDate        DateTime @map("release_date")
+  coverUrl           String?  @map("cover_url")
+  notifiedOneWeek    Boolean  @default(false) @map("notified_one_week")
+  notifiedReleaseDay Boolean  @default(false) @map("notified_release_day")
+  createdAt          DateTime @default(now()) @map("created_at")
+  user               User     @relation(fields: [oauthId], references: [oauthId], onDelete: Cascade)
+
+  @@unique([oauthId, igdbId])
+  @@map("game_reminder")
 }
 
 model Profile {
