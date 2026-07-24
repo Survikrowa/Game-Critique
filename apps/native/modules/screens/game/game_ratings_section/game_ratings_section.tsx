@@ -1,6 +1,6 @@
+import { Star } from "lucide-react-native";
 import { View } from "react-native";
 import { Text } from "ui/typography/text";
-import { Star } from "lucide-react-native";
 
 export const GameRatingsSection = () => (
   <View style={{ gap: 8 }}>
@@ -8,19 +8,19 @@ export const GameRatingsSection = () => (
       <Text size="small" weight="semiBold" color="secondary">
         Oceny graczy
       </Text>
-      <View className="bg-background-100 rounded-full px-2 py-0.5">
-        <Text size="extraSmall" weight="bold" color="secondary">
+      <View className="rounded-full bg-background-100 px-2 py-0.5">
+        <Text size="small" weight="bold" color="secondary">
           Wkrótce
         </Text>
       </View>
     </View>
     <View className="flex-row gap-3">
       <View
-        className="flex-1 items-center bg-background-50 rounded-2xl py-4"
+        className="flex-1 items-center rounded-2xl bg-background-50 py-4"
         style={{ gap: 4 }}
       >
         <Star size={20} color="#F59E0B" />
-        <Text size="extraSmall" weight="normal" color="secondary">
+        <Text size="small" weight="normal" color="secondary">
           Metacritic
         </Text>
         <Text size="large" weight="bold" color="secondary">
@@ -28,11 +28,11 @@ export const GameRatingsSection = () => (
         </Text>
       </View>
       <View
-        className="flex-1 items-center bg-background-50 rounded-2xl py-4"
+        className="flex-1 items-center rounded-2xl bg-background-50 py-4"
         style={{ gap: 4 }}
       >
         <Star size={20} color="#3B82F6" />
-        <Text size="extraSmall" weight="normal" color="secondary">
+        <Text size="small" weight="normal" color="secondary">
           OpenCritic
         </Text>
         <Text size="large" weight="bold" color="secondary">
