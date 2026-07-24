@@ -1,0 +1,11 @@
+mutation AddReminder($input: AddReminderInput!) {
+  addReminder(input: $input) {
+    id
+    igdbId
+    gameName
+    gameUrl
+    releaseDate
+    coverUrl
+    createdAt
+  }
+}

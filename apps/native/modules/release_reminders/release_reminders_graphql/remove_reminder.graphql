@@ -1,0 +1,3 @@
+mutation RemoveReminder($igdbId: Int!) {
+  removeReminder(igdbId: $igdbId)
+}

@@ -39,6 +39,6 @@ const EventHandlers = [
       useClass: ExpoNotificationsService,
     },
   ],
-  exports: [CqrsModule],
+  exports: [CqrsModule, PUSH_TOKEN_REPOSITORY, NOTIFICATIONS_SERVICE],
 })
 export class NotificationsModule {}
