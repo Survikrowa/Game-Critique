@@ -1,5 +1,7 @@
 import { LinearGradient } from "expo-linear-gradient";
-import { Image as RNImage, View } from "react-native";
+import { Bell, BellRing, ExternalLink } from "lucide-react-native";
+import { Image as RNImage, Pressable, View } from "react-native";
+import { router } from "expo-router";
 
 import { formatReleaseDateToPolishLocale } from "@/modules/dates/date_to_polish_locale";
 import { HomepageSection } from "@/modules/screens/homepage/homepage_section/homepage_section";
@@ -8,6 +10,8 @@ import { IncomingGamesQuery } from "@/modules/screens/homepage/incoming_games_ca
 import { useIncomingGames } from "@/modules/screens/homepage/incoming_games_carousel/use_incoming_games/use_incoming_games";
 import { truncateString } from "@/modules/strings/truncate_string";
 import { Text } from "@/ui/typography/text";
+import { useCheckReminderStatus } from "@/modules/release_reminders/use_user_reminders/use_user_reminders";
+import { useReminderAction } from "@/modules/release_reminders/use_reminder_action/use_reminder_action";
 
 export const IncomingGamesCarousel = () => {
   const { data } = useIncomingGames();
@@ -31,6 +35,9 @@ const mapIncomingGame = (game: IncomingGamesQuery["upcomingGames"][number]) => {
     gameTitle: game.name,
     gameReleaseDate: formatReleaseDateToPolishLocale(game.releaseDate),
     gameImage: game.coverUrl || game.backgroundUrl || "",
+    igdbId: parseInt(game.id, 10),
+    gameUrl: game.url || "",
+    rawReleaseDate: game.releaseDate,
   };
 };
 
@@ -39,17 +46,39 @@ type IncomingGamesCarouselItemProps = {
     gameTitle: string;
     gameReleaseDate: string;
     gameImage: string;
+    igdbId: number;
+    gameUrl: string;
+    rawReleaseDate: string;
   };
 };
 
 const IncomingGamesCarouselItem = ({
   item,
 }: IncomingGamesCarouselItemProps) => {
+  const isReminded = useCheckReminderStatus(item.igdbId);
+  const { addReminder } = useReminderAction();
+
+  const handleRemind = () => {
+    if (isReminded) return;
+    addReminder({
+      igdbId: item.igdbId,
+      gameName: item.gameTitle,
+      gameUrl: item.gameUrl,
+      releaseDate: item.rawReleaseDate,
+    });
+  };
+
+  const handleOpenLink = () => {
+    if (item.gameUrl) {
+      router.push({ pathname: "/webview", params: { url: item.gameUrl } });
+    }
+  };
+
   return (
-    <View className="h-[220px] rounded-xl overflow-hidden bg-background-100">
+    <View className="h-[220px] overflow-hidden rounded-xl bg-background-100">
       <RNImage
         source={{ uri: item.gameImage }}
-        className="absolute inset-0 w-full h-full"
+        className="absolute inset-0 h-full w-full"
         resizeMode="cover"
       />
       <LinearGradient
@@ -59,16 +88,42 @@ const IncomingGamesCarouselItem = ({
           bottom: 0,
           left: 0,
           right: 0,
-          height: 120,
+          height: 160,
         }}
       />
-      <View className="absolute bottom-0 left-0 right-0 px-3 pb-3 gap-1">
+      <View className="absolute bottom-0 left-0 right-0 gap-1 px-3 pb-3">
         <Text size="medium" weight="bold" color="white">
           {truncateString(item.gameTitle, 22)}
         </Text>
         <Text size="small" weight="semiBold" color="secondary">
           {item.gameReleaseDate}
         </Text>
+        <View className="mt-1 flex-row gap-2">
+          <Pressable
+            onPress={handleRemind}
+            disabled={isReminded}
+            className={`min-h-[32px] flex-row items-center gap-1 rounded-full px-3 py-1.5 ${
+              isReminded ? "bg-primary-500/30" : "bg-primary-500"
+            }`}
+          >
+            {isReminded ? (
+              <BellRing size={14} color="#fff" />
+            ) : (
+              <Bell size={14} color="#fff" />
+            )}
+            <Text size="small" weight="semiBold" color="white">
+              {isReminded ? "Powiadomię" : "Powiadom o premierze"}
+            </Text>
+          </Pressable>
+          {item.gameUrl ? (
+            <Pressable
+              onPress={handleOpenLink}
+              className="min-h-[32px] min-w-[32px] items-center justify-center rounded-full bg-background-0/30 p-1.5"
+            >
+              <ExternalLink size={14} color="#fff" />
+            </Pressable>
+          ) : null}
+        </View>
       </View>
     </View>
   );
