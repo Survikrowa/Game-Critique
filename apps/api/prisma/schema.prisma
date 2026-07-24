@@ -52,6 +52,7 @@ model GameReminder {
   user               User     @relation(fields: [oauthId], references: [oauthId], onDelete: Cascade)
 
   @@unique([oauthId, igdbId])
+  @@index([releaseDate])
   @@map("game_reminder")
 }
 
