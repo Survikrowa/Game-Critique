@@ -92,6 +92,23 @@ const IncomingGamesCarouselItem = ({
           height: 160,
         }}
       />
+      <View className="ml-1 mt-1 flex-row gap-2">
+        <Pressable
+          onPress={handleRemind}
+          disabled={isReminded || loadingAdd}
+          className="min-h-[44px] flex-row items-center gap-1 rounded-full bg-primary-500 px-4 py-1.5"
+        >
+          <ReminderIcon loadingAdd={loadingAdd} isReminded={isReminded} />
+        </Pressable>
+        {item.gameUrl ? (
+          <Pressable
+            onPress={handleOpenLink}
+            className="min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-background-0/30 p-1.5"
+          >
+            <ExternalLink size={14} color="#fff" />
+          </Pressable>
+        ) : null}
+      </View>
       <View className="absolute bottom-0 left-0 right-0 gap-1 px-3 pb-3">
         <Text size="medium" weight="bold" color="white">
           {truncateString(item.gameTitle, 22)}
@@ -99,28 +116,6 @@ const IncomingGamesCarouselItem = ({
         <Text size="small" weight="semiBold" color="secondary">
           {item.gameReleaseDate}
         </Text>
-        <View className="mt-1 flex-row gap-2">
-          <Pressable
-            onPress={handleRemind}
-            disabled={isReminded || loadingAdd}
-            className={`min-h-[44px] flex-row items-center gap-1 rounded-full px-4 py-1.5 ${
-              isReminded ? "bg-primary-500/30" : "bg-primary-500"
-            }`}
-          >
-            <ReminderIcon loadingAdd={loadingAdd} isReminded={isReminded} />
-            <Text size="small" weight="semiBold" color="white">
-              {isReminded ? "Powiadomię" : "Powiadom o premierze"}
-            </Text>
-          </Pressable>
-          {item.gameUrl ? (
-            <Pressable
-              onPress={handleOpenLink}
-              className="min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-background-0/30 p-1.5"
-            >
-              <ExternalLink size={14} color="#fff" />
-            </Pressable>
-          ) : null}
-        </View>
       </View>
     </View>
   );
