@@ -30,6 +30,12 @@ const UserLayout = () => {
           header: () => <GoBackHeader text="Twój rok 2026" />,
         }}
       />
+      <Stack.Screen
+        name="reminders"
+        options={{
+          header: () => <GoBackHeader text="Obserwowane premiery" />,
+        }}
+      />
     </Stack>
   );
 };

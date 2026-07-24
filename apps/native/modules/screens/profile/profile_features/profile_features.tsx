@@ -1,5 +1,5 @@
 import { Link } from "expo-router";
-import { Award, BarChart, Import } from "lucide-react-native";
+import { Award, BarChart, Bell, Import } from "lucide-react-native";
 import { FlatList, Pressable } from "react-native";
 import { Text } from "ui/typography/text";
 
@@ -21,6 +21,12 @@ const FEATURE_LIST = [
     description: "Przenieś swoje dane z HLTB.",
     Icon: Import,
     route: "/user/hltb" as const,
+  },
+  {
+    title: "Obserwowane premiery",
+    description: "Zarządzaj powiadomieniami o premierach.",
+    route: "/user/reminders" as const,
+    Icon: Bell,
   },
 ];
 

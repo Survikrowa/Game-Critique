@@ -37,6 +37,12 @@ const navigateFromNotification = (data: unknown): void => {
     case "stats":
       router.push("/user");
       break;
+    case "release_reminder":
+      router.push({
+        pathname: "/webview",
+        params: { url: parsed.data.gameUrl },
+      });
+      break;
   }
 };
 
