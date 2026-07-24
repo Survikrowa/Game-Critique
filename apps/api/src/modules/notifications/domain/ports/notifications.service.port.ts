@@ -4,13 +4,17 @@ export type PushNotificationType =
   | 'game'
   | 'friend_request'
   | 'friend_accepted'
-  | 'stats';
+  | 'stats'
+  | 'release_reminder';
 
 export interface PushNotificationData {
   type: PushNotificationType;
   hltbId?: number;
   oauthId?: string;
   gamesStatusId?: number;
+  igdbId?: number;
+  gameUrl?: string;
+  gameName?: string;
 }
 
 export interface NotificationsServicePort {

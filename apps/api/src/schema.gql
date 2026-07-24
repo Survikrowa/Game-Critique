@@ -7,6 +7,14 @@ input AddGameToCollectionDTO {
   hltbGameId: Float!
 }
 
+input AddReminderInput {
+  coverUrl: String
+  gameName: String!
+  gameUrl: String!
+  igdbId: Int!
+  releaseDate: DateTime!
+}
+
 type AuthUserVerification {
   authorized: Boolean!
   role: Role
@@ -119,6 +127,16 @@ type GameMetadataDTO {
 type GameReleaseDTO {
   date: Float
   id: Float!
+}
+
+type GameReminderObject {
+  coverUrl: String
+  createdAt: DateTime!
+  gameName: String!
+  gameUrl: String!
+  id: Int!
+  igdbId: Int!
+  releaseDate: DateTime!
 }
 
 """GameStatus Enum"""
@@ -247,12 +265,14 @@ type MonthlyActivityDTO {
 type Mutation {
   acceptFriendRequest(senderOauthId: String!): FriendRequestResponseDTO!
   addGameToCollection(collection: AddGameToCollectionDTO!): CollectionMutationResponseDTO!
+  addReminder(input: AddReminderInput!): GameReminderObject!
   createNewCollection(collection: NewCollectionDTO!): CollectionDTO!
   fetchDoesItPlayData(hltbId: Float!): Boolean!
   registerPushToken(platform: String!, token: String!): Boolean!
   rejectFriendRequest(senderOauthId: String!): FriendRequestResponseDTO!
   removeCollection(collection: RemoveCollectionArgsDTO!): RemovedCollectionResponseDTO!
   removeGameStatus(gameStatusId: Float!): GameStatusSuccessResponseDTO!
+  removeReminder(igdbId: Int!): Boolean!
 
   """Admin mutation to remove game status by gameStatusId and user oauthId"""
   removeUserGameStatusByUserOauthId(gameStatusId: Float!, oauthId: String!): GameStatusRemovedResponseDTO!
@@ -365,6 +385,7 @@ type Query {
   """Get available games status progress states"""
   availableGamesStatusProgressStates: GameStatusProgressStateDTO!
   backlogProgress(year: Int!): BacklogProgressDTO!
+  checkReminderStatus(igdbId: Int!): Boolean!
   collection(id: Float!): CollectionWithGamesDTO!
   friendsActivity: [FriendsActivityDTO!]!
   friendsList: FriendsList!
@@ -377,6 +398,7 @@ type Query {
   getAllUserGamesStatusByOauthId(oauthId: String!): [UserGamesStatusResponseDTO!]!
   getNotificationPreferences: NotificationPreferencesObject
   getProfileCollections: [CollectionDTO!]!
+  getUserReminders: [GameReminderObject!]!
   hltbComparison(gameStatusId: Int!): HLTBComparisonDTO!
   lastEditedGames(limit: Int! = 5): [LastEditedGamesStatusDTO!]!
   migrationStatus: HowLongToBeatMigrationStatusDTO!
