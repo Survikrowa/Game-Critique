@@ -24,7 +24,7 @@ export class IgdbService implements IGamesProvider {
     const now = Math.floor(Date.now() / 1000);
 
     const query = `
-  fields name, cover.url, screenshots.url, first_release_date, platforms.name, category;
+  fields name, cover.url, screenshots.url, first_release_date, platforms.name, category, url;
   
   where 
     first_release_date > ${now} & 
@@ -90,6 +90,7 @@ export class IgdbService implements IGamesProvider {
     return {
       id: game.id.toString(),
       name: game.name,
+      url: game.url || '',
       coverUrl: game.cover?.url
         ? `https:${game.cover.url.replace('t_thumb', 't_cover_big')}`
         : '',
@@ -119,6 +120,7 @@ type IgdbGame = {
   name: string;
   platforms: IgdbGamePlatform[];
   screenshots: IgdbGameScreenshots[];
+  url: string;
 };
 
 type IgdbGamePlatform = {

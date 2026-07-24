@@ -6,7 +6,7 @@ const defaultOptions = {} as const;
 export type IncomingGamesQueryVariables = Types.Exact<{ [key: string]: never; }>;
 
 
-export type IncomingGamesQuery = { __typename?: 'Query', upcomingGames: Array<{ __typename?: 'ExternalGameDTO', id: string, name: string, coverUrl?: string | null, backgroundUrl?: string | null, releaseDate: any, platforms: Array<{ __typename?: 'ExternalGamePlatformDTO', id: string, name: string }> }> };
+export type IncomingGamesQuery = { __typename?: 'Query', upcomingGames: Array<{ __typename?: 'ExternalGameDTO', id: string, name: string, coverUrl?: string | null, backgroundUrl?: string | null, releaseDate: any, url?: string | null, platforms: Array<{ __typename?: 'ExternalGamePlatformDTO', id: string, name: string }> }> };
 
 
 export const IncomingGamesDocument = gql`
@@ -21,6 +21,7 @@ export const IncomingGamesDocument = gql`
     coverUrl
     backgroundUrl
     releaseDate
+    url
   }
 }
     `;

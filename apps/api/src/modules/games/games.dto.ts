@@ -109,6 +109,9 @@ export class ExternalGameDTO {
   name: string;
 
   @Field({ nullable: true })
+  url?: string;
+
+  @Field({ nullable: true })
   coverUrl?: string;
 
   @Field({ nullable: true })

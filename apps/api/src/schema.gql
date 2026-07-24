@@ -65,6 +65,7 @@ type ExternalGameDTO {
   name: String!
   platforms: [ExternalGamePlatformDTO!]!
   releaseDate: DateTime!
+  url: String
 }
 
 type ExternalGamePlatformDTO {

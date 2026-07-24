@@ -9,5 +9,6 @@ query IncomingGames {
         coverUrl
         backgroundUrl
         releaseDate
+        url
     }
 }
