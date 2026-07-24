@@ -23,6 +23,7 @@
 - **NIGDY nie używaj `any`** — zawsze konkretny typ
 - **NIGDY `as` castów** dla danych z zewnątrz — używaj Zod `safeParse` lub type guards
 - **ZERO komentarzy** w kodzie — jeśli kod wymaga wyjaśnienia, wyciągnij logikę do funkcji z nazwą opisującą co robi
+- **NIGDY nie używaj zagnieżdżonych ternary** (`a ? b : c ? d : e`) — wyciągnij logikę do osobnego komponentu lub zmiennej z `if`
 - **Priorytetyzuj auto-generated hooki z `.generated.ts`** — zamiast `useMutation(Document)` używaj wygenerowanego hooka (np. `useRegisterPushTokenMutation` z `xxx.generated.ts`)
 - **Zawsze używaj `type` zamiast `interface`** — `type ToggleConfig = { ... }` zamiast `interface ToggleConfig { ... }`
 - **Zawsze używaj arrow functions** — `const fn = () => {}` zamiast `function fn() {}`

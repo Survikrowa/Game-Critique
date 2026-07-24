@@ -1,6 +1,6 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
-import { Bell, BellRing, ExternalLink } from "lucide-react-native";
+import { ExternalLink } from "lucide-react-native";
 import { Image as RNImage, Pressable, View } from "react-native";
 
 import { formatReleaseDateToPolishLocale } from "@/modules/dates/date_to_polish_locale";
@@ -8,6 +8,7 @@ import { useReminderAction } from "@/modules/release_reminders/use_reminder_acti
 import { useCheckReminderStatus } from "@/modules/release_reminders/use_user_reminders/use_user_reminders";
 import { HomepageSection } from "@/modules/screens/homepage/homepage_section/homepage_section";
 import { HomepageSectionCarousel } from "@/modules/screens/homepage/homepage_section/homepage_section_carousel";
+import { ReminderIcon } from "@/modules/screens/homepage/incoming_games_carousel/reminder_icon/reminder_icon";
 import { IncomingGamesQuery } from "@/modules/screens/homepage/incoming_games_carousel/use_incoming_games/incoming_games.generated";
 import { useIncomingGames } from "@/modules/screens/homepage/incoming_games_carousel/use_incoming_games/use_incoming_games";
 import { truncateString } from "@/modules/strings/truncate_string";
@@ -56,7 +57,7 @@ const IncomingGamesCarouselItem = ({
   item,
 }: IncomingGamesCarouselItemProps) => {
   const isReminded = useCheckReminderStatus(item.igdbId);
-  const { addReminder } = useReminderAction();
+  const { addReminder, loadingAdd } = useReminderAction();
 
   const handleRemind = () => {
     if (isReminded) return;
@@ -101,16 +102,12 @@ const IncomingGamesCarouselItem = ({
         <View className="mt-1 flex-row gap-2">
           <Pressable
             onPress={handleRemind}
-            disabled={isReminded}
+            disabled={isReminded || loadingAdd}
             className={`min-h-[44px] flex-row items-center gap-1 rounded-full px-4 py-1.5 ${
               isReminded ? "bg-primary-500/30" : "bg-primary-500"
             }`}
           >
-            {isReminded ? (
-              <BellRing size={14} color="#fff" />
-            ) : (
-              <Bell size={14} color="#fff" />
-            )}
+            <ReminderIcon loadingAdd={loadingAdd} isReminded={isReminded} />
             <Text size="small" weight="semiBold" color="white">
               {isReminded ? "Powiadomię" : "Powiadom o premierze"}
             </Text>
