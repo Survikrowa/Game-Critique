@@ -137,8 +137,25 @@ model Game {
   gamesStatus     GamesStatus[]
   userActivity    UserActivity[]
   game_metadata   game_metadata?
+  gameRating      GameRating?
 
   @@map("games")
+}
+
+model GameRating {
+  id                 Int      @id @default(autoincrement())
+  gameId             Int      @unique @map("game_id")
+  game               Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  igdbId             Int      @map("igdb_id")
+  aggregatedRating   Float?   @map("aggregated_rating")
+  aggregatedCount    Int?     @map("aggregated_rating_count")
+  igdbRating         Float?   @map("igdb_rating")
+  igdbRatingCount    Int?     @map("igdb_rating_count")
+  igdbUrl            String?  @map("igdb_url")
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  @@map("game_rating")
 }
 
 model GameCompletionTime {
