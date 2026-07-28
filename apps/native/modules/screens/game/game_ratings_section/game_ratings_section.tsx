@@ -28,7 +28,7 @@ export const GameRatingsSection = ({
   hltbId,
   onDataFetched,
 }: GameRatingsSectionProps) => {
-  const { fetch, loading } = useFetchGameRatings();
+  const { fetch, loading, error } = useFetchGameRatings();
 
   const handleFetch = async () => {
     if (!hltbId) return;
@@ -52,7 +52,7 @@ export const GameRatingsSection = ({
       <Card className="p-4">
         <VStack className="items-center gap-3">
           <Text size="medium" weight="normal" color="secondary">
-            Brak danych o ocenach
+            {error ? "Nie udało się pobrać ocen" : "Brak danych o ocenach"}
           </Text>
           <Pressable
             onPress={handleFetch}

@@ -66,7 +66,7 @@ export class GameWithAllDataDTO {
   @Field(() => GameMetadataDTO, { nullable: true })
   gameMetadata?: GameMetadataDTO | null;
   @Field(() => GameRatingObject, { nullable: true })
-  gameRating: GameRatingObject | null;
+  gameRating?: GameRatingObject | null;
 }
 
 @ObjectType()
