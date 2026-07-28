@@ -66,6 +66,7 @@ export class GamesStatusService {
                 };
               }),
               releases: gameStatus.game.release,
+              gameRating: null,
             },
           };
         }),
@@ -143,6 +144,7 @@ export class GamesStatusService {
             };
           }),
           releases: userGameStatus.game.release,
+          gameRating: null,
         },
       };
     }

@@ -139,6 +139,7 @@ export class GetAllUserGamesStatusByOauthIdHandler
                 completionist: gameStatus.game.completionTime.completionist,
               }
             : null,
+          gameRating: null,
         },
       };
     });

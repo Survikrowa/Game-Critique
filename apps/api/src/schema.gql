@@ -123,6 +123,14 @@ type GameMetadataDTO {
   physicalMedia: [PhysicalMediaEntryDTO!]
 }
 
+type GameRatingObject {
+  aggregatedCount: Int
+  aggregatedRating: Float
+  igdbRating: Float
+  igdbRatingCount: Int
+  igdbUrl: String
+}
+
 """Single Game Release(Year) Date"""
 type GameReleaseDTO {
   date: Float
@@ -198,6 +206,7 @@ type GameWithAllDataDTO {
   completionTime: GameCompletionTimeDTO
   cover: CoverDTO
   gameMetadata: GameMetadataDTO
+  gameRating: GameRatingObject
   genres: [GenresDto!]!
   hltbId: Float!
   id: Float!
@@ -268,6 +277,7 @@ type Mutation {
   addReminder(input: AddReminderInput!): GameReminderObject!
   createNewCollection(collection: NewCollectionDTO!): CollectionDTO!
   fetchDoesItPlayData(hltbId: Float!): Boolean!
+  fetchGameRatings(hltbId: Float!): GameRatingObject!
   registerPushToken(platform: String!, token: String!): Boolean!
   rejectFriendRequest(senderOauthId: String!): FriendRequestResponseDTO!
   removeCollection(collection: RemoveCollectionArgsDTO!): RemovedCollectionResponseDTO!

@@ -40,6 +40,7 @@ export class GamesService {
       release,
       completionTime,
       game_metadata,
+      gameRating,
       ...baseGame
     } = game;
 
@@ -59,6 +60,15 @@ export class GamesService {
                   hasGameOnDisc: entry.has_game_on_disc,
                 }))
               : [],
+          }
+        : null,
+      gameRating: gameRating
+        ? {
+            aggregatedRating: gameRating.aggregatedRating,
+            aggregatedCount: gameRating.aggregatedCount,
+            igdbRating: gameRating.igdbRating,
+            igdbRatingCount: gameRating.igdbRatingCount,
+            igdbUrl: gameRating.igdbUrl,
           }
         : null,
     };

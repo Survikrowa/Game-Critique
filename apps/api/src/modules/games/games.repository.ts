@@ -126,6 +126,7 @@ export class GamesRepository {
             games_physical_media: true,
           },
         },
+        gameRating: true,
       },
     });
   }
