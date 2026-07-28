@@ -4,6 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { ExternalGameDTO } from '../../modules/games/games.dto';
 import { firstValueFrom } from 'rxjs';
 import { AxiosResponse, isAxiosError } from 'axios';
+import { z } from 'zod';
 import { IGamesProvider } from '../../modules/games/interfaces/games-provider.interface';
 import { OAuthTokenDto } from './igdb.dto';
 import { timestampToMs } from '../../modules/date_and_time/time/timestamp_to_ms';
@@ -25,14 +26,14 @@ export class IgdbService implements IGamesProvider {
 
     const query = `
   fields name, cover.url, screenshots.url, first_release_date, platforms.name, category, url;
-  
-  where 
-    first_release_date > ${now} & 
-    platforms = (48,167,49,169,130) & 
+
+  where
+    first_release_date > ${now} &
+    platforms = (48,167,49,169,130) &
     cover != null &
     game_type = (0, 2, 4, 8, 9) &
     version_parent = null;
-    
+
   sort first_release_date asc;
   limit ${limit};
 `;
@@ -48,7 +49,17 @@ export class IgdbService implements IGamesProvider {
           },
         }),
       );
-      return data.map(this.mapToDto);
+
+      const parsed = z.array(IgdbGameSchema).safeParse(data);
+      if (!parsed.success) {
+        this.logger.error(
+          'Failed to parse IGDB upcoming games response',
+          parsed.error,
+        );
+        return [];
+      }
+
+      return parsed.data.map(this.mapToDto);
     } catch (e) {
       this.logger.error('Error fetching games from IGDB', e);
       return [];
@@ -100,35 +111,130 @@ export class IgdbService implements IGamesProvider {
             't_screenshot_big',
           )}`
         : '',
-      releaseDate: new Date(game.first_release_date * 1000),
+      releaseDate: game.first_release_date
+        ? new Date(game.first_release_date * 1000)
+        : new Date(0),
       platforms:
-        game.platforms?.map((p: any) => ({
+        game.platforms?.map((p) => ({
           id: p.id.toString(),
           name: p.name,
         })) || [],
     };
   }
+
+  async searchGameByName(
+    name: string,
+    slug: string,
+  ): Promise<IgdbGameSearchResult | null> {
+    const token = await this.getTokenFromOAuth();
+
+    const query = `
+search "${name.replace(/"/g, '')}";
+fields id, name, slug, url;
+limit 5;
+`;
+
+    try {
+      const { data } = await firstValueFrom(
+        this.httpService.post('https://api.igdb.com/v4/games', query, {
+          headers: {
+            'Client-ID': this.configService.get('IGDB_CLIENT_ID'),
+            Authorization: `Bearer ${token}`,
+          },
+        }),
+      );
+
+      const parsed = z.array(IgdbGameSearchResultSchema).safeParse(data);
+      if (!parsed.success) {
+        this.logger.error('Failed to parse IGDB search results', parsed.error);
+        return null;
+      }
+
+      const exactMatch = parsed.data.find((g) => g.slug === slug);
+
+      return exactMatch || parsed.data[0] || null;
+    } catch (e) {
+      this.logger.error('Error searching game on IGDB', e);
+      return null;
+    }
+  }
+
+  async getGameRatings(
+    igdbId: number,
+  ): Promise<IgdbGameRatingsResponse | null> {
+    const token = await this.getTokenFromOAuth();
+
+    const query = `
+fields aggregated_rating, aggregated_rating_count, rating, rating_count, url;
+where id = ${igdbId};
+`;
+
+    try {
+      const { data } = await firstValueFrom(
+        this.httpService.post('https://api.igdb.com/v4/games', query, {
+          headers: {
+            'Client-ID': this.configService.get('IGDB_CLIENT_ID'),
+            Authorization: `Bearer ${token}`,
+          },
+        }),
+      );
+
+      const parsed = z.array(IgdbGameRatingsResponseSchema).safeParse(data);
+      if (!parsed.success) {
+        this.logger.error(
+          'Failed to parse IGDB ratings response',
+          parsed.error,
+        );
+        return null;
+      }
+
+      return parsed.data[0] || null;
+    } catch (e) {
+      this.logger.error('Error fetching game ratings from IGDB', e);
+      return null;
+    }
+  }
 }
 
-type IgdbGame = {
-  id: string;
-  cover: {
-    id: string;
-    url: string;
-  };
-  first_release_date: number;
-  name: string;
-  platforms: IgdbGamePlatform[];
-  screenshots: IgdbGameScreenshots[];
-  url: string;
-};
+type IgdbGameSearchResult = z.infer<typeof IgdbGameSearchResultSchema>;
 
-type IgdbGamePlatform = {
-  id: string;
-  name: string;
-};
+type IgdbGameRatingsResponse = z.infer<typeof IgdbGameRatingsResponseSchema>;
 
-type IgdbGameScreenshots = {
-  id: string;
-  url: string;
-};
+const IgdbGameSchema = z.object({
+  id: z.union([z.number(), z.string()]),
+  name: z.string(),
+  cover: z.object({ id: z.number(), url: z.string() }).optional(),
+  first_release_date: z.number().optional(),
+  platforms: z
+    .array(
+      z.object({ id: z.union([z.number(), z.string()]), name: z.string() }),
+    )
+    .optional(),
+  screenshots: z
+    .array(z.object({ id: z.number(), url: z.string() }))
+    .optional(),
+  url: z.string().optional(),
+  slug: z.string().optional(),
+  aggregated_rating: z.number().optional(),
+  aggregated_rating_count: z.number().optional(),
+  rating: z.number().optional(),
+  rating_count: z.number().optional(),
+});
+
+type IgdbGame = z.infer<typeof IgdbGameSchema>;
+
+const IgdbGameSearchResultSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  slug: z.string(),
+  url: z.string().optional(),
+});
+
+const IgdbGameRatingsResponseSchema = z.object({
+  id: z.number(),
+  aggregated_rating: z.number().optional(),
+  aggregated_rating_count: z.number().optional(),
+  rating: z.number().optional(),
+  rating_count: z.number().optional(),
+  url: z.string().optional(),
+});
