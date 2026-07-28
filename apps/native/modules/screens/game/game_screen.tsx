@@ -94,7 +94,11 @@ export const GameScreen = () => {
             mainExtra={game.completionTime?.mainExtra}
           />
 
-          <GameRatingsSection />
+          <GameRatingsSection
+            gameRating={game.gameRating}
+            hltbId={game.hltbId}
+            onDataFetched={gameQuery.refetch}
+          />
 
           <GameTrophyGuidesSection />
 
