@@ -1,0 +1,12 @@
+query FriendYearlySummary($oauthId: String!, $year: Int!) {
+  friendYearlySummary(oauthId: $oauthId, year: $year) {
+    totalGames
+    totalHours
+    averageScore
+    completedThisYear
+    backlogAddedThisYear
+    yearlyGames
+    yearlyHours
+    yearlyAverageScore
+  }
+}

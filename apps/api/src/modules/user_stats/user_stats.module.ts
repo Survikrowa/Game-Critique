@@ -23,5 +23,6 @@ const QueryHandlers = [
 @Module({
   imports: [DatabaseModule, AuthModule, CqrsModule],
   providers: [UserStatsResolver, UserStatsService, ...QueryHandlers],
+  exports: [UserStatsService],
 })
 export class UserStatsModule {}

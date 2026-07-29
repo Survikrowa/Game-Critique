@@ -1,0 +1,7 @@
+query FriendBacklogProgress($oauthId: String!, $year: Int!) {
+  friendBacklogProgress(oauthId: $oauthId, year: $year) {
+    completed
+    added
+    ratio
+  }
+}

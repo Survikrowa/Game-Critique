@@ -86,6 +86,18 @@ input FiltersGameStatus {
   platform: String!
 }
 
+type FriendBacklogProgressDTO {
+  added: Int!
+  completed: Int!
+  ratio: Float!
+}
+
+type FriendMonthlyActivityDTO {
+  gamesCompleted: Int!
+  hoursPlayed: Float!
+  month: Int!
+}
+
 """Friend request response"""
 type FriendRequestResponseDTO {
   receiverId: String!
@@ -95,6 +107,22 @@ type FriendSingleEntry {
   avatarUrl: String
   id: String!
   name: String
+}
+
+type FriendStreakDTO {
+  currentStreak: Int!
+  longestStreak: Int!
+}
+
+type FriendYearlySummaryDTO {
+  averageScore: Float
+  backlogAddedThisYear: Int!
+  completedThisYear: Int!
+  totalGames: Int!
+  totalHours: Float!
+  yearlyAverageScore: Float
+  yearlyGames: Int!
+  yearlyHours: Float!
 }
 
 """Users friends activity DTO"""
@@ -397,6 +425,10 @@ type Query {
   backlogProgress(year: Int!): BacklogProgressDTO!
   checkReminderStatus(igdbId: Int!): Boolean!
   collection(id: Float!): CollectionWithGamesDTO!
+  friendBacklogProgress(oauthId: String!, year: Int!): FriendBacklogProgressDTO!
+  friendMonthlyActivity(oauthId: String!, year: Int!): [FriendMonthlyActivityDTO!]!
+  friendStreak(oauthId: String!): FriendStreakDTO!
+  friendYearlySummary(oauthId: String!, year: Int!): FriendYearlySummaryDTO!
   friendsActivity: [FriendsActivityDTO!]!
   friendsList: FriendsList!
   friendsRequests: [GetFriendRequestsResponseDTO!]!

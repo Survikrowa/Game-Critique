@@ -24,7 +24,7 @@ export const GamesStatusFormPlayTimeField = ({
         Czas gry
       </Text>
       <HStack className="items-center justify-evenly">
-        <VStack className="items-center gap-1 flex-1">
+        <VStack className="flex-1 items-center gap-1">
           <Controller
             render={({ field: { onChange, value } }) => (
               <WheelPicker
@@ -40,7 +40,7 @@ export const GamesStatusFormPlayTimeField = ({
             godz.
           </Text>
         </VStack>
-        <VStack className="items-center gap-1 flex-1">
+        <VStack className="flex-1 items-center gap-1">
           <Controller
             render={({ field: { onChange, value } }) => (
               <WheelPicker
@@ -57,19 +57,7 @@ export const GamesStatusFormPlayTimeField = ({
             min.
           </Text>
         </VStack>
-        <VStack className="items-center gap-1 flex-1">
-          <Controller
-            render={({ field: { onChange, value } }) => (
-              <WheelPicker
-                data={MINUTES_AND_SECONDS}
-                value={Number(value) || 0}
-                onChange={(next) => onChange(String(next))}
-                formatLabel={padTwoDigits}
-              />
-            )}
-            control={control}
-            name="seconds"
-          />
+        <VStack className="flex-1 items-center gap-1">
           <Text size="small" weight="normal" color="secondary">
             sek.
           </Text>

@@ -1,0 +1,6 @@
+query FriendStreak($oauthId: String!) {
+  friendStreak(oauthId: $oauthId) {
+    currentStreak
+    longestStreak
+  }
+}
