@@ -56,7 +56,7 @@ export class GamesResolver {
     );
   }
 
-  @UseGuards(JwtAuthGuard, AdminUserGuard)
+  @UseGuards(JwtAuthGuard)
   @Mutation(() => GameRatingObject, { name: 'fetchGameRatings' })
   async fetchGameRatings(
     @Args('hltbId', { type: () => Float }) hltbId: number,
