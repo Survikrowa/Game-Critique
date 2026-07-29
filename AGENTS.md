@@ -87,6 +87,8 @@
 
 ## API — Krytyczne
 - `JwtAuthGuard` wymaga eksportu `CqrsModule` z `AuthModule` dla modułów importujących
+- **`JwtAuthGuard`** — używaj dla każdej mutacji/kwerendy wymagającej zalogowanego usera
+- **`AdminUserGuard`** — używaj TYLKO dla resource'ów administracyjnych (np. updateGameData), NIGDY dla feature'ów dostępnych dla zwykłych userów
 - HLTB: `comp_100` = 100% completionist (w sekundach), zaokrąglaj do 0.5h
 - `timeToRelative`: argumenty `pluralizePolish(count, singular, few, many)`
 - **Prisma `$transaction`**: przy 2+ zapytaniach Prisma w jednej metodzie, gdzie co najmniej jedno robi update/create/delete — zawsze używaj `this.prisma.$transaction(async (tx) => { ... })`
