@@ -1,11 +1,11 @@
 FROM node:22-alpine AS node
+ENV YARN_VERSION 4.5.3
+RUN corepack enable && corepack prepare yarn@${YARN_VERSION}
 
 # region: Turborepo files
 FROM node AS builder
 RUN apk add --no-cache libc6-compat
 RUN apk update
-ENV YARN_VERSION 4.5.3
-RUN corepack enable && corepack prepare yarn@${YARN_VERSION}
 WORKDIR /repo
 RUN yarn global add turbo
 COPY . .
