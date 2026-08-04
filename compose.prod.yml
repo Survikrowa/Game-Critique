@@ -52,8 +52,8 @@ services:
     pull_policy: build
     image: game-critique-web:v1.0.3
     build:
-      context: apps/web
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: apps/web/Dockerfile
       target: runner
       args:
         VITE_AUTH0_DOMAIN: ${AUTH0_DOMAIN:-http://game-critique-api:3000}
