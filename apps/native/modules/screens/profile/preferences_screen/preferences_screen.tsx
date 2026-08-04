@@ -5,6 +5,7 @@ import { Pressable, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { haptic } from "@/modules/haptics/haptic";
+import type { GetNotificationPreferencesQuery } from "@/modules/notifications/notifications_graphql/get_notification_preferences.generated";
 import { useNotificationPreferences } from "@/modules/notifications/use_notification_preferences/use_notification_preferences";
 import { useUserSettings } from "@/modules/settings/use_user_settings/use_user_settings";
 import { ErrorState } from "@/ui/feedback/error_state/error_state";
@@ -65,25 +66,6 @@ export const PreferencesScreen = () => {
     update: updateSettings,
   } = useUserSettings();
 
-  const [selectedPlatforms, setSelectedPlatforms] = useState(platformIds);
-
-  const handleToggle = async (
-    key: ToggleConfig["key"],
-    value: boolean,
-  ): Promise<void> => {
-    haptic.medium();
-    await update({ [key]: value });
-  };
-
-  const handlePlatformToggle = async (id: number): Promise<void> => {
-    haptic.medium();
-    const next = selectedPlatforms.includes(id)
-      ? selectedPlatforms.filter((p) => p !== id)
-      : [...selectedPlatforms, id];
-    setSelectedPlatforms(next);
-    await updateSettings(next);
-  };
-
   if (loading || settingsLoading) {
     return (
       <SafeAreaView edges={["top"]} className="flex-1 bg-background-0">
@@ -110,6 +92,53 @@ export const PreferencesScreen = () => {
       </SafeAreaView>
     );
   }
+
+  return (
+    <PreferencesContent
+      preferences={preferences}
+      platformIds={platformIds}
+      update={update}
+      updateSettings={updateSettings}
+    />
+  );
+};
+
+type PreferencesContentProps = {
+  preferences: GetNotificationPreferencesQuery["getNotificationPreferences"];
+  platformIds: number[];
+  update: (input: {
+    friendActivity?: boolean;
+    friendInvites?: boolean;
+    weeklySummary?: boolean;
+    releaseReminders?: boolean;
+  }) => Promise<void>;
+  updateSettings: (platformIds: number[]) => Promise<void>;
+};
+
+const PreferencesContent = ({
+  preferences,
+  platformIds,
+  update,
+  updateSettings,
+}: PreferencesContentProps) => {
+  const [selectedPlatforms, setSelectedPlatforms] = useState(platformIds);
+
+  const handleToggle = async (
+    key: ToggleConfig["key"],
+    value: boolean,
+  ): Promise<void> => {
+    haptic.medium();
+    await update({ [key]: value });
+  };
+
+  const handlePlatformToggle = async (id: number): Promise<void> => {
+    haptic.medium();
+    const next = selectedPlatforms.includes(id)
+      ? selectedPlatforms.filter((p) => p !== id)
+      : [...selectedPlatforms, id];
+    setSelectedPlatforms(next);
+    await updateSettings(next);
+  };
 
   return (
     <SafeAreaView edges={["top"]} className="flex-1 bg-background-0">
