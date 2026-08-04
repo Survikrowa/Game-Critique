@@ -36,6 +36,12 @@ const UserLayout = () => {
           header: () => <GoBackHeader text="Obserwowane premiery" />,
         }}
       />
+      <Stack.Screen
+        name="preferences"
+        options={{
+          header: () => <GoBackHeader text="Preferencje" />,
+        }}
+      />
     </Stack>
   );
 };

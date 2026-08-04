@@ -1,5 +1,11 @@
 import { Link } from "expo-router";
-import { Award, BarChart, Bell, Import } from "lucide-react-native";
+import {
+  Award,
+  BarChart,
+  Bell,
+  Import,
+  SlidersHorizontal,
+} from "lucide-react-native";
 import { FlatList, Pressable } from "react-native";
 import { Text } from "ui/typography/text";
 
@@ -27,6 +33,12 @@ const FEATURE_LIST = [
     description: "Zarządzaj powiadomieniami o premierach.",
     route: "/user/reminders" as const,
     Icon: Bell,
+  },
+  {
+    title: "Preferencje",
+    description: "Powiadomienia i platformy.",
+    route: "/user/preferences" as const,
+    Icon: SlidersHorizontal,
   },
 ];
 
