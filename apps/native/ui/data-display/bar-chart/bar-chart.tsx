@@ -72,7 +72,7 @@ const AnimatedBar = ({
   });
 
   return (
-    <Box className="flex-1 bg-background-800/20 rounded" style={{ height }}>
+    <Box className="flex-1 rounded bg-background-800/20" style={{ height }}>
       <Animated.View
         className="h-full rounded"
         style={[
@@ -93,6 +93,7 @@ export const BarChart: React.FC<BarChartProps> = ({
   width = 240,
   horizontal = false,
   showValuesAsTopLabel = false,
+  showScrollIndicator = false,
   animationDuration = 300,
   renderTooltip,
 }) => {
@@ -123,7 +124,7 @@ export const BarChart: React.FC<BarChartProps> = ({
       className="flex-1"
       style={{ height }}
       contentContainerStyle={{ paddingVertical: 10 }}
-      showsVerticalScrollIndicator={false}
+      showsVerticalScrollIndicator={showScrollIndicator}
     >
       <VStack className="gap-3 px-2">
         {data.map((item, index) => (
