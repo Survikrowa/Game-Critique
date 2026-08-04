@@ -323,6 +323,7 @@ type Mutation {
   updatePlatformDisplayName(displayName: String!, platformId: Float!): UpdatePlatformDisplayNameDTO!
   updateProfileInfo(profileInfo: ProfileInfoUpdateArgsDTO!): ProfileInfoUpdateResponseDTO!
   updateUserRole(updateUserRoleInput: UpdateUserRoleInput!): UpdateUserRoleDTO!
+  updateUserSettings(platformIds: [Int!]!): Boolean!
   upsertGameStatus(upsertGameStatusArgs: UpsertGameStatusArgsDTO!): GameStatusSuccessResponseDTO!
 }
 
@@ -441,6 +442,7 @@ type Query {
   getNotificationPreferences: NotificationPreferencesObject
   getProfileCollections: [CollectionDTO!]!
   getUserReminders: [GameReminderObject!]!
+  getUserSettings: UserSettingsObject
   hltbComparison(gameStatusId: Int!): HLTBComparisonDTO!
   lastEditedGames(limit: Int! = 5): [LastEditedGamesStatusDTO!]!
   migrationStatus: HowLongToBeatMigrationStatusDTO!
@@ -640,6 +642,10 @@ type UserSearchResultDTO {
   oauthId: String!
   profile: ProfileDTO
   role: Role
+}
+
+type UserSettingsObject {
+  platformIds: [Int!]!
 }
 
 type UserStatsDTO {

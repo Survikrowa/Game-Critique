@@ -28,6 +28,7 @@ import { NotificationsModule } from './modules/notifications/notifications.modul
 import { ReleaseRemindersModule } from './modules/release_reminders/release_reminders.module';
 import { GameMetadataModule } from './modules/game_metadata/game_metadata.module';
 import { FriendStatsModule } from './modules/friend_stats/friend_stats.module';
+import { SettingsModule } from './modules/settings/settings.module';
 
 @Module({
   imports: [
@@ -71,6 +72,7 @@ import { FriendStatsModule } from './modules/friend_stats/friend_stats.module';
     NotificationsModule,
     ReleaseRemindersModule,
     FriendStatsModule,
+    SettingsModule,
   ],
   providers: [
     {
