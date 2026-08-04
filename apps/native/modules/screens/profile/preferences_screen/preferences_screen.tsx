@@ -1,7 +1,5 @@
-import { router } from "expo-router";
-import { ArrowLeft } from "lucide-react-native";
 import { useState } from "react";
-import { Pressable, View } from "react-native";
+import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { haptic } from "@/modules/haptics/haptic";
@@ -59,12 +57,18 @@ const PLATFORM_OPTIONS = [
 ];
 
 export const PreferencesScreen = () => {
-  const { preferences, loading, error, update } = useNotificationPreferences();
+  const { preferences, loading, error, update, refetch } =
+    useNotificationPreferences();
   const {
     platformIds,
     loading: settingsLoading,
     update: updateSettings,
+    refetch: refetchSettings,
   } = useUserSettings();
+
+  const handleRetry = async (): Promise<void> => {
+    await Promise.all([refetch(), refetchSettings()]);
+  };
 
   if (loading || settingsLoading) {
     return (
@@ -87,7 +91,7 @@ export const PreferencesScreen = () => {
         <ErrorState
           title="Błąd"
           description="Nie udało się załadować ustawień"
-          onRetry={() => {}}
+          onRetry={handleRetry}
         />
       </SafeAreaView>
     );
@@ -143,18 +147,6 @@ const PreferencesContent = ({
   return (
     <SafeAreaView edges={["top"]} className="flex-1 bg-background-0">
       <VStack className="gap-6 px-4 py-4">
-        <HStack className="mb-2 items-center gap-4">
-          <Pressable
-            onPress={() => router.back()}
-            className="min-h-[44px] min-w-[44px] items-center justify-center"
-          >
-            <ArrowLeft size={24} color="#64748B" />
-          </Pressable>
-          <Text size="large" weight="bold" color="primary">
-            Preferencje
-          </Text>
-        </HStack>
-
         <VStack className="gap-2">
           <Text size="large" weight="bold" color="primary">
             Powiadomienia

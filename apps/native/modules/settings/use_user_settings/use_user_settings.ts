@@ -2,9 +2,9 @@ import { useGetUserSettingsQuery } from "../settings_graphql/get_user_settings.g
 import { useUpdateUserSettingsMutation } from "../settings_graphql/update_user_settings.generated";
 
 export const useUserSettings = () => {
-  const { data, loading, error } = useGetUserSettingsQuery();
+  const { data, loading, error, refetch } = useGetUserSettingsQuery();
   const [updateMutation] = useUpdateUserSettingsMutation({
-    refetchQueries: ["IncomingGamesQuery"],
+    refetchQueries: ["IncomingGames"],
   });
 
   const platformIds = data?.getUserSettings?.platformIds ?? [];
@@ -13,5 +13,5 @@ export const useUserSettings = () => {
     await updateMutation({ variables: { platformIds: newPlatformIds } });
   };
 
-  return { platformIds, loading, error, update };
+  return { platformIds, loading, error, update, refetch };
 };

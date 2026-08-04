@@ -1,15 +1,16 @@
 import { useGetNotificationPreferencesQuery } from "../notifications_graphql/get_notification_preferences.generated";
 import { useUpdateNotificationPreferencesMutation } from "../notifications_graphql/update_notification_preferences.generated";
 
-interface PreferencesInput {
+type PreferencesInput = {
   friendActivity?: boolean;
   friendInvites?: boolean;
   weeklySummary?: boolean;
   releaseReminders?: boolean;
-}
+};
 
 export const useNotificationPreferences = () => {
-  const { data, loading, error } = useGetNotificationPreferencesQuery();
+  const { data, loading, error, refetch } =
+    useGetNotificationPreferencesQuery();
   const [updateMutation] = useUpdateNotificationPreferencesMutation();
 
   const preferences = data?.getNotificationPreferences;
@@ -18,5 +19,5 @@ export const useNotificationPreferences = () => {
     await updateMutation({ variables: { input } });
   };
 
-  return { preferences, loading, error, update };
+  return { preferences, loading, error, update, refetch };
 };
