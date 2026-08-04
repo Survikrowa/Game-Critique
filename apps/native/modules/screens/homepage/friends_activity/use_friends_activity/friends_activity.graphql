@@ -4,6 +4,7 @@ query FriendsActivity {
             name
             oauthId
             activity {
+                gameStatusId
                 game {
                     name
                     cover {

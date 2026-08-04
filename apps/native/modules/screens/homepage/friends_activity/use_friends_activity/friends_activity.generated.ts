@@ -6,7 +6,7 @@ const defaultOptions = {} as const;
 export type FriendsActivityQueryVariables = Types.Exact<{ [key: string]: never; }>;
 
 
-export type FriendsActivityQuery = { __typename?: 'Query', friendsActivity: Array<{ __typename?: 'FriendsActivityDTO', user: { __typename?: 'User', name?: string | null, oauthId: string, activity: Array<{ __typename?: 'UserActivityDTO', activityType: Types.GameStatus, formattedUpdatedAt: string, game?: { __typename?: 'GameWithCoversDTO', name: string, cover?: { __typename?: 'CoverDTO', smallUrl: string } | null } | null }> } }> };
+export type FriendsActivityQuery = { __typename?: 'Query', friendsActivity: Array<{ __typename?: 'FriendsActivityDTO', user: { __typename?: 'User', name?: string | null, oauthId: string, activity: Array<{ __typename?: 'UserActivityDTO', gameStatusId?: number | null, activityType: Types.GameStatus, formattedUpdatedAt: string, game?: { __typename?: 'GameWithCoversDTO', name: string, cover?: { __typename?: 'CoverDTO', smallUrl: string } | null } | null }> } }> };
 
 
 export const FriendsActivityDocument = gql`
@@ -16,6 +16,7 @@ export const FriendsActivityDocument = gql`
       name
       oauthId
       activity {
+        gameStatusId
         game {
           name
           cover {

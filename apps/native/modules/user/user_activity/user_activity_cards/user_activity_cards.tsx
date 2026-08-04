@@ -3,8 +3,8 @@ import { Text } from "ui/typography/text";
 import { UserActivityCard } from "./user_activity_card/user_activity_card";
 import { GameStatus } from "../../../../__generated__/types";
 
-import { Card } from "@/ui/panels/card/card";
 import { VStack } from "@/ui/layout/vstack/vstack";
+import { Card } from "@/ui/panels/card/card";
 
 type UserActivityCardsProps = {
   activities: Activity[];
@@ -18,6 +18,8 @@ type Activity = {
     cover?: string | null;
   };
   ownerName?: string | null;
+  oauthId: string;
+  gameStatusId: number | null | undefined;
 };
 
 export const UserActivityCards = ({ activities }: UserActivityCardsProps) => {
@@ -43,6 +45,8 @@ export const UserActivityCards = ({ activities }: UserActivityCardsProps) => {
               cover: activity.game.cover,
             }}
             ownerName={activity.ownerName}
+            oauthId={activity.oauthId}
+            gameStatusId={activity.gameStatusId}
             displaySeparator={
               activities.length > 1 && index !== activities.length - 1
             }

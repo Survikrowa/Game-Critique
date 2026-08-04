@@ -20,6 +20,8 @@ export const useFriendsActivity = () => {
             cover: user.activity[0].game?.cover?.smallUrl,
           },
           ownerName: user.name,
+          oauthId: user.oauthId,
+          gameStatusId: user.activity[0].gameStatusId,
         };
       }
       return [];
