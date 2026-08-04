@@ -32,10 +32,7 @@ export const GamesStatusListItemButtonRemove = ({
       <ButtonWithIcon
         action="negative"
         className="w-full"
-        onPress={() => {
-          onOpen();
-          onClick();
-        }}
+        onPress={onOpen}
         icon={<Trash size={16} color="#fff" />}
       >
         Usuń
@@ -50,6 +47,7 @@ export const GamesStatusListItemButtonRemove = ({
               gameStatusId,
             },
           });
+          onClick();
         }}
       />
     </>
