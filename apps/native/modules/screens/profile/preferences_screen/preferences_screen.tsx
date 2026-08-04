@@ -1,5 +1,6 @@
 import { router } from "expo-router";
 import { ArrowLeft } from "lucide-react-native";
+import { useState } from "react";
 import { Pressable, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -41,7 +42,7 @@ const TOGGLE_CONFIGS: ToggleConfig[] = [
   },
   {
     key: "releaseReminders",
-    label: "Premiere gier",
+    label: "Premiery gier",
     description: "Przypomnienia o nadchodzących premierach",
   },
 ];
@@ -53,7 +54,7 @@ const PLATFORM_OPTIONS = [
   { id: 169, label: "Xbox Series X|S" },
   { id: 130, label: "Nintendo Switch" },
   { id: 6, label: "PC" },
-  { id: 173, label: "Nintendo Switch 2" },
+  { id: 508, label: "Nintendo Switch 2" },
 ];
 
 export const PreferencesScreen = () => {
@@ -63,6 +64,8 @@ export const PreferencesScreen = () => {
     loading: settingsLoading,
     update: updateSettings,
   } = useUserSettings();
+
+  const [selectedPlatforms, setSelectedPlatforms] = useState(platformIds);
 
   const handleToggle = async (
     key: ToggleConfig["key"],
@@ -74,9 +77,10 @@ export const PreferencesScreen = () => {
 
   const handlePlatformToggle = async (id: number): Promise<void> => {
     haptic.medium();
-    const next = platformIds.includes(id)
-      ? platformIds.filter((p) => p !== id)
-      : [...platformIds, id];
+    const next = selectedPlatforms.includes(id)
+      ? selectedPlatforms.filter((p) => p !== id)
+      : [...selectedPlatforms, id];
+    setSelectedPlatforms(next);
     await updateSettings(next);
   };
 
@@ -154,7 +158,8 @@ export const PreferencesScreen = () => {
           </Text>
           <View className="flex-row flex-wrap gap-2">
             {PLATFORM_OPTIONS.map(({ id, label }) => {
-              const selected = platformIds.includes(id);
+              const selected = (selectedPlatforms ?? []).includes(id);
+
               return (
                 <UIPressable
                   key={id}
