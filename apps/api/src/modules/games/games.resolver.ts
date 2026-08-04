@@ -1,18 +1,27 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Float, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { GamesService } from './games.service';
 import {
+  ExternalGameDTO,
   GameWithAllDataDTO,
   GetPaginatedGamesArgs,
   PaginatedGamesDTO,
   UpdateGameDataDTO,
+  GameRatingObject,
 } from './games.dto';
 import { UseGuards } from '@nestjs/common';
-import { AdminUserGuard } from '../auth/guards/admin-user.guard';
-import { JwtAuthGuard } from '../auth/guards/auth-jwt.guard';
+import { AdminUserGuard } from '../auth/infrastructure/guards/admin-user.guard';
+import { JwtAuthGuard } from '../auth/infrastructure/guards/auth-jwt.guard';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
+import { GetUpcomingGamesQuery } from './queries/get_upcoming_games/get_upcoming_games.query';
+import { FetchGameRatingsCommand } from './commands/fetch_game_ratings/fetch_game_ratings.command';
 
 @Resolver()
 export class GamesResolver {
-  constructor(private readonly gamesService: GamesService) {}
+  constructor(
+    private readonly gamesService: GamesService,
+    private readonly queryBus: QueryBus,
+    private readonly commandBus: CommandBus,
+  ) {}
 
   @Query(() => GameWithAllDataDTO, { name: 'game' })
   async getGameById(@Args('hltbId') hltbId: number) {
@@ -36,5 +45,22 @@ export class GamesResolver {
     @Args('hltbId') hltbId: number,
   ): Promise<UpdateGameDataDTO> {
     return this.gamesService.updateGameData(hltbId);
+  }
+
+  @Query(() => [ExternalGameDTO], { name: 'upcomingGames' })
+  async getUpcomingGames(
+    @Args('limit') limit: number,
+  ): Promise<ExternalGameDTO[]> {
+    return this.queryBus.execute<GetUpcomingGamesQuery>(
+      new GetUpcomingGamesQuery(limit),
+    );
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Mutation(() => GameRatingObject, { name: 'fetchGameRatings' })
+  async fetchGameRatings(
+    @Args('hltbId', { type: () => Float }) hltbId: number,
+  ): Promise<GameRatingObject> {
+    return this.commandBus.execute(new FetchGameRatingsCommand(hltbId));
   }
 }

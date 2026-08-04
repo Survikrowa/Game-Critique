@@ -1,0 +1,8 @@
+query GetNotificationPreferences {
+  getNotificationPreferences {
+    friendActivity
+    friendInvites
+    weeklySummary
+    releaseReminders
+  }
+}

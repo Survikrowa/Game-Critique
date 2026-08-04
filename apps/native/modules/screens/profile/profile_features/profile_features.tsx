@@ -1,22 +1,32 @@
-import { BarChart, Import } from "@tamagui/lucide-icons";
 import { Link } from "expo-router";
-import { FlatList } from "react-native-gesture-handler";
-import { YStack } from "tamagui";
-
-import { Text } from "../../../../ui/typography/text";
+import { Award, BarChart, Bell, Import } from "lucide-react-native";
+import { FlatList, Pressable } from "react-native";
+import { Text } from "ui/typography/text";
 
 const FEATURE_LIST = [
   {
     title: "Statystyki",
     description: "Wyświetl swoje statystyki.",
-    route: "/user/stats",
-    icon: BarChart,
+    route: "/user/stats" as const,
+    Icon: BarChart,
+  },
+  {
+    title: "Gaming Wrapped",
+    description: "Podsumowanie Twojego roku.",
+    route: "/user/wrapped" as const,
+    Icon: Award,
   },
   {
     title: "HLTB Migracja",
     description: "Przenieś swoje dane z HLTB.",
-    icon: Import,
-    route: "/user/hltb",
+    Icon: Import,
+    route: "/user/hltb" as const,
+  },
+  {
+    title: "Obserwowane premiery",
+    description: "Zarządzaj powiadomieniami o premierach.",
+    route: "/user/reminders" as const,
+    Icon: Bell,
   },
 ];
 
@@ -26,33 +36,23 @@ export const ProfileFeatures = () => {
       data={FEATURE_LIST}
       numColumns={2}
       columnWrapperStyle={{
-        display: "flex",
         justifyContent: "space-between",
       }}
       contentContainerStyle={{
         paddingBottom: 20,
       }}
       renderItem={({ item }) => {
-        const Icon = item.icon;
         return (
           <Link href={item.route} asChild>
-            <YStack
-              backgroundColor="$color.container"
-              borderRadius={4}
-              alignItems="center"
-              justifyContent="center"
-              flex={1}
-              padding={6}
-              maxWidth={180}
-            >
-              <Icon color="white" />
-              <Text size="medium" weight="normal" color="white">
+            <Pressable className="max-w-[180px] flex-1 items-center justify-center rounded bg-background-50 p-3">
+              <item.Icon size={20} color="#3B82F6" />
+              <Text size="medium" weight="normal" color="primary">
                 {item.title}
               </Text>
-              <Text size="small" weight="normal" color="white">
+              <Text size="small" weight="normal" color="secondary">
                 {item.description}
               </Text>
-            </YStack>
+            </Pressable>
           </Link>
         );
       }}

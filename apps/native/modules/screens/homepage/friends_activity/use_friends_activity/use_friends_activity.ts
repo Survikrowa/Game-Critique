@@ -1,8 +1,12 @@
+import { useAuth0 } from "react-native-auth0";
+
 import { useFriendsActivityQuery } from "./friends_activity.generated";
 
 export const useFriendsActivity = () => {
+  const { user } = useAuth0();
   const friendsActivityQuery = useFriendsActivityQuery({
     fetchPolicy: "network-only",
+    skip: !user,
   });
 
   const getFriendsActivity = () => {

@@ -1,0 +1,9 @@
+mutation FetchGameRatings($hltbId: Float!) {
+  fetchGameRatings(hltbId: $hltbId) {
+    aggregatedRating
+    aggregatedCount
+    igdbRating
+    igdbRatingCount
+    igdbUrl
+  }
+}

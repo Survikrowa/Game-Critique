@@ -1,5 +1,4 @@
-import { RefreshCcw } from "@tamagui/lucide-icons";
-import { Card } from "tamagui";
+import { RefreshCcw } from "lucide-react-native";
 import { ButtonWithIcon } from "ui/forms/button_icon";
 import { Text } from "ui/typography/text";
 
@@ -7,6 +6,9 @@ import { HltbDocumentPicker } from "./hltb_document_picker/hltb_document_picker"
 import { parseStatus } from "./parse_status/parse_status";
 import { useMigrationStatus } from "./use_migration_status/use_migration_status";
 import { MigrationStatus } from "../../../../__generated__/types";
+
+import { Card } from "@/ui/panels/card/card";
+import { VStack } from "@/ui/layout/vstack/vstack";
 
 export const UploadHltbMigrationDocument = () => {
   const migrationStatusQuery = useMigrationStatus();
@@ -18,8 +20,8 @@ export const UploadHltbMigrationDocument = () => {
     status !== MigrationStatus.InProgress;
 
   return (
-    <Card padding={8} backgroundColor="$color.container">
-      <Card.Header gap={24}>
+    <Card className="p-2">
+      <VStack className="gap-6">
         {buttonVisible && (
           <>
             <Text size="medium" weight="bold" color="primary">
@@ -35,10 +37,10 @@ export const UploadHltbMigrationDocument = () => {
         {status !== MigrationStatus.Finished && (
           <ButtonWithIcon
             onPress={() => migrationStatusQuery.refetch()}
-            icon={<RefreshCcw />}
+            icon={<RefreshCcw size={16} color="#3B82F6" />}
           />
         )}
-      </Card.Header>
+      </VStack>
     </Card>
   );
 };

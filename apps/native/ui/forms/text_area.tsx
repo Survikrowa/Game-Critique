@@ -1,6 +1,7 @@
-import { Label, YStack, TextArea as TamaguiTexarea } from "tamagui";
+import { tva } from "@gluestack-ui/utils/nativewind-utils";
+import { Text, TextInput, View } from "react-native";
 
-import { Text } from "../typography/text";
+import { Text as AppText } from "../typography/text";
 
 type TextAreaProps = {
   onChange: (text: string) => void;
@@ -9,6 +10,16 @@ type TextAreaProps = {
   errorMessage?: string;
 };
 
+const textAreaStyle = tva({
+  base: "w-full min-h-[80px] p-3 rounded-xl bg-background-50 border-2 text-typography-100 text-base",
+  variants: {
+    error: {
+      true: "border-error-400",
+      false: "border-outline-200",
+    },
+  },
+});
+
 export const TextArea = ({
   onChange,
   label,
@@ -16,20 +27,22 @@ export const TextArea = ({
   value,
 }: TextAreaProps) => {
   return (
-    <YStack width="100%" justifyContent="center" alignItems="center">
-      <Label color="white">{label}</Label>
-      <TamaguiTexarea
+    <View className="w-full items-center">
+      <Text className="text-typography-100 text-sm mb-1 self-start">
+        {label}
+      </Text>
+      <TextInput
         onChangeText={onChange}
         value={value}
-        minHeight={32}
-        width="100%"
-        borderColor={errorMessage ? "$red8" : "black"}
+        multiline
+        className={textAreaStyle({ error: Boolean(errorMessage) })}
+        textAlignVertical="top"
       />
       {Boolean(errorMessage) && (
-        <Text size="small" weight="semiBold" color="warning">
+        <AppText size="small" weight="semiBold" color="warning">
           {errorMessage}
-        </Text>
+        </AppText>
       )}
-    </YStack>
+    </View>
   );
 };

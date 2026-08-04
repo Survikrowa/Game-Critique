@@ -1,5 +1,8 @@
 import { useUserFriendGamesStatusQueryQuery } from "./user_friend_games_status.generated";
-import { useGameStatusStore } from "../../../games/games_status_store/use_games_status_store";
+import {
+  GAMES_STATUS_PAGE_SIZE,
+  useGameStatusStore,
+} from "../../../games/games_status_store/use_games_status_store";
 
 type UseUserFriendGamesStatusArgs = {
   oauthId?: string;
@@ -16,7 +19,7 @@ export const useUserFriendGamesStatus = ({
     notifyOnNetworkStatusChange: true,
     variables: {
       oauthId: oauthId || "",
-      take: 12,
+      take: GAMES_STATUS_PAGE_SIZE,
       skip: 0,
       filters: {
         platform: gamesStatusStore.filters.platform,
@@ -32,7 +35,9 @@ export const useUserFriendGamesStatus = ({
   });
   const fetchMoreGamesStatus = () => {
     if (userQuery.data?.userFriendGamesStatus.pagination.hasMore) {
-      const newSkip = userQuery.data.userFriendGamesStatus.pagination.skip + 12;
+      const newSkip =
+        userQuery.data.userFriendGamesStatus.pagination.skip +
+        GAMES_STATUS_PAGE_SIZE;
       const take = userQuery.data.userFriendGamesStatus.pagination.take;
 
       userQuery.fetchMore({
@@ -66,7 +71,7 @@ export const useUserFriendGamesStatus = ({
   const onRefresh = () => {
     userQuery.refetch({
       skip: 0,
-      take: 12,
+      take: GAMES_STATUS_PAGE_SIZE,
     });
   };
   return { ...userQuery, fetchMoreGamesStatus, onRefresh };

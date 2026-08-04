@@ -209,6 +209,20 @@ export class GamesStatusRepository {
       },
     });
   }
+  getGamesStatusByProfileAndGameId(oauthId: string, gameId: number) {
+    return this.prismaService.gamesStatus.findFirst({
+      where: {
+        user: {
+          oauthId,
+        },
+        gameId,
+      },
+      select: {
+        id: true,
+        status: true,
+      },
+    });
+  }
   upsertGameStatus(
     createGameStatusArgs: UpsertGameStatusArgsDTO,
     oauthId: string,

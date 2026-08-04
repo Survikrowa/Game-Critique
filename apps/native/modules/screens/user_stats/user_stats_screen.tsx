@@ -1,117 +1,197 @@
+import { tva } from "@gluestack-ui/utils/nativewind-utils";
 import { useState } from "react";
-import { BarChart } from "react-native-gifted-charts";
-import { Separator, View, YStack, XStack, Group, Button } from "tamagui";
+import { Pressable, ScrollView, View } from "react-native";
 
+import { useBacklogProgress } from "./use_get_backlog_progress/use_get_backlog_progress";
+import { useMonthlyActivity } from "./use_get_monthly_activity/use_get_monthly_activity";
+import { useStreak } from "./use_get_streak/use_get_streak";
 import { useGetUserStats } from "./use_get_user_stats/use_get_user_stats";
-import { Text } from "../../../ui/typography/text";
+import { useYearlySummary } from "./use_get_yearly_summary/use_get_yearly_summary";
+import { StatsBacklogProgress } from "./user_stats_sections/stats_backlog_progress";
+import { StatsMonthlyActivity } from "./user_stats_sections/stats_monthly_activity";
+import { StatsStreak } from "./user_stats_sections/stats_streak";
+import { StatsSummaryCards } from "./user_stats_sections/stats_summary_cards";
+import { StatsYearSelector } from "./user_stats_sections/stats_year_selector";
+
+import { BarChart } from "@/ui/data-display/bar-chart/bar-chart";
+import { Skeleton } from "@/ui/feedback/skeleton/skeleton";
+import { Text } from "@/ui/typography/text";
+
+const CURRENT_YEAR = 2026;
+const AVAILABLE_YEARS = [2024, 2025, 2026];
+
+const tabItemStyle = tva({
+  base: "px-3 py-2 min-h-[44px] justify-center items-center",
+  variants: {
+    active: {
+      true: "bg-background-100",
+      false: "bg-transparent",
+    },
+  },
+});
 
 const selectData = [
-  {
-    name: "Platformy",
-    value: "platforms",
-  },
-  {
-    name: "Oceny",
-    value: "ratings",
-  },
-  {
-    name: "Rok wydania",
-    value: "release_year",
-  },
+  { name: "Platformy", value: "platforms" },
+  { name: "Oceny", value: "ratings" },
+  { name: "Rok wydania", value: "release_year" },
 ];
 
 export const UserStatsScreen = () => {
-  const [selectedItem, setSelectedItem] = useState("ratings");
-  const userStatsQuery = useGetUserStats({
-    type: selectedItem,
-  });
-  const userStats = userStatsQuery.data?.userStats || [];
-  return (
-    <YStack backgroundColor="$color.container" padding={8} borderRadius={8}>
-      <XStack justifyContent="center" alignItems="center" gap={8}>
-        <Text size="extraLarge" weight="normal" color="white">
-          Obczaj swoje staty
-        </Text>
-      </XStack>
+  const [selectedYear, setSelectedYear] = useState(CURRENT_YEAR);
+  const [selectedChart, setSelectedChart] = useState("ratings");
 
-      <BarChart
-        showScrollIndicator
-        labelsExtraHeight={30}
-        labelWidth={100}
-        showValuesAsTopLabel
-        horizontal
-        topLabelContainerStyle={{
-          width: 40,
-          marginLeft: -10,
-          marginTop: -10,
-        }}
-        topLabelTextStyle={{
-          color: "white",
-          fontSize: 12,
-          fontWeight: "normal",
-        }}
-        data={userStats || []}
-        barWidth={18}
-        height={200}
-        width={240}
-        showGradient
-        noOfSections={4}
-        yAxisTextStyle={{ color: "gray" }}
-        isAnimated
-        animationDuration={300}
-        yAxisThickness={0}
-        xAxisThickness={0}
-        xAxisLabelTextStyle={{
-          alignSelf: "flex-start",
-          marginRight: 40,
-          marginTop: -44,
-          color: "white",
-        }}
-        renderTooltip={(item: { label: string; value: string }) => {
-          return (
-            <YStack
-              style={{
-                marginBottom: 10,
-                backgroundColor: "black",
-                borderColor: "white",
-                borderWidth: 1,
-                paddingHorizontal: 4,
-                paddingVertical: 4,
-                borderRadius: 4,
-                width: "100%",
-              }}
-            >
-              <Text size="small" weight="normal" color="white">
-                {item.label}
-              </Text>
-            </YStack>
-          );
-        }}
-      />
-      <View alignItems="center">
-        <Group
-          borderWidth={1}
-          borderColor="white"
-          orientation="horizontal"
-          separator={<Separator vertical />}
-        >
-          {selectData.map((item) => (
-            <Group.Item key={item.value}>
-              <Button
-                onPress={() => {
-                  setSelectedItem(item.value);
-                }}
-                backgroundColor={
-                  selectedItem === item.value ? "gray" : "transparent"
-                }
-                color="white"
-              >
-                {item.name}
-              </Button>
-            </Group.Item>
-          ))}
-        </Group>
+  const yearlySummary = useYearlySummary({ year: selectedYear });
+  const monthlyActivity = useMonthlyActivity({ year: selectedYear });
+  const backlogProgress = useBacklogProgress({ year: selectedYear });
+  const streak = useStreak();
+  const chartData = useGetUserStats({ type: selectedChart });
+
+  const hasError =
+    yearlySummary.error ||
+    monthlyActivity.error ||
+    backlogProgress.error ||
+    streak.error ||
+    chartData.error;
+
+  if (hasError) {
+    return (
+      <View className="flex-1 items-center justify-center p-4">
+        <Text size="large" weight="bold" color="primary">
+          Nie udało się załadować statystyk
+        </Text>
+        <View className="mt-4">
+          <Text size="medium" weight="normal" color="secondary">
+            Spróbuj ponownie za chwilę
+          </Text>
+        </View>
       </View>
-    </YStack>
+    );
+  }
+
+  const isLoaded =
+    yearlySummary.data &&
+    monthlyActivity.data &&
+    backlogProgress.data &&
+    streak.data;
+
+  const summary = yearlySummary.data?.yearlySummary;
+  const streakData = streak.data?.streak;
+  const monthlyData = monthlyActivity.data?.monthlyActivity;
+  const backlogData = backlogProgress.data?.backlogProgress;
+
+  return (
+    <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
+      <View className="gap-4 py-4">
+        <StatsYearSelector
+          selectedYear={selectedYear}
+          onYearChange={setSelectedYear}
+          years={AVAILABLE_YEARS}
+        />
+
+        {isLoaded && summary && streakData && monthlyData && backlogData ? (
+          <>
+            <StatsSummaryCards
+              totalGames={summary.yearlyGames}
+              totalHours={summary.yearlyHours}
+              averageScore={summary.yearlyAverageScore ?? null}
+            />
+
+            <StatsStreak
+              currentStreak={streakData.currentStreak}
+              longestStreak={streakData.longestStreak}
+            />
+
+            <StatsMonthlyActivity data={monthlyData} />
+
+            <View className="mx-4 rounded-2xl bg-background-50 p-4">
+              <Text size="large" weight="bold" color="primary">
+                {selectedChart === "platforms"
+                  ? "Top platformy"
+                  : selectedChart === "ratings"
+                    ? "Rozkład ocen"
+                    : "Rok wydania"}
+              </Text>
+              <View className="mt-3">
+                <BarChart
+                  showScrollIndicator
+                  labelsExtraHeight={30}
+                  labelWidth={130}
+                  showValuesAsTopLabel
+                  horizontal
+                  topLabelContainerStyle={{
+                    width: 40,
+                    marginLeft: -10,
+                    marginTop: -10,
+                  }}
+                  topLabelTextStyle={{
+                    color: "white",
+                    fontSize: 12,
+                    fontWeight: "normal",
+                  }}
+                  data={chartData.data?.userStats || []}
+                  barWidth={18}
+                  height={200}
+                  width={240}
+                  showGradient
+                  noOfSections={4}
+                  yAxisTextStyle={{ color: "gray" }}
+                  isAnimated
+                  animationDuration={300}
+                  yAxisThickness={0}
+                  xAxisThickness={0}
+                  xAxisLabelTextStyle={{
+                    alignSelf: "flex-start",
+                    marginRight: 40,
+                    marginTop: -44,
+                    color: "white",
+                  }}
+                  renderTooltip={(item: { label: string; value: number }) => (
+                    <View className="border-white bg-black mb-2.5 rounded-sm border p-1">
+                      <Text size="small" weight="normal" color="primary">
+                        {item.label}
+                      </Text>
+                    </View>
+                  )}
+                />
+              </View>
+            </View>
+
+            <View className="items-center">
+              <View className="overflow-hidden rounded-lg border border-outline-0">
+                <View className="flex-row">
+                  {selectData.map((item) => (
+                    <Pressable
+                      key={item.value}
+                      onPress={() => setSelectedChart(item.value)}
+                      className={tabItemStyle({
+                        active: selectedChart === item.value,
+                      })}
+                    >
+                      <Text size="small" weight="normal" color="primary">
+                        {item.name}
+                      </Text>
+                    </Pressable>
+                  ))}
+                </View>
+              </View>
+            </View>
+
+            <StatsBacklogProgress
+              completed={backlogData.completed}
+              added={backlogData.added}
+              ratio={backlogData.ratio}
+            />
+
+            <View className="h-8" />
+          </>
+        ) : (
+          <View className="gap-4 px-4">
+            <Skeleton style={{ height: 80, width: "100%" }} />
+            <Skeleton style={{ height: 60, width: "100%" }} />
+            <Skeleton style={{ height: 200, width: "100%" }} />
+          </View>
+        )}
+      </View>
+    </ScrollView>
   );
 };

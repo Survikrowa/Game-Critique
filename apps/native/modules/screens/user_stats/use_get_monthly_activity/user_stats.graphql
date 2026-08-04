@@ -1,0 +1,7 @@
+query MonthlyActivity($year: Int!) {
+  monthlyActivity(year: $year) {
+    month
+    gamesCompleted
+    hoursPlayed
+  }
+}

@@ -1,11 +1,12 @@
 import { MutationFunctionOptions } from "@apollo/client";
-import { Trash } from "@tamagui/lucide-icons";
 import { Exact } from "__generated__/types";
+import { Trash } from "lucide-react-native";
 
 import { RemoveGameStatusConfirmationDialog } from "./remove_game_status_action/remove_game_status_confirmation_dialog";
 import { RemoveGameStatusMutation } from "./use_remove_game_status/remove_game_status_mutation.generated";
-import { ButtonWithIcon } from "../../../../../../ui/forms/button_icon";
-import { useDisclosure } from "../../../../../../ui/hooks/use_disclosure";
+
+import { ButtonWithIcon } from "@/ui/forms/button_icon";
+import { useDisclosure } from "@/ui/hooks/use_disclosure";
 
 type GamesStatusListItemButtonRemoveProps = {
   gameStatusId: number;
@@ -29,13 +30,13 @@ export const GamesStatusListItemButtonRemove = ({
   return (
     <>
       <ButtonWithIcon
+        action="negative"
+        className="w-full"
         onPress={() => {
           onOpen();
           onClick();
         }}
-        icon={<Trash />}
-        backgroundColor="$red8"
-        width="100%"
+        icon={<Trash size={16} color="#fff" />}
       >
         Usuń
       </ButtonWithIcon>

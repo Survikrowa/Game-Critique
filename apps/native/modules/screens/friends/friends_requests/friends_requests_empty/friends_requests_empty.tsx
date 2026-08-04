@@ -1,8 +1,9 @@
-import { RefreshControl } from "react-native-gesture-handler";
-import { ScrollView, View, YStack } from "tamagui";
+import { RefreshControl, ScrollView, View } from "react-native";
 import { Text } from "ui/typography/text";
 
 import UndrawSearch from "../assets/undraw_mobile_search.svg";
+
+import { VStack } from "@/ui/layout/vstack/vstack";
 
 type FriendsRequestsEmptyProps = {
   onRefresh: () => void;
@@ -19,25 +20,19 @@ export const FriendsRequestsEmpty = ({
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
     >
-      <YStack justifyContent="center" gap={32}>
-        <View
-          maxHeight={400}
-          maxWidth={400}
-          alignItems="center"
-          display="flex"
-          justifyContent="center"
-        >
+      <VStack className="justify-center gap-8">
+        <View className="max-h-[400px] max-w-[400px] items-center justify-center">
           <UndrawSearch width="100%" height="100%" />
         </View>
-        <YStack alignItems="center" justifyContent="center" gap={8}>
+        <VStack className="items-center justify-center gap-2">
           <Text size="extraLarge" weight="semiBold" color="primary">
             Nie bój się zaprosić znajomych.
           </Text>
           <Text size="large" weight="semiBold" color="primary">
             Wróc na poprzedni ekran i zaproś kogoś!
           </Text>
-        </YStack>
-      </YStack>
+        </VStack>
+      </VStack>
     </ScrollView>
   );
 };

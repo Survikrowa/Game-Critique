@@ -1,15 +1,14 @@
-import { LogIn } from "@tamagui/lucide-icons";
 import { router } from "expo-router";
+import { LogIn } from "lucide-react-native";
 
-import { ButtonWithIcon } from "../../../ui/forms/button_icon";
+import { Button, ButtonIcon } from "@/ui/forms/button/button";
 
 export const UserProfileButton = () => {
   return (
-    <ButtonWithIcon
-      onPress={() => router.push("auth")}
-      icon={<LogIn color="$purple1" size="$2" />}
-      backgroundColor="transparent"
-      padding={4}
-    />
+    <Button onPress={() => router.push("/(app)/auth")}>
+      <ButtonIcon>
+        <LogIn size={20} color="#ffffff" />
+      </ButtonIcon>
+    </Button>
   );
 };

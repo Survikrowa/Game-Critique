@@ -5,8 +5,11 @@ export const mapGamesStatusToItem = (
 ) => {
   return gamesStatus.map((gameStatus) => ({
     id: gameStatus.id,
+    gameId: gameStatus.game.id,
     title: gameStatus.game.name,
     platform: gameStatus.platform.name,
+    platformId: gameStatus.platform.id,
+    status: gameStatus.status,
     score: gameStatus.score || "0",
     cover: gameStatus.game.cover?.bigUrl || "",
     achievementsCompleted: gameStatus.achievementsCompleted || false,

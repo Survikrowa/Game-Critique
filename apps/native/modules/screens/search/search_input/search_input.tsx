@@ -1,5 +1,7 @@
-import { Search } from "@tamagui/lucide-icons";
-import { Input, XStack } from "tamagui";
+import { Search } from "lucide-react-native";
+import { TextInput } from "react-native";
+
+import { HStack } from "@/ui/layout/hstack/hstack";
 
 type SearchInputProps = {
   value: string;
@@ -8,28 +10,15 @@ type SearchInputProps = {
 
 export const SearchInput = ({ value, onChange }: SearchInputProps) => {
   return (
-    <XStack
-      paddingHorizontal={8}
-      width="100"
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-      gap={4}
-    >
-      <Input
+    <HStack className="w-full items-center gap-2 border border-primary-500 rounded-xl px-3 py-2">
+      <Search size={18} color="#64748B" />
+      <TextInput
         placeholder="Wyszukaj"
+        placeholderTextColor="#64748B"
         value={value}
-        borderRadius={8}
-        borderColor="$purple8"
-        borderWidth={1}
-        borderTopWidth={0}
-        borderLeftWidth={0}
-        borderRightWidth={0}
-        overflow="hidden"
         onChangeText={onChange}
-        width="100%"
+        className="flex-1 text-typography-100 text-base"
       />
-      <Search color="white" />
-    </XStack>
+    </HStack>
   );
 };

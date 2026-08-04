@@ -4,7 +4,7 @@
 Game Critique is a monorepo project built with Turborepo containing:
 - **API**: NestJS GraphQL backend serving both web and native clients
 - **Web**: Vite + React admin panel with TanStack Router and React Query
-- **Native**: Expo React Native mobile app using Tamagui UI library
+- **Native**: Expo React Native mobile app using **Gluestack UI + NativeWind** (migrated from Tamagui)
 
 ## Technology Stack
 
@@ -115,12 +115,15 @@ Game Critique is a monorepo project built with Turborepo containing:
 - Expo Router 2.x for file-based navigation
 - TypeScript 5.3.2
 
-**UI Framework**
-- Tamagui 1.79.6 for cross-platform UI components
-- Custom theme configuration with dark mode
-- Moti for animations (react-native-reanimated)
-- Lucide icons via @tamagui/lucide-icons
-- **MCP Server Integration**: When modifying UI elements and the "use-gluestack-components" MCP server is connected, prioritize using Gluestack UI components for better accessibility and consistency. Consult the MCP server for component APIs, props, and usage patterns before implementing custom solutions.
+**UI Framework — Gluestack UI + NativeWind (migracja z Tamagui ukończona)**
+- Gluestack UI v2 dla komponentów
+- NativeWind (Tailwind CSS) dla stylowania przez `className`
+- `ui/` — własna biblioteka komponentów opakowujących Gluestack
+- `GluestackUIProvider` w `components/ui/gluestack-ui-provider/index.tsx` — root provider z dark mode
+- Lucide icons z `lucide-react-native`
+- **WAŻNE**: `theme.colors` w `tailwind.config.js` nadpisuje całą paletę Tailwind — `text-white` NIE istnieje, używaj `text-typography-white` (zdefiniowanego w `extend.colors.typography.white`)
+- **WAŻNE**: Gluestack `Image` nadpisuje prop `style` na webzie — do absolutnego pozycjonowania używaj `Image as RNImage` z `react-native`
+- `LinearGradient` z `expo-linear-gradient` NIE jest patchowany przez NativeWind — używaj inline `style`, nie `className`
 
 **Navigation**
 - Expo Router with stack and tabs layout
@@ -153,19 +156,19 @@ Game Critique is a monorepo project built with Turborepo containing:
 **UI Components**
 - Custom component library in `ui/` directory:
   - Data Display: Charts (react-native-gifted-charts), Carousels
-  - Feedback: Toasts, Loading states, Skeletons (react-content-loader)
+  - Feedback: Toasts, Loading states, Skeletons (animowane shimmer)
   - Forms: Inputs, Pickers, Checkboxes
   - Overlay: Modals, Dialogs
   - Panels: Cards, Sheets
-  - Typography: Text components
+  - Typography: Text component (`ui/typography/text.tsx`) z wariantami size/weight/color
 
 **Key Features**
 - Game status tracking and management
 - Photo uploads for game covers
 - User profile management
 - Friends system
-- Game collections
-- Search functionality
+- Search functionality with local recent searches history (expo-secure-store)
+- **UWAGA**: Kolekcje (Collections) są oficjalnie niewspierane — nie dodawaj nowego kodu związanego z kolekcjami
 
 **Build & Deploy**
 - EAS Build for Android and iOS
@@ -265,8 +268,32 @@ src/
 
 ### Styling Conventions
 - **Web**: Tailwind utility classes with cn() helper
-- **Native**: Tamagui themed components with styled props
-- Both use consistent color tokens and spacing
+- **Native**: NativeWind `className` na komponentach opartych o `View`/`Text` z react-native lub Gluestack
+- Kolory tokenowe: `bg-background-0/50/100`, `text-typography-100/400/white`, `text-primary-500`
+- NIE używaj `text-white` w Native — użyj `text-typography-white`
+
+### Safe Area — Native
+- **ZAWSZE używaj `SafeAreaView` z `edges={['top']}`** dla screenów z własnym headerem (`headerShown: false`)
+- NIE używaj `useSafeAreaInsets()` + `paddingTop` jako głównej metody — `SafeAreaView` jest niezawodniejszy na Android
+- `useSafeAreaInsets()` jest OK do drobnych przesunięć wewnątrz komponentów (np. floating button position)
+
+### Ekrany z własnym headerem (headerShown: false)
+Pattern dla screenu który zarządza własną nawigacją (np. search, game detail):
+```tsx
+// W _layout.tsx:
+<Stack.Screen name="search" options={{ headerShown: false }} />
+
+// W komponencie:
+<SafeAreaView className="flex-1 bg-background-0" edges={["top"]}>
+  {/* własny header bar */}
+  <ScrollView>...</ScrollView>
+</SafeAreaView>
+```
+
+### Obsługa autoryzacji w Apollo (Native)
+- Sprawdzaj `user` z `useAuth0()` przed wywołaniem query wymagającego auth
+- Dodaj `skip: !user` do Apollo hooks dla zapytań wymagających autoryzacji
+- `useUserProfileInfo()` wywołuj TYLKO gdy user jest zalogowany (unikaj unauthorized errors)
 
 ## Common Tasks
 
@@ -296,13 +323,13 @@ src/
 
 ### Adding UI Components
 - **Native**: Add to `ui/<category>/<component>/`
-  - **MCP Server**: If the "use-gluestack-components" MCP server is connected, check if a suitable Gluestack UI component exists before creating a custom component. Use the MCP server to get implementation examples and best practices.
-  - Follow existing patterns for props and exports
+  - Używaj Gluestack UI jako bazy, owijaj w własny komponent w `ui/`
+  - Każdy komponent w osobnym pliku — nie łącz wielu komponentów w jednym pliku
+  - Eksportuj typy pomocnicze z komponentów (nie z osobnych plików types)
   - Use TypeScript interfaces for props
-  - Include proper error handling and loading states
+  - Include proper error handling and loading states (`Skeleton` dla loading, `ErrorState` dla błędów, `EmptyState` dla pustych list)
 - **Web**: Add to `src/features/<feature>` or shared location
 - Follow existing patterns for props and exports
-- Use TypeScript interfaces for props
 - Include proper error handling and loading states
 
 ## Environment Variables
@@ -344,9 +371,36 @@ src/
 6. Implement proper error handling with HttpException
 7. Use guards for all protected routes
 8. Keep UI components pure and reusable
-9. Use debouncing for search inputs (use-debounce)
-10. Handle loading and error states consistently
-11. **Native UI Development**: When the "use-gluestack-components" MCP server is connected and you're working on React Native UI, always consult it first for component selection and implementation patterns. Prefer Gluestack UI components for accessibility and cross-platform consistency.
+9. Use debouncing for search inputs (use-debounce) — 500ms dla search
+10. Handle loading and error states consistently — używaj `Skeleton` zamiast `ActivityIndicator`
+11. **NEVER use barrel exports** (index.ts/index.js files that re-export from other files). Always import directly from the source file (e.g., `import { Box } from "../layout/box/box"` instead of `import { Box } from "../layout/box"`).
+12. **Każdy sub-komponent w osobnym pliku** — nie definiuj wielu komponentów w jednym pliku. Np. `StatColumn` → `game_stat_column/game_stat_column.tsx`
+13. **Eksportuj typy z komponentów** zamiast importować przez długi chain typów. Np. `export type SearchGameResult = SearchGamesQuery["search"]["games"][number]` w `search_result.tsx` i importuj ten typ wszędzie indziej
+14. **Lokalna historia wyszukiwania** przechowywana w `expo-secure-store` (nie API). Maks 4 ostatnie gry, deduplicacja po id
+15. **Touch targets minimum 44pt** (`min-h-[44px]`) na wszystkich klikalnych elementach
+16. **Haptic feedback**: `haptic.light()` na nawigacji, `haptic.medium()` na akcjach zapisu/edycji
+
+## API — Krytyczne zasady
+
+### JwtAuthGuard + CqrsModule
+`JwtAuthGuard` wstrzykuje `QueryBus` z `CqrsModule`. `AuthModule` musi eksportować `CqrsModule` żeby moduły importujące `AuthModule` miały dostęp do `QueryBus`:
+```typescript
+// auth.module.ts
+exports: [PassportModule, AuthService, CqrsModule],
+```
+
+### HLTB — pola completion time
+- `comp_main` — fabuła główna (w sekundach)
+- `comp_plus` — fabuła + extra (w sekundach)  
+- `comp_100` — 100% completionist (w sekundach) ← **używaj tego**
+- `comp_all` — średnia WSZYSTKICH stylów gry ← **NIE używaj do 100%**
+
+### timeToRelative — konwersja sekund HLTB
+HLTB przechowuje wartości w sekundach. Wyświetlanie powinno zaokrąglać do 0.5h (jak HLTB na stronie):
+```typescript
+const hoursRounded = Math.round(hoursExact * 2) / 2; // nearest 0.5h
+```
+Kolejność argumentów `pluralizePolish`: `(count, singular, few, many)` = `(n, "godzina", "godziny", "godzin")`
 
 ## Useful Commands
 ```bash
@@ -393,6 +447,7 @@ yarn build-android        # EAS build Android
 - **API**: Uses tsconfig paths (e.g., `@/modules/...`)
 - **Web**: `@/` → `src/`
 - **Native**: Relative imports for modules, absolute for ui
+- **Important**: Always import directly from source files, NOT from index.ts barrel exports (e.g., use `from "./box/box"` not `from "./box"`)
 
 ## Dependencies Management
 - Use exact versions for critical dependencies

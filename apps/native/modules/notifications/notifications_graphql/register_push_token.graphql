@@ -1,0 +1,3 @@
+mutation RegisterPushToken($token: String!, $platform: String!) {
+  registerPushToken(token: $token, platform: $platform)
+}

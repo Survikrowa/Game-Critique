@@ -9,6 +9,7 @@ import { PlatformDTO } from '../platforms/platforms.dto';
 import { GameWithAllDataDTO } from '../games/games.dto';
 import { PaginationDTO } from '../pagination/pagination.dto';
 import { ProfileInfoDTO } from '../profiles/profiles.dto';
+import { CoverDTO } from '../covers/covers.dto';
 
 registerEnumType(GameStatus, {
   name: 'gameStatus',
@@ -194,6 +195,14 @@ export class UserGameStatusResponseDTO {
   game: GameWithAllDataDTO;
 }
 
+@ObjectType({ description: 'Current user GameStatus for a given game' })
+export class MyGameStatusForGameDTO {
+  @Field(() => Number)
+  id: number;
+  @Field(() => GameStatus)
+  status: GameStatus;
+}
+
 @ObjectType({})
 export class FriendsGameStatusReviewsDTO {
   @Field(() => ProfileInfoDTO, { nullable: true })
@@ -202,4 +211,16 @@ export class FriendsGameStatusReviewsDTO {
   review: string | null;
   @Field(() => String, { nullable: true })
   score: string | null;
+}
+
+@ObjectType({ description: 'User last edited games statuses' })
+export class LastEditedGamesStatusDTO {
+  @Field(() => Number)
+  id: number;
+  @Field(() => String)
+  name: string;
+  @Field(() => CoverDTO, { nullable: true })
+  cover: CoverDTO | null;
+  @Field(() => GameStatus)
+  status: GameStatus;
 }

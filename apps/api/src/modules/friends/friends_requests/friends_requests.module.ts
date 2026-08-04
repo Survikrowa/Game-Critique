@@ -4,9 +4,11 @@ import { FriendsRequestsService } from './friends_requests.service';
 import { FriendsRequestsResolver } from './friends_requests.resolver';
 import { FriendsListModule } from '../friends_list/friends_list.module';
 import { AuthModule } from '../../auth/auth.module';
+import { CqrsModule } from '@nestjs/cqrs';
 
 @Module({
   imports: [
+    CqrsModule,
     forwardRef(() => DatabaseModule),
     forwardRef(() => FriendsListModule),
     AuthModule,

@@ -1,7 +1,10 @@
-import { Card, Separator, XStack, YStack } from "tamagui";
+import { View } from "react-native";
 import { Text } from "ui/typography/text";
+import { BookOpen, Star, Trophy } from "lucide-react-native";
 
 import { timeToRelative } from "../../../dates/time_to_relative";
+import { StatColumn } from "../game_stat_column/game_stat_column";
+
 type GameCompletionTimeProps = {
   main?: number;
   mainExtra?: number;
@@ -14,42 +17,27 @@ export const GameCompletionTime = ({
   completionist = 0,
 }: GameCompletionTimeProps) => {
   return (
-    <Card width="100%" backgroundColor="$color.container">
-      <Card.Header>
-        <YStack padding={16}>
-          <XStack justifyContent="space-between">
-            <YStack alignItems="center">
-              <Text color="primary" weight="bold" size="large">
-                Fabuła główna
-              </Text>
-              <Text color="primary" weight="normal" size="large">
-                {timeToRelative(main)}
-              </Text>
-            </YStack>
-            <Separator alignSelf="stretch" vertical marginHorizontal={16} />
-
-            <YStack alignItems="center">
-              <Text color="primary" weight="bold" size="large">
-                Fabuła główna + extra
-              </Text>
-              <Text color="primary" weight="normal" size="large">
-                {timeToRelative(mainExtra)}
-              </Text>
-            </YStack>
-          </XStack>
-          <Separator marginVertical={32} />
-          <XStack>
-            <YStack alignItems="center">
-              <Text color="primary" weight="bold" size="large">
-                100%
-              </Text>
-              <Text color="primary" weight="normal" size="large">
-                {timeToRelative(completionist)}
-              </Text>
-            </YStack>
-          </XStack>
-        </YStack>
-      </Card.Header>
-    </Card>
+    <View style={{ gap: 8 }}>
+      <Text size="small" weight="semiBold" color="secondary">
+        Czas ukończenia
+      </Text>
+      <View className="flex-row" style={{ gap: 8 }}>
+        <StatColumn
+          icon={<BookOpen size={18} color="#3B82F6" />}
+          label="Fabuła"
+          value={timeToRelative(main)}
+        />
+        <StatColumn
+          icon={<Star size={18} color="#F59E0B" />}
+          label="Fabuła + extra"
+          value={timeToRelative(mainExtra)}
+        />
+        <StatColumn
+          icon={<Trophy size={18} color="#10B981" />}
+          label="100%"
+          value={timeToRelative(completionist)}
+        />
+      </View>
+    </View>
   );
 };

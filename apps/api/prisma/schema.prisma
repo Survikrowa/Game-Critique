@@ -31,8 +31,29 @@ model User {
   role                                UserRole?
   FriendsRequestsForUsersOwner        FriendsRequestsForUsers[]            @relation(name: "FriendRequestOwner")
   FriendsRequestsForUsersReceiver     FriendsRequestsForUsers[]            @relation(name: "FriendRequestReceiver")
+  pushTokens                          PushToken[]
+  notificationPreferences             NotificationPreferences?
+  gameReminders                       GameReminder[]
 
   @@map("users")
+}
+
+model GameReminder {
+  id                 Int      @id @default(autoincrement())
+  oauthId            String   @map("oauth_id")
+  igdbId             Int      @map("igdb_id")
+  gameName           String   @map("game_name")
+  gameUrl            String   @map("game_url")
+  releaseDate        DateTime @map("release_date")
+  coverUrl           String?  @map("cover_url")
+  notifiedOneWeek    Boolean  @default(false) @map("notified_one_week")
+  notifiedReleaseDay Boolean  @default(false) @map("notified_release_day")
+  createdAt          DateTime @default(now()) @map("created_at")
+  user               User     @relation(fields: [oauthId], references: [oauthId], onDelete: Cascade)
+
+  @@unique([oauthId, igdbId])
+  @@index([releaseDate])
+  @@map("game_reminder")
 }
 
 model Profile {
@@ -115,8 +136,26 @@ model Game {
   gamesCollection GamesCollection[]
   gamesStatus     GamesStatus[]
   userActivity    UserActivity[]
+  game_metadata   game_metadata?
+  gameRating      GameRating?
 
   @@map("games")
+}
+
+model GameRating {
+  id                 Int      @id @default(autoincrement())
+  gameId             Int      @unique @map("game_id")
+  game               Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  igdbId             Int      @map("igdb_id")
+  aggregatedRating   Float?   @map("aggregated_rating")
+  aggregatedCount    Int?     @map("aggregated_rating_count")
+  igdbRating         Float?   @map("igdb_rating")
+  igdbRatingCount    Int?     @map("igdb_rating_count")
+  igdbUrl            String?  @map("igdb_url")
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  @@map("game_rating")
 }
 
 model GameCompletionTime {
@@ -331,6 +370,58 @@ model UserActivity {
   @@map("user_activity")
 }
 
+model PushToken {
+  id        Int      @id @default(autoincrement())
+  oauthId   String   @map("oauth_id")
+  token     String   @unique
+  platform  String
+  createdAt DateTime @default(now()) @map("created_at")
+  user      User     @relation(fields: [oauthId], references: [oauthId], onDelete: Cascade)
+
+  @@map("push_tokens")
+}
+
+model NotificationPreferences {
+  oauthId          String  @id @map("oauth_id")
+  friendActivity   Boolean @default(true)  @map("friend_activity")
+  friendInvites    Boolean @default(true)  @map("friend_invites")
+  weeklySummary    Boolean @default(true)  @map("weekly_summary")
+  releaseReminders Boolean @default(false) @map("release_reminders")
+  user             User    @relation(fields: [oauthId], references: [oauthId], onDelete: Cascade)
+
+  @@map("notification_preferences")
+}
+
+model does_it_play_scraping_jobs {
+  id         Int                 @id @default(autoincrement())
+  url        String              @unique
+  job_id     String              @unique
+  status     DoesItPlayJobStatus @default(PENDING)
+  error      String?
+  created_at DateTime            @default(now())
+  updated_at DateTime
+}
+
+model game_metadata {
+  id                   Int                    @id @default(autoincrement())
+  created_at           DateTime               @default(now())
+  updated_at           DateTime
+  game_id              Int                    @unique
+  games                Game                   @relation(fields: [game_id], references: [id])
+  games_physical_media games_physical_media[]
+}
+
+model games_physical_media {
+  id                   Int           @id @default(autoincrement())
+  platform             String?
+  has_physical_release Boolean
+  has_game_on_disc     Boolean
+  created_at           DateTime      @default(now())
+  updated_at           DateTime
+  game_metadata_id     Int
+  game_metadata        game_metadata @relation(fields: [game_metadata_id], references: [id])
+}
+
 model HowLongToBeatAccountMigrationStatus {
   id        Int             @id @default(autoincrement())
   oauthId   String          @unique @map("oauth_id")
@@ -346,5 +437,12 @@ enum MigrationStatus {
   WAITING
   IN_PROGRESS
   FINISHED
+  FAILED
+}
+
+enum DoesItPlayJobStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
   FAILED
 }

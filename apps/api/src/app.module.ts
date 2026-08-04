@@ -24,6 +24,10 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { RolesModule } from './modules/roles/roles.module';
 import { PlatformsModule } from './modules/platforms/platforms.module';
 import { UserStatsModule } from './modules/user_stats/user_stats.module';
+import { NotificationsModule } from './modules/notifications/notifications.module';
+import { ReleaseRemindersModule } from './modules/release_reminders/release_reminders.module';
+import { GameMetadataModule } from './modules/game_metadata/game_metadata.module';
+import { FriendStatsModule } from './modules/friend_stats/friend_stats.module';
 
 @Module({
   imports: [
@@ -62,7 +66,11 @@ import { UserStatsModule } from './modules/user_stats/user_stats.module';
     HowLongToBeatMigrationModule,
     RolesModule,
     PlatformsModule,
+    GameMetadataModule,
     UserStatsModule,
+    NotificationsModule,
+    ReleaseRemindersModule,
+    FriendStatsModule,
   ],
   providers: [
     {

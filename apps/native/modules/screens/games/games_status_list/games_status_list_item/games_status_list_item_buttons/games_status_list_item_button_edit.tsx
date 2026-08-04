@@ -1,7 +1,8 @@
-import { Edit } from "@tamagui/lucide-icons";
 import { router } from "expo-router";
+import { Edit3 } from "lucide-react-native";
 
-import { ButtonWithIcon } from "../../../../../../ui/forms/button_icon";
+import { haptic } from "@/modules/haptics/haptic";
+import { ButtonWithIcon } from "@/ui/forms/button_icon";
 
 type GamesStatusListItemButtonEditProps = {
   gameStatusId: number;
@@ -14,13 +15,17 @@ export const GamesStatusListItemButtonEdit = ({
 }: GamesStatusListItemButtonEditProps) => {
   return (
     <ButtonWithIcon
+      action="positive"
+      className="min-h-[44px] w-full"
       onPress={() => {
-        router.push(`/games/games_status_edit_form/${gameStatusId}`);
+        haptic.medium();
+        router.push({
+          pathname: "/games/games_status_edit_form/[game_status_id]",
+          params: { game_status_id: gameStatusId },
+        });
         onClick();
       }}
-      icon={<Edit />}
-      backgroundColor="$green8"
-      width="100%"
+      icon={<Edit3 size={16} color="#fff" />}
     >
       Edytuj
     </ButtonWithIcon>

@@ -1,37 +1,42 @@
-import { KeyboardAvoidingView } from "react-native";
-import { Card, ScrollView, Separator, XStack } from "tamagui";
+import { KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
 import { Text } from "ui/typography/text";
 
-import { GamesStatusForm } from "../../../../games_status/games_status_form/games_status_form";
-import { truncateString } from "../../../../strings/truncate_string";
 import { UserGameStatusQuery } from "../../../user_game_status/use_user_game_status/user_game_status_query.generated";
+
+import { GamesStatusForm } from "@/modules/games_status/games_status_form/games_status_form";
+import { truncateString } from "@/modules/strings/truncate_string";
+import { HStack } from "@/ui/layout/hstack/hstack";
+import { Separator } from "@/ui/layout/separator/separator";
+import { Card } from "@/ui/panels/card/card";
 
 type GamesStatusEditFormProps = {
   gameStatus: UserGameStatusQuery["userGameStatus"];
 };
+
 export const GamesStatusEditForm = ({
   gameStatus,
 }: GamesStatusEditFormProps) => {
   return (
-    <KeyboardAvoidingView behavior="position">
-      <ScrollView>
-        <Card
-          padding={16}
-          gap={8}
-          borderRadius="$2"
-          backgroundColor="$color.container"
-          height="100%"
+    <View style={{ flex: 1 }}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        style={{ flex: 1 }}
+      >
+        <ScrollView
+          style={{ flex: 1 }}
+          contentContainerStyle={{ flexGrow: 1, paddingBottom: 64 }}
+          keyboardShouldPersistTaps="handled"
         >
-          <Card.Header>
-            <XStack alignItems="center" gap={4} justifyContent="center">
+          <Card>
+            <HStack className="items-center gap-2 justify-center">
               <Text size="medium" weight="semiBold" color="primary">
                 Aktualnie edytujesz:
               </Text>
               <Text size="large" weight="bold" color="primary">
                 {truncateString(gameStatus.game.name, 15)}
               </Text>
-            </XStack>
-            <Separator marginVertical={16} />
+            </HStack>
+            <Separator spacing="md" />
             <GamesStatusForm
               initialValues={{
                 hours: String(gameStatus.completedIn?.hours),
@@ -46,9 +51,9 @@ export const GamesStatusEditForm = ({
               game={gameStatus.game}
               gameStatusId={gameStatus.id}
             />
-          </Card.Header>
-        </Card>
-      </ScrollView>
-    </KeyboardAvoidingView>
+          </Card>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </View>
   );
 };

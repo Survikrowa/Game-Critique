@@ -2,7 +2,10 @@ import { useRouter } from "expo-router";
 
 import { GamesStatusFiltersFormSchema } from "./games_status_filters_form_schema";
 import { useZodForm } from "../../../../forms/use_zod_form/use_zod_form";
-import { useGameStatusStore } from "../../games_status_store/use_games_status_store";
+import {
+  GAMES_STATUS_RESET_TAKE,
+  useGameStatusStore,
+} from "../../games_status_store/use_games_status_store";
 
 export const useGamesStatusFiltersForm = () => {
   const gameStatusStore = useGameStatusStore((state) => ({
@@ -35,7 +38,7 @@ export const useGamesStatusFiltersForm = () => {
     });
     setPagination({
       skip: 0,
-      take: 9,
+      take: GAMES_STATUS_RESET_TAKE,
     });
     router.back();
   });

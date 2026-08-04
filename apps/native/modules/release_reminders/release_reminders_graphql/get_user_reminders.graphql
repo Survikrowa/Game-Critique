@@ -1,0 +1,11 @@
+query GetUserReminders {
+  getUserReminders {
+    id
+    igdbId
+    gameName
+    gameUrl
+    releaseDate
+    coverUrl
+    createdAt
+  }
+}

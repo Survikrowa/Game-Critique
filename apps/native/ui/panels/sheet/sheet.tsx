@@ -1,5 +1,11 @@
-import { ReactNode, useState } from "react";
-import { Sheet as TamaguiSheet } from "tamagui";
+import { ReactNode } from "react";
+import {
+  Modal,
+  TouchableWithoutFeedback,
+  View,
+  ScrollView,
+} from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type SheetProps = {
   isOpen: boolean;
@@ -9,55 +15,35 @@ type SheetProps = {
   children: ReactNode;
 };
 
-const spModes = ["percent", "constant", "fit", "mixed"] as const;
-
-const getSnapPoints = (mode: (typeof spModes)[number]) => {
-  switch (mode) {
-    case "percent":
-      return [85, 50, 25];
-    case "constant":
-      return [256, 190];
-    case "fit":
-      return undefined;
-    case "mixed":
-      return ["fit", 110];
-    default:
-      return ["80%", 256, 190];
-  }
-};
-
 export const Sheet = ({
   onOpenChange,
   isOpen,
   displayAsModal,
-  snapPointsMode = "constant",
   children,
 }: SheetProps) => {
-  const [position, setPosition] = useState(0);
+  const insets = useSafeAreaInsets();
 
-  const snapPoints = getSnapPoints(snapPointsMode);
   return (
-    <TamaguiSheet
-      modal={displayAsModal}
-      open={isOpen}
-      onOpenChange={onOpenChange}
-      position={position}
-      onPositionChange={setPosition}
-      animation="medium"
-      zIndex={100_000}
-      dismissOnSnapToBottom
-      snapPoints={snapPoints}
-      snapPointsMode={snapPointsMode}
+    <Modal
+      visible={isOpen}
+      transparent
+      animationType="slide"
+      onRequestClose={() => onOpenChange(false)}
     >
-      <TamaguiSheet.Overlay animation="lazy" backgroundColor="$shadow8" />
-      <TamaguiSheet.Handle />
-      <TamaguiSheet.Frame
-        borderColor="white"
-        borderTopWidth={1}
-        backgroundColor="black"
-      >
-        {children}
-      </TamaguiSheet.Frame>
-    </TamaguiSheet>
+      <TouchableWithoutFeedback onPress={() => onOpenChange(false)}>
+        <View className="flex-1 justify-end bg-black/50">
+          <TouchableWithoutFeedback>
+            <View className="bg-background-50 rounded-t-3xl border-t border-outline-0 max-h-[85%]">
+              <View className="w-12 h-1 bg-outline-200 rounded-full self-center my-3" />
+              <ScrollView
+                contentContainerStyle={{ paddingBottom: insets.bottom + 16 }}
+              >
+                {children}
+              </ScrollView>
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
+      </TouchableWithoutFeedback>
+    </Modal>
   );
 };

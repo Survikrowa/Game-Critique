@@ -1,6 +1,5 @@
-import { Filter } from "@tamagui/lucide-icons";
 import { Link } from "expo-router";
-import { View, XStack, YStack } from "tamagui";
+import { Filter } from "lucide-react-native";
 
 import { GamesStatusCategoriesFab } from "./games_status_categories_fab/games_status_categories_fab";
 import { GamesStatusList } from "./games_status_list/games_status_list";
@@ -8,33 +7,29 @@ import { mapGamesStatusToItem } from "./games_status_list/map_games_status_to_it
 import { GamesStatusListSearch } from "./games_status_list_search/games_status_list_search";
 import { useUserGamesStatus } from "./use_user_games_status/use_user_games_status";
 
+import { ButtonWithIcon } from "@/ui/forms/button_icon";
+import { HStack } from "@/ui/layout/hstack/hstack";
+import { VStack } from "@/ui/layout/vstack/vstack";
+
 export const GamesScreen = () => {
   const gamesStatus = useUserGamesStatus();
   const items = mapGamesStatusToItem(
     gamesStatus.data?.userGamesStatus.userGamesStatus || [],
   );
   return (
-    <YStack flex={1} height="100%" gap={16}>
-      <XStack width="100%">
+    <VStack className="flex-1 h-full gap-4 px-4 pt-4">
+      <HStack className="w-full gap-3 items-center">
         <GamesStatusListSearch />
         <Link asChild href="/games/filters/modal">
-          <View
-            style={{
-              maxWidth: 42,
-              borderRadius: 8,
-              alignItems: "center",
-              display: "flex",
-              justifyContent: "center",
-              flex: 1,
-              backgroundColor: "white",
-              borderColor: "black",
-              marginLeft: 16,
-            }}
-          >
-            <Filter height="100%" width="100%" />
-          </View>
+          <ButtonWithIcon
+            action="secondary"
+            variant="outline"
+            className="w-[44px] h-[44px] bg-background-50 border-outline-0"
+            onPress={() => {}}
+            icon={<Filter size={20} color="#64748B" />}
+          />
         </Link>
-      </XStack>
+      </HStack>
       <GamesStatusList
         items={items}
         loading={gamesStatus.loading}
@@ -42,6 +37,6 @@ export const GamesScreen = () => {
         onRefresh={gamesStatus.onRefresh}
       />
       <GamesStatusCategoriesFab />
-    </YStack>
+    </VStack>
   );
 };

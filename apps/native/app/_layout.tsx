@@ -1,18 +1,21 @@
-import { ToastProvider } from "@tamagui/toast";
-import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { useCallback } from "react";
+import { useEffect } from "react";
 import { LogBox } from "react-native";
 import { Auth0Provider } from "react-native-auth0";
-import { SafeAreaProvider } from "react-native-safe-area-context";
-import { TamaguiProvider } from "tamagui";
-import { Toast } from "ui/feedback/toast/toast";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import {
+  initialWindowMetrics,
+  SafeAreaProvider,
+} from "react-native-safe-area-context";
 
-import { ApolloProvider } from "../modules/graphql/apollo_provider";
-import { Header } from "../modules/layouts/header/header";
-import { SafeToastViewport } from "../modules/layouts/safe_toast_viewport/safe_toast_viewport";
-import tamaguiConfig from "../tamagui.config";
+import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
+import { ApolloProvider } from "@/modules/graphql/apollo_provider";
+import { Header } from "@/modules/layouts/header/header";
+import { useNotificationHandler } from "@/modules/notifications/use_notification_handler/use_notification_handler";
+import { useNotificationsSetup } from "@/modules/notifications/use_notifications_setup/use_notifications_setup";
+
+import "@/global.css";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -21,48 +24,53 @@ const AUTH0_CLIENT_ID = process.env.EXPO_PUBLIC_AUTH0_CLIENT_ID;
 
 LogBox.ignoreLogs([/bad setState[\s\S]*Themed/]);
 
-const RootLayout = () => {
-  const [fontsLoaded] = useFonts({
-    Inter: require("@tamagui/font-inter/otf/Inter-Medium.otf"),
-    InterBold: require("@tamagui/font-inter/otf/Inter-Bold.otf"),
-  });
-  const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) {
-      await SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
+const AuthenticatedLayout = () => {
+  useNotificationsSetup();
+  useNotificationHandler();
 
-  if (!fontsLoaded) {
-    return null;
-  }
   return (
-    <Auth0Provider clientId={AUTH0_CLIENT_ID} domain={AUTH0_DOMAIN}>
-      <SafeAreaProvider onLayout={onLayoutRootView}>
-        <StatusBar style="light" backgroundColor="hsl(212, 35.0%, 9.2%)" />
-        <TamaguiProvider config={tamaguiConfig}>
-          <ApolloProvider>
-            <ToastProvider>
-              <Toast />
-              <SafeToastViewport />
-              <Stack>
-                <Stack.Screen
-                  name="(app)/(tabs)"
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="(app)/search"
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="(app)/auth"
-                  options={{ headerShown: true, header: Header }}
-                />
-              </Stack>
-            </ToastProvider>
-          </ApolloProvider>
-        </TamaguiProvider>
-      </SafeAreaProvider>
-    </Auth0Provider>
+    <Stack>
+      <Stack.Screen name="(app)/(tabs)" options={{ headerShown: false }} />
+      <Stack.Screen name="(app)/search" options={{ headerShown: false }} />
+      <Stack.Screen
+        name="(app)/notifications"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="(app)/(authorized)"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="(app)/auth"
+        options={{ headerShown: true, header: Header }}
+      />
+    </Stack>
+  );
+};
+
+const RootLayout = () => {
+  useEffect(() => {
+    SplashScreen.hideAsync();
+  }, []);
+
+  return (
+    <GestureHandlerRootView>
+      <GluestackUIProvider mode="dark">
+        <Auth0Provider clientId={AUTH0_CLIENT_ID} domain={AUTH0_DOMAIN}>
+          <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+            <StatusBar
+              style="light"
+              backgroundColor="#121212"
+              animated
+              translucent={false}
+            />
+            <ApolloProvider>
+              <AuthenticatedLayout />
+            </ApolloProvider>
+          </SafeAreaProvider>
+        </Auth0Provider>
+      </GluestackUIProvider>
+    </GestureHandlerRootView>
   );
 };
 

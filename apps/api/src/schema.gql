@@ -7,9 +7,23 @@ input AddGameToCollectionDTO {
   hltbGameId: Float!
 }
 
+input AddReminderInput {
+  coverUrl: String
+  gameName: String!
+  gameUrl: String!
+  igdbId: Int!
+  releaseDate: DateTime!
+}
+
 type AuthUserVerification {
   authorized: Boolean!
   role: Role
+}
+
+type BacklogProgressDTO {
+  added: Int!
+  completed: Int!
+  ratio: Float!
 }
 
 """Single Collection"""
@@ -52,9 +66,36 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type ExternalGameDTO {
+  backgroundUrl: String
+  coverUrl: String
+  id: String!
+  name: String!
+  platforms: [ExternalGamePlatformDTO!]!
+  releaseDate: DateTime!
+  url: String
+}
+
+type ExternalGamePlatformDTO {
+  id: String!
+  name: String!
+}
+
 input FiltersGameStatus {
   achievementsCompleted: String!
   platform: String!
+}
+
+type FriendBacklogProgressDTO {
+  added: Int!
+  completed: Int!
+  ratio: Float!
+}
+
+type FriendMonthlyActivityDTO {
+  gamesCompleted: Int!
+  hoursPlayed: Float!
+  month: Int!
 }
 
 """Friend request response"""
@@ -66,6 +107,22 @@ type FriendSingleEntry {
   avatarUrl: String
   id: String!
   name: String
+}
+
+type FriendStreakDTO {
+  currentStreak: Int!
+  longestStreak: Int!
+}
+
+type FriendYearlySummaryDTO {
+  averageScore: Float
+  backlogAddedThisYear: Int!
+  completedThisYear: Int!
+  totalGames: Int!
+  totalHours: Float!
+  yearlyAverageScore: Float
+  yearlyGames: Int!
+  yearlyHours: Float!
 }
 
 """Users friends activity DTO"""
@@ -90,10 +147,32 @@ type GameCompletionTimeDTO {
   mainExtra: Float!
 }
 
+type GameMetadataDTO {
+  physicalMedia: [PhysicalMediaEntryDTO!]
+}
+
+type GameRatingObject {
+  aggregatedCount: Int
+  aggregatedRating: Float
+  igdbRating: Float
+  igdbRatingCount: Int
+  igdbUrl: String
+}
+
 """Single Game Release(Year) Date"""
 type GameReleaseDTO {
   date: Float
   id: Float!
+}
+
+type GameReminderObject {
+  coverUrl: String
+  createdAt: DateTime!
+  gameName: String!
+  gameUrl: String!
+  id: Int!
+  igdbId: Int!
+  releaseDate: DateTime!
 }
 
 """GameStatus Enum"""
@@ -154,6 +233,8 @@ type GameStatusSuccessResponseDTO {
 type GameWithAllDataDTO {
   completionTime: GameCompletionTimeDTO
   cover: CoverDTO
+  gameMetadata: GameMetadataDTO
+  gameRating: GameRatingObject
   genres: [GenresDto!]!
   hltbId: Float!
   id: Float!
@@ -185,8 +266,23 @@ type GetFriendRequestsResponseDTO {
   senderProfile: ProfileInfoDTO
 }
 
+type HLTBComparisonDTO {
+  completionistHours: Int
+  mainStoryHours: Int
+  myHours: Int
+  myMinutes: Int
+}
+
 type HowLongToBeatMigrationStatusDTO {
   status: MigrationStatus
+}
+
+"""User last edited games statuses"""
+type LastEditedGamesStatusDTO {
+  cover: CoverDTO
+  id: Float!
+  name: String!
+  status: GameStatus!
 }
 
 """The status of the migration of a user's HowLongToBeat account"""
@@ -197,17 +293,31 @@ enum MigrationStatus {
   WAITING
 }
 
+type MonthlyActivityDTO {
+  gamesCompleted: Int!
+  hoursPlayed: Float!
+  month: Int!
+}
+
 type Mutation {
   acceptFriendRequest(senderOauthId: String!): FriendRequestResponseDTO!
   addGameToCollection(collection: AddGameToCollectionDTO!): CollectionMutationResponseDTO!
+  addReminder(input: AddReminderInput!): GameReminderObject!
   createNewCollection(collection: NewCollectionDTO!): CollectionDTO!
+  fetchDoesItPlayData(hltbId: Float!): Boolean!
+  fetchGameRatings(hltbId: Float!): GameRatingObject!
+  registerPushToken(platform: String!, token: String!): Boolean!
+  rejectFriendRequest(senderOauthId: String!): FriendRequestResponseDTO!
   removeCollection(collection: RemoveCollectionArgsDTO!): RemovedCollectionResponseDTO!
   removeGameStatus(gameStatusId: Float!): GameStatusSuccessResponseDTO!
+  removeReminder(igdbId: Int!): Boolean!
 
   """Admin mutation to remove game status by gameStatusId and user oauthId"""
   removeUserGameStatusByUserOauthId(gameStatusId: Float!, oauthId: String!): GameStatusRemovedResponseDTO!
   sendFriendRequest(receiverOauthId: String!): FriendRequestResponseDTO!
+  unregisterPushToken(token: String!): Boolean!
   updateGameData(hltbId: Float!): UpdateGameDataDTO!
+  updateNotificationPreferences(input: NotificationPreferencesInput!): Boolean!
 
   """update platform display name"""
   updatePlatformDisplayName(displayName: String!, platformId: Float!): UpdatePlatformDisplayNameDTO!
@@ -216,10 +326,30 @@ type Mutation {
   upsertGameStatus(upsertGameStatusArgs: UpsertGameStatusArgsDTO!): GameStatusSuccessResponseDTO!
 }
 
+"""Current user GameStatus for a given game"""
+type MyGameStatusForGameDTO {
+  id: Float!
+  status: GameStatus!
+}
+
 """New Collection"""
 input NewCollectionDTO {
   description: String!
   name: String!
+}
+
+input NotificationPreferencesInput {
+  friendActivity: Boolean
+  friendInvites: Boolean
+  releaseReminders: Boolean
+  weeklySummary: Boolean
+}
+
+type NotificationPreferencesObject {
+  friendActivity: Boolean!
+  friendInvites: Boolean!
+  releaseReminders: Boolean!
+  weeklySummary: Boolean!
 }
 
 type PaginatedGames {
@@ -233,6 +363,12 @@ type PaginationDTO {
   skip: Float!
   take: Float!
   total: Float!
+}
+
+type PhysicalMediaEntryDTO {
+  hasGameOnDisc: Boolean!
+  hasPhysicalRelease: Boolean!
+  platform: String
 }
 
 """Platform"""
@@ -286,7 +422,13 @@ type ProfileInfoUpdateResponseDTO {
 type Query {
   """Get available games status progress states"""
   availableGamesStatusProgressStates: GameStatusProgressStateDTO!
+  backlogProgress(year: Int!): BacklogProgressDTO!
+  checkReminderStatus(igdbId: Int!): Boolean!
   collection(id: Float!): CollectionWithGamesDTO!
+  friendBacklogProgress(oauthId: String!, year: Int!): FriendBacklogProgressDTO!
+  friendMonthlyActivity(oauthId: String!, year: Int!): [FriendMonthlyActivityDTO!]!
+  friendStreak(oauthId: String!): FriendStreakDTO!
+  friendYearlySummary(oauthId: String!, year: Int!): FriendYearlySummaryDTO!
   friendsActivity: [FriendsActivityDTO!]!
   friendsList: FriendsList!
   friendsRequests: [GetFriendRequestsResponseDTO!]!
@@ -296,8 +438,18 @@ type Query {
   """Get games status sort options"""
   gamesStatusSortOptions: SortOptionsDTO!
   getAllUserGamesStatusByOauthId(oauthId: String!): [UserGamesStatusResponseDTO!]!
+  getNotificationPreferences: NotificationPreferencesObject
   getProfileCollections: [CollectionDTO!]!
+  getUserReminders: [GameReminderObject!]!
+  hltbComparison(gameStatusId: Int!): HLTBComparisonDTO!
+  lastEditedGames(limit: Int! = 5): [LastEditedGamesStatusDTO!]!
   migrationStatus: HowLongToBeatMigrationStatusDTO!
+  monthlyActivity(year: Int!): [MonthlyActivityDTO!]!
+
+  """
+  Returns the current user existing GameStatus for a given gameId, or null if none exists
+  """
+  myGameStatusForGame(gameId: Float!): MyGameStatusForGameDTO
 
   """Get user and friends game status reviews"""
   ownerAndFriendsGameStatusReviews(gameStatusId: Float!): [FriendsGameStatusReviewsDTO!]!
@@ -307,6 +459,8 @@ type Query {
   profileInfo: ProfileInfoDTO!
   roles: [RoleDTO!]!
   search(input: String!): SearchResult!
+  streak: StreakDTO!
+  upcomingGames(limit: Float!): [ExternalGameDTO!]!
   user(oauthId: String!): UserDataDTO!
 
   """Query to get user"s friend games statuses"""
@@ -321,12 +475,11 @@ type Query {
   If oauthId is not provided it will use the id of the user that called the query
   """
   userGamesStatus(filters: FiltersGameStatus, search: String, skip: Float = 0, sort: SortOptionsArg!, status: GameStatus!, take: Float = 5): UserGamesStatusResponseWithPaginationDTO!
-
-  """Get user stats"""
   userStats(type: String!): [UserStatsDTO!]!
   users: [UserDTO!]!
   usersSearch(input: String!): [UserSearchResultDTO!]!
   verify: AuthUserVerification!
+  yearlySummary(year: Int!): YearlySummaryDTO!
 }
 
 """Required arguments to remove a collection"""
@@ -380,6 +533,11 @@ input SortOptionsArg {
 """All possible sort options for games status"""
 type SortOptionsDTO {
   sortOptions: [SortOptions!]!
+}
+
+type StreakDTO {
+  currentStreak: Int!
+  longestStreak: Int!
 }
 
 type UpdateGameDataDTO {
@@ -487,4 +645,15 @@ type UserSearchResultDTO {
 type UserStatsDTO {
   label: String!
   value: Float!
+}
+
+type YearlySummaryDTO {
+  averageScore: Float
+  backlogAddedThisYear: Int!
+  completedThisYear: Int!
+  totalGames: Int!
+  totalHours: Float!
+  yearlyAverageScore: Float
+  yearlyGames: Int!
+  yearlyHours: Float!
 }

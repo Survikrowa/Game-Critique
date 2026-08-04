@@ -1,11 +1,11 @@
-import { ArgsType, Field, ObjectType } from '@nestjs/graphql';
+import { ArgsType, Field, Float, Int, ObjectType } from '@nestjs/graphql';
 import { CoverDTO } from '../covers/covers.dto';
 import { PlatformDTO } from '../platforms/platforms.dto';
 import { GameReleaseDTO } from '../game_releases/game_releases.dto';
 import { GenresDto } from '../genres/genres.dto';
+import { GameMetadataDTO } from '../game_metadata/infrastructure/graphql/game_metadata.model';
 import { PaginationDTO } from '../pagination/pagination.dto';
 import { PaginationArgs } from '../pagination/pagination.args';
-import { GameStatus } from '@prisma/client';
 
 @ObjectType({ description: 'Single Game' })
 export class GameDTO {
@@ -63,6 +63,28 @@ export class GameWithAllDataDTO {
   genres: GenresDto[];
   @Field(() => GameCompletionTimeDTO, { nullable: true })
   completionTime: GameCompletionTimeDTO | null;
+  @Field(() => GameMetadataDTO, { nullable: true })
+  gameMetadata?: GameMetadataDTO | null;
+  @Field(() => GameRatingObject, { nullable: true })
+  gameRating?: GameRatingObject | null;
+}
+
+@ObjectType()
+export class GameRatingObject {
+  @Field(() => Float, { nullable: true })
+  aggregatedRating: number | null;
+
+  @Field(() => Int, { nullable: true })
+  aggregatedCount: number | null;
+
+  @Field(() => Float, { nullable: true })
+  igdbRating: number | null;
+
+  @Field(() => Int, { nullable: true })
+  igdbRatingCount: number | null;
+
+  @Field(() => String, { nullable: true })
+  igdbUrl: string | null;
 }
 
 @ObjectType('PaginatedGames')
@@ -86,4 +108,37 @@ export class UpdateGameDataDTO {
 
   @Field(() => String)
   message: string;
+}
+
+@ObjectType()
+export class ExternalGamePlatformDTO {
+  @Field()
+  id: string;
+
+  @Field()
+  name: string;
+}
+
+@ObjectType()
+export class ExternalGameDTO {
+  @Field()
+  id: string;
+
+  @Field()
+  name: string;
+
+  @Field({ nullable: true })
+  url?: string;
+
+  @Field({ nullable: true })
+  coverUrl?: string;
+
+  @Field({ nullable: true })
+  backgroundUrl?: string; // Np. screenshot
+
+  @Field()
+  releaseDate: Date;
+
+  @Field(() => [ExternalGamePlatformDTO])
+  platforms: ExternalGamePlatformDTO[];
 }

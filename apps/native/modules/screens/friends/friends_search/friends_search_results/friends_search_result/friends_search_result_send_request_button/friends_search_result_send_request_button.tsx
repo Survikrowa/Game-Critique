@@ -1,5 +1,8 @@
-import { Button, Spinner, YStack } from "tamagui";
+import { ActivityIndicator } from "react-native";
 import { Text } from "ui/typography/text";
+
+import { Button, ButtonText } from "@/ui/forms/button/button";
+import { VStack } from "@/ui/layout/vstack/vstack";
 
 type FriendsSearchResultSendRequestButtonProps = {
   isFriendRequestSent: boolean;
@@ -18,14 +21,14 @@ export const FriendsSearchResultSendRequestButton = ({
 }: FriendsSearchResultSendRequestButtonProps) => {
   if (isFriendRequestSent) {
     return (
-      <YStack>
+      <VStack>
         <Text size="small" weight="bold" color="primary">
           Oczekuje na
         </Text>
         <Text size="small" weight="bold" color="primary">
-          akceptacje
+          akceptację
         </Text>
-      </YStack>
+      </VStack>
     );
   }
 
@@ -39,13 +42,15 @@ export const FriendsSearchResultSendRequestButton = ({
 
   return (
     <Button
-      theme="active"
-      backgroundColor="black"
-      color="white"
-      disabled={sendFriendRequestLoading}
+      action="primary"
+      isDisabled={sendFriendRequestLoading}
       onPress={() => handleSendFriendRequest(oauthId)}
     >
-      {sendFriendRequestLoading ? <Spinner size="small" /> : "Dodaj"}
+      {sendFriendRequestLoading ? (
+        <ActivityIndicator size="small" color="#ffffff" />
+      ) : (
+        <ButtonText>Dodaj</ButtonText>
+      )}
     </Button>
   );
 };

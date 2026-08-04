@@ -1,0 +1,8 @@
+query HltbComparison($gameStatusId: Int!) {
+  hltbComparison(gameStatusId: $gameStatusId) {
+    myHours
+    myMinutes
+    mainStoryHours
+    completionistHours
+  }
+}

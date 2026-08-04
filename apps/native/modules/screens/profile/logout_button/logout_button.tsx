@@ -1,5 +1,5 @@
 import { useApolloClient } from "@apollo/client";
-import { LogOut } from "@tamagui/lucide-icons";
+import { LogOut } from "lucide-react-native";
 import { router } from "expo-router";
 import { useAuth0 } from "react-native-auth0";
 
@@ -11,14 +11,13 @@ export const LogoutButton = () => {
   const client = useApolloClient();
   return (
     <ButtonWithIcon
-      backgroundColor="$red10"
-      maxWidth={150}
+      action="negative"
       onPress={async () => {
         await client.clearStore();
         await clearSession();
         router.push("/");
       }}
-      icon={<LogOut width={32} height={32} color="white" />}
+      icon={<LogOut size={18} color="#fff" />}
     >
       <Text size="small" weight="bold" color="white">
         Wyloguj się

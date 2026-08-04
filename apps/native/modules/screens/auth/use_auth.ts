@@ -1,7 +1,7 @@
-import { useToastController } from "@tamagui/toast";
 import { router } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import { useAuth0 } from "react-native-auth0";
+import { useToastController } from "ui/feedback/toast/use_toast_controller";
 
 import { useVerifyOrCreateLazyQuery } from "./auth_verify_graphql/auth_verify.generated";
 

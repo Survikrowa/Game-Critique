@@ -1,13 +1,19 @@
-import { ChevronRight } from "@tamagui/lucide-icons";
 import { router, useLocalSearchParams } from "expo-router";
-import { ScrollView, Separator, Spinner, XStack, YStack } from "tamagui";
+import { ChevronRight, MessageSquare } from "lucide-react-native";
+import { ActivityIndicator, ScrollView } from "react-native";
 
 import { useGameStatusReviewStore } from "./use_game_status_review_store/use_game_status_review_store";
-import { Text } from "../../../ui/typography/text";
 import { truncateString } from "../../strings/truncate_string";
 import { UserAvatar } from "../../user/user_avatar/user_avatar";
+import { parseScore } from "../game_status_shared/parse_score";
 import { useFriendsGameReviews } from "../user_game_status/user_game_status_friends_reviews/use_friends_game_reviews/use_friends_game_reviews";
-import { parseScore } from "../user_game_status/user_game_status_sections/user_game_status_score_section/parse_score";
+
+import { EmptyState } from "@/ui/feedback/empty_state/empty_state";
+import { Pressable } from "@/ui/forms/pressable/pressable";
+import { HStack } from "@/ui/layout/hstack/hstack";
+import { Separator } from "@/ui/layout/separator/separator";
+import { VStack } from "@/ui/layout/vstack/vstack";
+import { Text } from "@/ui/typography/text";
 
 type GameStatusReviewsScreenProps = {
   redirect: {
@@ -27,15 +33,21 @@ export const GameStatusReviewsScreen = ({
   );
   if (friendsGameReviewsQuery.loading || !friendsGameReviewsQuery.data) {
     return (
-      <XStack alignItems="center" width="100%">
-        <Spinner size="large" />
-      </XStack>
+      <HStack className="w-full items-center">
+        <ActivityIndicator size="large" color="#3B82F6" />
+      </HStack>
     );
   }
   if (
     friendsGameReviewsQuery.data?.ownerAndFriendsGameStatusReviews.length === 0
   ) {
-    return null;
+    return (
+      <EmptyState
+        title="Brak recenzji"
+        description="Żaden ze znajomych nie ocenił jeszcze tej gry"
+        icon={<MessageSquare size={32} color="#3B82F6" />}
+      />
+    );
   }
   if (!game_status_id) {
     return null;
@@ -54,12 +66,12 @@ export const GameStatusReviewsScreen = ({
     router.push(`/${redirect.review}/game_status_review`);
   };
   return (
-    <ScrollView maxHeight="99%">
-      <YStack padding={16}>
+    <ScrollView className="max-h-[99%]">
+      <VStack className="p-4">
         {friendsGameReviews.map((review) => {
           return (
-            <YStack
-              gap={8}
+            <Pressable
+              className="gap-2"
               key={review.profile?.avatarUrl}
               onPress={() => {
                 handleReviewClick({
@@ -68,13 +80,13 @@ export const GameStatusReviewsScreen = ({
                 });
               }}
             >
-              <XStack justifyContent="space-between" alignItems="center">
-                <XStack gap={8} alignItems="center">
+              <HStack className="items-center justify-between">
+                <HStack className="items-center gap-2">
                   <UserAvatar
                     size="$3"
                     avatarUrl={review.profile?.avatarUrl || ""}
                   />
-                  <YStack gap={8}>
+                  <VStack className="gap-2">
                     <Text size="medium" weight="bold" color="primary">
                       {truncateString(review.profile?.name || "", 20)}
                     </Text>
@@ -93,15 +105,15 @@ export const GameStatusReviewsScreen = ({
                         </Text>
                       </>
                     )}
-                  </YStack>
-                </XStack>
-                {review.review && <ChevronRight color="white" />}
-              </XStack>
-              <Separator marginVertical={8} />
-            </YStack>
+                  </VStack>
+                </HStack>
+                {review.review && <ChevronRight size={16} color="#64748B" />}
+              </HStack>
+              <Separator spacing="xs" />
+            </Pressable>
           );
         })}
-      </YStack>
+      </VStack>
     </ScrollView>
   );
 };

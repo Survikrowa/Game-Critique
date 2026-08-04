@@ -1,25 +1,39 @@
 query GameInfo($hltbId: Float!) {
-    game(hltbId: $hltbId) {
-        id,
-        name,
-        hltbId,
-        cover {
-            mediumUrl
-        }
-        platforms {
-            name
-            id
-        }
-        genres {
-            name
-        }
-        releases {
-            date
-        }
-        completionTime {
-            main
-            mainExtra
-            completionist
-        }
+  game(hltbId: $hltbId) {
+    id
+    name
+    hltbId
+    cover {
+      mediumUrl
     }
+    platforms {
+      name
+      id
+    }
+    genres {
+      name
+    }
+    releases {
+      date
+    }
+    completionTime {
+      main
+      mainExtra
+      completionist
+    }
+    gameMetadata {
+      physicalMedia {
+        platform
+        hasPhysicalRelease
+        hasGameOnDisc
+      }
+    }
+    gameRating {
+      aggregatedRating
+      aggregatedCount
+      igdbRating
+      igdbRatingCount
+      igdbUrl
+    }
+  }
 }

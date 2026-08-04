@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Game Critique — Roadmapa 2026/2027</title>
+  <style>
+    :root {
+      --bg:         #0a0e1a;
+      --surface:    #111827;
+      --surface2:   #1a2235;
+      --border:     #1e2d47;
+      --accent:     #6366f1;
+      --accent2:    #818cf8;
+      --green:      #22c55e;
+      --yellow:     #eab308;
+      --red:        #ef4444;
+      --orange:     #f97316;
+      --pink:       #ec4899;
+      --teal:       #14b8a6;
+      --white:      #f1f5f9;
+      --muted:      #64748b;
+      --text:       #cbd5e1;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 80px 24px 64px;
+      text-align: center;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, #1e1b4b 0%, transparent 70%);
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%236366f1' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(99,102,241,.15);
+      border: 1px solid rgba(99,102,241,.3);
+      color: var(--accent2);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 100px;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -.03em;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+    .hero h1 span {
+      background: linear-gradient(135deg, #818cf8, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      max-width: 600px;
+      margin: 0 auto 40px;
+      color: var(--muted);
+      font-size: 16px;
+    }
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .hero-stat {
+      text-align: center;
+    }
+    .hero-stat .num {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1;
+    }
+    .hero-stat .label {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* ── LAYOUT ── */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    /* ── SPRINTS SECTION ── */
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+      margin-top: 56px;
+    }
+
+    .sprints-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+    @media(max-width: 640px) { .sprints-row { grid-template-columns: 1fr; } }
+
+    .sprint-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+    }
+    .sprint-card h3 {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .sprint-card.s1 h3 { color: #22c55e; }
+    .sprint-card.s2 h3 { color: #6366f1; }
+
+    .sprint-items { display: flex; flex-direction: column; gap: 8px; }
+    .sprint-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--text);
+    }
+    .sprint-item .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .sprint-card.s1 .dot { background: #22c55e; }
+    .sprint-card.s2 .dot { background: #6366f1; }
+
+    /* ── MATRIX ── */
+    .matrix-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 56px;
+    }
+    @media(max-width: 640px) { .matrix-grid { grid-template-columns: 1fr; } }
+
+    .matrix-cell {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+    }
+    .matrix-cell-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .matrix-cell-header h4 {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+    }
+    .matrix-cell.hi-lo h4 { color: #22c55e; }
+    .matrix-cell.hi-me h4 { color: #6366f1; }
+    .matrix-cell.me-me h4 { color: #eab308; }
+    .matrix-cell.hi-hi h4 { color: #ec4899; }
+
+    .matrix-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 100px;
+      margin: 3px 3px 3px 0;
+    }
+    .matrix-cell.hi-lo .matrix-pill { background: rgba(34,197,94,.1); color: #86efac; border: 1px solid rgba(34,197,94,.2); }
+    .matrix-cell.hi-me .matrix-pill { background: rgba(99,102,241,.1); color: #a5b4fc; border: 1px solid rgba(99,102,241,.2); }
+    .matrix-cell.me-me .matrix-pill { background: rgba(234,179,8,.1); color: #fde047; border: 1px solid rgba(234,179,8,.2); }
+    .matrix-cell.hi-hi .matrix-pill { background: rgba(236,72,153,.1); color: #f9a8d4; border: 1px solid rgba(236,72,153,.2); }
+
+    /* ── INITIATIVE CARDS ── */
+    .initiative {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 24px;
+      transition: border-color .2s, transform .2s;
+    }
+    .initiative:hover {
+      border-color: rgba(99,102,241,.4);
+      transform: translateY(-2px);
+    }
+
+    .init-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      padding: 28px 28px 0;
+    }
+
+    .init-number {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      font-weight: 800;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .init-meta { flex: 1; }
+    .init-title {
+      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -.02em;
+      margin-bottom: 6px;
+      line-height: 1.2;
+    }
+    .init-subtitle {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .init-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 100px;
+    }
+    .tag-impact-high { background: rgba(34,197,94,.12); color: #86efac; border: 1px solid rgba(34,197,94,.2); }
+    .tag-impact-med  { background: rgba(234,179,8,.12);  color: #fde047; border: 1px solid rgba(234,179,8,.2); }
+    .tag-effort-low  { background: rgba(99,102,241,.12); color: #a5b4fc; border: 1px solid rgba(99,102,241,.2); }
+    .tag-effort-med  { background: rgba(249,115,22,.12); color: #fdba74; border: 1px solid rgba(249,115,22,.2); }
+    .tag-effort-high { background: rgba(239,68,68,.12);  color: #fca5a5; border: 1px solid rgba(239,68,68,.2); }
+    .tag-sprint { background: rgba(20,184,166,.12); color: #5eead4; border: 1px solid rgba(20,184,166,.2); }
+
+    .init-body { padding: 20px 28px 28px; }
+
+    .init-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 20px;
+    }
+    @media(max-width: 640px) { .init-grid { grid-template-columns: 1fr; } }
+
+    .init-box {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .init-box h5 {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+    .init-box ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .init-box ul li {
+      font-size: 13px;
+      color: var(--text);
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      line-height: 1.4;
+    }
+    .init-box ul li::before {
+      content: '→';
+      color: var(--muted);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* mockup box */
+    .mockup {
+      background: #0d1117;
+      border: 1px solid #21262d;
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 12px;
+      color: #8b949e;
+      line-height: 1.7;
+      white-space: pre;
+      overflow-x: auto;
+      margin-top: 20px;
+    }
+    .mockup .hl  { color: #79c0ff; }
+    .mockup .gr  { color: #56d364; }
+    .mockup .ye  { color: #e3b341; }
+    .mockup .pk  { color: #f78166; }
+    .mockup .pu  { color: #d2a8ff; }
+
+    /* effort bar */
+    .effort-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .effort-label {
+      font-size: 12px;
+      color: var(--muted);
+      white-space: nowrap;
+      min-width: 100px;
+    }
+    .effort-bar {
+      flex: 1;
+      height: 6px;
+      background: var(--border);
+      border-radius: 100px;
+      overflow: hidden;
+    }
+    .effort-fill {
+      height: 100%;
+      border-radius: 100px;
+      background: linear-gradient(90deg, var(--accent), var(--pink));
+    }
+    .effort-days {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--white);
+      white-space: nowrap;
+      min-width: 80px;
+      text-align: right;
+    }
+
+    /* color themes per initiative */
+    .i1 .init-number { background: rgba(99,102,241,.15); color: #818cf8; }
+    .i2 .init-number { background: rgba(236,72,153,.15); color: #f472b6; }
+    .i3 .init-number { background: rgba(20,184,166,.15); color: #2dd4bf; }
+    .i4 .init-number { background: rgba(234,179,8,.15);  color: #fbbf24; }
+    .i5 .init-number { background: rgba(249,115,22,.15); color: #fb923c; }
+    .i6 .init-number { background: rgba(34,197,94,.15);  color: #4ade80; }
+    .i7 .init-number { background: rgba(239,68,68,.15);  color: #f87171; }
+
+    .i1 .init-title { background: linear-gradient(90deg,#818cf8,#a5b4fc); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .i2 .init-title { background: linear-gradient(90deg,#f472b6,#fb7185); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .i3 .init-title { background: linear-gradient(90deg,#2dd4bf,#22d3ee); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .i4 .init-title { background: linear-gradient(90deg,#fbbf24,#f97316); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .i5 .init-title { background: linear-gradient(90deg,#fb923c,#f97316); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .i6 .init-title { background: linear-gradient(90deg,#4ade80,#22c55e); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .i7 .init-title { background: linear-gradient(90deg,#f87171,#ef4444); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+
+    .divider { height: 1px; background: var(--border); margin: 48px 0; }
+
+    /* footer */
+    footer {
+      text-align: center;
+      padding: 32px 24px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--muted);
+    }
+    footer strong { color: var(--text); }
+
+    /* scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">🎮 Game Critique</div>
+  <h1>Roadmapa aplikacji<br/><span>2025 / 2026</span></h1>
+  <p>Aktualnie trwający rewrite UI na Gluestack + 9 inicjatyw które uczynią śledzenie gier szybszym, bardziej angażującym i wartym codziennego otwierania.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="num">9</div><div class="label">Inicjatyw</div></div>
+    <div class="hero-stat"><div class="num">64–92</div><div class="label">Dni roboczych</div></div>
+    <div class="hero-stat"><div class="num">2</div><div class="label">Sprinty startowe</div></div>
+    <div class="hero-stat"><div class="num">∞</div><div class="label">Retencja</div></div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- W TOKU: GLUESTACK REWRITE -->
+  <div style="background:linear-gradient(135deg,rgba(234,179,8,.08),rgba(249,115,22,.06));border:1px solid rgba(234,179,8,.3);border-radius:16px;padding:20px 24px;margin-bottom:28px;display:flex;align-items:flex-start;gap:16px;">
+    <div style="font-size:28px;flex-shrink:0;">🔨</div>
+    <div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+        <span style="font-size:16px;font-weight:700;color:#fef08a;">Aktualnie w toku: Rewrite UI na Gluestack</span>
+        <span style="background:rgba(234,179,8,.2);border:1px solid rgba(234,179,8,.4);color:#fde047;font-size:11px;font-weight:700;letter-spacing:.06em;padding:2px 10px;border-radius:100px;text-transform:uppercase;">In Progress</span>
+      </div>
+      <p style="font-size:13px;color:var(--text);line-height:1.6;margin:0;">Cały UI aplikacji native jest przepisywany na <strong style="color:var(--white)">Gluestack UI</strong> — zastępując Tamagui. To fundament pod wszystkie kolejne inicjatywy: nowe ekrany (Premiery, Statystyki, Quick Add) będą budowane na Gluestack. Zapewnia lepszą dostępność (a11y), spójny design system i szybszy development dzięki gotowym prymitywom.</p>
+    </div>
+  </div>
+
+  <!-- PIERWSZE SPRINTY -->
+  <div class="section-label">Plan startowy</div>
+  <div class="sprints-row">
+    <div class="sprint-card s1">
+      <h3>⚡ Sprint 1 — Redukcja tarcia</h3>
+      <div class="sprint-items">
+        <div class="sprint-item"><div class="dot"></div>Quick Complete — uproszczony formularz</div>
+        <div class="sprint-item"><div class="dot"></div>One-tap "Gram teraz" z ekranu gry</div>
+        <div class="sprint-item"><div class="dot"></div>Swipe-to-change-status na liście</div>
+        <div class="sprint-item"><div class="dot"></div>Timestampy w aktywności znajomych</div>
+        <div class="sprint-item"><div class="dot"></div>Klikalna gra w feedzie → GameScreen</div>
+        <div class="sprint-item"><div class="dot"></div>Smart defaults + Switch 2 / PS5 Pro</div>
+        <div class="sprint-item"><div class="dot"></div>Fix skróconych nazw w statystykach</div>
+      </div>
+    </div>
+    <div class="sprint-card s2">
+      <h3>🔔 Sprint 2 — Powód do wracania</h3>
+      <div class="sprint-items">
+        <div class="sprint-item"><div class="dot"></div>Rejestracja Expo Push Tokens</div>
+        <div class="sprint-item"><div class="dot"></div>Push: znajomy ukończył / ocenił / zrecenzował</div>
+        <div class="sprint-item"><div class="dot"></div>Push: tygodniowe podsumowanie (pon. 18:00)</div>
+        <div class="sprint-item"><div class="dot"></div>Streak tygodniowy na HomeScreen</div>
+        <div class="sprint-item"><div class="dot"></div>Ekran premier po platformie + "Obserwuj"</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MACIERZ -->
+  <div class="section-label">Macierz impact vs nakład</div>
+  <div class="matrix-grid">
+    <div class="matrix-cell hi-lo">
+      <div class="matrix-cell-header">
+        <h4>🟢 Wysoki impact / Niski nakład</h4>
+      </div>
+      <span class="matrix-pill">Timestampy aktywności</span>
+      <span class="matrix-pill">Klikalna gra w feedzie</span>
+      <span class="matrix-pill">Fix skróconych nazw (stats)</span>
+      <span class="matrix-pill">Linki do guide'ów (trofea)</span>
+      <span class="matrix-pill">Metacritic / OpenCritic</span>
+      <span class="matrix-pill">Streak tygodniowy</span>
+      <span class="matrix-pill">Smart defaults platformy</span>
+    </div>
+    <div class="matrix-cell hi-me">
+      <div class="matrix-cell-header">
+        <h4>🔵 Wysoki impact / Średni nakład</h4>
+      </div>
+      <span class="matrix-pill">Swipe-to-change-status</span>
+      <span class="matrix-pill">Quick Complete formularz</span>
+      <span class="matrix-pill">Push notifications</span>
+      <span class="matrix-pill">Push: ocena / recenzja znajomego</span>
+      <span class="matrix-pill">One-tap z GameScreen</span>
+      <span class="matrix-pill">Premiery po platformie + Obserwuj</span>
+    </div>
+    <div class="matrix-cell me-me">
+      <div class="matrix-cell-header">
+        <h4>🟡 Średni impact / Średni nakład</h4>
+      </div>
+      <span class="matrix-pill">Rozszerzone statystyki</span>
+      <span class="matrix-pill">Emoji reakcje</span>
+      <span class="matrix-pill">Znajomi + społeczność GameScreen</span>
+      <span class="matrix-pill">Head to Head</span>
+    </div>
+    <div class="matrix-cell hi-hi">
+      <div class="matrix-cell-header">
+        <h4>🔴 Wysoki impact / Wysoki nakład</h4>
+      </div>
+      <span class="matrix-pill">Gaming Wrapped</span>
+      <span class="matrix-pill">Wersja webowa (Expo Web)</span>
+      <span class="matrix-pill">Rekomendacje "co dalej"</span>
+      <span class="matrix-pill">IGDB similar_games</span>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="section-label">Szczegółowy opis inicjatyw</div>
+
+  <!-- ─── 1. QUICK ADD ─── -->
+  <div class="initiative i1">
+    <div class="init-header">
+      <div class="init-number">1</div>
+      <div class="init-meta">
+        <div class="init-title">Quick Add — błyskawiczne statusy</div>
+        <div class="init-subtitle">Dodanie gry wymaga dziś 7 kroków. Zredukujemy to do 2–3 tapnięć.</div>
+        <div class="init-tags">
+          <span class="tag tag-impact-high">🟢 Wysoki impact</span>
+          <span class="tag tag-effort-med">🟠 Średni nakład</span>
+          <span class="tag tag-sprint">⚡ Sprint 1</span>
+        </div>
+      </div>
+    </div>
+    <div class="init-body">
+      <div class="mockup"><span class="hl">Obecny flow (7 kroków):</span>
+FAB → wyszukiwarka → wyniki → kliknij grę → wczytaj dane
+  → formularz (6 pól) → Zapisz
+
+<span class="gr">Nowy flow (2–3 kroki):</span>
+GameScreen → [ ▶️ Gram teraz ] → platforma (jeśli >1) → Gotowe ✓
+     lub: swipe na karcie → [ ✅ ][ ▶️ ][ 📋 ][ ❌ ] → tap</div>
+
+      <div class="init-grid">
+        <div class="init-box">
+          <h5>Co zmieniamy</h5>
+          <ul>
+            <li>Swipe w prawo na karcie gry → quick status (4 przyciski)</li>
+            <li>Tryb "Quick Complete" — 3 pola zamiast 6</li>
+            <li>Sticky CTA "Gram teraz" / "Dodaj do backlogu" na GameScreen</li>
+            <li>Smart defaults — zapamiętana ostatnia platforma</li>
+            <li>Picker platform uwzględnia Switch 2, PS5 Pro i nowy sprzęt</li>
+          </ul>
+        </div>
+        <div class="init-box">
+          <h5>Pliki do zmiany</h5>
+          <ul>
+            <li>games_status_list_item.tsx — dodać Swipeable</li>
+            <li>games_status_form.tsx — isQuickMode toggle</li>
+            <li>game_screen.tsx — sticky footer z CTA</li>
+            <li>use_games_status_form.ts — AsyncStorage defaults</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="effort-row">
+        <div class="effort-label">Łączny nakład</div>
+        <div class="effort-bar"><div class="effort-fill" style="width:35%"></div></div>
+        <div class="effort-days">6–9 dni</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 2. PUSH ─── -->
+  <div class="initiative i2">
+    <div class="init-header">
+      <div class="init-number">2</div>
+      <div class="init-meta">
+        <div class="init-title">System powiadomień push</div>
+        <div class="init-subtitle">Aplikacja nie daje dziś żadnego powodu do wejścia poza własną inicjatywą użytkownika.</div>
+        <div class="init-tags">
+          <span class="tag tag-impact-high">🟢 Wysoki impact</span>
+          <span class="tag tag-effort-med">🟠 Średni nakład</span>
+          <span class="tag tag-sprint">⚡ Sprint 2</span>
+        </div>
+      </div>
+    </div>
+    <div class="init-body">
+      <div class="init-grid">
+        <div class="init-box">
+          <h5>Typy powiadomień</h5>
+          <ul>
+            <li>Znajomy ukończył grę którą masz → "Jan ukończył Elden Ring — 9/10"</li>
+            <li>Znajomy ocenił grę → "Anna oceniła Cyberpunk 2077 — 8/10"</li>
+            <li>Znajomy napisał recenzję → "Piotr napisał recenzję God of War"</li>
+            <li>Nowe zaproszenie do znajomych</li>
+            <li>Zaproszenie zaakceptowane</li>
+            <li>Tygodniowe podsumowanie (pon. 18:00)</li>
+            <li>Premiera obserwowanej gry za 3 dni</li>
+            <li>Streak zagrożony — nie aktualizowałeś 14 dni</li>
+          </ul>
+        </div>
+        <div class="init-box">
+          <h5>Architektura</h5>
+          <ul>
+            <li>expo-notifications — rejestracja tokenu</li>
+            <li>Nowa tabela Prisma: PushToken</li>
+            <li>Nowy moduł NestJS: notifications</li>
+            <li>Triggery w istniejących serwisach (games_status, friends)</li>
+            <li>@Cron — weekly summary co poniedziałek</li>
+            <li>Ustawienia toggle w profilu użytkownika</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mockup"><span class="hl">Trigger flow:</span>
+Jan.upsertGameStatus(COMPLETED) 
+  → sprawdź znajomych Jana
+  → znajdź userów którzy mają tę grę
+  → wyślij push przez Expo Push API
+  
+<span class="gr">Wiadomość:</span> "Jan ukończył <span class="ye">Elden Ring</span> i dał ocenę 9/10 ✨"
+<span class="pu">Kliknięcie → deeplink:</span> /games_status_info/[id]</div>
+
+      <div class="effort-row">
+        <div class="effort-label">Łączny nakład</div>
+        <div class="effort-bar"><div class="effort-fill" style="width:45%"></div></div>
+        <div class="effort-days">7–10 dni</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 3. STATYSTYKI ─── -->
+  <div class="initiative i4">
+    <div class="init-header">
+      <div class="init-number">3</div>
+      <div class="init-meta">
+        <div class="init-title">Gaming Wrapped i rozszerzone statystyki</div>
+        <div class="init-subtitle">Statystyki to najlepszy powód do powrotu. Dziś mamy 3 wykresy — chcemy pełny dashboard + roczne podsumowanie.</div>
+        <div class="init-tags">
+          <span class="tag tag-impact-high">🟢 Wysoki impact</span>
+          <span class="tag tag-effort-high">🔴 Wysoki nakład</span>
+        </div>
+      </div>
+    </div>
+    <div class="init-body">
+      <div class="init-grid">
+        <div class="init-box">
+          <h5>Nowe metryki na dashboardzie</h5>
+          <ul>
+            <li>Łączny czas zagrany (suma h/m/s)</li>
+            <li>Aktywność miesięczna (heatmap)</li>
+            <li>Backlog progress — ile ukończyłeś vs dodałeś</li>
+            <li>Histogram ocen (rozkład 1–10)</li>
+            <li>Streak tygodniowy 🔥</li>
+            <li>Twój czas vs HLTB average</li>
+          </ul>
+        </div>
+        <div class="init-box">
+          <h5>Gaming Wrapped (roczne)</h5>
+          <ul>
+            <li>Dostępne od 1 grudnia każdego roku</li>
+            <li>9 animowanych slajdów (moti)</li>
+            <li>Gra roku, platforma nr 1, gatunek nr 1</li>
+            <li>"Zagrałeś 320h — to 13 dni bez snu"</li>
+            <li>Social twist — porównanie ze znajomym</li>
+            <li>Udostępnianie screenshota (expo-sharing)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mockup"><span class="hl">Gaming Wrapped — flow slajdów:</span>
+  [1] "Twój rok 2025" — collage okładek
+  [2] "Zagrałeś w <span class="ye">48 gier</span>" — animowany licznik
+  [3] "Łącznie <span class="ye">320h</span> — jak 13 nocy bez snu"
+  [4] "Platforma nr 1: <span class="gr">PlayStation 5</span>"
+  [5] "Gatunek nr 1: <span class="gr">Akcja/RPG</span>" + top 3
+  [6] "Gra roku: <span class="pu">Elden Ring</span> — Twoja ocena: 10/10"
+  [7] "Ukończyłeś <span class="ye">31%</span> backlogu"
+  [8] "Twój znajomy Jan grał podobnie 🎮"
+  [9] <span class="pk">[Udostępnij swój rok]</span></div>
+
+      <div class="effort-row">
+        <div class="effort-label">Łączny nakład</div>
+        <div class="effort-bar"><div class="effort-fill" style="width:70%"></div></div>
+        <div class="effort-days">11–17 dni</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 4. SOCIAL LIGHT ─── -->
+  <div class="initiative i5">
+    <div class="init-header">
+      <div class="init-number">4</div>
+      <div class="init-meta">
+        <div class="init-title">Social Light — reakcje i porównania</div>
+        <div class="init-subtitle">Bez budowania pełnej sieci społecznościowej. Małe elementy które budują poczucie wspólnoty.</div>
+        <div class="init-tags">
+          <span class="tag tag-impact-med">🟡 Średni impact</span>
+          <span class="tag tag-effort-med">🟠 Średni nakład</span>
+        </div>
+      </div>
+    </div>
+    <div class="init-body">
+      <div class="mockup"><span class="hl">Aktywność znajomych (po zmianach):</span>
+┌─────────────────────────────────────────┐
+│ <span class="gr">[👤] Jan ukończył</span> <span class="pk">[→ Cyberpunk 2077]</span> ← tap    │
+│ <span class="ye">     Ocena: 9/10 • PS5 • 2 godziny temu</span>  │
+│ ─────────────────────────────────────── │
+│ <span class="pu">  👏   🔥   😮   🎮</span>                      │
+└─────────────────────────────────────────┘
+
+<span class="hl">GameScreen — sekcja graczy:</span>
+👥 <span class="gr">Znajomi (3)</span>
+   Jan  9/10 ✅  •  Anna  W trakcie  •  Piotr  7/10 ✅
+   <span class="ye">Średnia znajomych: 8.3/10</span>
+──── <span class="gr">Społeczność (42 oceny)</span>
+   Karolina 10/10 ✅ · Marek 8/10 ✅ · Zofia 6/10 ✅ ...</div>
+
+      <div class="init-grid">
+        <div class="init-box">
+          <h5>Emoji reakcje + nawigacja z feedu</h5>
+          <ul>
+            <li>4 reakcje: 👏 🔥 😮 🎮</li>
+            <li>Nowa tabela Prisma: GameStatusReaction</li>
+            <li>Push do znajomego gdy dostaje reakcję</li>
+            <li>Klik na tytuł gry w feedzie → GameScreen</li>
+          </ul>
+        </div>
+        <div class="init-box">
+          <h5>Head to Head + Społeczność</h5>
+          <ul>
+            <li>Gry ukończone, łączny czas, avg ocena</li>
+            <li>Wspólne gry (sekcja "Graliście w to samo")</li>
+            <li>"Zaproś do zagrania" — one-tap add to backlog</li>
+            <li>Sekcja społeczności w grze — wszystkie publiczne oceny</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="effort-row">
+        <div class="effort-label">Łączny nakład</div>
+        <div class="effort-bar"><div class="effort-fill" style="width:55%"></div></div>
+        <div class="effort-days">9–13 dni</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 5. REKOMENDACJE ─── -->
+  <div class="initiative i7">
+    <div class="init-header">
+      <div class="init-number">5</div>
+      <div class="init-meta">
+        <div class="init-title">Recommendation Strip — "co zagrać dalej"</div>
+        <div class="init-subtitle">Po ukończeniu gry użytkownik aktualizuje status i... co dalej? Aplikacja powinna odpowiedzieć.</div>
+        <div class="init-tags">
+          <span class="tag tag-impact-high">🟢 Wysoki impact (długoterm.)</span>
+          <span class="tag tag-effort-high">🔴 Wysoki nakład</span>
+        </div>
+      </div>
+    </div>
+    <div class="init-body">
+      <div class="mockup"><span class="hl">HomeScreen — nowa sekcja:</span>
+┌──────────────────────────────────────────────┐
+│ 💡 <span class="gr">Co zagrać po Elden Ring?</span>                  │
+│    Oparte na Twoich ukończonych grach        │
+│ ────────────────────────────────────────     │
+│ [<span class="ye">Sekiro</span>] [<span class="ye">Dark Souls 3</span>] [<span class="ye">Nioh 2</span>] ...     │
+│                                              │
+│ <span class="pu">Jan, Anna i Piotr polecają Sekiro</span>           │
+│ po Elden Ring jako "next game" 🎮            │
+└──────────────────────────────────────────────┘</div>
+
+      <div class="init-grid">
+        <div class="init-box">
+          <h5>Algorytm rekomendacji</h5>
+          <ul>
+            <li>Weź 5 ostatnio ukończonych gier</li>
+            <li>Sprawdź ich gatunki (Action RPG, Soulslike)</li>
+            <li>Znajdź gry z tymi gatunkami, których nie ma na liście</li>
+            <li>Sortuj: ocena znajomych → popularność HLTB</li>
+            <li>IGDB: pole similar_games — gotowy algorytm kuratorski</li>
+          </ul>
+        </div>
+        <div class="init-box">
+          <h5>"Znajomi też grali w X"</h5>
+          <ul>
+            <li>Co grali znajomi w 30 dni po ukończeniu tej gry?</li>
+            <li>Najczęstszy "next game" po danej grze</li>
+            <li>Nowe query w API: compareWithFriend</li>
+            <li>"Odkryj gatunek" — raz na miesiąc ekspansja poza strefę komfortu</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="effort-row">
+        <div class="effort-label">Łączny nakład</div>
+        <div class="effort-bar"><div class="effort-fill" style="width:65%"></div></div>
+        <div class="effort-days">10–14 dni</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 6. PREMIERY I OBSERWOWANE ─── -->
+  <div class="initiative i1" style="border-color: rgba(20,184,166,.3);">
+    <div class="init-header">
+      <div class="init-number" style="background:rgba(20,184,166,.15);color:#5eead4;">6</div>
+      <div class="init-meta">
+        <div class="init-title">Premiery i Obserwowane — kalendarz wydań po platformie</div>
+        <div class="init-subtitle">Użytkownicy chcą wiedzieć co premieruje na ich platformie — i dostać powiadomienie kiedy to wychodzi. Wszystko w jednej apce.</div>
+        <div class="init-tags">
+          <span class="tag tag-impact-high">🟢 Wysoki impact</span>
+          <span class="tag tag-effort-med">🟠 Średni nakład</span>
+          <span class="tag tag-sprint">⚡ Sprint 2</span>
+        </div>
+      </div>
+    </div>
+    <div class="init-body">
+      <div class="mockup"><span class="hl">Ekran "Premiery":</span>
+┌──────────────────────────────────────┐
+│  🗓 <span class="gr">Nadchodzące premiery</span>              │
+│  Filtruj: <span class="ye">[PS5] [Xbox] [Switch 2]</span>    │
+│           <span class="ye">[Switch] [PC]</span>              │
+│  ────────────────────────────────    │
+│  <span class="pu">SIERPIEŃ 2026</span>                       │
+│  [okładka]  <span class="gr">Astro Bot 2</span>             │
+│              PS5 · 12 Sie            │
+│              [🔔 Obserwuj]           │
+│  [okładka]  <span class="gr">Metroid Prime 4</span>         │
+│              Switch 2 · 18 Sie       │
+│              [<span class="pk">✓ Obserwujesz</span>]         │
+└──────────────────────────────────────┘</div>
+
+      <div class="init-grid">
+        <div class="init-box">
+          <h5>Funkcje kalendarza</h5>
+          <ul>
+            <li>Lista premier filtrowana po platformie</li>
+            <li>Sekcje po miesiącach — scrollowalne</li>
+            <li>Filtr platform zapamiętany z historii usera</li>
+            <li>Carousel "Nadchodzące" na HomeScreen</li>
+            <li>Dane z IGDB API (już podłączone)</li>
+          </ul>
+        </div>
+        <div class="init-box">
+          <h5>"Obserwuj premierę"</h5>
+          <ul>
+            <li>Jeden tap → subskrypcja premiery</li>
+            <li>Nowa tabela: WatchedRelease</li>
+            <li>Push notification 3 dni przed datą</li>
+            <li>Sekcja "Obserwuję" w profilu</li>
+            <li>Mutacje GraphQL: watchRelease / unwatchRelease</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="effort-row">
+        <div class="effort-label">Łączny nakład</div>
+        <div class="effort-bar"><div class="effort-fill" style="width:38%"></div></div>
+        <div class="effort-days">6–8 dni</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 7. METACRITIC / OPENCRITIC ─── -->
+  <div class="initiative i2" style="border-color:rgba(34,197,94,.25);">
+    <div class="init-header">
+      <div class="init-number" style="background:rgba(34,197,94,.15);color:#86efac;">7</div>
+      <div class="init-meta">
+        <div class="init-title" style="background:linear-gradient(90deg,#86efac,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Oceny zewnętrzne — Metacritic i OpenCritic</div>
+        <div class="init-subtitle">Jedna statystyka której brakuje: "co mówią krytycy i gracze z dużych serwisów o tej grze?" — bez wychodzenia z appki.</div>
+        <div class="init-tags">
+          <span class="tag tag-impact-high">🟢 Wysoki impact</span>
+          <span class="tag tag-effort-low">🔵 Niski nakład</span>
+        </div>
+      </div>
+    </div>
+    <div class="init-body">
+      <div class="mockup"><span class="hl">GameScreen — nowa sekcja "Oceny":</span>
+┌──────────────────────────────────────┐
+│  📊 <span class="gr">Oceny</span>                             │
+│  ────────────────────────────────    │
+│  🎮 Gracze (Game Critique): <span class="ye">8.2/10</span>  │
+│     Twoja ocena: 9/10               │
+│                                      │
+│  🎬 Krytycy:                         │
+│  [MC] Metacritic  <span class="gr">92</span>/100            │
+│  [OC] OpenCritic  <span class="gr">94</span>/100            │
+│                                      │
+│  ⏱ HLTB Main Story: ~55h            │
+└──────────────────────────────────────┘</div>
+
+      <div class="init-grid">
+        <div class="init-box">
+          <h5>Źródła danych</h5>
+          <ul>
+            <li>IGDB: pole <code>aggregated_rating</code> + <code>external_games</code> (cat. 8 = Metacritic)</li>
+            <li>OpenCritic: publiczne API (topCriticScore)</li>
+            <li>Pobierane przy istniejącym UpdateGameData</li>
+            <li>Cache w bazie — nie fetch na żywo</li>
+          </ul>
+        </div>
+        <div class="init-box">
+          <h5>Zmiany w kodzie</h5>
+          <ul>
+            <li>Prisma: pola <code>metacriticScore?</code>, <code>openCriticScore?</code> w modelu Game</li>
+            <li>UpdateGameDataHandler — pobierz przy update</li>
+            <li>GameScreen: komponent GameExternalScores</li>
+            <li>Kolorowanie: ≥80 zielony, 60–79 żółty, &lt;60 czerwony</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="effort-row">
+        <div class="effort-label">Łączny nakład</div>
+        <div class="effort-bar"><div class="effort-fill" style="width:20%"></div></div>
+        <div class="effort-days">3–4 dni</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 8. WERSJA WEBOWA ─── -->
+  <div class="initiative i4">
+    <div class="init-header">
+      <div class="init-number">8</div>
+      <div class="init-meta">
+        <div class="init-title">Wersja webowa dla użytkowników</div>
+        <div class="init-subtitle">Dostęp bez instalacji, publiczne profile do udostępniania, gracze na desktopie — ta sama appka, przeglądarka.</div>
+        <div class="init-tags">
+          <span class="tag tag-impact-high">🟢 Strategiczny impact</span>
+          <span class="tag tag-effort-high">🔴 Wysoki nakład</span>
+        </div>
+      </div>
+    </div>
+    <div class="init-body">
+      <div class="mockup"><span class="hl">Faza 1 — Expo Web (ten sam codebase):</span>
+<span class="gr">apps/native/</span>
+  app.config.ts  ← dodać web: \{ bundler: "metro" \}
+  app/
+    (app)/       ← te same ekrany działają w przeglądarce
+  
+<span class="ye">expo export --platform web</span>  →  deploy na Vercel/Netlify
+
+<span class="gr">Co działa od razu:</span>  lista gier, GameScreen, statystyki, profil
+<span class="pk">Co wymaga tweaks:</span>    swipe → klikalne, SecureStore → localStorage</div>
+
+      <div class="init-grid">
+        <div class="init-box">
+          <h5>Faza 1 — Expo Web MVP (10–14 dni)</h5>
+          <ul>
+            <li>Expo Router obsługuje web natywnie (v3+)</li>
+            <li>Gluestack + NativeWind działają na web</li>
+            <li>Auth0 — ten sam flow, nowy web Application</li>
+            <li>PWA: manifest.json + service-worker (Expo generuje)</li>
+            <li>Deploy: Vercel — statyczny build</li>
+          </ul>
+        </div>
+        <div class="init-box">
+          <h5>Faza 2 — apps/web-user (20–30 dni)</h5>
+          <ul>
+            <li>Osobna app React + Vite (jak panel admin)</li>
+            <li>Kiedy: potrzeba SEO, sidebar layout, hover UX</li>
+            <li>Współdzielone typy przez packages/graphql-types</li>
+            <li>Publiczne profile: /u/username (Open Graph preview)</li>
+            <li>Osobna domena: gamecritique.app vs admin.gamecritique.app</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="effort-row">
+        <div class="effort-label">Faza 1 (Expo Web)</div>
+        <div class="effort-bar"><div class="effort-fill" style="width:65%"></div></div>
+        <div class="effort-days">10–14 dni</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 9. LINKI DO GUIDE'ÓW ─── -->
+  <div class="initiative i2" style="border-color:rgba(249,115,22,.25);">
+    <div class="init-header">
+      <div class="init-number" style="background:rgba(249,115,22,.15);color:#fdba74;">9</div>
+      <div class="init-meta">
+        <div class="init-title" style="background:linear-gradient(90deg,#fdba74,#fb923c);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Linki do guide'ów z trofeami i osiągnięciami</div>
+        <div class="init-subtitle">Gracze konsolowi stale szukają poradników do trofeów. Teraz bez wychodzenia z appki — linki dopasowane do platformy usera.</div>
+        <div class="init-tags">
+          <span class="tag tag-impact-high">🟢 Wysoki impact</span>
+          <span class="tag tag-effort-low">🔵 Niski nakład</span>
+        </div>
+      </div>
+    </div>
+    <div class="init-body">
+      <div class="mockup"><span class="hl">GameScreen — sekcja "Trofea i poradniki":</span>
+┌──────────────────────────────────────┐
+│  🏆 <span class="gr">Trofea i poradniki</span>               │
+│  ────────────────────────────────    │
+│  🔵 PSNProfiles   → trofea PS4/PS5  │
+│  🎯 Exophase      → cross-platform  │
+│  🔴 YouTube Guide → video walkthru  │
+│  📖 Fextralife    → wiki + tips     │
+└──────────────────────────────────────┘
+<span class="ye">Widoczne gdy gra jest IN_PROGRESS lub COMPLETED</span>
+<span class="pu">Linki dopasowane do platformy usera (PS → PSNProfiles)</span></div>
+
+      <div class="init-grid">
+        <div class="init-box">
+          <h5>Serwisy per platforma</h5>
+          <ul>
+            <li>PS4 / PS5 → PSNProfiles + Exophase</li>
+            <li>Xbox → TrueAchievements + Exophase</li>
+            <li>Switch → YouTube + Fextralife</li>
+            <li>Wszystkie → YouTube Guide + Fextralife</li>
+            <li>Linki generowane z tytułu gry (encodeURIComponent)</li>
+          </ul>
+        </div>
+        <div class="init-box">
+          <h5>Implementacja</h5>
+          <ul>
+            <li>Nowy komponent GameTrophyLinks.tsx</li>
+            <li>Mapa URL patterns per platforma</li>
+            <li>Expo Linking.openURL() — już w projekcie</li>
+            <li>Brak zmian w API — czysto frontend</li>
+            <li>Opcja zaawansowana: PSN ID z IGDB external_games</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="effort-row">
+        <div class="effort-label">Łączny nakład</div>
+        <div class="effort-bar"><div class="effort-fill" style="width:12%"></div></div>
+        <div class="effort-days">2–3 dni</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER SUMMARY -->
+  <div class="divider"></div>
+  <div class="section-label">Podsumowanie czasowe</div>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;">
+    <table style="width:100%;border-collapse:collapse;">
+      <thead>
+        <tr style="border-bottom:1px solid var(--border);">
+          <th style="padding:14px 20px;text-align:left;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);">Inicjatywa</th>
+          <th style="padding:14px 20px;text-align:center;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);">Nakład</th>
+          <th style="padding:14px 20px;text-align:right;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);">Dni</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:12px 20px;color:var(--white);font-weight:600;">1. Quick Add</td>
+          <td style="padding:12px 20px;"><div style="margin:0 auto;max-width:120px;height:4px;background:var(--border);border-radius:4px;overflow:hidden;"><div style="width:35%;height:100%;background:linear-gradient(90deg,#818cf8,#ec4899);border-radius:4px;"></div></div></td>
+          <td style="padding:12px 20px;text-align:right;color:var(--text);">6–9 dni</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:12px 20px;color:var(--white);font-weight:600;">2. Push Notifications</td>
+          <td style="padding:12px 20px;"><div style="margin:0 auto;max-width:120px;height:4px;background:var(--border);border-radius:4px;overflow:hidden;"><div style="width:45%;height:100%;background:linear-gradient(90deg,#818cf8,#ec4899);border-radius:4px;"></div></div></td>
+          <td style="padding:12px 20px;text-align:right;color:var(--text);">7–10 dni</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:12px 20px;color:var(--white);font-weight:600;">3. Gaming Wrapped + Statystyki</td>
+          <td style="padding:12px 20px;"><div style="margin:0 auto;max-width:120px;height:4px;background:var(--border);border-radius:4px;overflow:hidden;"><div style="width:70%;height:100%;background:linear-gradient(90deg,#818cf8,#ec4899);border-radius:4px;"></div></div></td>
+          <td style="padding:12px 20px;text-align:right;color:var(--text);">11–17 dni</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:12px 20px;color:var(--white);font-weight:600;">4. Social Light</td>
+          <td style="padding:12px 20px;"><div style="margin:0 auto;max-width:120px;height:4px;background:var(--border);border-radius:4px;overflow:hidden;"><div style="width:55%;height:100%;background:linear-gradient(90deg,#818cf8,#ec4899);border-radius:4px;"></div></div></td>
+          <td style="padding:12px 20px;text-align:right;color:var(--text);">9–13 dni</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:12px 20px;color:var(--white);font-weight:600;">5. Rekomendacje</td>
+          <td style="padding:12px 20px;"><div style="margin:0 auto;max-width:120px;height:4px;background:var(--border);border-radius:4px;overflow:hidden;"><div style="width:65%;height:100%;background:linear-gradient(90deg,#818cf8,#ec4899);border-radius:4px;"></div></div></td>
+          <td style="padding:12px 20px;text-align:right;color:var(--text);">10–14 dni</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:12px 20px;color:var(--white);font-weight:600;">6. Premiery i Obserwowane</td>
+          <td style="padding:12px 20px;"><div style="margin:0 auto;max-width:120px;height:4px;background:var(--border);border-radius:4px;overflow:hidden;"><div style="width:38%;height:100%;background:linear-gradient(90deg,#14b8a6,#818cf8);border-radius:4px;"></div></div></td>
+          <td style="padding:12px 20px;text-align:right;color:var(--text);">6–8 dni</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:12px 20px;color:var(--white);font-weight:600;">7. Oceny Metacritic / OpenCritic</td>
+          <td style="padding:12px 20px;"><div style="margin:0 auto;max-width:120px;height:4px;background:var(--border);border-radius:4px;overflow:hidden;"><div style="width:20%;height:100%;background:linear-gradient(90deg,#22c55e,#14b8a6);border-radius:4px;"></div></div></td>
+          <td style="padding:12px 20px;text-align:right;color:var(--text);">3–4 dni</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:12px 20px;color:var(--white);font-weight:600;">8. Wersja webowa (Expo Web)</td>
+          <td style="padding:12px 20px;"><div style="margin:0 auto;max-width:120px;height:4px;background:var(--border);border-radius:4px;overflow:hidden;"><div style="width:65%;height:100%;background:linear-gradient(90deg,#818cf8,#ec4899);border-radius:4px;"></div></div></td>
+          <td style="padding:12px 20px;text-align:right;color:var(--text);">10–14 dni</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:12px 20px;color:var(--white);font-weight:600;">9. Linki do guide'ów (trofea)</td>
+          <td style="padding:12px 20px;"><div style="margin:0 auto;max-width:120px;height:4px;background:var(--border);border-radius:4px;overflow:hidden;"><div style="width:12%;height:100%;background:linear-gradient(90deg,#f97316,#eab308);border-radius:4px;"></div></div></td>
+          <td style="padding:12px 20px;text-align:right;color:var(--text);">2–3 dni</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr style="border-top:1px solid var(--border);background:var(--surface2);">
+          <td style="padding:14px 20px;color:var(--white);font-weight:800;">RAZEM (Fazy 1)</td>
+          <td></td>
+          <td style="padding:14px 20px;text-align:right;color:var(--white);font-weight:800;">64–92 dni</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+</div>
+
+<footer>
+  Dokument przygotowany dla <strong>Game Critique</strong> · Lipiec 2026 ·
+  Szacunki zakładają jednego developera fullstack. Przy pracy równoległej (API + native) możliwa redukcja o ~30%.
+</footer>
+
+</body>
+</html>

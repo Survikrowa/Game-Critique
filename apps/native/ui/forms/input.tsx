@@ -1,7 +1,5 @@
-import { Search } from "@tamagui/lucide-icons";
 import { ReactNode, useRef } from "react";
-import { Animated, TextInput, StyleSheet } from "react-native";
-import { View, Text, styled } from "tamagui";
+import { Animated, StyleSheet, TextInput, View, Text } from "react-native";
 
 type InputProps = {
   onChange: (text: string) => void;
@@ -21,130 +19,80 @@ export const Input = ({
   icon,
 }: InputProps) => {
   const moveText = useRef(new Animated.Value(value ? 1 : 0)).current;
-  const onChangeText = (text: string) => {
-    onChange(text);
-  };
+
   const onFocus = () => {
-    moveTextTop();
-  };
-  const onBlur = () => {
-    if (!value) {
-      moveTextBottom();
-    }
-  };
-  const moveTextTop = () => {
     Animated.timing(moveText, {
       toValue: 1,
       duration: 200,
       useNativeDriver: true,
     }).start();
   };
-  const moveTextBottom = () => {
-    Animated.timing(moveText, {
-      toValue: 0,
-      duration: 200,
-      useNativeDriver: true,
-    }).start();
+
+  const onBlur = () => {
+    if (!value) {
+      Animated.timing(moveText, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: true,
+      }).start();
+    }
   };
+
   const yVal = moveText.interpolate({
     inputRange: [0, 1],
     outputRange: [10, -14],
   });
 
-  const animStyle = {
-    transform: [
-      {
-        translateY: yVal,
-      },
-    ],
-  };
   return (
-    <Container>
-      <InputContainer
-        borderColor={errorMessage ? "$red4" : "#bdbdbd"}
-        paddingRight={icon ? 8 : 4}
+    <View className="flex-1 z-[200]">
+      <View
+        className={[
+          "flex-row items-center justify-between",
+          "bg-background-50 border-2 rounded-xl h-[44px] px-1",
+          errorMessage ? "border-error-400" : "border-outline-200",
+          icon ? "pr-2" : "pr-1",
+        ].join(" ")}
       >
-        <Animated.View style={[styles.animatedStyle, animStyle]}>
-          <Label color={errorMessage ? "$red8" : "black"}>{label}</Label>
+        <Animated.View
+          style={[styles.labelContainer, { transform: [{ translateY: yVal }] }]}
+        >
+          <Text
+            className={[
+              "text-[13px] bg-background-50 px-1 z-[300] pointer-events-none",
+              errorMessage ? "text-error-400" : "text-typography-500",
+            ].join(" ")}
+          >
+            {label}
+          </Text>
         </Animated.View>
-        <CustomInput
+        <TextInput
           value={value}
           onFocus={onFocus}
           onBlur={onBlur}
-          onChangeText={onChangeText}
+          onChangeText={onChange}
           disableFullscreenUI
           inputMode={inputMode}
+          className="text-[13px] text-typography-100 flex-1 pl-4"
         />
-        {icon ? <IconContainer>{icon}</IconContainer> : null}
-      </InputContainer>
+        {icon ? (
+          <View className="w-[36px] h-[36px] items-center justify-center">
+            {icon}
+          </View>
+        ) : null}
+      </View>
       {errorMessage ? (
-        <ErrorMessage marginTop={5}>{errorMessage}</ErrorMessage>
+        <Text className="text-error-400 text-xs px-3 mt-1">{errorMessage}</Text>
       ) : null}
-    </Container>
+    </View>
   );
 };
 
-const Container = styled(View, {
-  flex: 1,
-  borderColor: "$red4",
-  zIndex: 200,
-});
-
-const InputContainer = styled(View, {
-  backgroundColor: "#fff",
-  borderWidth: 2,
-  borderRadius: 8,
-  padding: 4,
-  display: "flex",
-  flexDirection: "row",
-  alignItems: "center",
-  justifyContent: "space-between",
-  zIndex: 200,
-});
-
-const CustomInput = styled(TextInput, {
-  fontSize: 13,
-  padding: 4,
-  paddingLeft: 16,
-  color: "#000",
-  justifyContent: "center",
-  display: "flex",
-  flex: 1,
-});
-
-const Label = styled(Text, {
-  fontSize: 13,
-  backgroundColor: "#fff",
-  padding: 2,
-  zIndex: 300,
-  opacity: 0.99,
-  pointerEvents: "none",
-});
-
-const ErrorMessage = styled(Text, {
-  width: "100%",
-  color: "red",
-  alignSelf: "center",
-  paddingHorizontal: 10,
-});
-
-const IconContainer = styled(View, {
-  maxWidth: 42,
-  maxHeight: 42,
-  height: "100%",
-  width: "100%",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-});
-
 const styles = StyleSheet.create({
-  animatedStyle: {
+  labelContainer: {
     top: 0,
     left: 8,
     position: "absolute",
     zIndex: 300,
-    backgroundColor: "#fff",
     pointerEvents: "none",
   },
 });

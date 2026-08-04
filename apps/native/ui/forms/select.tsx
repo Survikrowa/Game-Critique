@@ -1,5 +1,19 @@
+import { tva } from "@gluestack-ui/utils/nativewind-utils";
+import { ChevronDown } from "lucide-react-native";
 import { ReactNode, useState } from "react";
-import { Select as TamaguiSelect, Adapt, Sheet } from "tamagui";
+import {
+  Modal,
+  Pressable,
+  ScrollView,
+  Text,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
+
+type SelectItem = {
+  name: string;
+  value: string;
+};
 
 type SelectProps = {
   defaultValue?: string;
@@ -11,12 +25,27 @@ type SelectProps = {
   icon?: ReactNode;
 };
 
-type SelectItem = {
-  name: string;
-  value: string;
-};
+const triggerStyle = tva({
+  base: "flex-row items-center justify-between border-2 rounded-xl px-4 py-3",
+  variants: {
+    open: {
+      true: "border-primary-500",
+      false: "border-outline-200",
+    },
+  },
+});
+
+const itemStyle = tva({
+  base: "px-4 py-3 rounded-xl",
+  variants: {
+    selected: {
+      true: "bg-primary-500/20",
+      false: "bg-transparent",
+    },
+  },
+});
+
 export const Select = ({
-  defaultValue = "",
   placeholder,
   label,
   items,
@@ -25,63 +54,68 @@ export const Select = ({
   onChange,
 }: SelectProps) => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const selectedItem = items.find((item) => item.value === value);
+
   return (
-    <TamaguiSelect
-      defaultValue={defaultValue}
-      onValueChange={onChange}
-      value={value}
-      onOpenChange={setIsOpen}
-      open={isOpen}
-    >
-      <TamaguiSelect.Trigger onPress={() => setIsOpen(true)}>
-        <TamaguiSelect.Value placeholder={placeholder} />
-      </TamaguiSelect.Trigger>
-      {/*
-       *
-       *  TS-IGNORE is here because the types in tamagui are not correct
-       *  */}
-      {/*
-        // @ts-ignore */}
-      <Adapt when="sm" platform="touch">
-        <Sheet
-          modal
-          dismissOnSnapToBottom
-          animationConfig={{
-            type: "spring",
-            damping: 20,
-            mass: 1.2,
-            stiffness: 250,
-          }}
-        >
-          <Sheet.Frame>
-            <Sheet.ScrollView>
-              <Adapt.Contents />
-            </Sheet.ScrollView>
-          </Sheet.Frame>
-          <Sheet.Overlay
-            animation="lazy"
-            enterStyle={{ opacity: 0 }}
-            exitStyle={{ opacity: 0 }}
-          />
-        </Sheet>
-      </Adapt>
-      <TamaguiSelect.Content zIndex={200000}>
-        <TamaguiSelect.Viewport>
-          <TamaguiSelect.Group alignItems="center" display="flex" height="100%">
-            <TamaguiSelect.Label>{label}</TamaguiSelect.Label>
-            {items.map((item, index) => (
-              <TamaguiSelect.Item
-                key={item.value}
-                value={item.value}
-                index={index}
-              >
-                <TamaguiSelect.ItemText>{item.name}</TamaguiSelect.ItemText>
-                {icon}
-              </TamaguiSelect.Item>
-            ))}
-          </TamaguiSelect.Group>
-        </TamaguiSelect.Viewport>
-      </TamaguiSelect.Content>
-    </TamaguiSelect>
+    <>
+      <Pressable
+        onPress={() => setIsOpen(true)}
+        className={triggerStyle({ open: isOpen })}
+      >
+        <View className="flex-row items-center gap-2">
+          {icon}
+          <Text className="text-typography-100 text-base">
+            {selectedItem?.name ?? placeholder}
+          </Text>
+        </View>
+        <ChevronDown size={18} color="#64748B" />
+      </Pressable>
+
+      <Modal
+        visible={isOpen}
+        transparent
+        animationType="slide"
+        onRequestClose={() => setIsOpen(false)}
+      >
+        <TouchableWithoutFeedback onPress={() => setIsOpen(false)}>
+          <View className="flex-1 justify-end bg-black/50">
+            <TouchableWithoutFeedback>
+              <View className="bg-background-50 rounded-t-3xl pb-8 pt-4">
+                <View className="w-12 h-1 bg-outline-200 rounded-full self-center mb-4" />
+                <Text className="text-typography-100 text-heading font-semibold px-5 mb-3">
+                  {label}
+                </Text>
+                <ScrollView
+                  className="max-h-[360px]"
+                  keyboardShouldPersistTaps="handled"
+                >
+                  {items.map((item) => (
+                    <Pressable
+                      key={item.value}
+                      className={itemStyle({ selected: item.value === value })}
+                      onPress={() => {
+                        onChange(item.value);
+                        setIsOpen(false);
+                      }}
+                    >
+                      <Text
+                        className={
+                          item.value === value
+                            ? "text-primary-500 text-base font-semibold"
+                            : "text-typography-100 text-base"
+                        }
+                      >
+                        {item.name}
+                      </Text>
+                    </Pressable>
+                  ))}
+                </ScrollView>
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
+    </>
   );
 };

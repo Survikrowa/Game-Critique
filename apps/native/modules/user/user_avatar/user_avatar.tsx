@@ -1,17 +1,30 @@
-import { View } from "react-native";
-import { Avatar } from "tamagui";
+import { tva } from "@gluestack-ui/utils/nativewind-utils";
+import { Image } from "react-native";
+
+type AvatarSize = "$3" | "$6" | "$9";
 
 type UserAvatarProps = {
   avatarUrl: string;
-  size?: "$3" | "$6" | "$9";
+  size?: AvatarSize;
 };
+
+const avatarStyle = tva({
+  base: "rounded-full overflow-hidden",
+  variants: {
+    size: {
+      $3: "w-8 h-8",
+      $6: "w-16 h-16",
+      $9: "w-24 h-24",
+    },
+  },
+});
 
 export const UserAvatar = ({ avatarUrl, size = "$9" }: UserAvatarProps) => {
   return (
-    <View>
-      <Avatar circular size={size}>
-        <Avatar.Image source={{ uri: avatarUrl, height: 300, width: 300 }} />
-      </Avatar>
-    </View>
+    <Image
+      source={{ uri: avatarUrl }}
+      className={avatarStyle({ size })}
+      resizeMode="cover"
+    />
   );
 };

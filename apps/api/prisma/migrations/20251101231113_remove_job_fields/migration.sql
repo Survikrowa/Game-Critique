@@ -1,0 +1,1 @@
+-- Migration 20251101231113_remove_job_fields

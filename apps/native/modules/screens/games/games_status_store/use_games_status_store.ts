@@ -2,6 +2,9 @@ import { create } from "zustand";
 
 import { GameStatus } from "../../../../__generated__/types";
 
+export const GAMES_STATUS_PAGE_SIZE = 12;
+export const GAMES_STATUS_RESET_TAKE = 9;
+
 type UseGameStatusStoreStoreFields = {
   sort: {
     sortBy: string;
@@ -41,7 +44,7 @@ export const useGameStatusStore = create<UseGameStatusStoreStoreFields>(
     },
     pagination: {
       skip: 0,
-      take: 9,
+      take: GAMES_STATUS_RESET_TAKE,
     },
     setPagination: (pagination) =>
       set((state) => ({

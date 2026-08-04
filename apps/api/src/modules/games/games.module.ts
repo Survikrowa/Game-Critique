@@ -10,9 +10,20 @@ import { AuthModule } from '../auth/auth.module';
 import { CommandHandlerType, CqrsModule, QueryHandlerType } from '@nestjs/cqrs';
 import { GetGamesQueryHandler } from './queries/get_games/get_games.handler';
 import { UpdateGameDataHandler } from './commands/update_game_data/update_game_data.handler';
+import { FetchGameRatingsHandler } from './commands/fetch_game_ratings/fetch_game_ratings.handler';
+import { IgdbService } from '../../infrastructure/igdb/igdb.service';
+import { HttpModule } from '@nestjs/axios';
+import { GetUpcomingGamesHandler } from './queries/get_upcoming_games/get_upcoming_games.handler';
+import { CacheModule } from '@nestjs/cache-manager';
 
-const QueryHandlers: QueryHandlerType[] = [GetGamesQueryHandler];
-const CommandHandlers: CommandHandlerType[] = [UpdateGameDataHandler];
+const QueryHandlers: QueryHandlerType[] = [
+  GetGamesQueryHandler,
+  GetUpcomingGamesHandler,
+];
+const CommandHandlers: CommandHandlerType[] = [
+  UpdateGameDataHandler,
+  FetchGameRatingsHandler,
+];
 
 @Module({
   imports: [
@@ -21,14 +32,21 @@ const CommandHandlers: CommandHandlerType[] = [UpdateGameDataHandler];
     HowLongToBeatParserModule,
     AuthModule,
     CqrsModule,
+    HttpModule,
+    CacheModule.register(),
   ],
   providers: [
     GamesService,
     GamesRepository,
     GamesConsumer,
     GamesResolver,
+    IgdbService,
     ...QueryHandlers,
     ...CommandHandlers,
+    {
+      provide: 'GAMES_PROVIDER',
+      useClass: IgdbService,
+    },
   ],
   exports: [GamesService],
 })

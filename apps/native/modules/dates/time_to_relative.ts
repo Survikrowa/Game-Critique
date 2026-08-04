@@ -12,11 +12,14 @@ export const timeToRelative = (seconds: number) => {
       "minut",
     )}`;
   }
-  const hours = minutes / NUMBER_OF_SECONDS_IN_MINUTE;
-  return `${Math.floor(hours)} ${pluralizePolish(
-    hours,
+  const hoursExact = minutes / NUMBER_OF_SECONDS_IN_MINUTE;
+  const hoursRounded = Math.round(hoursExact * 2) / 2;
+  const hoursDisplay =
+    hoursRounded % 1 === 0 ? hoursRounded.toString() : hoursRounded.toFixed(1);
+  return `${hoursDisplay} ${pluralizePolish(
+    Math.floor(hoursRounded),
     "godzina",
-    "godzin",
     "godziny",
+    "godzin",
   )}`;
 };

@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
-import { Button } from "tamagui";
+
+import { Pressable } from "@/ui/forms/pressable/pressable";
 
 type ClearButtonProps = {
   onPress: () => void;
@@ -8,15 +9,8 @@ type ClearButtonProps = {
 
 export const ClearButton = ({ onPress, children }: ClearButtonProps) => {
   return (
-    <Button
-      backgroundColor="transparent"
-      width="min-content"
-      padding={0}
-      height="min-content"
-      onPress={onPress}
-      display="flex"
-    >
+    <Pressable onPress={onPress} className="self-start">
       {children}
-    </Button>
+    </Pressable>
   );
 };

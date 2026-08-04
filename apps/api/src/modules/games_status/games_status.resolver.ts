@@ -1,4 +1,4 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import {
   UpsertGameStatusArgsDTO,
   GameStatusSuccessResponseDTO,
@@ -9,21 +9,28 @@ import {
   SortOptionsDTO,
   GameStatusProgressStateDTO,
   UserFriendGamesStatusResponseWithPaginationDTO,
+  LastEditedGamesStatusDTO,
+  MyGameStatusForGameDTO,
 } from './games_status.dto';
 import { GamesStatusService } from './games_status.service';
 import { HttpException, HttpStatus, UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/guards/auth-jwt.guard';
-import { User } from '../auth/auth.decorators';
-import { UserAuthDTO } from '../auth/auth.dto';
+import { JwtAuthGuard } from '../auth/infrastructure/guards/auth-jwt.guard';
+import { User } from '../auth/infrastructure/decorators/auth.decorators';
+import { UserAuthDTO } from '../auth/infrastructure/graphql/auth.dto';
 import {
   GetAllUserFriendGamesStatusArgs,
   GetAllUserGamesStatusArgs,
 } from './games_status.args';
-import { AdminUserGuard } from '../auth/guards/admin-user.guard';
+import { QueryBus } from '@nestjs/cqrs';
+import { GetLastEditedGamesQuery } from './queries/get_last_edited_games/get_last_edited_games.query';
+import { AdminUserGuard } from '../auth/infrastructure/guards/admin-user.guard';
 
 @Resolver()
 export class GamesStatusResolver {
-  constructor(private readonly gamesStatusService: GamesStatusService) {}
+  constructor(
+    private readonly gamesStatusService: GamesStatusService,
+    private readonly queryBus: QueryBus,
+  ) {}
   @UseGuards(JwtAuthGuard)
   @Mutation(() => GameStatusSuccessResponseDTO)
   async upsertGameStatus(
@@ -162,6 +169,20 @@ export class GamesStatusResolver {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Query(() => MyGameStatusForGameDTO, {
+    name: 'myGameStatusForGame',
+    nullable: true,
+    description:
+      'Returns the current user existing GameStatus for a given gameId, or null if none exists',
+  })
+  async getMyGameStatusForGame(
+    @User() user: UserAuthDTO,
+    @Args('gameId') gameId: number,
+  ): Promise<MyGameStatusForGameDTO | null> {
+    return this.gamesStatusService.getMyGameStatusForGame(user.sub, gameId);
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Mutation(() => GameStatusSuccessResponseDTO)
   async removeGameStatus(@Args('gameStatusId') gameStatusId: number) {
     const removedGameStatus =
@@ -216,5 +237,16 @@ export class GamesStatusResolver {
       gameStatusProgressState:
         this.gamesStatusService.getAvailableGamesStatusProgressStates(),
     };
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Query(() => [LastEditedGamesStatusDTO], {
+    name: 'lastEditedGames',
+  })
+  async getLastEditedGames(
+    @User() user: UserAuthDTO,
+    @Args('limit', { type: () => Int, defaultValue: 5 }) limit: number,
+  ) {
+    return this.queryBus.execute(new GetLastEditedGamesQuery(user.sub, limit));
   }
 }
