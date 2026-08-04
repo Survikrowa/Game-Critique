@@ -12,6 +12,8 @@ export class UserActivityDTO {
   game: GameWithCoversDTO | null;
   @Field(() => GameStatus)
   activityType: GameStatus;
+  @Field(() => Number, { nullable: true })
+  gameStatusId: number | null;
   @Field(() => Date)
   updatedAt: Date;
   @Field(() => String, {

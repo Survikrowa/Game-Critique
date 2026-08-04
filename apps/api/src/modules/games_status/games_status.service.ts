@@ -172,15 +172,17 @@ export class GamesStatusService {
     oauthId: string,
   ) {
     const result = await this.prismaService.$transaction(async () => {
+      const gameStatus = await this.gamesStatusRepository.upsertGameStatus(
+        createGameStatusArgs,
+        oauthId,
+      );
       await this.usersActivityService.registerNewUserActivity({
         oauthId,
         activity: createGameStatusArgs.gameStatus,
         gameId: createGameStatusArgs.gameId,
+        gamesStatusId: gameStatus.id,
       });
-      return this.gamesStatusRepository.upsertGameStatus(
-        createGameStatusArgs,
-        oauthId,
-      );
+      return gameStatus;
     });
 
     const friendOauthIds = await this.getFriendOauthIds(oauthId);

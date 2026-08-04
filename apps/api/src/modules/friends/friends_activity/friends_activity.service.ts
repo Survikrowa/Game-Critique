@@ -40,6 +40,7 @@ export class FriendsActivityService {
         oauthId: oauthId,
         game: activity.game,
         activityType: activity.activityType,
+        gameStatusId: activity.gamesStatusId,
         updatedAt: activity.updatedAt,
         formattedUpdatedAt: formatDateToRelativeText(activity.updatedAt),
       };

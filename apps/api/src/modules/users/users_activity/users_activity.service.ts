@@ -10,6 +10,7 @@ export class UsersActivityService {
     oauthId,
     activity,
     gameId,
+    gamesStatusId,
   }: RegisterNewUserActivityArgs) {
     return this.prismaService.userActivity.create({
       data: {
@@ -24,6 +25,7 @@ export class UsersActivityService {
           },
         },
         activityType: activity,
+        gamesStatusId,
       },
     });
   }
@@ -33,4 +35,5 @@ type RegisterNewUserActivityArgs = {
   oauthId: string;
   activity: GameStatus;
   gameId: number;
+  gamesStatusId?: number;
 };
