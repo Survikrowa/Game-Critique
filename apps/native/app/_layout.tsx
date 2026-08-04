@@ -60,7 +60,7 @@ const RootLayout = () => {
           <SafeAreaProvider initialMetrics={initialWindowMetrics}>
             <StatusBar
               style="light"
-              backgroundColor="#121212"
+              backgroundColor="#111827"
               animated
               translucent={false}
             />
