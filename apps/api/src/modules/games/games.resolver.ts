@@ -13,6 +13,8 @@ import { AdminUserGuard } from '../auth/infrastructure/guards/admin-user.guard';
 import { JwtAuthGuard } from '../auth/infrastructure/guards/auth-jwt.guard';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { GetUpcomingGamesQuery } from './queries/get_upcoming_games/get_upcoming_games.query';
+import { User } from '../auth/infrastructure/decorators/auth.decorators';
+import { UserAuthDTO } from '../auth/infrastructure/graphql/auth.dto';
 import { FetchGameRatingsCommand } from './commands/fetch_game_ratings/fetch_game_ratings.command';
 
 @Resolver()
@@ -50,9 +52,10 @@ export class GamesResolver {
   @Query(() => [ExternalGameDTO], { name: 'upcomingGames' })
   async getUpcomingGames(
     @Args('limit') limit: number,
+    @User() user?: UserAuthDTO,
   ): Promise<ExternalGameDTO[]> {
     return this.queryBus.execute<GetUpcomingGamesQuery>(
-      new GetUpcomingGamesQuery(limit),
+      new GetUpcomingGamesQuery(limit, user?.sub),
     );
   }
 

@@ -15,6 +15,7 @@ import { IgdbService } from '../../infrastructure/igdb/igdb.service';
 import { HttpModule } from '@nestjs/axios';
 import { GetUpcomingGamesHandler } from './queries/get_upcoming_games/get_upcoming_games.handler';
 import { CacheModule } from '@nestjs/cache-manager';
+import { UpcomingGamesPreferencesFacade } from './services/upcoming-games-preferences.facade';
 
 const QueryHandlers: QueryHandlerType[] = [
   GetGamesQueryHandler,
@@ -41,6 +42,7 @@ const CommandHandlers: CommandHandlerType[] = [
     GamesConsumer,
     GamesResolver,
     IgdbService,
+    UpcomingGamesPreferencesFacade,
     ...QueryHandlers,
     ...CommandHandlers,
     {

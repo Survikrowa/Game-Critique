@@ -21,15 +21,19 @@ export class IgdbService implements IGamesProvider {
   private accessToken: string | null = null;
   private tokenExpiration: number = 0;
 
-  async getUpcomingGames(limit: number): Promise<ExternalGameDTO[]> {
+  async getUpcomingGames(
+    limit: number,
+    platformIds: number[],
+  ): Promise<ExternalGameDTO[]> {
     const now = Math.floor(Date.now() / 1000);
+    const platforms = platformIds.join(',');
 
     const query = `
   fields name, cover.url, screenshots.url, first_release_date, platforms.name, category, url;
 
   where
     first_release_date > ${now} &
-    platforms = (48,167,49,169,130) &
+    platforms = (${platforms}) &
     cover != null &
     game_type = (0, 2, 4, 8, 9) &
     version_parent = null;
