@@ -1,4 +1,6 @@
 FROM node:22-alpine AS node
+ENV YARN_VERSION 4.5.3
+RUN corepack enable && corepack prepare yarn@${YARN_VERSION}
 
 # region: Turborepo files
 FROM node AS builder
