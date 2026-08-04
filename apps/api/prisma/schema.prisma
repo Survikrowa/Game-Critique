@@ -33,6 +33,7 @@ model User {
   FriendsRequestsForUsersReceiver     FriendsRequestsForUsers[]            @relation(name: "FriendRequestReceiver")
   pushTokens                          PushToken[]
   notificationPreferences             NotificationPreferences?
+  userSettings                        UserSettings?
   gameReminders                       GameReminder[]
 
   @@map("users")
@@ -390,6 +391,14 @@ model NotificationPreferences {
   user             User    @relation(fields: [oauthId], references: [oauthId], onDelete: Cascade)
 
   @@map("notification_preferences")
+}
+
+model UserSettings {
+  oauthId     String @id @map("oauth_id")
+  platformIds String @default("") @map("platform_ids")
+  user        User   @relation(fields: [oauthId], references: [oauthId], onDelete: Cascade)
+
+  @@map("user_settings")
 }
 
 model does_it_play_scraping_jobs {
