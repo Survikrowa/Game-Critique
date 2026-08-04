@@ -3,7 +3,9 @@ import { useUpdateUserSettingsMutation } from "../settings_graphql/update_user_s
 
 export const useUserSettings = () => {
   const { data, loading, error } = useGetUserSettingsQuery();
-  const [updateMutation] = useUpdateUserSettingsMutation();
+  const [updateMutation] = useUpdateUserSettingsMutation({
+    refetchQueries: ["IncomingGamesQuery"],
+  });
 
   const platformIds = data?.getUserSettings?.platformIds ?? [];
 
