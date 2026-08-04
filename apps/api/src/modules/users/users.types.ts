@@ -15,6 +15,7 @@ export type GetUserReturn = {
     oauthId: string;
     activityType: GameStatus;
     id: number;
+    gamesStatusId: number | null;
     game: {
       cover: {
         smallUrl: string;

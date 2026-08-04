@@ -589,6 +589,7 @@ type UserActivityDTO {
   """
   formattedUpdatedAt: String!
   game: GameWithCoversDTO
+  gameStatusId: Float
   id: Float!
   oauthId: String!
   updatedAt: DateTime!

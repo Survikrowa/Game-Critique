@@ -37,6 +37,7 @@ export class UsersService {
     return userActivity.map((activity) => {
       return {
         ...activity,
+        gameStatusId: activity.gamesStatusId,
         formattedUpdatedAt: formatDateToRelativeText(activity.updatedAt),
       };
     });
