@@ -70,8 +70,7 @@ export const FriendGameStatusScreen = () => {
   const gameStatus = userGameStatusQuery.data.userGameStatus;
   const badge = STATUS_BADGE[gameStatus.status];
   const shouldDisplayCompletedIn =
-    gameStatus.status === GameStatus.Completed &&
-    gameStatus.completedIn &&
+    gameStatus.completedIn != null &&
     (gameStatus.completedIn.hours != null ||
       gameStatus.completedIn.minutes != null);
 
