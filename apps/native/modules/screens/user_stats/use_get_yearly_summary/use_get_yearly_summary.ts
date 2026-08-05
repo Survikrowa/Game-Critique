@@ -1,7 +1,7 @@
 import { useYearlySummaryQuery } from "./user_stats.generated";
 
 type UseYearlySummaryArgs = {
-  year: number;
+  year: number | null;
 };
 
 export const useYearlySummary = ({ year }: UseYearlySummaryArgs) => {

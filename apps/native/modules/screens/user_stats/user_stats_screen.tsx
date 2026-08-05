@@ -10,7 +10,7 @@ import { useYearlySummary } from "./use_get_yearly_summary/use_get_yearly_summar
 import { StatsBacklogProgress } from "./user_stats_sections/stats_backlog_progress";
 import { StatsMonthlyActivity } from "./user_stats_sections/stats_monthly_activity";
 import { StatsStreak } from "./user_stats_sections/stats_streak";
-import { StatsSummaryCards } from "./user_stats_sections/stats_summary_cards";
+import { StatsSummaryYear } from "./user_stats_sections/stats_summary_year";
 import { StatsYearSelector } from "./user_stats_sections/stats_year_selector";
 
 import { BarChart } from "@/ui/data-display/bar-chart/bar-chart";
@@ -37,12 +37,12 @@ const selectData = [
 ];
 
 export const UserStatsScreen = () => {
-  const [selectedYear, setSelectedYear] = useState(CURRENT_YEAR);
+  const [selectedYear, setSelectedYear] = useState<number | null>(CURRENT_YEAR);
   const [selectedChart, setSelectedChart] = useState("ratings");
 
-  const yearlySummary = useYearlySummary({ year: selectedYear });
-  const monthlyActivity = useMonthlyActivity({ year: selectedYear });
-  const backlogProgress = useBacklogProgress({ year: selectedYear });
+  const yearlySummary = useYearlySummary({ year: selectedYear ?? null });
+  const monthlyActivity = useMonthlyActivity({ year: selectedYear ?? null });
+  const backlogProgress = useBacklogProgress({ year: selectedYear ?? null });
   const streak = useStreak();
   const chartData = useGetUserStats({ type: selectedChart });
 
@@ -90,11 +90,7 @@ export const UserStatsScreen = () => {
 
         {isLoaded && summary && streakData && monthlyData && backlogData ? (
           <>
-            <StatsSummaryCards
-              totalGames={summary.yearlyGames}
-              totalHours={summary.yearlyHours}
-              averageScore={summary.yearlyAverageScore ?? null}
-            />
+            <StatsSummaryYear summary={summary} selectedYear={selectedYear} />
 
             <StatsStreak
               currentStreak={streakData.currentStreak}

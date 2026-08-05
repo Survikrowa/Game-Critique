@@ -4,7 +4,7 @@ import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 const defaultOptions = {} as const;
 export type BacklogProgressQueryVariables = Types.Exact<{
-  year: Types.Scalars['Int']['input'];
+  year?: Types.InputMaybe<Types.Scalars['Int']['input']>;
 }>;
 
 
@@ -12,7 +12,7 @@ export type BacklogProgressQuery = { __typename?: 'Query', backlogProgress: { __
 
 
 export const BacklogProgressDocument = gql`
-    query BacklogProgress($year: Int!) {
+    query BacklogProgress($year: Int) {
   backlogProgress(year: $year) {
     completed
     added
@@ -37,7 +37,7 @@ export const BacklogProgressDocument = gql`
  *   },
  * });
  */
-export function useBacklogProgressQuery(baseOptions: Apollo.QueryHookOptions<BacklogProgressQuery, BacklogProgressQueryVariables>) {
+export function useBacklogProgressQuery(baseOptions?: Apollo.QueryHookOptions<BacklogProgressQuery, BacklogProgressQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<BacklogProgressQuery, BacklogProgressQueryVariables>(BacklogProgressDocument, options);
       }

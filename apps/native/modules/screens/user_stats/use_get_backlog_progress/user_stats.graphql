@@ -1,4 +1,4 @@
-query BacklogProgress($year: Int!) {
+query BacklogProgress($year: Int) {
   backlogProgress(year: $year) {
     completed
     added

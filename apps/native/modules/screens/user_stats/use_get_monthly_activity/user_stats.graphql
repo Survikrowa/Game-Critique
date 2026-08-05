@@ -1,4 +1,4 @@
-query MonthlyActivity($year: Int!) {
+query MonthlyActivity($year: Int) {
   monthlyActivity(year: $year) {
     month
     gamesCompleted

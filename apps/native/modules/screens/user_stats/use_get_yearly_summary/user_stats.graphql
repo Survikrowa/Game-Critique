@@ -1,4 +1,4 @@
-query YearlySummary($year: Int!) {
+query YearlySummary($year: Int) {
   yearlySummary(year: $year) {
     totalGames
     totalHours

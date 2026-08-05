@@ -1,7 +1,7 @@
 import { useMonthlyActivityQuery } from "./user_stats.generated";
 
 type UseMonthlyActivityArgs = {
-  year: number;
+  year: number | null;
 };
 
 export const useMonthlyActivity = ({ year }: UseMonthlyActivityArgs) => {

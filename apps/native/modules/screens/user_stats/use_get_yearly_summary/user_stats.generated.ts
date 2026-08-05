@@ -4,7 +4,7 @@ import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 const defaultOptions = {} as const;
 export type YearlySummaryQueryVariables = Types.Exact<{
-  year: Types.Scalars['Int']['input'];
+  year?: Types.InputMaybe<Types.Scalars['Int']['input']>;
 }>;
 
 
@@ -12,7 +12,7 @@ export type YearlySummaryQuery = { __typename?: 'Query', yearlySummary: { __type
 
 
 export const YearlySummaryDocument = gql`
-    query YearlySummary($year: Int!) {
+    query YearlySummary($year: Int) {
   yearlySummary(year: $year) {
     totalGames
     totalHours
@@ -42,7 +42,7 @@ export const YearlySummaryDocument = gql`
  *   },
  * });
  */
-export function useYearlySummaryQuery(baseOptions: Apollo.QueryHookOptions<YearlySummaryQuery, YearlySummaryQueryVariables>) {
+export function useYearlySummaryQuery(baseOptions?: Apollo.QueryHookOptions<YearlySummaryQuery, YearlySummaryQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<YearlySummaryQuery, YearlySummaryQueryVariables>(YearlySummaryDocument, options);
       }

@@ -4,7 +4,7 @@ import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 const defaultOptions = {} as const;
 export type MonthlyActivityQueryVariables = Types.Exact<{
-  year: Types.Scalars['Int']['input'];
+  year?: Types.InputMaybe<Types.Scalars['Int']['input']>;
 }>;
 
 
@@ -12,7 +12,7 @@ export type MonthlyActivityQuery = { __typename?: 'Query', monthlyActivity: Arra
 
 
 export const MonthlyActivityDocument = gql`
-    query MonthlyActivity($year: Int!) {
+    query MonthlyActivity($year: Int) {
   monthlyActivity(year: $year) {
     month
     gamesCompleted
@@ -37,7 +37,7 @@ export const MonthlyActivityDocument = gql`
  *   },
  * });
  */
-export function useMonthlyActivityQuery(baseOptions: Apollo.QueryHookOptions<MonthlyActivityQuery, MonthlyActivityQueryVariables>) {
+export function useMonthlyActivityQuery(baseOptions?: Apollo.QueryHookOptions<MonthlyActivityQuery, MonthlyActivityQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<MonthlyActivityQuery, MonthlyActivityQueryVariables>(MonthlyActivityDocument, options);
       }
