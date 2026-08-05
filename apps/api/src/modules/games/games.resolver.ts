@@ -49,13 +49,14 @@ export class GamesResolver {
     return this.gamesService.updateGameData(hltbId);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Query(() => [ExternalGameDTO], { name: 'upcomingGames' })
   async getUpcomingGames(
     @Args('limit') limit: number,
-    @User() user?: UserAuthDTO,
+    @User() user: UserAuthDTO,
   ): Promise<ExternalGameDTO[]> {
     return this.queryBus.execute<GetUpcomingGamesQuery>(
-      new GetUpcomingGamesQuery(limit, user?.sub),
+      new GetUpcomingGamesQuery(limit, user.sub),
     );
   }
 
