@@ -7,7 +7,7 @@
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "owner": "game-critique",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "dark",
     "newArchEnabled": true,
     "experiments": {
       "tsconfigPaths": true,
@@ -78,7 +78,8 @@
       ],
       "expo-font",
       "expo-secure-store",
-      "expo-asset"
+      "expo-asset",
+      "expo-system-ui"
     ],
     "extra": {
       "router": {

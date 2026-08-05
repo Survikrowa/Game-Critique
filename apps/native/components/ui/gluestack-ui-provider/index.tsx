@@ -35,7 +35,7 @@ export function GluestackUIProvider({
     <View
       style={[
         config[resolvedScheme],
-        { flex: 1, height: "100%", width: "100%" },
+        { flex: 1, height: "100%", width: "100%", backgroundColor: "#0A0F1E" },
         props.style,
       ]}
     >
