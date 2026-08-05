@@ -3,7 +3,7 @@ import { YearlySummaryDTO } from '../../user_stats.dto';
 
 export class GetYearlySummaryQuery extends Query<YearlySummaryDTO> {
   constructor(
-    public readonly year: number,
+    public readonly year: number | null,
     public readonly oauthId: string,
   ) {
     super();

@@ -15,7 +15,13 @@ export class UserStatsService {
     return this.queryBus.execute(new GetAllUserStatsByTypeQuery(type, oauthId));
   }
 
-  async getYearlySummary({ year, oauthId }: { year: number; oauthId: string }) {
+  async getYearlySummary({
+    year,
+    oauthId,
+  }: {
+    year: number | null;
+    oauthId: string;
+  }) {
     return this.queryBus.execute(new GetYearlySummaryQuery(year, oauthId));
   }
 
@@ -23,7 +29,7 @@ export class UserStatsService {
     year,
     oauthId,
   }: {
-    year: number;
+    year: number | null;
     oauthId: string;
   }) {
     return this.queryBus.execute(new GetMonthlyActivityQuery(year, oauthId));
@@ -33,7 +39,7 @@ export class UserStatsService {
     year,
     oauthId,
   }: {
-    year: number;
+    year: number | null;
     oauthId: string;
   }) {
     return this.queryBus.execute(new GetBacklogProgressQuery(year, oauthId));

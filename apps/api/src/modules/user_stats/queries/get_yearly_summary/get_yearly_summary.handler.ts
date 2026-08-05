@@ -5,6 +5,8 @@ import { YearlySummaryDTO } from '../../user_stats.dto';
 
 const SECONDS_IN_MINUTE = 60;
 const MINUTES_IN_HOUR = 60;
+const ALL_TIME_START = new Date(0);
+const ALL_TIME_END = new Date('9999-01-01T00:00:00Z');
 
 @QueryHandler(GetYearlySummaryQuery)
 export class GetYearlySummaryHandler
@@ -14,8 +16,12 @@ export class GetYearlySummaryHandler
 
   async execute(query: GetYearlySummaryQuery): Promise<YearlySummaryDTO> {
     const { year, oauthId } = query;
-    const yearStart = new Date(`${year}-01-01T00:00:00Z`);
-    const yearEnd = new Date(`${year + 1}-01-01T00:00:00Z`);
+    const yearStart = year
+      ? new Date(`${year}-01-01T00:00:00Z`)
+      : ALL_TIME_START;
+    const yearEnd = year
+      ? new Date(`${year + 1}-01-01T00:00:00Z`)
+      : ALL_TIME_END;
 
     const [allStatuses, completedThisYear, backlogAddedThisYear] =
       await Promise.all([

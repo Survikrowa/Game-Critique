@@ -11,8 +11,10 @@ export class GetMonthlyActivityHandler
 
   async execute(query: GetMonthlyActivityQuery): Promise<MonthlyActivityDTO[]> {
     const { year, oauthId } = query;
-    const yearStart = new Date(`${year}-01-01T00:00:00Z`);
-    const yearEnd = new Date(`${year + 1}-01-01T00:00:00Z`);
+    const yearStart = year ? new Date(`${year}-01-01T00:00:00Z`) : new Date(0);
+    const yearEnd = year
+      ? new Date(`${year + 1}-01-01T00:00:00Z`)
+      : new Date('9999-01-01T00:00:00Z');
 
     const completedStatuses = await this.prisma.gamesStatus.findMany({
       where: {

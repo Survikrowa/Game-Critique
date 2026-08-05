@@ -37,7 +37,10 @@ export class UserStatsResolver {
     @User() user: UserAuthDTO,
     @Args() { year }: GetYearlySummaryArgs,
   ): Promise<YearlySummaryDTO> {
-    return this.userStatsService.getYearlySummary({ year, oauthId: user.sub });
+    return this.userStatsService.getYearlySummary({
+      year: year ?? null,
+      oauthId: user.sub,
+    });
   }
 
   @UseGuards(JwtAuthGuard)
@@ -47,7 +50,7 @@ export class UserStatsResolver {
     @Args() { year }: GetMonthlyActivityArgs,
   ): Promise<MonthlyActivityDTO[]> {
     return this.userStatsService.getMonthlyActivity({
-      year,
+      year: year ?? null,
       oauthId: user.sub,
     });
   }
@@ -59,7 +62,7 @@ export class UserStatsResolver {
     @Args() { year }: GetBacklogProgressArgs,
   ): Promise<BacklogProgressDTO> {
     return this.userStatsService.getBacklogProgress({
-      year,
+      year: year ?? null,
       oauthId: user.sub,
     });
   }

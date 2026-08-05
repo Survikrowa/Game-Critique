@@ -92,20 +92,20 @@ export class HLTBComparisonDTO {
 
 @ArgsType()
 export class GetYearlySummaryArgs {
-  @Field(() => Int)
-  year: number;
+  @Field(() => Int, { nullable: true })
+  year?: number | null;
 }
 
 @ArgsType()
 export class GetMonthlyActivityArgs {
-  @Field(() => Int)
-  year: number;
+  @Field(() => Int, { nullable: true })
+  year?: number | null;
 }
 
 @ArgsType()
 export class GetBacklogProgressArgs {
-  @Field(() => Int)
-  year: number;
+  @Field(() => Int, { nullable: true })
+  year?: number | null;
 }
 
 @ArgsType()

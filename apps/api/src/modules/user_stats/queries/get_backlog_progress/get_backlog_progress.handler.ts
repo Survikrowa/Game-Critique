@@ -11,8 +11,10 @@ export class GetBacklogProgressHandler
 
   async execute(query: GetBacklogProgressQuery): Promise<BacklogProgressDTO> {
     const { year, oauthId } = query;
-    const yearStart = new Date(`${year}-01-01T00:00:00Z`);
-    const yearEnd = new Date(`${year + 1}-01-01T00:00:00Z`);
+    const yearStart = year ? new Date(`${year}-01-01T00:00:00Z`) : new Date(0);
+    const yearEnd = year
+      ? new Date(`${year + 1}-01-01T00:00:00Z`)
+      : new Date('9999-01-01T00:00:00Z');
 
     const [completed, added] = await Promise.all([
       this.prisma.gamesStatus.count({
