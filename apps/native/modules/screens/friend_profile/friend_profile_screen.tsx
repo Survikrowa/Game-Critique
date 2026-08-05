@@ -45,8 +45,8 @@ export const FriendProfileScreen = () => {
           name={user.profile?.name}
           avatarUrl={user.profile?.avatarUrl}
           gamesCount={
-            userFriendGamesStatus.data?.userFriendGamesStatus.userGamesStatus
-              .length
+            userFriendGamesStatus.data?.userFriendGamesStatus.pagination
+              .total ?? 0
           }
           achievementsCount={
             user.gamesStatus?.filter((gs) => gs.achievementsCompleted).length

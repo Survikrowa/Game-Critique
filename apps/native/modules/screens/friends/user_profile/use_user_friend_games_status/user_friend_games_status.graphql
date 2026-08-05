@@ -24,6 +24,7 @@ query UserFriendGamesStatusQuery($oauthId: String!, $take: Float, $skip: Float, 
             hasPrevious
             take
             skip
+            total
         }
     }
 }

@@ -14,7 +14,7 @@ export type UserFriendGamesStatusQueryQueryVariables = Types.Exact<{
 }>;
 
 
-export type UserFriendGamesStatusQueryQuery = { __typename?: 'Query', userFriendGamesStatus: { __typename?: 'UserFriendGamesStatusResponseWithPaginationDTO', userGamesStatus: Array<{ __typename?: 'UserGamesStatusResponseDTO', id: number, achievementsCompleted: boolean, status: Types.GameStatus, score?: string | null, game: { __typename?: 'GameWithAllDataDTO', id: number, hltbId: number, name: string, cover?: { __typename?: 'CoverDTO', id: number, bigUrl: string } | null }, platform: { __typename?: 'PlatformDTO', id: number, name: string } }>, pagination: { __typename?: 'PaginationDTO', hasMore: boolean, hasPrevious: boolean, take: number, skip: number } } };
+export type UserFriendGamesStatusQueryQuery = { __typename?: 'Query', userFriendGamesStatus: { __typename?: 'UserFriendGamesStatusResponseWithPaginationDTO', userGamesStatus: Array<{ __typename?: 'UserGamesStatusResponseDTO', id: number, achievementsCompleted: boolean, status: Types.GameStatus, score?: string | null, game: { __typename?: 'GameWithAllDataDTO', id: number, hltbId: number, name: string, cover?: { __typename?: 'CoverDTO', id: number, bigUrl: string } | null }, platform: { __typename?: 'PlatformDTO', id: number, name: string } }>, pagination: { __typename?: 'PaginationDTO', hasMore: boolean, hasPrevious: boolean, take: number, skip: number, total: number } } };
 
 
 export const UserFriendGamesStatusQueryDocument = gql`
@@ -52,6 +52,7 @@ export const UserFriendGamesStatusQueryDocument = gql`
       hasPrevious
       take
       skip
+      total
     }
   }
 }
