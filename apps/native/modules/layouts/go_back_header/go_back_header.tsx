@@ -19,8 +19,12 @@ export const GoBackHeader = ({ goBackUrl, text }: GoBackHeaderProps) => {
   const router = useRouter();
   return (
     <>
-      <View style={{ paddingTop: insets.top }} pointerEvents="none" />
-      <HStack className="bg-background-50 border-b border-outline-0 px-4 py-3 justify-between items-center">
+      <View
+        className="bg-background-50"
+        style={{ paddingTop: insets.top }}
+        pointerEvents="none"
+      />
+      <HStack className="items-center justify-between border-b border-outline-0 bg-background-50 px-4 py-3">
         <Button variant="link" onPress={() => router.back()}>
           <ButtonIcon as={ArrowLeft} className="h-6 w-6" />
         </Button>

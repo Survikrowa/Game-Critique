@@ -8,7 +8,11 @@ export const Header = () => {
 
   return (
     <>
-      <View style={{ paddingTop: insets.top }} pointerEvents="none" />
+      <View
+        className="bg-background-50"
+        style={{ paddingTop: insets.top }}
+        pointerEvents="none"
+      />
       <HeaderContent />
     </>
   );

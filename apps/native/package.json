@@ -56,7 +56,6 @@
     "expo-secure-store": "~15.0.8",
     "expo-splash-screen": "~31.0.13",
     "expo-status-bar": "~3.0.9",
-    "expo-system-ui": "~6.0.9",
     "graphql": "^16.8.1",
     "lucide-react-native": "^0.563.0",
     "moti": "^0.30.0",

@@ -7,7 +7,7 @@
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "owner": "game-critique",
-    "userInterfaceStyle": "dark",
+    "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "experiments": {
       "tsconfigPaths": true,
@@ -36,8 +36,7 @@
     },
     "androidStatusBar": {
       "backgroundColor": "#111827",
-      "barStyle": "light-content",
-      "translucent": false
+      "barStyle": "light-content"
     },
     "androidNavigationBar": {
       "backgroundColor": "#0A0F1E",
@@ -78,8 +77,7 @@
       ],
       "expo-font",
       "expo-secure-store",
-      "expo-asset",
-      "expo-system-ui"
+      "expo-asset"
     ],
     "extra": {
       "router": {
