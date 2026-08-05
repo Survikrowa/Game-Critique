@@ -19,7 +19,7 @@ export const GamesStatusFormPlayTimeField = ({
       <Text size="large" weight="bold" color="primary">
         Czas gry
       </Text>
-      <HStack className="gap-3">
+      <HStack className="mt-4 gap-3">
         <VStack className="flex-1 gap-1">
           <Controller
             render={({ field: { onChange, value } }) => (

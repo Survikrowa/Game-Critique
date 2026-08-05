@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { haptic } from "@/modules/haptics/haptic";
@@ -146,58 +146,63 @@ const PreferencesContent = ({
 
   return (
     <SafeAreaView edges={["top"]} className="flex-1 bg-background-0">
-      <VStack className="gap-6 px-4 py-4">
-        <VStack className="gap-2">
-          <Text size="large" weight="bold" color="primary">
-            Powiadomienia
-          </Text>
-          {TOGGLE_CONFIGS.map(({ key, label, description }) => (
-            <VStack key={key} className="gap-1">
-              <HStack className="items-center justify-between">
-                <Text weight="normal" size="small" color="primary">
-                  {label}
-                </Text>
-                <ToggleSwitch
-                  value={preferences?.[key] ?? true}
-                  onToggle={(val) => handleToggle(key, val)}
-                />
-              </HStack>
-              <Text weight="normal" size="small" color="secondary">
-                {description}
-              </Text>
-              <View className="mt-2 h-px bg-background-100" />
-            </VStack>
-          ))}
-        </VStack>
-
-        <VStack className="gap-2">
-          <Text size="large" weight="bold" color="primary">
-            Platformy (karuzela)
-          </Text>
-          <Text weight="normal" size="small" color="secondary">
-            Wybierz platformy, na których chcesz widzieć nadchodzące gry.
-          </Text>
-          <View className="flex-row flex-wrap gap-2">
-            {PLATFORM_OPTIONS.map(({ id, label }) => {
-              const selected = (selectedPlatforms ?? []).includes(id);
-
-              return (
-                <UIPressable
-                  key={id}
-                  onPress={() => handlePlatformToggle(id)}
-                  className={`min-h-[44px] rounded-full px-4 ${
-                    selected ? "bg-primary-500" : "bg-background-100"
-                  }`}
-                >
-                  <Text color="primary" size="medium" weight="normal">
+      <ScrollView
+        contentContainerStyle={{ paddingBottom: 24 }}
+        showsVerticalScrollIndicator={false}
+      >
+        <VStack className="gap-6 px-4 py-4">
+          <VStack className="gap-2">
+            <Text size="large" weight="bold" color="primary">
+              Powiadomienia
+            </Text>
+            {TOGGLE_CONFIGS.map(({ key, label, description }) => (
+              <VStack key={key} className="gap-1">
+                <HStack className="items-center justify-between">
+                  <Text weight="normal" size="small" color="primary">
                     {label}
                   </Text>
-                </UIPressable>
-              );
-            })}
-          </View>
+                  <ToggleSwitch
+                    value={preferences?.[key] ?? true}
+                    onToggle={(val) => handleToggle(key, val)}
+                  />
+                </HStack>
+                <Text weight="normal" size="small" color="secondary">
+                  {description}
+                </Text>
+                <View className="mt-2 h-px bg-background-100" />
+              </VStack>
+            ))}
+          </VStack>
+
+          <VStack className="gap-2">
+            <Text size="large" weight="bold" color="primary">
+              Platformy (karuzela)
+            </Text>
+            <Text weight="normal" size="small" color="secondary">
+              Wybierz platformy, na których chcesz widzieć nadchodzące gry.
+            </Text>
+            <View className="flex-row flex-wrap gap-2">
+              {PLATFORM_OPTIONS.map(({ id, label }) => {
+                const selected = (selectedPlatforms ?? []).includes(id);
+
+                return (
+                  <UIPressable
+                    key={id}
+                    onPress={() => handlePlatformToggle(id)}
+                    className={`min-h-[44px] rounded-full p-4 ${
+                      selected ? "bg-primary-500" : "bg-background-100"
+                    }`}
+                  >
+                    <Text color="primary" size="medium" weight="normal">
+                      {label}
+                    </Text>
+                  </UIPressable>
+                );
+              })}
+            </View>
+          </VStack>
         </VStack>
-      </VStack>
+      </ScrollView>
     </SafeAreaView>
   );
 };
