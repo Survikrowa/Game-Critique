@@ -2,7 +2,7 @@ import { useFriendYearlySummaryQuery } from "./friend_stats.generated";
 
 type UseFriendYearlySummaryArgs = {
   oauthId: string;
-  year: number;
+  year: number | null;
 };
 
 export const useFriendYearlySummary = ({

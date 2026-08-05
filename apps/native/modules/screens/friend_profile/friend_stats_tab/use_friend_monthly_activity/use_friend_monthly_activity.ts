@@ -2,7 +2,7 @@ import { useFriendMonthlyActivityQuery } from "./friend_stats.generated";
 
 type UseFriendMonthlyActivityArgs = {
   oauthId: string;
-  year: number;
+  year: number | null;
 };
 
 export const useFriendMonthlyActivity = ({

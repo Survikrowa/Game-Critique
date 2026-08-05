@@ -1,4 +1,4 @@
-query FriendYearlySummary($oauthId: String!, $year: Int!) {
+query FriendYearlySummary($oauthId: String!, $year: Int) {
   friendYearlySummary(oauthId: $oauthId, year: $year) {
     totalGames
     totalHours

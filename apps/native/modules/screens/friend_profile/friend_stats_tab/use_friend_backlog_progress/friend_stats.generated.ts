@@ -5,7 +5,7 @@ import * as Apollo from '@apollo/client';
 const defaultOptions = {} as const;
 export type FriendBacklogProgressQueryVariables = Types.Exact<{
   oauthId: Types.Scalars['String']['input'];
-  year: Types.Scalars['Int']['input'];
+  year?: Types.InputMaybe<Types.Scalars['Int']['input']>;
 }>;
 
 
@@ -13,7 +13,7 @@ export type FriendBacklogProgressQuery = { __typename?: 'Query', friendBacklogPr
 
 
 export const FriendBacklogProgressDocument = gql`
-    query FriendBacklogProgress($oauthId: String!, $year: Int!) {
+    query FriendBacklogProgress($oauthId: String!, $year: Int) {
   friendBacklogProgress(oauthId: $oauthId, year: $year) {
     completed
     added

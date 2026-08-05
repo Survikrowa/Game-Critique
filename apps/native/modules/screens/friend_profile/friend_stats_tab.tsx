@@ -20,19 +20,19 @@ const YEARS = [CURRENT_YEAR - 2, CURRENT_YEAR - 1, CURRENT_YEAR];
 
 export const FriendStatsTab = () => {
   const { oauth_id } = useLocalSearchParams<{ oauth_id: string }>();
-  const [selectedYear, setSelectedYear] = useState(CURRENT_YEAR);
+  const [selectedYear, setSelectedYear] = useState<number | null>(CURRENT_YEAR);
 
   const yearlySummary = useFriendYearlySummary({
     oauthId: oauth_id,
-    year: selectedYear,
+    year: selectedYear ?? null,
   });
   const monthlyActivity = useFriendMonthlyActivity({
     oauthId: oauth_id,
-    year: selectedYear,
+    year: selectedYear ?? null,
   });
   const backlogProgress = useFriendBacklogProgress({
     oauthId: oauth_id,
-    year: selectedYear,
+    year: selectedYear ?? null,
   });
   const streak = useFriendStreak({ oauthId: oauth_id });
 
@@ -86,6 +86,7 @@ export const FriendStatsTab = () => {
   const currentStreak = streak.data!.friendStreak;
   const monthly = monthlyActivity.data!.friendMonthlyActivity;
   const backlog = backlogProgress.data!.friendBacklogProgress;
+  const isAllTime = selectedYear === null;
 
   return (
     <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
@@ -97,9 +98,17 @@ export const FriendStatsTab = () => {
         />
 
         <StatsSummaryCards
-          totalGames={summary.totalGames}
-          totalHours={summary.totalHours}
-          averageScore={summary.averageScore ?? null}
+          totalGames={
+            isAllTime ? summary.totalGames ?? 0 : summary.yearlyGames ?? 0
+          }
+          totalHours={
+            isAllTime ? summary.totalHours ?? 0 : summary.yearlyHours ?? 0
+          }
+          averageScore={
+            isAllTime
+              ? summary.averageScore ?? null
+              : summary.yearlyAverageScore ?? null
+          }
         />
 
         <StatsStreak

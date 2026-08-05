@@ -1,4 +1,4 @@
-query FriendBacklogProgress($oauthId: String!, $year: Int!) {
+query FriendBacklogProgress($oauthId: String!, $year: Int) {
   friendBacklogProgress(oauthId: $oauthId, year: $year) {
     completed
     added

@@ -2,7 +2,7 @@ import { useFriendBacklogProgressQuery } from "./friend_stats.generated";
 
 type UseFriendBacklogProgressArgs = {
   oauthId: string;
-  year: number;
+  year: number | null;
 };
 
 export const useFriendBacklogProgress = ({

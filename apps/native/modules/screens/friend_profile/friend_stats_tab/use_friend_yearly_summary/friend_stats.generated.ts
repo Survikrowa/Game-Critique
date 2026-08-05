@@ -5,7 +5,7 @@ import * as Apollo from '@apollo/client';
 const defaultOptions = {} as const;
 export type FriendYearlySummaryQueryVariables = Types.Exact<{
   oauthId: Types.Scalars['String']['input'];
-  year: Types.Scalars['Int']['input'];
+  year?: Types.InputMaybe<Types.Scalars['Int']['input']>;
 }>;
 
 
@@ -13,7 +13,7 @@ export type FriendYearlySummaryQuery = { __typename?: 'Query', friendYearlySumma
 
 
 export const FriendYearlySummaryDocument = gql`
-    query FriendYearlySummary($oauthId: String!, $year: Int!) {
+    query FriendYearlySummary($oauthId: String!, $year: Int) {
   friendYearlySummary(oauthId: $oauthId, year: $year) {
     totalGames
     totalHours

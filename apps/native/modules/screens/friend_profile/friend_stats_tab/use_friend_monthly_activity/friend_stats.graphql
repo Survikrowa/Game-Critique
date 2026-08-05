@@ -1,4 +1,4 @@
-query FriendMonthlyActivity($oauthId: String!, $year: Int!) {
+query FriendMonthlyActivity($oauthId: String!, $year: Int) {
   friendMonthlyActivity(oauthId: $oauthId, year: $year) {
     month
     gamesCompleted
