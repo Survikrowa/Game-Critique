@@ -426,10 +426,10 @@ type Query {
   backlogProgress(year: Int): BacklogProgressDTO!
   checkReminderStatus(igdbId: Int!): Boolean!
   collection(id: Float!): CollectionWithGamesDTO!
-  friendBacklogProgress(oauthId: String!, year: Int!): FriendBacklogProgressDTO!
-  friendMonthlyActivity(oauthId: String!, year: Int!): [FriendMonthlyActivityDTO!]!
+  friendBacklogProgress(oauthId: String!, year: Int): FriendBacklogProgressDTO!
+  friendMonthlyActivity(oauthId: String!, year: Int): [FriendMonthlyActivityDTO!]!
   friendStreak(oauthId: String!): FriendStreakDTO!
-  friendYearlySummary(oauthId: String!, year: Int!): FriendYearlySummaryDTO!
+  friendYearlySummary(oauthId: String!, year: Int): FriendYearlySummaryDTO!
   friendsActivity: [FriendsActivityDTO!]!
   friendsList: FriendsList!
   friendsRequests: [GetFriendRequestsResponseDTO!]!
