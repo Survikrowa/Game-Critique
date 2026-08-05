@@ -8,7 +8,6 @@ export const GamesStatusAddFormSchema = z
   .object({
     hours: z.string().optional(),
     minutes: z.string().optional(),
-    seconds: z.string().optional(),
     platform: z.string().min(1, "Platforma jest wymagana"),
     score: z.string().optional(),
     status: z
@@ -18,18 +17,11 @@ export const GamesStatusAddFormSchema = z
     platinium: z.boolean(),
   })
   .superRefine((data, ctx) => {
-    if (data.minutes && Number(data.minutes) > 60) {
+    if (data.minutes && Number(data.minutes) > 59) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         path: ["minutes"],
         message: "W godzinie występuje tylko 60 minut.",
-      });
-    }
-    if (data.seconds && Number(data.seconds) > 100) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        path: ["seconds"],
-        message: "W minucie występuje tylko 100 sekund.",
       });
     }
     if (data.hours && !NUMBERS_ONLY_REGEX.test(data.hours)) {
@@ -43,13 +35,6 @@ export const GamesStatusAddFormSchema = z
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         path: ["minutes"],
-        message: "Akceptuję tylko liczby",
-      });
-    }
-    if (data.seconds && !NUMBERS_ONLY_REGEX.test(data.seconds)) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        path: ["seconds"],
         message: "Akceptuję tylko liczby",
       });
     }

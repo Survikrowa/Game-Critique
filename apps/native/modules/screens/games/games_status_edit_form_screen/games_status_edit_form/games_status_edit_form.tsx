@@ -28,7 +28,7 @@ export const GamesStatusEditForm = ({
           keyboardShouldPersistTaps="handled"
         >
           <Card>
-            <HStack className="items-center gap-2 justify-center">
+            <HStack className="items-center justify-center gap-2">
               <Text size="medium" weight="semiBold" color="primary">
                 Aktualnie edytujesz:
               </Text>
@@ -41,7 +41,6 @@ export const GamesStatusEditForm = ({
               initialValues={{
                 hours: String(gameStatus.completedIn?.hours),
                 minutes: String(gameStatus.completedIn?.minutes),
-                seconds: String(gameStatus.completedIn?.seconds),
                 platform: String(gameStatus.platform.id),
                 score: gameStatus.score,
                 review: gameStatus.review,

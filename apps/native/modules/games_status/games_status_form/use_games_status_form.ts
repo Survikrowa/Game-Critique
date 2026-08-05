@@ -16,7 +16,6 @@ import { GameInfoQuery } from "../../screens/game/use_get_game_info/game_info.ge
 export const DEFAULT_VALUES = {
   hours: "",
   minutes: "",
-  seconds: "",
   platform: "",
   score: "",
   status: undefined,
@@ -27,7 +26,6 @@ export const DEFAULT_VALUES = {
 export type InitialValues = {
   hours?: string;
   minutes?: string;
-  seconds?: string;
   platform: string;
   score?: string | null;
   status: GameStatus;
@@ -40,7 +38,6 @@ const getInitialValues = (initialValues?: InitialValues) => {
   return {
     hours: initialValues?.hours || DEFAULT_VALUES.hours,
     minutes: initialValues?.minutes || DEFAULT_VALUES.minutes,
-    seconds: initialValues?.seconds || DEFAULT_VALUES.seconds,
     platform: initialValues.platform,
     score: initialValues.score || DEFAULT_VALUES.score,
     status: initialValues.status,
@@ -102,7 +99,7 @@ export const useGamesStatusForm = ({
       completedIn: {
         hours: data.hours,
         minutes: data.minutes,
-        seconds: data.seconds,
+        seconds: "0",
       },
       gameStatus: data.status,
       gameId: game.id,
