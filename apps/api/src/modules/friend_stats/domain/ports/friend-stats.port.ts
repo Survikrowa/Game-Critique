@@ -9,16 +9,16 @@ export const FRIEND_STATS_PORT = Symbol('FRIEND_STATS_PORT');
 
 export interface FriendStatsPort {
   getYearlySummary(
-    year: number,
+    year: number | null,
     oauthId: string,
   ): Promise<FriendYearlySummaryDTO>;
   getMonthlyActivity(
-    year: number,
+    year: number | null,
     oauthId: string,
   ): Promise<FriendMonthlyActivityDTO[]>;
   getStreak(oauthId: string): Promise<FriendStreakDTO>;
   getBacklogProgress(
-    year: number,
+    year: number | null,
     oauthId: string,
   ): Promise<FriendBacklogProgressDTO>;
 }

@@ -13,14 +13,14 @@ export class UserStatsServiceAdapter implements FriendStatsPort {
   constructor(private readonly userStatsService: UserStatsService) {}
 
   async getYearlySummary(
-    year: number,
+    year: number | null,
     oauthId: string,
   ): Promise<FriendYearlySummaryDTO> {
     return this.userStatsService.getYearlySummary({ year, oauthId });
   }
 
   async getMonthlyActivity(
-    year: number,
+    year: number | null,
     oauthId: string,
   ): Promise<FriendMonthlyActivityDTO[]> {
     return this.userStatsService.getMonthlyActivity({ year, oauthId });
@@ -31,7 +31,7 @@ export class UserStatsServiceAdapter implements FriendStatsPort {
   }
 
   async getBacklogProgress(
-    year: number,
+    year: number | null,
     oauthId: string,
   ): Promise<FriendBacklogProgressDTO> {
     return this.userStatsService.getBacklogProgress({ year, oauthId });

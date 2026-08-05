@@ -65,8 +65,8 @@ export class GetFriendYearlySummaryArgs {
   @Field(() => String)
   oauthId: string;
 
-  @Field(() => Int)
-  year: number;
+  @Field(() => Int, { nullable: true })
+  year?: number | null;
 }
 
 @ArgsType()
@@ -74,8 +74,8 @@ export class GetFriendMonthlyActivityArgs {
   @Field(() => String)
   oauthId: string;
 
-  @Field(() => Int)
-  year: number;
+  @Field(() => Int, { nullable: true })
+  year?: number | null;
 }
 
 @ArgsType()
@@ -89,6 +89,6 @@ export class GetFriendBacklogProgressArgs {
   @Field(() => String)
   oauthId: string;
 
-  @Field(() => Int)
-  year: number;
+  @Field(() => Int, { nullable: true })
+  year?: number | null;
 }

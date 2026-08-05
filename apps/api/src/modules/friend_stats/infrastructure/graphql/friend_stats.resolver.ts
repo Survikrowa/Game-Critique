@@ -44,7 +44,7 @@ export class FriendStatsResolver {
     if (!areFriends) {
       throw new ForbiddenException('Nie jesteście znajomymi');
     }
-    return this.friendStatsPort.getYearlySummary(year, oauthId);
+    return this.friendStatsPort.getYearlySummary(year ?? null, oauthId);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -60,7 +60,7 @@ export class FriendStatsResolver {
     if (!areFriends) {
       throw new ForbiddenException('Nie jesteście znajomymi');
     }
-    return this.friendStatsPort.getMonthlyActivity(year, oauthId);
+    return this.friendStatsPort.getMonthlyActivity(year ?? null, oauthId);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -92,6 +92,6 @@ export class FriendStatsResolver {
     if (!areFriends) {
       throw new ForbiddenException('Nie jesteście znajomymi');
     }
-    return this.friendStatsPort.getBacklogProgress(year, oauthId);
+    return this.friendStatsPort.getBacklogProgress(year ?? null, oauthId);
   }
 }
