@@ -34,6 +34,15 @@
       "permissions": ["INTERNET"],
       "googleServicesFile": "./google-services.json"
     },
+    "androidStatusBar": {
+      "backgroundColor": "#111827",
+      "barStyle": "light-content",
+      "translucent": false
+    },
+    "androidNavigationBar": {
+      "backgroundColor": "#0A0F1E",
+      "barStyle": "light-content"
+    },
     "plugins": [
       "expo-notifications",
       [
