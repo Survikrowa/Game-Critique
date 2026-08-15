@@ -35,6 +35,10 @@ model User {
   notificationPreferences             NotificationPreferences?
   userSettings                        UserSettings?
   gameReminders                       GameReminder[]
+  challengeGroups                     ChallengeGroup[]                     @relation(name: "ChallengeGroupOwner")
+  challengeGroupMemberships           ChallengeGroupMember[]
+  challengesAsChallenger              Challenge[]                          @relation(name: "ChallengeChallenger")
+  challengesAsRecipient               Challenge[]                          @relation(name: "ChallengeRecipient")
 
   @@map("users")
 }
@@ -139,6 +143,7 @@ model Game {
   userActivity    UserActivity[]
   game_metadata   game_metadata?
   gameRating      GameRating?
+  challenges      Challenge[]
 
   @@map("games")
 }
@@ -455,4 +460,75 @@ enum DoesItPlayJobStatus {
   IN_PROGRESS
   COMPLETED
   FAILED
+}
+
+model ChallengeGroup {
+  id          Int                     @id @default(autoincrement())
+  name        String
+  ownerId     String                  @map("owner_id")
+  owner       User                    @relation(name: "ChallengeGroupOwner", fields: [ownerId], references: [oauthId], onDelete: Cascade)
+  members     ChallengeGroupMember[]
+  challenges  Challenge[]
+  createdAt   DateTime                @default(now()) @map("created_at")
+  updatedAt   DateTime                @updatedAt @map("updated_at")
+
+  @@map("challenge_group")
+}
+
+model ChallengeGroupMember {
+  groupId    Int                         @map("group_id")
+  oauthId    String                      @map("oauth_id")
+  role       ChallengeGroupMemberRole    @default(MEMBER)
+  status     ChallengeGroupMemberStatus  @default(INVITED)
+  group      ChallengeGroup              @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  user       User                        @relation(fields: [oauthId], references: [oauthId], onDelete: Cascade)
+  createdAt  DateTime                    @default(now()) @map("created_at")
+  updatedAt  DateTime                    @updatedAt @map("updated_at")
+
+  @@id([groupId, oauthId])
+  @@map("challenge_group_member")
+}
+
+model Challenge {
+  id            Int              @id @default(autoincrement())
+  groupId       Int              @map("group_id")
+  challengerId  String           @map("challenger_id")
+  recipientId   String           @map("recipient_id")
+  type          ChallengeType    @default(BEAT_GAME)
+  status        ChallengeStatus  @default(PENDING)
+  gameId        Int              @map("game_id")
+  description   String?
+  group         ChallengeGroup   @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  challenger    User             @relation(name: "ChallengeChallenger", fields: [challengerId], references: [oauthId], onDelete: Cascade)
+  recipient     User             @relation(name: "ChallengeRecipient", fields: [recipientId], references: [oauthId], onDelete: Cascade)
+  game          Game             @relation(fields: [gameId], references: [id])
+  createdAt     DateTime         @default(now()) @map("created_at")
+  updatedAt     DateTime         @updatedAt @map("updated_at")
+  completedAt   DateTime?        @map("completed_at")
+  forfeitedAt   DateTime?        @map("forfeited_at")
+
+  @@index([groupId, status])
+  @@map("challenge")
+}
+
+enum ChallengeType {
+  BEAT_GAME
+  IN_GAME_CHALLENGE
+}
+
+enum ChallengeStatus {
+  PENDING
+  ACTIVE
+  COMPLETED
+  FORFEITED
+}
+
+enum ChallengeGroupMemberRole {
+  OWNER
+  MEMBER
+}
+
+enum ChallengeGroupMemberStatus {
+  INVITED
+  ACTIVE
 }
