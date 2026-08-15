@@ -1,0 +1,3 @@
+mutation DeclineChallenge($challengeId: Int!) {
+    declineChallenge(challengeId: $challengeId)
+}

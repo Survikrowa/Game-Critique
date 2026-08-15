@@ -1,0 +1,6 @@
+mutation CreateChallenge($groupId: Int!, $recipientOauthId: String!, $input: CreateChallengeInput!) {
+    createChallenge(groupId: $groupId, recipientOauthId: $recipientOauthId, input: $input) {
+        id
+        status
+    }
+}
