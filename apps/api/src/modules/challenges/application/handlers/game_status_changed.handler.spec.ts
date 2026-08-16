@@ -16,9 +16,9 @@ describe('GameStatusChangedChallengeHandler', () => {
     jest.clearAllMocks();
   });
 
-  it('marks active challenges completed when game completed', async () => {
+  it('marks active beat-game challenges completed when game completed', async () => {
     mockChallengeRepository.findActiveForRecipient.mockResolvedValue([
-      { id: 5 },
+      { id: 5, type: 'BEAT_GAME' },
     ]);
 
     await handler.handle(
@@ -42,6 +42,27 @@ describe('GameStatusChangedChallengeHandler', () => {
       5,
       expect.any(Date),
     );
+  });
+
+  it('does not auto-complete in-game challenges', async () => {
+    mockChallengeRepository.findActiveForRecipient.mockResolvedValue([
+      { id: 5, type: 'IN_GAME_CHALLENGE' },
+    ]);
+
+    await handler.handle(
+      new GameStatusChangedEvent(
+        'auth0|1',
+        7,
+        'Game',
+        'COMPLETED',
+        null,
+        null,
+        [],
+        5,
+      ),
+    );
+
+    expect(mockChallengeRepository.markCompleted).not.toHaveBeenCalled();
   });
 
   it('does nothing for non-completed status', async () => {

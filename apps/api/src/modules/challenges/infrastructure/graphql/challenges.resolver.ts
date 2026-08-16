@@ -20,6 +20,8 @@ import { CreateChallengeCommand } from '../../application/commands/create_challe
 import { AcceptChallengeCommand } from '../../application/commands/accept_challenge/accept_challenge.command';
 import { DeclineChallengeCommand } from '../../application/commands/decline_challenge/decline_challenge.command';
 import { ForfeitChallengeCommand } from '../../application/commands/forfeit_challenge/forfeit_challenge.command';
+import { CompleteChallengeCommand } from '../../application/commands/complete_challenge/complete_challenge.command';
+import { ConfirmChallengeCompletionCommand } from '../../application/commands/confirm_challenge_completion/confirm_challenge_completion.command';
 
 import { GetChallengeGroupsQuery } from '../../application/queries/get_challenge_groups/get_challenge_groups.query';
 import { GetGroupLeaderboardQuery } from '../../application/queries/get_group_leaderboard/get_group_leaderboard.query';
@@ -157,6 +159,28 @@ export class ChallengesResolver {
   ) {
     return this.commandBus.execute(
       new ForfeitChallengeCommand(challengeId, user.sub),
+    );
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Mutation(() => ChallengeObject)
+  async completeChallenge(
+    @User() user: UserAuthDTO,
+    @Args('challengeId', { type: () => Int }) challengeId: number,
+  ) {
+    return this.commandBus.execute(
+      new CompleteChallengeCommand(challengeId, user.sub),
+    );
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Mutation(() => ChallengeObject)
+  async confirmChallengeCompletion(
+    @User() user: UserAuthDTO,
+    @Args('challengeId', { type: () => Int }) challengeId: number,
+  ) {
+    return this.commandBus.execute(
+      new ConfirmChallengeCompletionCommand(challengeId, user.sub),
     );
   }
 }

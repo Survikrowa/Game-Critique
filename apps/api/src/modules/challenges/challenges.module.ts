@@ -13,6 +13,8 @@ import { CreateChallengeCommandHandler } from './application/commands/create_cha
 import { AcceptChallengeCommandHandler } from './application/commands/accept_challenge/accept_challenge.handler';
 import { DeclineChallengeCommandHandler } from './application/commands/decline_challenge/decline_challenge.handler';
 import { ForfeitChallengeCommandHandler } from './application/commands/forfeit_challenge/forfeit_challenge.handler';
+import { CompleteChallengeCommandHandler } from './application/commands/complete_challenge/complete_challenge.handler';
+import { ConfirmChallengeCompletionCommandHandler } from './application/commands/confirm_challenge_completion/confirm_challenge_completion.handler';
 import { GameStatusChangedChallengeHandler } from './application/handlers/game_status_changed.handler';
 
 import { GetChallengeGroupsQueryHandler } from './application/queries/get_challenge_groups/get_challenge_groups.handler';
@@ -36,6 +38,8 @@ import { PrismaChallengeRepository } from './infrastructure/adapters/prisma-chal
     AcceptChallengeCommandHandler,
     DeclineChallengeCommandHandler,
     ForfeitChallengeCommandHandler,
+    CompleteChallengeCommandHandler,
+    ConfirmChallengeCompletionCommandHandler,
     GameStatusChangedChallengeHandler,
     GetChallengeGroupsQueryHandler,
     GetGroupLeaderboardQueryHandler,

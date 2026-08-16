@@ -68,6 +68,7 @@ enum ChallengeGroupMemberStatus {
 
 enum ChallengeStatus {
   ACTIVE
+  AWAITING_CONFIRMATION
   COMPLETED
   FORFEITED
   PENDING
@@ -371,6 +372,8 @@ type Mutation {
   acceptGroupInvite(groupId: Int!): Boolean!
   addGameToCollection(collection: AddGameToCollectionDTO!): CollectionMutationResponseDTO!
   addReminder(input: AddReminderInput!): GameReminderObject!
+  completeChallenge(challengeId: Int!): Challenge!
+  confirmChallengeCompletion(challengeId: Int!): Challenge!
   createChallenge(groupId: Int!, input: CreateChallengeInput!, recipientOauthId: String!): Challenge!
   createChallengeGroup(name: String!): ChallengeGroup!
   createNewCollection(collection: NewCollectionDTO!): CollectionDTO!
