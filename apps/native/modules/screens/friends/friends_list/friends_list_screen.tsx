@@ -2,7 +2,6 @@ import { router } from "expo-router";
 import { Bell, ChevronRight, Search, Trophy, Users } from "lucide-react-native";
 import { FlatList, RefreshControl, View } from "react-native";
 
-import { FriendsListQuery } from "./use_friends_list/friends_list_query.generated";
 import { useFriendsList } from "./use_friends_list/use_friends_list";
 
 import { haptic } from "@/modules/haptics/haptic";
