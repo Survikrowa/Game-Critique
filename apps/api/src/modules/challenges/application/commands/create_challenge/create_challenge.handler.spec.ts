@@ -9,6 +9,12 @@ import {
   ChallengeType,
 } from '@prisma/client';
 
+import { GamesFacade } from '../../../../games/games.facade';
+
+const mockGamesFacade = {
+  getGameIdByHltbId: jest.fn(),
+};
+
 const mockGroupRepository = {
   getMember: jest.fn(),
   getActiveMembers: jest.fn(),
@@ -45,6 +51,7 @@ describe('CreateChallengeCommandHandler', () => {
         CreateChallengeCommandHandler,
         { provide: CHALLENGE_GROUP_REPOSITORY, useValue: mockGroupRepository },
         { provide: CHALLENGE_REPOSITORY, useValue: mockChallengeRepository },
+        { provide: GamesFacade, useValue: mockGamesFacade },
       ],
     }).compile();
     handler = moduleRef.get(CreateChallengeCommandHandler);
@@ -57,6 +64,7 @@ describe('CreateChallengeCommandHandler', () => {
     mockGroupRepository.findMember
       .mockResolvedValueOnce(activeMember)
       .mockResolvedValueOnce(activeMember);
+    mockGamesFacade.getGameIdByHltbId.mockResolvedValue(42);
     mockChallengeRepository.save.mockResolvedValue({ id: 10 });
 
     const result = await handler.execute(
@@ -64,6 +72,7 @@ describe('CreateChallengeCommandHandler', () => {
     );
 
     expect(result.id).toBe(10);
+    expect(mockGamesFacade.getGameIdByHltbId).toHaveBeenCalledWith(5);
     expect(mockGroupRepository.findMember).toHaveBeenCalledTimes(2);
     expect(mockGroupRepository.findMember).toHaveBeenCalledWith(1, 'a');
     expect(mockGroupRepository.findMember).toHaveBeenCalledWith(1, 'b');
@@ -73,6 +82,7 @@ describe('CreateChallengeCommandHandler', () => {
         status: ChallengeStatus.PENDING,
         challengerId: 'a',
         recipientId: 'b',
+        gameId: 42,
       }),
     );
   });

@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { DatabaseModule } from '../database/database.module';
 import { AuthModule } from '../auth/auth.module';
+import { GamesModule } from '../games/games.module';
 
 import { ChallengesResolver } from './infrastructure/graphql/challenges.resolver';
 
@@ -24,7 +25,7 @@ import { PrismaChallengeGroupRepository } from './infrastructure/adapters/prisma
 import { PrismaChallengeRepository } from './infrastructure/adapters/prisma-challenge.repository';
 
 @Module({
-  imports: [DatabaseModule, AuthModule],
+  imports: [DatabaseModule, AuthModule, GamesModule],
   providers: [
     ChallengesResolver,
     CreateChallengeGroupCommandHandler,

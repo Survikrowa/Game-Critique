@@ -10,6 +10,7 @@ import {
   ChallengeRepositoryPort,
 } from '../../../domain/ports/challenge.repository.port';
 import { Challenge } from '../../../domain/models/challenge.model';
+import { GamesFacade } from '../../../../games/games.facade';
 import { ChallengeGroupMemberStatus, ChallengeStatus } from '@prisma/client';
 
 @CommandHandler(CreateChallengeCommand)
@@ -21,6 +22,7 @@ export class CreateChallengeCommandHandler
     private readonly groupRepository: ChallengeGroupRepositoryPort,
     @Inject(CHALLENGE_REPOSITORY)
     private readonly challengeRepository: ChallengeRepositoryPort,
+    private readonly gamesFacade: GamesFacade,
   ) {}
 
   async execute(command: CreateChallengeCommand) {
@@ -68,6 +70,8 @@ export class CreateChallengeCommandHandler
       );
     }
 
+    const gameId = await this.gamesFacade.getGameIdByHltbId(command.gameId);
+
     return this.challengeRepository.save(
       Challenge.create({
         groupId: command.groupId,
@@ -75,7 +79,7 @@ export class CreateChallengeCommandHandler
         recipientId: command.recipientOauthId,
         type: command.type,
         status: ChallengeStatus.PENDING,
-        gameId: command.gameId,
+        gameId,
         description: command.description,
         completedAt: null,
         forfeitedAt: null,
