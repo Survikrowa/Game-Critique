@@ -37,6 +37,12 @@ const FriendsLayout = () => {
         }}
       />
       <Stack.Screen
+        name="challenges/create_challenge"
+        options={{
+          header: () => <GoBackHeader text="Nowe wyzwanie" />,
+        }}
+      />
+      <Stack.Screen
         name="user_profile/[oauth_id]/index"
         options={{
           header: () => <GoBackHeader text="Profil" />,
