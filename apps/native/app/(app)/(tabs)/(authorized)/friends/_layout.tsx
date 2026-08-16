@@ -25,6 +25,12 @@ const FriendsLayout = () => {
         }}
       />
       <Stack.Screen
+        name="challenges/challenges_groups_list"
+        options={{
+          header: () => <GoBackHeader text="Wyzwania" />,
+        }}
+      />
+      <Stack.Screen
         name="user_profile/[oauth_id]/index"
         options={{
           header: () => <GoBackHeader text="Profil" />,

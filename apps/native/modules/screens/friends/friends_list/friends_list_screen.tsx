@@ -1,7 +1,8 @@
 import { router } from "expo-router";
-import { Bell, ChevronRight, Search, Users } from "lucide-react-native";
+import { Bell, ChevronRight, Search, Trophy, Users } from "lucide-react-native";
 import { FlatList, RefreshControl, View } from "react-native";
 
+import { FriendsListQuery } from "./use_friends_list/friends_list_query.generated";
 import { useFriendsList } from "./use_friends_list/use_friends_list";
 
 import { haptic } from "@/modules/haptics/haptic";
@@ -14,9 +15,6 @@ import { Separator } from "@/ui/layout/separator/separator";
 import { VStack } from "@/ui/layout/vstack/vstack";
 import { SpeedDialFab } from "@/ui/overlay/fab/speed_dial_fab";
 import { Text } from "@/ui/typography/text";
-import { FriendsListQuery } from "./use_friends_list/friends_list_query.generated";
-
-type Friend = FriendsListQuery["friendsList"]["friends"][number];
 
 const LoadingState = () => (
   <VStack className="gap-4 px-4 pt-4">
@@ -94,6 +92,12 @@ export const FriendsListScreen = () => {
             icon: Search,
             label: "Szukaj",
             onPress: () => router.push("/friends/friends_search"),
+          },
+          {
+            icon: Trophy,
+            label: "Wyzwania",
+            onPress: () =>
+              router.push("/friends/challenges/challenges_groups_list"),
           },
         ]}
       />
