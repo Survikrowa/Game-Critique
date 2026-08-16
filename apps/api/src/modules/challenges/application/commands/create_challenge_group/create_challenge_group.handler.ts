@@ -22,17 +22,15 @@ export class CreateChallengeGroupCommandHandler
   ) {}
 
   async execute(command: CreateChallengeGroupCommand) {
-    const group = await this.groupRepository.save(
+    const group = await this.groupRepository.saveGroupWithOwner(
       ChallengeGroup.create({ name: command.name, ownerId: command.ownerId }),
+      ChallengeGroupMember.create({
+        groupId: 0,
+        oauthId: command.ownerId,
+        role: ChallengeGroupMemberRole.OWNER,
+        status: ChallengeGroupMemberStatus.ACTIVE,
+      }),
     );
-
-    const member = ChallengeGroupMember.create({
-      groupId: group.id,
-      oauthId: command.ownerId,
-      role: ChallengeGroupMemberRole.OWNER,
-      status: ChallengeGroupMemberStatus.ACTIVE,
-    });
-    await this.groupRepository.saveMember(member);
 
     const saved = await this.groupRepository.findById(group.id);
     return saved;

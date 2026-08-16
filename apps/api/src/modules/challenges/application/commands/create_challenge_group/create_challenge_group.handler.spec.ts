@@ -8,6 +8,7 @@ import {
 
 const mockGroupRepository: jest.Mocked<ChallengeGroupRepositoryPort> = {
   save: jest.fn(),
+  saveGroupWithOwner: jest.fn(),
   findById: jest.fn(),
   findMineByOwner: jest.fn(),
   findMineByMember: jest.fn(),
@@ -35,12 +36,11 @@ describe('CreateChallengeGroupCommandHandler', () => {
   beforeEach(() => jest.clearAllMocks());
 
   it('creates group and saves owner member', async () => {
-    mockGroupRepository.save.mockResolvedValue({
+    mockGroupRepository.saveGroupWithOwner.mockResolvedValue({
       id: 1,
       name: 'Grupa',
       ownerId: 'auth0|1',
     } as never);
-    mockGroupRepository.saveMember.mockResolvedValue({} as never);
     mockGroupRepository.findById.mockResolvedValue({
       id: 1,
       name: 'Grupa',
@@ -53,9 +53,10 @@ describe('CreateChallengeGroupCommandHandler', () => {
     );
 
     expect(result && result.id).toBe(1);
-    expect(mockGroupRepository.save).toHaveBeenCalledWith(
-      expect.objectContaining({ name: 'Grupa' }),
+    expect(mockGroupRepository.saveGroupWithOwner).toHaveBeenCalledTimes(1);
+    expect(mockGroupRepository.saveGroupWithOwner).toHaveBeenCalledWith(
+      expect.objectContaining({ name: 'Grupa', ownerId: 'auth0|1' }),
+      expect.objectContaining({ oauthId: 'auth0|1', role: 'OWNER' }),
     );
-    expect(mockGroupRepository.saveMember).toHaveBeenCalledTimes(1);
   });
 });

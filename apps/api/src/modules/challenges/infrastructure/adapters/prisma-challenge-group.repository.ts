@@ -24,6 +24,30 @@ export class PrismaChallengeGroupRepository
     );
   }
 
+  async saveGroupWithOwner(
+    group: ChallengeGroup,
+    member: ChallengeGroupMember,
+  ): Promise<ChallengeGroup> {
+    const saved = await this.prisma.$transaction(async (tx) => {
+      const created = await tx.challengeGroup.create({
+        data: { name: group.name, ownerId: group.ownerId },
+      });
+      await tx.challengeGroupMember.create({
+        data: {
+          groupId: created.id,
+          oauthId: member.oauthId,
+          role: member.role,
+          status: member.status,
+        },
+      });
+      return created;
+    });
+    return ChallengeGroup.create(
+      { name: saved.name, ownerId: saved.ownerId },
+      saved.id,
+    );
+  }
+
   async findById(id: number): Promise<ChallengeGroupWithMembers | null> {
     const group = await this.prisma.challengeGroup.findUnique({
       where: { id },

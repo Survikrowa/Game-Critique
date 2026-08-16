@@ -13,6 +13,10 @@ export interface ChallengeGroupRepositoryPort
   findById(id: number): Promise<ChallengeGroupWithMembers | null>;
   findMineByOwner(ownerId: string): Promise<ChallengeGroupWithMembers[]>;
   findMineByMember(oauthId: string): Promise<ChallengeGroupWithMembers[]>;
+  saveGroupWithOwner(
+    group: ChallengeGroup,
+    member: ChallengeGroupMember,
+  ): Promise<ChallengeGroup>;
   findMember(
     groupId: number,
     oauthId: string,
