@@ -2,7 +2,7 @@ import { Test } from '@nestjs/testing';
 import { CompleteChallengeCommandHandler } from './complete_challenge.handler';
 import { CompleteChallengeCommand } from './complete_challenge.command';
 import { CHALLENGE_REPOSITORY } from '../../../domain/ports/challenge.repository.port';
-import { ChallengeStatus } from '@prisma/client';
+import { ChallengeStatus, ChallengeType } from '@prisma/client';
 
 const mockChallengeRepository = {
   findById: jest.fn(),
@@ -28,6 +28,7 @@ describe('CompleteChallengeCommandHandler', () => {
     mockChallengeRepository.findById.mockResolvedValue({
       id: 1,
       recipientId: 'recipient',
+      type: ChallengeType.IN_GAME_CHALLENGE,
       status: ChallengeStatus.ACTIVE,
     });
     mockChallengeRepository.updateStatus.mockResolvedValue({ id: 1 });
@@ -47,6 +48,7 @@ describe('CompleteChallengeCommandHandler', () => {
     mockChallengeRepository.findById.mockResolvedValue({
       id: 1,
       recipientId: 'recipient',
+      type: ChallengeType.IN_GAME_CHALLENGE,
       status: ChallengeStatus.ACTIVE,
     });
 
@@ -56,10 +58,25 @@ describe('CompleteChallengeCommandHandler', () => {
     expect(mockChallengeRepository.updateStatus).not.toHaveBeenCalled();
   });
 
+  it('throws 409 when challenge is not in-game type', async () => {
+    mockChallengeRepository.findById.mockResolvedValue({
+      id: 1,
+      recipientId: 'recipient',
+      type: ChallengeType.BEAT_GAME,
+      status: ChallengeStatus.ACTIVE,
+    });
+
+    await expect(
+      handler.execute(new CompleteChallengeCommand(1, 'recipient')),
+    ).rejects.toThrow('Wyzwanie w grze można zgłosić tylko ręcznie');
+    expect(mockChallengeRepository.updateStatus).not.toHaveBeenCalled();
+  });
+
   it('throws 409 when challenge is not active', async () => {
     mockChallengeRepository.findById.mockResolvedValue({
       id: 1,
       recipientId: 'recipient',
+      type: ChallengeType.IN_GAME_CHALLENGE,
       status: ChallengeStatus.PENDING,
     });
 

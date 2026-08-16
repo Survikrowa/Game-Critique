@@ -5,7 +5,7 @@ import {
   CHALLENGE_REPOSITORY,
   ChallengeRepositoryPort,
 } from '../../../domain/ports/challenge.repository.port';
-import { ChallengeStatus } from '@prisma/client';
+import { ChallengeStatus, ChallengeType } from '@prisma/client';
 
 @CommandHandler(CompleteChallengeCommand)
 export class CompleteChallengeCommandHandler
@@ -33,6 +33,15 @@ export class CompleteChallengeCommandHandler
           message: 'Tylko odbiorca może zgłosić ukończenie',
         },
         HttpStatus.FORBIDDEN,
+      );
+    }
+    if (challenge.type !== ChallengeType.IN_GAME_CHALLENGE) {
+      throw new HttpException(
+        {
+          status: HttpStatus.CONFLICT,
+          message: 'Wyzwanie w grze można zgłosić tylko ręcznie',
+        },
+        HttpStatus.CONFLICT,
       );
     }
     if (challenge.status !== ChallengeStatus.ACTIVE) {
