@@ -519,6 +519,7 @@ enum ChallengeType {
 enum ChallengeStatus {
   PENDING
   ACTIVE
+  AWAITING_CONFIRMATION
   COMPLETED
   FORFEITED
 }
