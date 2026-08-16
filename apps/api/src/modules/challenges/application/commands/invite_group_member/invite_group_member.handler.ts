@@ -21,6 +21,23 @@ export class InviteGroupMemberCommandHandler
   ) {}
 
   async execute(command: InviteGroupMemberCommand) {
+    const inviterMember = await this.groupRepository.findMember(
+      command.groupId,
+      command.inviterOauthId,
+    );
+    if (
+      !inviterMember ||
+      inviterMember.status !== ChallengeGroupMemberStatus.ACTIVE
+    ) {
+      throw new HttpException(
+        {
+          status: HttpStatus.FORBIDDEN,
+          message: 'Musisz być aktywnym członkiem grupy, aby zapraszać',
+        },
+        HttpStatus.FORBIDDEN,
+      );
+    }
+
     const isFriend = await this.groupRepository.isInvitedFriend(
       command.inviterOauthId,
       command.invitedOauthId,
