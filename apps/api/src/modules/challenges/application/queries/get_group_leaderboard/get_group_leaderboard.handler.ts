@@ -61,9 +61,11 @@ export class GetGroupLeaderboardQueryHandler
       activeMembers.map(async (m) => {
         const completedCount = await this.challengeRepository.completeCountFor(
           m.oauthId,
+          query.groupId,
         );
         const forfeitedCount = await this.challengeRepository.forfeitCountFor(
           m.oauthId,
+          query.groupId,
         );
         const profile = profileByOauth.get(m.oauthId);
         return {

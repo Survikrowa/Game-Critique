@@ -92,15 +92,23 @@ export class PrismaChallengeRepository implements ChallengeRepositoryPort {
     await this.prisma.challenge.delete({ where: { id } });
   }
 
-  async completeCountFor(oauthId: string): Promise<number> {
+  async completeCountFor(oauthId: string, groupId: number): Promise<number> {
     return this.prisma.challenge.count({
-      where: { recipientId: oauthId, status: ChallengeStatus.COMPLETED },
+      where: {
+        recipientId: oauthId,
+        groupId,
+        status: ChallengeStatus.COMPLETED,
+      },
     });
   }
 
-  async forfeitCountFor(oauthId: string): Promise<number> {
+  async forfeitCountFor(oauthId: string, groupId: number): Promise<number> {
     return this.prisma.challenge.count({
-      where: { recipientId: oauthId, status: ChallengeStatus.FORFEITED },
+      where: {
+        recipientId: oauthId,
+        groupId,
+        status: ChallengeStatus.FORFEITED,
+      },
     });
   }
 

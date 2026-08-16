@@ -60,6 +60,15 @@ describe('GetGroupLeaderboardQueryHandler', () => {
 
     expect(result[0].oauthId).toBe('b');
     expect(result[0].completedCount).toBe(5);
+    expect(mockChallengeRepository.completeCountFor).toHaveBeenCalledWith(
+      'a',
+      1,
+    );
+    expect(mockChallengeRepository.completeCountFor).toHaveBeenCalledWith(
+      'b',
+      1,
+    );
+    expect(mockChallengeRepository.forfeitCountFor).toHaveBeenCalledTimes(2);
   });
 
   it('throws for non-member', async () => {

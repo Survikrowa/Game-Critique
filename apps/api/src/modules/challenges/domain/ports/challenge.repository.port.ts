@@ -22,6 +22,6 @@ export interface ChallengeRepositoryPort extends RepositoryPort<Challenge> {
   markCompleted(id: number, completedAt: Date): Promise<Challenge>;
   markForfeited(id: number, forfeitedAt: Date): Promise<Challenge>;
   delete(id: number): Promise<void>;
-  completeCountFor(oauthId: string): Promise<number>;
-  forfeitCountFor(oauthId: string): Promise<number>;
+  completeCountFor(oauthId: string, groupId: number): Promise<number>;
+  forfeitCountFor(oauthId: string, groupId: number): Promise<number>;
 }
