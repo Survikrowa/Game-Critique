@@ -1,0 +1,6 @@
+mutation CompleteChallenge($challengeId: Int!) {
+    completeChallenge(challengeId: $challengeId) {
+        id
+        status
+    }
+}
