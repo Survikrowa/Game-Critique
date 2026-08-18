@@ -2,7 +2,10 @@ import { Test } from '@nestjs/testing';
 import { InviteGroupMemberCommandHandler } from './invite_group_member.handler';
 import { InviteGroupMemberCommand } from './invite_group_member.command';
 import { CHALLENGE_GROUP_REPOSITORY } from '../../../domain/ports/challenge-group.repository.port';
-import { ChallengeGroupMemberStatus } from '@prisma/client';
+import {
+  ChallengeGroupMemberRole,
+  ChallengeGroupMemberStatus,
+} from '@prisma/client';
 
 const mockGroupRepository = {
   findMember: jest.fn(),
@@ -29,6 +32,7 @@ describe('InviteGroupMemberCommandHandler', () => {
     mockGroupRepository.findMember
       .mockResolvedValueOnce({
         status: ChallengeGroupMemberStatus.ACTIVE,
+        role: ChallengeGroupMemberRole.OWNER,
       })
       .mockResolvedValueOnce(null);
     mockGroupRepository.isInvitedFriend.mockResolvedValue(true);
@@ -51,8 +55,21 @@ describe('InviteGroupMemberCommandHandler', () => {
 
     await expect(
       handler.execute(new InviteGroupMemberCommand(1, 'inviter', 'friend')),
-    ).rejects.toThrow('Musisz być aktywnym członkiem grupy, aby zapraszać');
+    ).rejects.toThrow('Tylko owner grupy może zapraszać znajomych');
     expect(mockGroupRepository.isInvitedFriend).not.toHaveBeenCalled();
+  });
+
+  it('throws 403 when inviter is not the owner', async () => {
+    mockGroupRepository.findMember.mockResolvedValueOnce({
+      oauthId: 'inviter',
+      role: ChallengeGroupMemberRole.MEMBER,
+      status: ChallengeGroupMemberStatus.ACTIVE,
+    });
+
+    await expect(
+      handler.execute(new InviteGroupMemberCommand(1, 'inviter', 'friend')),
+    ).rejects.toThrow('Tylko owner grupy może zapraszać znajomych');
+    expect(mockGroupRepository.saveMember).not.toHaveBeenCalled();
   });
 
   it('throws 403 when inviter is not a member at all', async () => {
@@ -60,7 +77,7 @@ describe('InviteGroupMemberCommandHandler', () => {
 
     await expect(
       handler.execute(new InviteGroupMemberCommand(1, 'outsider', 'friend')),
-    ).rejects.toThrow('Musisz być aktywnym członkiem grupy, aby zapraszać');
+    ).rejects.toThrow('Tylko owner grupy może zapraszać znajomych');
     expect(mockGroupRepository.isInvitedFriend).not.toHaveBeenCalled();
   });
 });

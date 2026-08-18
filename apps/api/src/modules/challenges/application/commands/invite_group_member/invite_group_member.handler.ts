@@ -27,12 +27,13 @@ export class InviteGroupMemberCommandHandler
     );
     if (
       !inviterMember ||
-      inviterMember.status !== ChallengeGroupMemberStatus.ACTIVE
+      inviterMember.status !== ChallengeGroupMemberStatus.ACTIVE ||
+      inviterMember.role !== ChallengeGroupMemberRole.OWNER
     ) {
       throw new HttpException(
         {
           status: HttpStatus.FORBIDDEN,
-          message: 'Musisz być aktywnym członkiem grupy, aby zapraszać',
+          message: 'Tylko owner grupy może zapraszać znajomych',
         },
         HttpStatus.FORBIDDEN,
       );
