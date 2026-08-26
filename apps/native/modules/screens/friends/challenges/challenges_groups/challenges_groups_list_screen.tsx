@@ -1,6 +1,8 @@
 import { router } from "expo-router";
 import { Plus, Trophy } from "lucide-react-native";
 import { useState } from "react";
+
+import { useDisclosure } from "@/ui/hooks/use_disclosure";
 import {
   KeyboardAvoidingView,
   Modal,
@@ -24,9 +26,11 @@ import { HStack } from "@/ui/layout/hstack/hstack";
 import { VStack } from "@/ui/layout/vstack/vstack";
 import { Text } from "@/ui/typography/text";
 
+const LOADING_SKELETON_COUNT = 3;
+
 const LoadingState = () => (
   <VStack className="gap-3 px-4 pt-4">
-    {Array.from({ length: 3 }).map((_, i) => (
+    {Array.from({ length: LOADING_SKELETON_COUNT }).map((_, i) => (
       <Skeleton key={i} style={{ height: 56 }} />
     ))}
   </VStack>
@@ -35,7 +39,7 @@ const LoadingState = () => (
 export const ChallengesGroupsListScreen = () => {
   const query = useChallengeGroups();
   const [createGroup] = useCreateChallengeGroupMutation();
-  const [modalOpen, setModalOpen] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure(false);
   const [name, setName] = useState("");
 
   if (query.loading || !query.data) {
@@ -55,7 +59,7 @@ export const ChallengesGroupsListScreen = () => {
       refetchQueries: ["ChallengeGroups"],
     });
     setName("");
-    setModalOpen(false);
+    onClose();
   };
 
   return (
@@ -88,7 +92,7 @@ export const ChallengesGroupsListScreen = () => {
       <View className="px-4 pb-6">
         <AppPressable
           className="min-h-[44px] flex-row items-center justify-center rounded-xl bg-primary-500"
-          onPress={() => setModalOpen(true)}
+          onPress={onOpen}
         >
           <Plus size={18} color="#FFFFFF" />
           <Text size="medium" color="white" weight="semiBold">
@@ -97,20 +101,13 @@ export const ChallengesGroupsListScreen = () => {
         </AppPressable>
       </View>
 
-      {modalOpen && (
-        <Modal
-          transparent
-          animationType="slide"
-          onRequestClose={() => setModalOpen(false)}
-        >
+      {isOpen && (
+        <Modal transparent animationType="slide" onRequestClose={onClose}>
           <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : undefined}
             className="flex-1 justify-center px-6"
           >
-            <Pressable
-              className="absolute inset-0"
-              onPress={() => setModalOpen(false)}
-            />
+            <Pressable className="absolute inset-0" onPress={onClose} />
             <View className="rounded-2xl bg-background-0 p-6 shadow-lg">
               <Text size="large" color="primary" weight="bold">
                 Nowa grupa
@@ -124,7 +121,7 @@ export const ChallengesGroupsListScreen = () => {
               <HStack className="mt-6 justify-end gap-3">
                 <AppPressable
                   className="min-h-[44px] justify-center px-2"
-                  onPress={() => setModalOpen(false)}
+                  onPress={onClose}
                 >
                   <Text size="medium" weight="semiBold" color="primary">
                     Anuluj

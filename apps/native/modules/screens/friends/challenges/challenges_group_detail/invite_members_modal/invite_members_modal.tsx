@@ -23,6 +23,8 @@ type InviteMembersModalProps = {
 
 type Selected = Record<string, boolean>;
 
+const LOADING_SKELETON_COUNT = 3;
+
 export const InviteMembersModal = ({
   groupId,
   visible,
@@ -99,7 +101,7 @@ export const InviteMembersModal = ({
           </HStack>
           {loading ? (
             <VStack className="gap-3 py-4">
-              {Array.from({ length: 3 }).map((_, i) => (
+              {Array.from({ length: LOADING_SKELETON_COUNT }).map((_, i) => (
                 <Skeleton key={i} style={{ height: 44 }} />
               ))}
             </VStack>

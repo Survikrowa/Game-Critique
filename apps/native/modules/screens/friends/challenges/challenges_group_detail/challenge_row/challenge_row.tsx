@@ -2,6 +2,7 @@ import { View } from "react-native";
 import { useAuth0 } from "react-native-auth0";
 
 import { useAcceptChallengeMutation } from "../accept_challenge/accept_challenge.mutation.generated";
+import { ChallengeActionButton } from "../challenge_action_button/challenge_action_button";
 import { useCompleteChallengeMutation } from "../complete_challenge/complete_challenge.mutation.generated";
 import { useConfirmChallengeCompletionMutation } from "../confirm_challenge_completion/confirm_challenge_completion.mutation.generated";
 import { useDeclineChallengeMutation } from "../decline_challenge/decline_challenge.mutation.generated";
@@ -9,34 +10,12 @@ import { useForfeitChallengeMutation } from "../forfeit_challenge/forfeit_challe
 import type { ChallengesQuery } from "../use_challenges/challenges.query.generated";
 
 import { haptic } from "@/modules/haptics/haptic";
-import { Pressable } from "@/ui/forms/pressable/pressable";
 import { VStack } from "@/ui/layout/vstack/vstack";
 import { Text } from "@/ui/typography/text";
 
 type ChallengeRowProps = {
   challenge: ChallengesQuery["challenges"][number];
 };
-
-const ChallengeActionButton = ({
-  label,
-  onPress,
-  variant,
-}: {
-  label: string;
-  onPress: () => void;
-  variant: "primary" | "danger";
-}) => (
-  <Pressable
-    className={`min-h-[44px] justify-center rounded-lg px-4 ${
-      variant === "primary" ? "bg-primary-500" : "bg-error-500"
-    }`}
-    onPress={onPress}
-  >
-    <Text size="medium" color="white" weight="semiBold">
-      {label}
-    </Text>
-  </Pressable>
-);
 
 export const ChallengeRow = ({ challenge }: ChallengeRowProps) => {
   const { user } = useAuth0();

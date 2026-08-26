@@ -4,6 +4,8 @@ import { useState } from "react";
 import { FlatList, RefreshControl, View } from "react-native";
 import { useAuth0 } from "react-native-auth0";
 
+import { useDisclosure } from "@/ui/hooks/use_disclosure";
+
 import { ChallengeListSkeleton } from "./challenge_list_skeleton/challenge_list_skeleton";
 import { ChallengeRow } from "./challenge_row/challenge_row";
 import { InviteMembersModal } from "./invite_members_modal/invite_members_modal";
@@ -28,7 +30,7 @@ export const ChallengesGroupDetailScreen = ({
 }: ChallengesGroupDetailScreenProps) => {
   const { user } = useAuth0();
   const [tab, setTab] = useState<ChallengeGroupTab>("challenges");
-  const [inviteOpen, setInviteOpen] = useState(false);
+  const { isOpen: inviteOpen, onOpen, onClose } = useDisclosure(false);
   const challengesQuery = useChallenges(groupId);
   const leaderboardQuery = useLeaderboard(groupId);
   const groupsQuery = useChallengeGroups();
@@ -72,7 +74,7 @@ export const ChallengesGroupDetailScreen = ({
               {isOwner ? (
                 <Pressable
                   className="min-h-[44px] flex-row items-center gap-1 px-2"
-                  onPress={() => setInviteOpen(true)}
+                  onPress={onOpen}
                 >
                   <UserPlus size={16} color="#3B82F6" />
                   <Text size="medium" color="blue" weight="semiBold">
@@ -109,7 +111,7 @@ export const ChallengesGroupDetailScreen = ({
         <InviteMembersModal
           groupId={groupId}
           visible={inviteOpen}
-          onClose={() => setInviteOpen(false)}
+          onClose={onClose}
           existingMemberOauthIds={
             currentGroup?.members.map((member) => member.oauthId) ?? []
           }
