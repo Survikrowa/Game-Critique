@@ -110,6 +110,9 @@ export const ChallengesGroupDetailScreen = ({
           groupId={groupId}
           visible={inviteOpen}
           onClose={() => setInviteOpen(false)}
+          existingMemberOauthIds={
+            currentGroup?.members.map((member) => member.oauthId) ?? []
+          }
         />
       </View>
     );

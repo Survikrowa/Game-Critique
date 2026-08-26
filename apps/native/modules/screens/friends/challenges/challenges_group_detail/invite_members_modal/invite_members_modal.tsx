@@ -18,6 +18,7 @@ type InviteMembersModalProps = {
   groupId: number;
   visible: boolean;
   onClose: () => void;
+  existingMemberOauthIds: string[];
 };
 
 type Selected = Record<string, boolean>;
@@ -26,6 +27,7 @@ export const InviteMembersModal = ({
   groupId,
   visible,
   onClose,
+  existingMemberOauthIds,
 }: InviteMembersModalProps) => {
   const { data, loading } = useFriendsList();
   const [selected, setSelected] = useState<Selected>({});
@@ -40,7 +42,9 @@ export const InviteMembersModal = ({
     }
   }, [visible]);
 
-  const friends = data?.friendsList.friends ?? [];
+  const friends = (data?.friendsList.friends ?? []).filter(
+    (friend) => !existingMemberOauthIds.includes(friend.id),
+  );
   const toggle = (id: string) =>
     setSelected((prev) => ({ ...prev, [id]: !prev[id] }));
 
@@ -53,7 +57,12 @@ export const InviteMembersModal = ({
     setSubmitting(true);
     try {
       const results = await Promise.all(
-        ids.map((id) => inviteMember({ variables: { groupId, oauthId: id } })),
+        ids.map((id) =>
+          inviteMember({
+            variables: { groupId, oauthId: id },
+            refetchQueries: ["ChallengeGroups"],
+          }),
+        ),
       );
       if (results.some((result) => result.errors && result.errors.length > 0)) {
         setError("Nie udało się wysłać zaproszeń");
