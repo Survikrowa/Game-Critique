@@ -1,6 +1,7 @@
 import { FlatList, RefreshControl } from "react-native";
 
 import { GroupLeaderboardQuery } from "../use_leaderboard/leaderboard.query.generated";
+
 import { EmptyState } from "@/ui/feedback/empty_state/empty_state";
 import { HStack } from "@/ui/layout/hstack/hstack";
 import { Text } from "@/ui/typography/text";

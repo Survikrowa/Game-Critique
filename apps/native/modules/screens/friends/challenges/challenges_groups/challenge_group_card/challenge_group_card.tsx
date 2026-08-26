@@ -1,12 +1,12 @@
 import { ChevronRight, Users } from "lucide-react-native";
 import { Pressable, View } from "react-native";
 
+import type { ChallengeGroupsQuery } from "../use_challenge_groups/challenge_groups.query.generated";
+
 import { haptic } from "@/modules/haptics/haptic";
 import { HStack } from "@/ui/layout/hstack/hstack";
 import { VStack } from "@/ui/layout/vstack/vstack";
 import { Text } from "@/ui/typography/text";
-
-import type { ChallengeGroupsQuery } from "../use_challenge_groups/challenge_groups.query.generated";
 
 type ChallengeGroup = ChallengeGroupsQuery["challengeGroups"][number];
 

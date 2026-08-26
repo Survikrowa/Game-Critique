@@ -4,7 +4,6 @@ import { useState } from "react";
 import { FlatList, RefreshControl, View } from "react-native";
 import { useAuth0 } from "react-native-auth0";
 
-import { useChallengeGroups } from "../challenges_groups/use_challenge_groups/use_challenge_groups";
 import { ChallengeListSkeleton } from "./challenge_list_skeleton/challenge_list_skeleton";
 import { ChallengeRow } from "./challenge_row/challenge_row";
 import { InviteMembersModal } from "./invite_members_modal/invite_members_modal";
@@ -12,6 +11,7 @@ import { LeaderboardList } from "./leaderboard_list/leaderboard_list";
 import { TabBar, ChallengeGroupTab } from "./tab_bar/tab_bar";
 import { useChallenges } from "./use_challenges/use_challenges";
 import { useLeaderboard } from "./use_leaderboard/use_leaderboard";
+import { useChallengeGroups } from "../challenges_groups/use_challenge_groups/use_challenge_groups";
 
 import { haptic } from "@/modules/haptics/haptic";
 import { EmptyState } from "@/ui/feedback/empty_state/empty_state";

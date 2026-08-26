@@ -1,6 +1,6 @@
-import { HStack } from "@/ui/layout/hstack/hstack";
-
 import { TabButton } from "../tab_button/tab_button";
+
+import { HStack } from "@/ui/layout/hstack/hstack";
 
 export type ChallengeGroupTab = "challenges" | "leaderboard";
 
