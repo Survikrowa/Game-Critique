@@ -29,10 +29,15 @@ export const InviteMembersModal = ({
 }: InviteMembersModalProps) => {
   const { data, loading } = useFriendsList();
   const [selected, setSelected] = useState<Selected>({});
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [inviteMember] = useInviteMemberMutation();
 
   useEffect(() => {
-    if (visible) setSelected({});
+    if (visible) {
+      setSelected({});
+      setError(null);
+    }
   }, [visible]);
 
   const friends = data?.friendsList.friends ?? [];
@@ -42,9 +47,20 @@ export const InviteMembersModal = ({
   const submit = async () => {
     haptic.medium();
     const ids = Object.keys(selected).filter((id) => selected[id]);
-    await Promise.all(
+    if (ids.length === 0) {
+      return;
+    }
+    setSubmitting(true);
+    const results = await Promise.all(
       ids.map((id) => inviteMember({ variables: { groupId, oauthId: id } })),
     );
+    setSubmitting(false);
+    if (results.some((result) => result.errors && result.errors.length > 0)) {
+      setError("Nie udało się wysłać zaproszeń");
+      haptic.error();
+      return;
+    }
+    setError(null);
     onClose();
   };
   const hasSelection = Object.values(selected).some(Boolean);
@@ -62,7 +78,7 @@ export const InviteMembersModal = ({
             <Text size="large" color="primary" weight="bold">
               Zaproś znajomych
             </Text>
-            <AppPressable className="p-2" onPress={onClose}>
+            <AppPressable className="p-3" onPress={onClose}>
               <X size={20} color="#64748B" />
             </AppPressable>
           </HStack>
@@ -103,13 +119,18 @@ export const InviteMembersModal = ({
               )}
             />
           )}
+          {error && (
+            <Text size="small" color="red" weight="normal">
+              {error}
+            </Text>
+          )}
           <AppPressable
             className="mt-4 min-h-[44px] items-center justify-center rounded-xl bg-primary-500"
-            disabled={!hasSelection}
+            disabled={!hasSelection || submitting}
             onPress={submit}
           >
             <Text size="medium" color="white" weight="semiBold">
-              Zaproś
+              {submitting ? "Wysyłanie..." : "Zaproś"}
             </Text>
           </AppPressable>
         </View>
