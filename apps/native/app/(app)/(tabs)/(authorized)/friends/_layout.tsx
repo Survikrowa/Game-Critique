@@ -25,12 +25,6 @@ const FriendsLayout = () => {
         }}
       />
       <Stack.Screen
-        name="challenges/challenges_groups_list"
-        options={{
-          header: () => <GoBackHeader text="Wyzwania" />,
-        }}
-      />
-      <Stack.Screen
         name="challenges/[groupId]"
         options={{
           header: () => <GoBackHeader text="Grupa" />,

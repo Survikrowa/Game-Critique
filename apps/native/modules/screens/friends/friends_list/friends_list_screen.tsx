@@ -1,7 +1,11 @@
 import { router } from "expo-router";
-import { Bell, ChevronRight, Search, Trophy, Users } from "lucide-react-native";
+import { Bell, ChevronRight, Search, Users } from "lucide-react-native";
 import { FlatList, RefreshControl, View } from "react-native";
 
+import { useState } from "react";
+
+import { ChallengesGroupsListScreen } from "../challenges/challenges_groups/challenges_groups_list_screen";
+import { FriendsTabs, FriendsTab } from "./friends_tabs/friends_tabs";
 import { useFriendsList } from "./use_friends_list/use_friends_list";
 
 import { haptic } from "@/modules/haptics/haptic";
@@ -27,26 +31,37 @@ const LoadingState = () => (
 );
 
 export const FriendsListScreen = () => {
+  const [tab, setTab] = useState<FriendsTab>("friends");
   const friendsListQuery = useFriendsList();
 
+  const isFriendsTab = tab === "friends";
+
+  if (!isFriendsTab) {
+    return (
+      <View className="flex-1">
+        <FriendsTabs tab={tab} onChange={setTab} />
+        <ChallengesGroupsListScreen />
+      </View>
+    );
+  }
+
   if (friendsListQuery.loading || !friendsListQuery.data) {
-    return <LoadingState />;
+    return (
+      <View className="flex-1">
+        <FriendsTabs tab={tab} onChange={setTab} />
+        <LoadingState />
+      </View>
+    );
   }
 
   const { friends } = friendsListQuery.data.friendsList;
 
   return (
     <View className="flex-1">
+      <FriendsTabs tab={tab} onChange={setTab} />
       <FlatList
         data={friends}
         keyExtractor={(item) => item.id}
-        ListHeaderComponent={
-          <View className="items-center py-4">
-            <Text size="extraLarge" color="primary" weight="bold">
-              Twoi znajomi
-            </Text>
-          </View>
-        }
         renderItem={({ item }) => (
           <Pressable
             className="min-h-[44px] flex-row items-center justify-between px-4"
@@ -91,12 +106,6 @@ export const FriendsListScreen = () => {
             icon: Search,
             label: "Szukaj",
             onPress: () => router.push("/friends/friends_search"),
-          },
-          {
-            icon: Trophy,
-            label: "Wyzwania",
-            onPress: () =>
-              router.push("/friends/challenges/challenges_groups_list"),
           },
         ]}
       />
