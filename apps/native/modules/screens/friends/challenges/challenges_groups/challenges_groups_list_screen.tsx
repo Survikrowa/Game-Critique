@@ -12,6 +12,7 @@ import {
   View,
 } from "react-native";
 
+import { ChallengeGroupCard } from "./challenge_group_card/challenge_group_card";
 import { useChallengeGroups } from "./use_challenge_groups/use_challenge_groups";
 import { useCreateChallengeGroupMutation } from "./use_create_group/create_group.mutation.generated";
 
@@ -62,25 +63,11 @@ export const ChallengesGroupsListScreen = () => {
       <FlatList
         data={groups}
         keyExtractor={(item) => String(item.id)}
-        ListHeaderComponent={
-          <View className="items-center py-4">
-            <Text size="extraLarge" color="primary" weight="bold">
-              Wyzwania
-            </Text>
-          </View>
-        }
         renderItem={({ item }) => (
-          <AppPressable
-            className="min-h-[44px] flex-row items-center justify-between px-4"
-            onPress={() => {
-              haptic.light();
-              router.push(`/friends/challenges/${item.id}`);
-            }}
-          >
-            <Text size="medium" color="primary" weight="semiBold">
-              {item.name}
-            </Text>
-          </AppPressable>
+          <ChallengeGroupCard
+            group={item}
+            onPress={() => router.push(`/friends/challenges/${item.id}`)}
+          />
         )}
         refreshControl={
           <RefreshControl
