@@ -1,12 +1,11 @@
 import { router } from "expo-router";
 import { Bell, ChevronRight, Search, Users } from "lucide-react-native";
+import { useState } from "react";
 import { FlatList, RefreshControl, View } from "react-native";
 
-import { useState } from "react";
-
-import { ChallengesGroupsListScreen } from "../challenges/challenges_groups/challenges_groups_list_screen";
 import { FriendsTabs, FriendsTab } from "./friends_tabs/friends_tabs";
 import { useFriendsList } from "./use_friends_list/use_friends_list";
+import { ChallengesGroupsListScreen } from "../challenges/challenges_groups/challenges_groups_list_screen";
 
 import { haptic } from "@/modules/haptics/haptic";
 import { UserAvatar } from "@/modules/user/user_avatar/user_avatar";
