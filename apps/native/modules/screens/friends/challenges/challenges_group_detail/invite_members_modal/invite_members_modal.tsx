@@ -51,17 +51,23 @@ export const InviteMembersModal = ({
       return;
     }
     setSubmitting(true);
-    const results = await Promise.all(
-      ids.map((id) => inviteMember({ variables: { groupId, oauthId: id } })),
-    );
-    setSubmitting(false);
-    if (results.some((result) => result.errors && result.errors.length > 0)) {
+    try {
+      const results = await Promise.all(
+        ids.map((id) => inviteMember({ variables: { groupId, oauthId: id } })),
+      );
+      if (results.some((result) => result.errors && result.errors.length > 0)) {
+        setError("Nie udało się wysłać zaproszeń");
+        haptic.error();
+        return;
+      }
+      setError(null);
+      onClose();
+    } catch {
       setError("Nie udało się wysłać zaproszeń");
       haptic.error();
-      return;
+    } finally {
+      setSubmitting(false);
     }
-    setError(null);
-    onClose();
   };
   const hasSelection = Object.values(selected).some(Boolean);
 
