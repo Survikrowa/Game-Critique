@@ -1,7 +1,6 @@
-import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { ChallengeStatus } from '@prisma/client';
 import { JwtAuthGuard } from '../../../auth/infrastructure/guards/auth-jwt.guard';
 import { User } from '../../../auth/infrastructure/decorators/auth.decorators';
 import { UserAuthDTO } from '../../../auth/infrastructure/graphql/auth.dto';
@@ -10,7 +9,14 @@ import {
   ChallengeObject,
   LeaderboardEntryObject,
 } from './challenges.model';
-import { CreateChallengeInput } from './challenges.dto';
+import {
+  ChallengeIdArgs,
+  CreateChallengeArgs,
+  CreateChallengeGroupArgs,
+  GroupIdArgs,
+  GroupIdOptionalStatusArgs,
+  InviteMemberArgs,
+} from './challenges.args';
 
 import { CreateChallengeGroupCommand } from '../../application/commands/create_challenge_group/create_challenge_group.command';
 import { InviteGroupMemberCommand } from '../../application/commands/invite_group_member/invite_group_member.command';
@@ -44,7 +50,7 @@ export class ChallengesResolver {
   @Query(() => [LeaderboardEntryObject])
   async groupLeaderboard(
     @User() user: UserAuthDTO,
-    @Args('groupId', { type: () => Int }) groupId: number,
+    @Args() { groupId }: GroupIdArgs,
   ) {
     return this.queryBus.execute(
       new GetGroupLeaderboardQuery(groupId, user.sub),
@@ -55,9 +61,7 @@ export class ChallengesResolver {
   @Query(() => [ChallengeObject])
   async challenges(
     @User() user: UserAuthDTO,
-    @Args('groupId', { type: () => Int }) groupId: number,
-    @Args('status', { type: () => ChallengeStatus, nullable: true })
-    status?: ChallengeStatus,
+    @Args() { groupId, status }: GroupIdOptionalStatusArgs,
   ) {
     return this.queryBus.execute(
       new GetChallengesQuery(groupId, user.sub, status),
@@ -68,7 +72,7 @@ export class ChallengesResolver {
   @Mutation(() => ChallengeGroupObject)
   async createChallengeGroup(
     @User() user: UserAuthDTO,
-    @Args('name') name: string,
+    @Args() { name }: CreateChallengeGroupArgs,
   ) {
     return this.commandBus.execute(
       new CreateChallengeGroupCommand(name, user.sub),
@@ -79,8 +83,7 @@ export class ChallengesResolver {
   @Mutation(() => ChallengeGroupObject)
   async inviteMember(
     @User() user: UserAuthDTO,
-    @Args('groupId', { type: () => Int }) groupId: number,
-    @Args('oauthId') oauthId: string,
+    @Args() { groupId, oauthId }: InviteMemberArgs,
   ) {
     return this.commandBus.execute(
       new InviteGroupMemberCommand(groupId, user.sub, oauthId),
@@ -91,7 +94,7 @@ export class ChallengesResolver {
   @Mutation(() => Boolean)
   async acceptGroupInvite(
     @User() user: UserAuthDTO,
-    @Args('groupId', { type: () => Int }) groupId: number,
+    @Args() { groupId }: GroupIdArgs,
   ) {
     return this.commandBus.execute(
       new AcceptGroupInviteCommand(groupId, user.sub),
@@ -102,7 +105,7 @@ export class ChallengesResolver {
   @Mutation(() => Boolean)
   async declineGroupInvite(
     @User() user: UserAuthDTO,
-    @Args('groupId', { type: () => Int }) groupId: number,
+    @Args() { groupId }: GroupIdArgs,
   ) {
     return this.commandBus.execute(
       new DeclineGroupInviteCommand(groupId, user.sub),
@@ -113,9 +116,7 @@ export class ChallengesResolver {
   @Mutation(() => ChallengeObject)
   async createChallenge(
     @User() user: UserAuthDTO,
-    @Args('groupId', { type: () => Int }) groupId: number,
-    @Args('recipientOauthId') recipientOauthId: string,
-    @Args('input') input: CreateChallengeInput,
+    @Args() { groupId, recipientOauthId, input }: CreateChallengeArgs,
   ) {
     return this.commandBus.execute(
       new CreateChallengeCommand(
@@ -133,7 +134,7 @@ export class ChallengesResolver {
   @Mutation(() => ChallengeObject)
   async acceptChallenge(
     @User() user: UserAuthDTO,
-    @Args('challengeId', { type: () => Int }) challengeId: number,
+    @Args() { challengeId }: ChallengeIdArgs,
   ) {
     return this.commandBus.execute(
       new AcceptChallengeCommand(challengeId, user.sub),
@@ -144,7 +145,7 @@ export class ChallengesResolver {
   @Mutation(() => Boolean)
   async declineChallenge(
     @User() user: UserAuthDTO,
-    @Args('challengeId', { type: () => Int }) challengeId: number,
+    @Args() { challengeId }: ChallengeIdArgs,
   ) {
     return this.commandBus.execute(
       new DeclineChallengeCommand(challengeId, user.sub),
@@ -155,7 +156,7 @@ export class ChallengesResolver {
   @Mutation(() => ChallengeObject)
   async forfeitChallenge(
     @User() user: UserAuthDTO,
-    @Args('challengeId', { type: () => Int }) challengeId: number,
+    @Args() { challengeId }: ChallengeIdArgs,
   ) {
     return this.commandBus.execute(
       new ForfeitChallengeCommand(challengeId, user.sub),
@@ -166,7 +167,7 @@ export class ChallengesResolver {
   @Mutation(() => ChallengeObject)
   async completeChallenge(
     @User() user: UserAuthDTO,
-    @Args('challengeId', { type: () => Int }) challengeId: number,
+    @Args() { challengeId }: ChallengeIdArgs,
   ) {
     return this.commandBus.execute(
       new CompleteChallengeCommand(challengeId, user.sub),
@@ -177,7 +178,7 @@ export class ChallengesResolver {
   @Mutation(() => ChallengeObject)
   async confirmChallengeCompletion(
     @User() user: UserAuthDTO,
-    @Args('challengeId', { type: () => Int }) challengeId: number,
+    @Args() { challengeId }: ChallengeIdArgs,
   ) {
     return this.commandBus.execute(
       new ConfirmChallengeCompletionCommand(challengeId, user.sub),
