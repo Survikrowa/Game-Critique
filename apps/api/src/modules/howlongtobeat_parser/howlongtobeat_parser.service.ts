@@ -70,8 +70,9 @@ export class HowLongToBeatService implements HowLongToBeatServiceFields {
   async fetchSearchResult(
     hltbSearchPayload: HowLongToBeatDefaultSearchPayload,
   ) {
-    const { token, hpKey, hpVal, userAgent } =
-      await this.hltbSearchAuth.getAuthData(this.retries > 2);
+    const { token, userAgent } = await this.hltbSearchAuth.getAuthData(
+      this.retries > 2,
+    );
     const { data, status } = await firstValueFrom<
       AxiosResponse<HowLongToBeatSearchResponse>
     >(
@@ -79,7 +80,6 @@ export class HowLongToBeatService implements HowLongToBeatServiceFields {
         `/api/search/site`,
         {
           ...hltbSearchPayload,
-          [hpKey]: hpVal,
         },
         {
           headers: {
@@ -89,8 +89,6 @@ export class HowLongToBeatService implements HowLongToBeatServiceFields {
             Origin: 'https://howlongtobeat.com/',
             Referer: 'https://howlongtobeat.com/',
             'x-auth-token': token,
-            'x-hp-key': hpKey,
-            'x-hp-val': hpVal,
           },
           timeout: 20000,
         },
@@ -151,36 +149,47 @@ const getDefaultHltbSearchPayload = (searchTerms: string[]) => ({
   searchPage: 1,
   size: 20,
   searchOptions: {
+    filter: '',
     games: {
-      userId: 0,
-      platform: '',
-      sortCategory: 'popular',
-      rangeCategory: 'main',
-      rangeTime: {
-        min: null,
-        max: null,
-      },
       gameplay: {
-        perspective: '',
-        flow: '',
-        genre: '',
-        difficulty: '',
-      },
-      rangeYear: {
-        min: '',
-        max: '',
+        flow: {
+          mode: 'include',
+          values: [],
+        },
+        genre: {
+          mode: 'include',
+          values: [],
+        },
+        perspective: {
+          mode: 'include',
+          values: [],
+        },
       },
       modifier: '',
-    },
-    users: {
-      sortCategory: 'postcount',
+      platform: {
+        mode: 'include',
+        values: [],
+      },
+      rangeCategory: 'main',
+      rangeTime: {
+        max: null,
+        min: null,
+      },
+      sortCategory: 'popular',
+      userId: 0,
+      year: {
+        mode: 'include',
+        values: [],
+      },
     },
     lists: {
       sortCategory: 'follows',
     },
-    filter: '',
-    sort: 0,
     randomizer: 0,
+    sort: 0,
+    users: {
+      sortCategory: 'postcount',
+    },
   },
   useCache: true,
 });

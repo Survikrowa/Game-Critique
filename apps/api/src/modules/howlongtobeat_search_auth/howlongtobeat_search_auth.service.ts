@@ -5,8 +5,6 @@ import { firstValueFrom } from 'rxjs';
 
 export interface HltbAuthData {
   token: string;
-  hpKey: string;
-  hpVal: string;
   userAgent: string;
 }
 
@@ -53,26 +51,7 @@ export class HowLongToBeatSearchAuthService {
         );
       }
 
-      // Dynamically find the key/value fields
-      let hpKey: string | undefined;
-      let hpVal: string | undefined;
-
-      for (const [fieldName, fieldValue] of Object.entries(data)) {
-        const lower = fieldName.toLowerCase();
-        if (/key/.test(lower) && typeof fieldValue === 'string') {
-          hpKey = fieldValue;
-        } else if (/val/.test(lower) && typeof fieldValue === 'string') {
-          hpVal = fieldValue;
-        }
-      }
-
-      if (!hpKey || !hpVal) {
-        throw new Error(
-          'HLTB auth data incomplete in search init response (missing hpKey or hpVal)',
-        );
-      }
-
-      return { token, hpKey, hpVal, userAgent };
+      return { token, userAgent };
     } catch (error: unknown) {
       this.logger.error('Failed to fetch HLTB auth data', error);
       throw error;
