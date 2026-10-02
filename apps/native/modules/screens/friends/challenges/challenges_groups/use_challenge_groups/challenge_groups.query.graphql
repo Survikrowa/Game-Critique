@@ -1,0 +1,11 @@
+query ChallengeGroups {
+    challengeGroups {
+        id
+        name
+        ownerId
+        members {
+            oauthId
+            status
+        }
+    }
+}

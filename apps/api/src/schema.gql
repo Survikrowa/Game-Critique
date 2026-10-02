@@ -26,6 +26,59 @@ type BacklogProgressDTO {
   ratio: Float!
 }
 
+type Challenge {
+  challengerId: String!
+  challengerName: String
+  completedAt: DateTime
+  description: String
+  forfeitedAt: DateTime
+  gameCover: String
+  gameId: Float!
+  gameName: String
+  groupId: Float!
+  id: ID!
+  recipientId: String!
+  recipientName: String
+  status: ChallengeStatus!
+  type: ChallengeType!
+}
+
+type ChallengeGroup {
+  id: ID!
+  members: [ChallengeGroupMember!]!
+  name: String!
+  ownerId: String!
+}
+
+type ChallengeGroupMember {
+  oauthId: String!
+  role: ChallengeGroupMemberRole!
+  status: ChallengeGroupMemberStatus!
+}
+
+enum ChallengeGroupMemberRole {
+  MEMBER
+  OWNER
+}
+
+enum ChallengeGroupMemberStatus {
+  ACTIVE
+  INVITED
+}
+
+enum ChallengeStatus {
+  ACTIVE
+  AWAITING_CONFIRMATION
+  COMPLETED
+  FORFEITED
+  PENDING
+}
+
+enum ChallengeType {
+  BEAT_GAME
+  IN_GAME_CHALLENGE
+}
+
 """Single Collection"""
 type CollectionDTO {
   counter: Float!
@@ -59,6 +112,12 @@ type CoverDTO {
   id: Float!
   mediumUrl: String!
   smallUrl: String!
+}
+
+input CreateChallengeInput {
+  description: String
+  gameId: Float!
+  type: ChallengeType!
 }
 
 """
@@ -285,6 +344,14 @@ type LastEditedGamesStatusDTO {
   status: GameStatus!
 }
 
+type LeaderboardEntry {
+  avatarUrl: String!
+  completedCount: Float!
+  forfeitedCount: Float!
+  name: String!
+  oauthId: String!
+}
+
 """The status of the migration of a user's HowLongToBeat account"""
 enum MigrationStatus {
   FAILED
@@ -300,12 +367,22 @@ type MonthlyActivityDTO {
 }
 
 type Mutation {
+  acceptChallenge(challengeId: Int!): Challenge!
   acceptFriendRequest(senderOauthId: String!): FriendRequestResponseDTO!
+  acceptGroupInvite(groupId: Int!): Boolean!
   addGameToCollection(collection: AddGameToCollectionDTO!): CollectionMutationResponseDTO!
   addReminder(input: AddReminderInput!): GameReminderObject!
+  completeChallenge(challengeId: Int!): Challenge!
+  confirmChallengeCompletion(challengeId: Int!): Challenge!
+  createChallenge(groupId: Int!, input: CreateChallengeInput!, recipientOauthId: String!): Challenge!
+  createChallengeGroup(name: String!): ChallengeGroup!
   createNewCollection(collection: NewCollectionDTO!): CollectionDTO!
+  declineChallenge(challengeId: Int!): Boolean!
+  declineGroupInvite(groupId: Int!): Boolean!
   fetchDoesItPlayData(hltbId: Float!): Boolean!
   fetchGameRatings(hltbId: Float!): GameRatingObject!
+  forfeitChallenge(challengeId: Int!): Challenge!
+  inviteMember(groupId: Int!, oauthId: String!): ChallengeGroup!
   registerPushToken(platform: String!, token: String!): Boolean!
   rejectFriendRequest(senderOauthId: String!): FriendRequestResponseDTO!
   removeCollection(collection: RemoveCollectionArgsDTO!): RemovedCollectionResponseDTO!
@@ -424,6 +501,8 @@ type Query {
   """Get available games status progress states"""
   availableGamesStatusProgressStates: GameStatusProgressStateDTO!
   backlogProgress(year: Int): BacklogProgressDTO!
+  challengeGroups: [ChallengeGroup!]!
+  challenges(groupId: Int!, status: ChallengeStatus): [Challenge!]!
   checkReminderStatus(igdbId: Int!): Boolean!
   collection(id: Float!): CollectionWithGamesDTO!
   friendBacklogProgress(oauthId: String!, year: Int): FriendBacklogProgressDTO!
@@ -443,6 +522,7 @@ type Query {
   getProfileCollections: [CollectionDTO!]!
   getUserReminders: [GameReminderObject!]!
   getUserSettings: UserSettingsObject
+  groupLeaderboard(groupId: Int!): [LeaderboardEntry!]!
   hltbComparison(gameStatusId: Int!): HLTBComparisonDTO!
   lastEditedGames(limit: Int! = 5): [LastEditedGamesStatusDTO!]!
   migrationStatus: HowLongToBeatMigrationStatusDTO!

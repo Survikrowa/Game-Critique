@@ -1,0 +1,8 @@
+import { ICommand } from '@nestjs/cqrs';
+
+export class AcceptChallengeCommand implements ICommand {
+  constructor(
+    public readonly challengeId: number,
+    public readonly oauthId: string,
+  ) {}
+}

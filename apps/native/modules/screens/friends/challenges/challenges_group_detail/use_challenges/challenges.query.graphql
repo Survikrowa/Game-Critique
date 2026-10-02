@@ -1,0 +1,17 @@
+query Challenges($groupId: Int!, $status: ChallengeStatus) {
+    challenges(groupId: $groupId, status: $status) {
+        id
+        type
+        status
+        gameId
+        gameName
+        gameCover
+        description
+        challengerId
+        recipientId
+        challengerName
+        recipientName
+        completedAt
+        forfeitedAt
+    }
+}

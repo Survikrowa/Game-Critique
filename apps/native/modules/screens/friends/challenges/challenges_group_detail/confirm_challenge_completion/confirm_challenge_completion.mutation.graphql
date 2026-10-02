@@ -1,0 +1,6 @@
+mutation ConfirmChallengeCompletion($challengeId: Int!) {
+    confirmChallengeCompletion(challengeId: $challengeId) {
+        id
+        status
+    }
+}

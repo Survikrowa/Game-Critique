@@ -1,0 +1,2 @@
+-- AlterEnum
+ALTER TYPE "ChallengeStatus" ADD VALUE 'AWAITING_CONFIRMATION';

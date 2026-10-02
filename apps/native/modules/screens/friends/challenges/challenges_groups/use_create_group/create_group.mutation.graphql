@@ -1,0 +1,6 @@
+mutation CreateChallengeGroup($name: String!) {
+    createChallengeGroup(name: $name) {
+        id
+        name
+    }
+}
