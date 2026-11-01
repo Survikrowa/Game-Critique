@@ -26,7 +26,7 @@ export class HowLongToBeatScrapperService {
     const $ = load(html);
     let genres: string[] = [];
     let platforms: string[] = [];
-    $('div[class*=GameSummary]').each((_, el) => {
+    $('div[class*=profile_info]').each((_, el) => {
       const metaData = $(el).text();
       if (metaData.includes('Genres:')) {
         genres = metaData.replace(/\n/g, '').replace('Genres: ', '').split(',');
