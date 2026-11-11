@@ -1,6 +1,7 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { DatabaseModule } from '../database/database.module';
 import { GamesService } from './games.service';
+import { GamesFacade } from './games.facade';
 import { BullModule } from '@nestjs/bull';
 import { GamesRepository } from './games.repository';
 import { GamesConsumer } from './games.consumer';
@@ -38,6 +39,7 @@ const CommandHandlers: CommandHandlerType[] = [
   ],
   providers: [
     GamesService,
+    GamesFacade,
     GamesRepository,
     GamesConsumer,
     GamesResolver,
@@ -50,6 +52,6 @@ const CommandHandlers: CommandHandlerType[] = [
       useClass: IgdbService,
     },
   ],
-  exports: [GamesService],
+  exports: [GamesService, GamesFacade],
 })
 export class GamesModule {}

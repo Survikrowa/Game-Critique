@@ -1,0 +1,6 @@
+mutation ForfeitChallenge($challengeId: Int!) {
+    forfeitChallenge(challengeId: $challengeId) {
+        id
+        status
+    }
+}

@@ -1,0 +1,6 @@
+mutation InviteMember($groupId: Int!, $oauthId: String!) {
+  inviteMember(groupId: $groupId, oauthId: $oauthId) {
+    id
+    name
+  }
+}

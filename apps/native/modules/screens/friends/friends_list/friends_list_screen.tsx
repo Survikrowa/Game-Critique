@@ -1,8 +1,11 @@
 import { router } from "expo-router";
 import { Bell, ChevronRight, Search, Users } from "lucide-react-native";
+import { useState } from "react";
 import { FlatList, RefreshControl, View } from "react-native";
 
+import { FriendsTabs, FriendsTab } from "./friends_tabs/friends_tabs";
 import { useFriendsList } from "./use_friends_list/use_friends_list";
+import { ChallengesGroupsListScreen } from "../challenges/challenges_groups/challenges_groups_list_screen";
 
 import { haptic } from "@/modules/haptics/haptic";
 import { UserAvatar } from "@/modules/user/user_avatar/user_avatar";
@@ -14,9 +17,6 @@ import { Separator } from "@/ui/layout/separator/separator";
 import { VStack } from "@/ui/layout/vstack/vstack";
 import { SpeedDialFab } from "@/ui/overlay/fab/speed_dial_fab";
 import { Text } from "@/ui/typography/text";
-import { FriendsListQuery } from "./use_friends_list/friends_list_query.generated";
-
-type Friend = FriendsListQuery["friendsList"]["friends"][number];
 
 const LoadingState = () => (
   <VStack className="gap-4 px-4 pt-4">
@@ -30,26 +30,37 @@ const LoadingState = () => (
 );
 
 export const FriendsListScreen = () => {
+  const [tab, setTab] = useState<FriendsTab>("friends");
   const friendsListQuery = useFriendsList();
 
+  const isFriendsTab = tab === "friends";
+
+  if (!isFriendsTab) {
+    return (
+      <View className="flex-1">
+        <FriendsTabs tab={tab} onChange={setTab} />
+        <ChallengesGroupsListScreen />
+      </View>
+    );
+  }
+
   if (friendsListQuery.loading || !friendsListQuery.data) {
-    return <LoadingState />;
+    return (
+      <View className="flex-1">
+        <FriendsTabs tab={tab} onChange={setTab} />
+        <LoadingState />
+      </View>
+    );
   }
 
   const { friends } = friendsListQuery.data.friendsList;
 
   return (
     <View className="flex-1">
+      <FriendsTabs tab={tab} onChange={setTab} />
       <FlatList
         data={friends}
         keyExtractor={(item) => item.id}
-        ListHeaderComponent={
-          <View className="items-center py-4">
-            <Text size="extraLarge" color="primary" weight="bold">
-              Twoi znajomi
-            </Text>
-          </View>
-        }
         renderItem={({ item }) => (
           <Pressable
             className="min-h-[44px] flex-row items-center justify-between px-4"

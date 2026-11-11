@@ -1,0 +1,11 @@
+query SearchForChallenge($search: String!) {
+  search(input: $search) {
+    games {
+      id
+      name
+      cover {
+        small_url
+      }
+    }
+  }
+}

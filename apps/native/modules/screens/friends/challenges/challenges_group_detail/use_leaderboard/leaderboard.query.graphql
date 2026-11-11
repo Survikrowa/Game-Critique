@@ -1,0 +1,9 @@
+query GroupLeaderboard($groupId: Int!) {
+    groupLeaderboard(groupId: $groupId) {
+        oauthId
+        name
+        avatarUrl
+        completedCount
+        forfeitedCount
+    }
+}

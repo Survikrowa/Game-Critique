@@ -1,0 +1,6 @@
+mutation AcceptChallenge($challengeId: Int!) {
+    acceptChallenge(challengeId: $challengeId) {
+        id
+        status
+    }
+}
