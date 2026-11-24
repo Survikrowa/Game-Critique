@@ -76,7 +76,7 @@ export class StreakDTO {
 }
 
 @ObjectType()
-export class HLTBComparisonDTO {
+export class CompletionTimeComparisonDTO {
   @Field(() => Int, { nullable: true })
   myHours: number | null;
 
@@ -109,7 +109,7 @@ export class GetBacklogProgressArgs {
 }
 
 @ArgsType()
-export class GetHLTBComparisonArgs {
+export class GetCompletionTimeComparisonArgs {
   @Field(() => Int)
   gameStatusId: number;
 }

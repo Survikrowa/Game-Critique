@@ -59,7 +59,7 @@ export class CollectionsRepository {
     });
   }
 
-  async addGameToCollection(collectionId: number, hltbGameId: number) {
+  async addGameToCollection(collectionId: number, gameId: number) {
     return this.prismaService.gamesCollection.create({
       data: {
         collection: {
@@ -69,7 +69,7 @@ export class CollectionsRepository {
         },
         game: {
           connect: {
-            hltbId: hltbGameId,
+            id: gameId,
           },
         },
       },

@@ -1,3 +1,3 @@
 export class FetchGameRatingsCommand {
-  constructor(public readonly hltbId: number) {}
+  constructor(public readonly gameId: number) {}
 }

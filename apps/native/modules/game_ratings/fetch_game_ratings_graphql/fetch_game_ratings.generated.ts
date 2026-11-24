@@ -4,7 +4,7 @@ import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 const defaultOptions = {} as const;
 export type FetchGameRatingsMutationVariables = Types.Exact<{
-  hltbId: Types.Scalars['Float']['input'];
+  gameId: Types.Scalars['Int']['input'];
 }>;
 
 
@@ -12,8 +12,8 @@ export type FetchGameRatingsMutation = { __typename?: 'Mutation', fetchGameRatin
 
 
 export const FetchGameRatingsDocument = gql`
-    mutation FetchGameRatings($hltbId: Float!) {
-  fetchGameRatings(hltbId: $hltbId) {
+    mutation FetchGameRatings($gameId: Int!) {
+  fetchGameRatings(gameId: $gameId) {
     aggregatedRating
     aggregatedCount
     igdbRating
@@ -37,7 +37,7 @@ export type FetchGameRatingsMutationFn = Apollo.MutationFunction<FetchGameRating
  * @example
  * const [fetchGameRatingsMutation, { data, loading, error }] = useFetchGameRatingsMutation({
  *   variables: {
- *      hltbId: // value for 'hltbId'
+ *      gameId: // value for 'gameId'
  *   },
  * });
  */

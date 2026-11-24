@@ -19,20 +19,20 @@ type GameRatingData = {
 
 type GameRatingsSectionProps = {
   gameRating: GameRatingData | null | undefined;
-  hltbId: number | undefined;
+  gameId: number | undefined;
   onDataFetched: () => void;
 };
 
 export const GameRatingsSection = ({
   gameRating,
-  hltbId,
+  gameId,
   onDataFetched,
 }: GameRatingsSectionProps) => {
   const { fetch, loading, error } = useFetchGameRatings();
 
   const handleFetch = async () => {
-    if (!hltbId) return;
-    await fetch({ variables: { hltbId } });
+    if (!gameId) return;
+    await fetch({ variables: { gameId } });
     onDataFetched();
   };
 

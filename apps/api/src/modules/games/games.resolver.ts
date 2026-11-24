@@ -1,4 +1,4 @@
-import { Args, Float, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { GamesService } from './games.service';
 import {
   ExternalGameDTO,
@@ -26,8 +26,8 @@ export class GamesResolver {
   ) {}
 
   @Query(() => GameWithAllDataDTO, { name: 'game' })
-  async getGameById(@Args('hltbId') hltbId: number) {
-    return this.gamesService.getGameById(hltbId);
+  async getGameById(@Args('gameId', { type: () => Int }) gameId: number) {
+    return this.gamesService.getGameById(gameId);
   }
 
   @Query(() => PaginatedGamesDTO, { name: 'games' })
@@ -44,9 +44,9 @@ export class GamesResolver {
   @UseGuards(JwtAuthGuard, AdminUserGuard)
   @Mutation(() => UpdateGameDataDTO, { name: 'updateGameData' })
   async updateGameData(
-    @Args('hltbId') hltbId: number,
+    @Args('gameId', { type: () => Int }) gameId: number,
   ): Promise<UpdateGameDataDTO> {
-    return this.gamesService.updateGameData(hltbId);
+    return this.gamesService.updateGameData(gameId);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -63,8 +63,8 @@ export class GamesResolver {
   @UseGuards(JwtAuthGuard)
   @Mutation(() => GameRatingObject, { name: 'fetchGameRatings' })
   async fetchGameRatings(
-    @Args('hltbId', { type: () => Float }) hltbId: number,
+    @Args('gameId', { type: () => Int }) gameId: number,
   ): Promise<GameRatingObject> {
-    return this.commandBus.execute(new FetchGameRatingsCommand(hltbId));
+    return this.commandBus.execute(new FetchGameRatingsCommand(gameId));
   }
 }

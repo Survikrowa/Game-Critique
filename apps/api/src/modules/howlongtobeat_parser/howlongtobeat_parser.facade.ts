@@ -34,8 +34,9 @@ export class HowLongToBeatParserFacade {
     return this.hltbParserService.transformToHltbSlug(title);
   }
 
-  async fetchGameDetails(hltbId: number) {
-    const gameDetails = await this.hltbScrapperService.getGameDetails(hltbId);
+  async fetchGameDetails(externalId: number) {
+    const gameDetails =
+      await this.hltbScrapperService.getGameDetails(externalId);
     return {
       id: gameDetails.gameId,
       genres: this.hltbParserService.getGenres(gameDetails.genres),

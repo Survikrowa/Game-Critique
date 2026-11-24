@@ -5,7 +5,6 @@ query UserFriendGamesStatusQuery($oauthId: String!, $take: Float, $skip: Float, 
             achievementsCompleted
             game {
                 id
-                hltbId
                 name
                 cover {
                     id

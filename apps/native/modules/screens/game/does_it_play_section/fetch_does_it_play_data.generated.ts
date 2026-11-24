@@ -4,7 +4,7 @@ import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 const defaultOptions = {} as const;
 export type FetchDoesItPlayDataMutationVariables = Types.Exact<{
-  hltbId: Types.Scalars['Float']['input'];
+  gameId: Types.Scalars['Int']['input'];
 }>;
 
 
@@ -12,8 +12,8 @@ export type FetchDoesItPlayDataMutation = { __typename?: 'Mutation', fetchDoesIt
 
 
 export const FetchDoesItPlayDataDocument = gql`
-    mutation FetchDoesItPlayData($hltbId: Float!) {
-  fetchDoesItPlayData(hltbId: $hltbId)
+    mutation FetchDoesItPlayData($gameId: Int!) {
+  fetchDoesItPlayData(gameId: $gameId)
 }
     `;
 export type FetchDoesItPlayDataMutationFn = Apollo.MutationFunction<FetchDoesItPlayDataMutation, FetchDoesItPlayDataMutationVariables>;
@@ -31,7 +31,7 @@ export type FetchDoesItPlayDataMutationFn = Apollo.MutationFunction<FetchDoesItP
  * @example
  * const [fetchDoesItPlayDataMutation, { data, loading, error }] = useFetchDoesItPlayDataMutation({
  *   variables: {
- *      hltbId: // value for 'hltbId'
+ *      gameId: // value for 'gameId'
  *   },
  * });
  */

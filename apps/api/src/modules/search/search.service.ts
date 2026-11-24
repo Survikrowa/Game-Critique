@@ -1,17 +1,20 @@
 import { Injectable } from '@nestjs/common';
-import { SearchGameResultDtoType } from './search.dto';
-import { QueryBus } from '@nestjs/cqrs';
-import { FetchGamesFromHltbQuery } from './queries/fetch_games_from_hltb.query';
+import { GameDataSource } from '@prisma/client';
+import { GamesService } from '../games/games.service';
+import { PersistedGameSummary } from '../games/domain/models/external_game.model';
 
 @Injectable()
 export class SearchService {
-  constructor(private readonly queryBus: QueryBus) {}
+  constructor(private readonly gamesService: GamesService) {}
 
-  async search(input: string): Promise<SearchGameResultDtoType[]> {
-    try {
-      return this.queryBus.execute(new FetchGamesFromHltbQuery(input));
-    } catch (error) {
-      return [];
-    }
-  }
+  search = async (input: string): Promise<PersistedGameSummary[]> =>
+    this.gamesService.searchGames(input);
+
+  searchForImport = async (input: string): Promise<PersistedGameSummary[]> => {
+    const games = await this.gamesService.searchGamesWithSource(
+      GameDataSource.HLTB,
+      input,
+    );
+    return this.gamesService.upsertExternalGames(games);
+  };
 }

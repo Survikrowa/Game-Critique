@@ -4,7 +4,7 @@
 
 input AddGameToCollectionDTO {
   collectionId: Float!
-  hltbGameId: Float!
+  gameId: Float!
 }
 
 input AddReminderInput {
@@ -45,6 +45,13 @@ type CollectionWithGamesDTO {
   games: [GameWithCoversDTO!]!
   id: Float!
   name: String!
+}
+
+type CompletionTimeComparisonDTO {
+  completionistHours: Int
+  mainStoryHours: Int
+  myHours: Int
+  myMinutes: Int
 }
 
 type Cover {
@@ -236,7 +243,6 @@ type GameWithAllDataDTO {
   gameMetadata: GameMetadataDTO
   gameRating: GameRatingObject
   genres: [GenresDto!]!
-  hltbId: Float!
   id: Float!
   name: String!
   platforms: [PlatformDTO!]!
@@ -247,7 +253,6 @@ type GameWithAllDataDTO {
 """Single Game with covers"""
 type GameWithCoversDTO {
   cover: CoverDTO
-  hltbId: Float!
   id: Float!
   name: String!
   slug: String!
@@ -264,13 +269,6 @@ type GenresDto {
 type GetFriendRequestsResponseDTO {
   senderOauthId: String!
   senderProfile: ProfileInfoDTO
-}
-
-type HLTBComparisonDTO {
-  completionistHours: Int
-  mainStoryHours: Int
-  myHours: Int
-  myMinutes: Int
 }
 
 type HowLongToBeatMigrationStatusDTO {
@@ -304,8 +302,8 @@ type Mutation {
   addGameToCollection(collection: AddGameToCollectionDTO!): CollectionMutationResponseDTO!
   addReminder(input: AddReminderInput!): GameReminderObject!
   createNewCollection(collection: NewCollectionDTO!): CollectionDTO!
-  fetchDoesItPlayData(hltbId: Float!): Boolean!
-  fetchGameRatings(hltbId: Float!): GameRatingObject!
+  fetchDoesItPlayData(gameId: Int!): Boolean!
+  fetchGameRatings(gameId: Int!): GameRatingObject!
   registerPushToken(platform: String!, token: String!): Boolean!
   rejectFriendRequest(senderOauthId: String!): FriendRequestResponseDTO!
   removeCollection(collection: RemoveCollectionArgsDTO!): RemovedCollectionResponseDTO!
@@ -316,7 +314,7 @@ type Mutation {
   removeUserGameStatusByUserOauthId(gameStatusId: Float!, oauthId: String!): GameStatusRemovedResponseDTO!
   sendFriendRequest(receiverOauthId: String!): FriendRequestResponseDTO!
   unregisterPushToken(token: String!): Boolean!
-  updateGameData(hltbId: Float!): UpdateGameDataDTO!
+  updateGameData(gameId: Int!): UpdateGameDataDTO!
   updateNotificationPreferences(input: NotificationPreferencesInput!): Boolean!
 
   """update platform display name"""
@@ -426,6 +424,7 @@ type Query {
   backlogProgress(year: Int): BacklogProgressDTO!
   checkReminderStatus(igdbId: Int!): Boolean!
   collection(id: Float!): CollectionWithGamesDTO!
+  completionTimeComparison(gameStatusId: Int!): CompletionTimeComparisonDTO!
   friendBacklogProgress(oauthId: String!, year: Int): FriendBacklogProgressDTO!
   friendMonthlyActivity(oauthId: String!, year: Int): [FriendMonthlyActivityDTO!]!
   friendStreak(oauthId: String!): FriendStreakDTO!
@@ -433,7 +432,7 @@ type Query {
   friendsActivity: [FriendsActivityDTO!]!
   friendsList: FriendsList!
   friendsRequests: [GetFriendRequestsResponseDTO!]!
-  game(hltbId: Float!): GameWithAllDataDTO!
+  game(gameId: Int!): GameWithAllDataDTO!
   games(search: String, skip: Float = 0, take: Float = 5): PaginatedGames!
 
   """Get games status sort options"""
@@ -443,7 +442,6 @@ type Query {
   getProfileCollections: [CollectionDTO!]!
   getUserReminders: [GameReminderObject!]!
   getUserSettings: UserSettingsObject
-  hltbComparison(gameStatusId: Int!): HLTBComparisonDTO!
   lastEditedGames(limit: Int! = 5): [LastEditedGamesStatusDTO!]!
   migrationStatus: HowLongToBeatMigrationStatusDTO!
   monthlyActivity(year: Int): [MonthlyActivityDTO!]!
@@ -543,7 +541,7 @@ type StreakDTO {
 }
 
 type UpdateGameDataDTO {
-  hltbId: Float!
+  gameId: Float!
   message: String!
 }
 

@@ -9,7 +9,7 @@ import { GetYearlySummaryHandler } from './queries/get_yearly_summary/get_yearly
 import { GetMonthlyActivityHandler } from './queries/get_monthly_activity/get_monthly_activity.handler';
 import { GetBacklogProgressHandler } from './queries/get_backlog_progress/get_backlog_progress.handler';
 import { GetStreakHandler } from './queries/get_streak/get_streak.handler';
-import { GetHLTBComparisonHandler } from './queries/get_hltb_comparison/get_hltb_comparison.handler';
+import { GetCompletionTimeComparisonHandler } from './queries/get_completion_time_comparison/get_completion_time_comparison.handler';
 
 const QueryHandlers = [
   GetAllUserStatsByTypeQueryHandler,
@@ -17,7 +17,7 @@ const QueryHandlers = [
   GetMonthlyActivityHandler,
   GetBacklogProgressHandler,
   GetStreakHandler,
-  GetHLTBComparisonHandler,
+  GetCompletionTimeComparisonHandler,
 ];
 
 @Module({

@@ -5,7 +5,7 @@ import { GetYearlySummaryQuery } from './queries/get_yearly_summary/get_yearly_s
 import { GetMonthlyActivityQuery } from './queries/get_monthly_activity/get_monthly_activity.query';
 import { GetBacklogProgressQuery } from './queries/get_backlog_progress/get_backlog_progress.query';
 import { GetStreakQuery } from './queries/get_streak/get_streak.query';
-import { GetHLTBComparisonQuery } from './queries/get_hltb_comparison/get_hltb_comparison.query';
+import { GetCompletionTimeComparisonQuery } from './queries/get_completion_time_comparison/get_completion_time_comparison.query';
 
 @Injectable()
 export class UserStatsService {
@@ -49,7 +49,7 @@ export class UserStatsService {
     return this.queryBus.execute(new GetStreakQuery(oauthId));
   }
 
-  async getHLTBComparison({
+  async getCompletionTimeComparison({
     gameStatusId,
     oauthId,
   }: {
@@ -57,7 +57,7 @@ export class UserStatsService {
     oauthId: string;
   }) {
     return this.queryBus.execute(
-      new GetHLTBComparisonQuery(gameStatusId, oauthId),
+      new GetCompletionTimeComparisonQuery(gameStatusId, oauthId),
     );
   }
 }

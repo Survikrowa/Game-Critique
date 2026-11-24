@@ -1,5 +1,5 @@
-mutation FetchGameRatings($hltbId: Float!) {
-  fetchGameRatings(hltbId: $hltbId) {
+mutation FetchGameRatings($gameId: Int!) {
+  fetchGameRatings(gameId: $gameId) {
     aggregatedRating
     aggregatedCount
     igdbRating

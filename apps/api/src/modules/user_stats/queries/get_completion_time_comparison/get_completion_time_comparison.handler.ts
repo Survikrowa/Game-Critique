@@ -1,18 +1,20 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { GetHLTBComparisonQuery } from './get_hltb_comparison.query';
+import { GetCompletionTimeComparisonQuery } from './get_completion_time_comparison.query';
 import { PrismaService } from '../../../database/prisma.service';
-import { HLTBComparisonDTO } from '../../user_stats.dto';
+import { CompletionTimeComparisonDTO } from '../../user_stats.dto';
 
 const SECONDS_IN_MINUTE = 60;
 const MINUTES_IN_HOUR = 60;
 
-@QueryHandler(GetHLTBComparisonQuery)
-export class GetHLTBComparisonHandler
-  implements IQueryHandler<GetHLTBComparisonQuery>
+@QueryHandler(GetCompletionTimeComparisonQuery)
+export class GetCompletionTimeComparisonHandler
+  implements IQueryHandler<GetCompletionTimeComparisonQuery>
 {
   constructor(private readonly prisma: PrismaService) {}
 
-  async execute(query: GetHLTBComparisonQuery): Promise<HLTBComparisonDTO> {
+  async execute(
+    query: GetCompletionTimeComparisonQuery,
+  ): Promise<CompletionTimeComparisonDTO> {
     const { gameStatusId, oauthId } = query;
 
     const gameStatus = await this.prisma.gamesStatus.findFirst({

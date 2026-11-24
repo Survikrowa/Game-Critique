@@ -20,7 +20,6 @@ export class GetGamesQueryHandler implements IQueryHandler<GetGamesQuery> {
         id: true,
         name: true,
         slug: true,
-        hltbId: true,
       },
     });
   }

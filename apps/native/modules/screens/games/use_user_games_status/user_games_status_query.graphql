@@ -5,7 +5,6 @@ query UserGamesStatusQuery($take: Float, $skip: Float, $status: GameStatus!, $se
       achievementsCompleted
       game {
         id
-        hltbId
         name
         cover {
           id

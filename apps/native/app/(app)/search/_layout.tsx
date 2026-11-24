@@ -11,7 +11,7 @@ const SearchLayout = () => {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="games_status_add_form/[hltb_id]/index"
+        name="games_status_add_form/[game_id]/index"
         options={{
           header: ({ options: { title } }) => (
             <GoBackHeader text={title || ""} />

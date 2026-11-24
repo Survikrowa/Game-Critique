@@ -31,7 +31,6 @@ export class GetAllUserGamesStatusByOauthIdHandler
             id: true,
             name: true,
             slug: true,
-            hltbId: true,
             cover: true,
             platformForGame: {
               select: {
@@ -103,7 +102,6 @@ export class GetAllUserGamesStatusByOauthIdHandler
           id: gameStatus.game.id,
           name: gameStatus.game.name,
           slug: gameStatus.game.slug,
-          hltbId: gameStatus.game.hltbId,
           cover: gameStatus.game.cover
             ? {
                 id: gameStatus.game.cover.id,
@@ -167,7 +165,6 @@ type GameStatus = {
     id: number;
     name: string;
     slug: string;
-    hltbId: number;
     cover: {
       id: number;
       smallUrl: string;

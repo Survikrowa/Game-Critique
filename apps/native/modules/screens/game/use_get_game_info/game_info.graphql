@@ -1,8 +1,7 @@
-query GameInfo($hltbId: Float!) {
-  game(hltbId: $hltbId) {
+query GameInfo($gameId: Int!) {
+  game(gameId: $gameId) {
     id
     name
-    hltbId
     cover {
       mediumUrl
     }

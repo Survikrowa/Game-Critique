@@ -65,7 +65,6 @@ export class CollectionsService {
         name: game.name,
         id: game.id,
         slug: game.slug,
-        hltbId: game.hltbId,
         bigUrl: game.cover?.bigUrl || '',
         cover: {
           id: game.cover?.id || 0,
@@ -77,10 +76,7 @@ export class CollectionsService {
     };
   }
 
-  async addGameToCollection(collectionId: number, hltbGameId: number) {
-    return this.collectionsRepository.addGameToCollection(
-      collectionId,
-      hltbGameId,
-    );
+  async addGameToCollection(collectionId: number, gameId: number) {
+    return this.collectionsRepository.addGameToCollection(collectionId, gameId);
   }
 }

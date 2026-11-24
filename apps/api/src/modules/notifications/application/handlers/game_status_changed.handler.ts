@@ -48,7 +48,7 @@ export class GameStatusChangedHandler
       body,
       {
         type: 'game',
-        hltbId: event.hltbId,
+        gameId: event.gameId,
         oauthId: event.oauthId,
         gamesStatusId: event.gamesStatusId,
       },

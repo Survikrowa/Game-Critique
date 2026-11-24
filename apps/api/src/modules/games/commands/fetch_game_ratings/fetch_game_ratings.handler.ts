@@ -1,26 +1,37 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import {
   Injectable,
-  Logger,
-  NotFoundException,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
+import { Inject } from '@nestjs/common';
+import { GameDataSource } from '@prisma/client';
 import { FetchGameRatingsCommand } from './fetch_game_ratings.command';
-import { IgdbService } from '../../../../infrastructure/igdb/igdb.service';
 import { PrismaService } from '../../../database/prisma.service';
 import { GamesRepository } from '../../games.repository';
+import {
+  GAME_PROVIDER_REGISTRY,
+  GameProviderRegistry,
+} from '../../domain/ports/game_provider.port';
+import {
+  GAME_SOURCE_REPOSITORY,
+  GameSourceRepositoryPort,
+} from '../../domain/ports/game_source.repository.port';
+
+const SEARCH_LIMIT = 5;
 
 @Injectable()
 @CommandHandler(FetchGameRatingsCommand)
 export class FetchGameRatingsHandler
   implements ICommandHandler<FetchGameRatingsCommand>
 {
-  private readonly logger = new Logger(FetchGameRatingsHandler.name);
-
   constructor(
-    private readonly igdbService: IgdbService,
     private readonly prisma: PrismaService,
     private readonly gamesRepository: GamesRepository,
+    @Inject(GAME_PROVIDER_REGISTRY)
+    private readonly registry: GameProviderRegistry,
+    @Inject(GAME_SOURCE_REPOSITORY)
+    private readonly sourceRepository: GameSourceRepositoryPort,
   ) {}
 
   async execute(command: FetchGameRatingsCommand): Promise<{
@@ -30,50 +41,45 @@ export class FetchGameRatingsHandler
     igdbRatingCount: number | null;
     igdbUrl: string | null;
   }> {
-    const game = await this.gamesRepository.getGameById(command.hltbId);
+    const game = await this.gamesRepository.getGameById(command.gameId);
     if (!game) {
       throw new NotFoundException(
-        `Nie znaleziono gry o HLTB ID ${command.hltbId} w bazie`,
+        `Nie znaleziono gry o ID ${command.gameId} w bazie`,
       );
     }
 
-    const igdbGame = await this.igdbService.searchGameByName(
-      game.name,
-      game.slug,
-    );
-    if (!igdbGame) {
-      throw new NotFoundException(`Nie znaleziono gry "${game.name}" w IGDB`);
-    }
-
-    const ratings = await this.igdbService.getGameRatings(igdbGame.id);
+    const externalId = await this.resolveIgdbId(game, command.gameId);
+    const ratings = await this.registry.primary.getRatings({
+      source: GameDataSource.IGDB,
+      externalId,
+      name: game.name,
+    });
     if (!ratings) {
       throw new InternalServerErrorException(
         `Nie udało się pobrać ocen dla "${game.name}" z IGDB`,
       );
     }
 
-    const result = await this.prisma.$transaction((tx) =>
-      tx.gameRating.upsert({
-        where: { gameId: game.id },
-        update: {
-          igdbId: igdbGame.id,
-          aggregatedRating: ratings.aggregated_rating ?? null,
-          aggregatedCount: ratings.aggregated_rating_count ?? null,
-          igdbRating: ratings.rating ?? null,
-          igdbRatingCount: ratings.rating_count ?? null,
-          igdbUrl: ratings.url || igdbGame.url || null,
-        },
-        create: {
-          gameId: game.id,
-          igdbId: igdbGame.id,
-          aggregatedRating: ratings.aggregated_rating ?? null,
-          aggregatedCount: ratings.aggregated_rating_count ?? null,
-          igdbRating: ratings.rating ?? null,
-          igdbRatingCount: ratings.rating_count ?? null,
-          igdbUrl: ratings.url || igdbGame.url || null,
-        },
-      }),
-    );
+    const result = await this.prisma.gameRating.upsert({
+      where: { gameId: game.id },
+      update: {
+        igdbId: Number(externalId),
+        aggregatedRating: ratings.aggregatedRating ?? null,
+        aggregatedCount: ratings.aggregatedCount ?? null,
+        igdbRating: ratings.rating ?? null,
+        igdbRatingCount: ratings.ratingCount ?? null,
+        igdbUrl: ratings.url || null,
+      },
+      create: {
+        gameId: game.id,
+        igdbId: Number(externalId),
+        aggregatedRating: ratings.aggregatedRating ?? null,
+        aggregatedCount: ratings.aggregatedCount ?? null,
+        igdbRating: ratings.rating ?? null,
+        igdbRatingCount: ratings.ratingCount ?? null,
+        igdbUrl: ratings.url || null,
+      },
+    });
 
     return {
       aggregatedRating: result.aggregatedRating,
@@ -82,5 +88,36 @@ export class FetchGameRatingsHandler
       igdbRatingCount: result.igdbRatingCount,
       igdbUrl: result.igdbUrl,
     };
+  }
+
+  private async resolveIgdbId(
+    game: {
+      name: string;
+      sourceIds: { source: GameDataSource; externalId: string }[];
+    },
+    gameId: number,
+  ): Promise<string> {
+    const existing = game.sourceIds.find(
+      (source) => source.source === GameDataSource.IGDB,
+    );
+    if (existing) return existing.externalId;
+
+    const candidates = await this.registry.primary.searchGames({
+      query: game.name,
+      limit: SEARCH_LIMIT,
+    });
+    const match =
+      candidates.find((candidate) => candidate.kind === 'base') ??
+      candidates[0];
+    if (!match) {
+      throw new NotFoundException(`Nie znaleziono gry "${game.name}" w IGDB`);
+    }
+
+    await this.sourceRepository.attach({
+      gameId,
+      source: GameDataSource.IGDB,
+      externalId: match.externalId,
+    });
+    return match.externalId;
   }
 }

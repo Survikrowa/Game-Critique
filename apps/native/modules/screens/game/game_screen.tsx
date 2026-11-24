@@ -96,7 +96,7 @@ export const GameScreen = () => {
 
           <GameRatingsSection
             gameRating={game.gameRating}
-            hltbId={game.hltbId}
+            gameId={game.id}
             onDataFetched={gameQuery.refetch}
           />
 
@@ -104,7 +104,7 @@ export const GameScreen = () => {
 
           <DoesItPlaySection
             entries={game.gameMetadata?.physicalMedia}
-            hltbId={game.hltbId}
+            gameId={game.id}
             onDataFetched={gameQuery.refetch}
           />
         </View>

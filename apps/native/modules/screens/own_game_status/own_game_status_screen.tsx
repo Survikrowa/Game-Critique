@@ -5,14 +5,14 @@ import { Pressable, ScrollView, View } from "react-native";
 import { useSetHeaderTitle } from "../../router/use_set_header_title";
 import { GameStatusAchievements } from "../game_status_shared/game_status_achievements";
 import { GameStatusCompletionTime } from "../game_status_shared/game_status_completion_time";
+import { GameStatusCompletionTimeComparison } from "../game_status_shared/game_status_completion_time_comparison";
 import { GameStatusHero } from "../game_status_shared/game_status_hero";
-import { GameStatusHLTBComparison } from "../game_status_shared/game_status_hltb_comparison";
 import { GameStatusInfoCards } from "../game_status_shared/game_status_info_cards";
 import { GameStatusReview } from "../game_status_shared/game_status_review";
 import { getPlatformText } from "../game_status_shared/get_platform_text";
 import { useUserGameStatus } from "../user_game_status/use_user_game_status/use_user_game_status";
 import { UserGameStatusFriendsReviews } from "../user_game_status/user_game_status_friends_reviews/user_game_status_friends_reviews";
-import { useHltbComparison } from "../user_stats/use_get_hltb_comparison/use_get_hltb_comparison";
+import { useCompletionTimeComparison } from "../user_stats/use_get_completion_time_comparison/use_get_completion_time_comparison";
 
 import { GameStatus } from "@/__generated__/types";
 import { ErrorState } from "@/ui/feedback/error_state/error_state";
@@ -50,7 +50,7 @@ export const OwnGameStatusScreen = () => {
     gameStatusId: games_status_id,
     oauthId: oauth_id,
   });
-  const hltbComparison = useHltbComparison({
+  const completionTimeComparison = useCompletionTimeComparison({
     gameStatusId: Number(games_status_id) || undefined,
   });
   useSetHeaderTitle(userGameStatusQuery.data?.userGameStatus.game.name || "");
@@ -76,7 +76,8 @@ export const OwnGameStatusScreen = () => {
     (gameStatus.completedIn.hours != null ||
       gameStatus.completedIn.minutes != null);
 
-  const hltbData = hltbComparison.data?.hltbComparison;
+  const completionTimeData =
+    completionTimeComparison.data?.completionTimeComparison;
 
   return (
     <ScrollView
@@ -104,11 +105,11 @@ export const OwnGameStatusScreen = () => {
           />
         )}
 
-        <GameStatusHLTBComparison
+        <GameStatusCompletionTimeComparison
           myHours={gameStatus.completedIn?.hours ?? null}
           myMinutes={gameStatus.completedIn?.minutes ?? null}
-          mainStoryHours={hltbData?.mainStoryHours ?? null}
-          completionistHours={hltbData?.completionistHours ?? null}
+          mainStoryHours={completionTimeData?.mainStoryHours ?? null}
+          completionistHours={completionTimeData?.completionistHours ?? null}
         />
 
         {gameStatus.achievementsCompleted && <GameStatusAchievements />}
@@ -124,7 +125,7 @@ export const OwnGameStatusScreen = () => {
           onPress={() =>
             router.push({
               pathname: "/search/game/[game_id]",
-              params: { game_id: gameStatus.game.hltbId },
+              params: { game_id: gameStatus.game.id },
             })
           }
           className="mx-4 min-h-[44px] flex-row items-center justify-center gap-2 rounded-full bg-background-100"

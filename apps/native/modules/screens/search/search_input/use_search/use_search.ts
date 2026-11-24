@@ -9,5 +9,6 @@ export const useSearch = ({ input }: UseSearchArgs) => {
     variables: {
       search: input,
     },
+    fetchPolicy: "network-only",
   });
 };

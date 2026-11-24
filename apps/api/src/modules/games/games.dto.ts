@@ -15,8 +15,6 @@ export class GameDTO {
   name: string;
   @Field(() => String)
   slug: string;
-  @Field(() => Number)
-  hltbId: number;
 }
 
 @ObjectType({ description: 'Single Game with covers' })
@@ -27,8 +25,6 @@ export class GameWithCoversDTO {
   name: string;
   @Field(() => String)
   slug: string;
-  @Field(() => Number)
-  hltbId: number;
   @Field(() => CoverDTO, { nullable: true })
   cover?: CoverDTO | null;
 }
@@ -51,8 +47,6 @@ export class GameWithAllDataDTO {
   name: string;
   @Field(() => String)
   slug: string;
-  @Field(() => Number)
-  hltbId: number;
   @Field(() => CoverDTO, { nullable: true })
   cover: CoverDTO | null;
   @Field(() => [PlatformDTO])
@@ -104,7 +98,7 @@ export class GetPaginatedGamesArgs extends PaginationArgs {
 @ObjectType('UpdateGameDataDTO')
 export class UpdateGameDataDTO {
   @Field(() => Number)
-  hltbId: number;
+  gameId: number;
 
   @Field(() => String)
   message: string;

@@ -73,7 +73,7 @@ describe('GameStatusChangedHandler', () => {
       ['tok1', 'tok2'],
       'Aktywność znajomych',
       'Jan ukończył Elden Ring i dał 9/10',
-      { type: 'game', hltbId: 123, oauthId: 'auth0|jan', gamesStatusId: 1 },
+      { type: 'game', gameId: 123, oauthId: 'auth0|jan', gamesStatusId: 1 },
     );
   });
 
@@ -103,7 +103,7 @@ describe('GameStatusChangedHandler', () => {
       ['tok1'],
       'Aktywność znajomych',
       'Anna ukończył Hollow Knight',
-      { type: 'game', hltbId: 456, oauthId: 'auth0|anna', gamesStatusId: 2 },
+      { type: 'game', gameId: 456, oauthId: 'auth0|anna', gamesStatusId: 2 },
     );
   });
 
@@ -134,7 +134,7 @@ describe('GameStatusChangedHandler', () => {
       ['tok1'],
       'Aktywność znajomych',
       'Maria zaczął grać w Cyberpunk 2077',
-      { type: 'game', hltbId: 789, oauthId: 'auth0|maria', gamesStatusId: 3 },
+      { type: 'game', gameId: 789, oauthId: 'auth0|maria', gamesStatusId: 3 },
     );
   });
 
@@ -205,7 +205,7 @@ describe('GameStatusChangedHandler', () => {
       ['tok1'],
       'Aktywność znajomych',
       'Ktoś ukończył Game i dał 8/10',
-      { type: 'game', hltbId: 333, oauthId: 'auth0|x', gamesStatusId: 6 },
+      { type: 'game', gameId: 333, oauthId: 'auth0|x', gamesStatusId: 6 },
     );
   });
 
@@ -235,7 +235,7 @@ describe('GameStatusChangedHandler', () => {
       ['tok1'],
       'Aktywność znajomych',
       'Piotr napisał recenzję Disco Elysium',
-      { type: 'game', hltbId: 444, oauthId: 'auth0|piotr', gamesStatusId: 7 },
+      { type: 'game', gameId: 444, oauthId: 'auth0|piotr', gamesStatusId: 7 },
     );
   });
 });

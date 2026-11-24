@@ -3,7 +3,7 @@ import { z } from "zod";
 export const NotificationDataSchema = z.discriminatedUnion("type", [
   z.object({
     type: z.literal("game"),
-    hltbId: z.number(),
+    gameId: z.number(),
     oauthId: z.string(),
     gamesStatusId: z.number(),
   }),

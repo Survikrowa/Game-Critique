@@ -10,8 +10,8 @@ import {
   BacklogProgressDTO,
   GetBacklogProgressArgs,
   StreakDTO,
-  HLTBComparisonDTO,
-  GetHLTBComparisonArgs,
+  CompletionTimeComparisonDTO,
+  GetCompletionTimeComparisonArgs,
 } from './user_stats.dto';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/infrastructure/guards/auth-jwt.guard';
@@ -74,12 +74,14 @@ export class UserStatsResolver {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Query(() => HLTBComparisonDTO, { name: 'hltbComparison' })
-  getHLTBComparison(
+  @Query(() => CompletionTimeComparisonDTO, {
+    name: 'completionTimeComparison',
+  })
+  getCompletionTimeComparison(
     @User() user: UserAuthDTO,
-    @Args() { gameStatusId }: GetHLTBComparisonArgs,
-  ): Promise<HLTBComparisonDTO> {
-    return this.userStatsService.getHLTBComparison({
+    @Args() { gameStatusId }: GetCompletionTimeComparisonArgs,
+  ): Promise<CompletionTimeComparisonDTO> {
+    return this.userStatsService.getCompletionTimeComparison({
       gameStatusId,
       oauthId: user.sub,
     });

@@ -1,11 +1,13 @@
-import { useHltbComparisonQuery } from "./user_stats.generated";
+import { useCompletionTimeComparisonQuery } from "./user_stats.generated";
 
-type UseHltbComparisonArgs = {
+type UseCompletionTimeComparisonArgs = {
   gameStatusId?: number;
 };
 
-export const useHltbComparison = ({ gameStatusId }: UseHltbComparisonArgs) => {
-  return useHltbComparisonQuery({
+export const useCompletionTimeComparison = ({
+  gameStatusId,
+}: UseCompletionTimeComparisonArgs) => {
+  return useCompletionTimeComparisonQuery({
     variables: { gameStatusId: gameStatusId || 0 },
     skip: !gameStatusId,
   });

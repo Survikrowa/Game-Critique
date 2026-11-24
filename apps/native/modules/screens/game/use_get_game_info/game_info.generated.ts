@@ -4,19 +4,18 @@ import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 const defaultOptions = {} as const;
 export type GameInfoQueryVariables = Types.Exact<{
-  hltbId: Types.Scalars['Float']['input'];
+  gameId: Types.Scalars['Int']['input'];
 }>;
 
 
-export type GameInfoQuery = { __typename?: 'Query', game: { __typename?: 'GameWithAllDataDTO', id: number, name: string, hltbId: number, cover?: { __typename?: 'CoverDTO', mediumUrl: string } | null, platforms: Array<{ __typename?: 'PlatformDTO', name: string, id: number }>, genres: Array<{ __typename?: 'GenresDto', name: string }>, releases?: { __typename?: 'GameReleaseDTO', date?: number | null } | null, completionTime?: { __typename?: 'GameCompletionTimeDTO', main: number, mainExtra: number, completionist: number } | null, gameMetadata?: { __typename?: 'GameMetadataDTO', physicalMedia?: Array<{ __typename?: 'PhysicalMediaEntryDTO', platform?: string | null, hasPhysicalRelease: boolean, hasGameOnDisc: boolean }> | null } | null, gameRating?: { __typename?: 'GameRatingObject', aggregatedRating?: number | null, aggregatedCount?: number | null, igdbRating?: number | null, igdbRatingCount?: number | null, igdbUrl?: string | null } | null } };
+export type GameInfoQuery = { __typename?: 'Query', game: { __typename?: 'GameWithAllDataDTO', id: number, name: string, cover?: { __typename?: 'CoverDTO', mediumUrl: string } | null, platforms: Array<{ __typename?: 'PlatformDTO', name: string, id: number }>, genres: Array<{ __typename?: 'GenresDto', name: string }>, releases?: { __typename?: 'GameReleaseDTO', date?: number | null } | null, completionTime?: { __typename?: 'GameCompletionTimeDTO', main: number, mainExtra: number, completionist: number } | null, gameMetadata?: { __typename?: 'GameMetadataDTO', physicalMedia?: Array<{ __typename?: 'PhysicalMediaEntryDTO', platform?: string | null, hasPhysicalRelease: boolean, hasGameOnDisc: boolean }> | null } | null, gameRating?: { __typename?: 'GameRatingObject', aggregatedRating?: number | null, aggregatedCount?: number | null, igdbRating?: number | null, igdbRatingCount?: number | null, igdbUrl?: string | null } | null } };
 
 
 export const GameInfoDocument = gql`
-    query GameInfo($hltbId: Float!) {
-  game(hltbId: $hltbId) {
+    query GameInfo($gameId: Int!) {
+  game(gameId: $gameId) {
     id
     name
-    hltbId
     cover {
       mediumUrl
     }
@@ -65,7 +64,7 @@ export const GameInfoDocument = gql`
  * @example
  * const { data, loading, error } = useGameInfoQuery({
  *   variables: {
- *      hltbId: // value for 'hltbId'
+ *      gameId: // value for 'gameId'
  *   },
  * });
  */

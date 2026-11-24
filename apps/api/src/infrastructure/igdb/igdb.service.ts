@@ -1,85 +1,166 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
-import { ExternalGameDTO } from '../../modules/games/games.dto';
 import { firstValueFrom } from 'rxjs';
 import { AxiosResponse, isAxiosError } from 'axios';
 import { z } from 'zod';
-import { IGamesProvider } from '../../modules/games/interfaces/games-provider.interface';
 import { OAuthTokenDto } from './igdb.dto';
+import { IgdbRateLimiter } from './igdb_rate_limiter';
+import { IgdbGameRatingsResponseSchema, IgdbGameSchema } from './igdb.schema';
+import { IgdbTimeToBeatSchema } from './igdb_time_to_beat.schema';
 import { timestampToMs } from '../../modules/date_and_time/time/timestamp_to_ms';
+import { CompletionTime } from '../../modules/games/domain/models/external_game.model';
+
+const IGDB_GAMES_ENDPOINT = 'https://api.igdb.com/v4/games';
+const IGDB_TIME_TO_BEAT_ENDPOINT = 'https://api.igdb.com/v4/game_time_to_beats';
+const TWITCH_TOKEN_ENDPOINT = 'https://id.twitch.tv/oauth2/token';
+const TOKEN_REFRESH_MARGIN_SECONDS = 3600;
+const GAME_FIELDS =
+  'id,name,slug,url,cover.url,first_release_date,platforms.id,platforms.name,platforms.slug,genres.id,genres.name,genres.slug,game_type,version_parent,parent_game';
+const UPCOMING_GAME_TYPES = '0,2,4,8,9';
+
+const dropLastToken = (query: string): string => {
+  const tokens = query.trim().split(/\s+/).filter(Boolean);
+  if (tokens.length <= 1) return '';
+  return tokens.slice(0, -1).join(' ');
+};
+
+type IgdbGame = z.infer<typeof IgdbGameSchema>;
+type IgdbGameRatingsResponse = z.infer<typeof IgdbGameRatingsResponseSchema>;
 
 @Injectable()
-export class IgdbService implements IGamesProvider {
+export class IgdbService {
   private readonly logger = new Logger(IgdbService.name);
 
   constructor(
     private readonly httpService: HttpService,
     private readonly configService: ConfigService,
+    private readonly rateLimiter: IgdbRateLimiter,
   ) {}
 
   private accessToken: string | null = null;
-  private tokenExpiration: number = 0;
+  private tokenExpiration = 0;
 
   async getUpcomingGames(
     limit: number,
     platformIds: number[],
-  ): Promise<ExternalGameDTO[]> {
+  ): Promise<IgdbGame[]> {
     const now = Math.floor(Date.now() / 1000);
     const platforms = platformIds.join(',');
 
     const query = `
-  fields name, cover.url, screenshots.url, first_release_date, platforms.name, category, url;
-
+  fields ${GAME_FIELDS};
   where
     first_release_date > ${now} &
     platforms = (${platforms}) &
     cover != null &
-    game_type = (0, 2, 4, 8, 9) &
+    game_type = (${UPCOMING_GAME_TYPES}) &
     version_parent = null;
-
   sort first_release_date asc;
   limit ${limit};
 `;
 
-    const token = await this.getTokenFromOAuth();
+    return (await this.postGames(query)) ?? [];
+  }
 
-    try {
-      const { data } = await firstValueFrom(
-        this.httpService.post('https://api.igdb.com/v4/games', query, {
-          headers: {
-            'Client-ID': this.configService.get('IGDB_CLIENT_ID'),
-            Authorization: `Bearer ${token}`,
-          },
-        }),
+  async searchGames(query: string, limit: number): Promise<IgdbGame[]> {
+    const results = await this.searchGamesQuery(query, limit);
+    if (results.length > 0) return results;
+
+    const fallbackQuery = dropLastToken(query);
+    if (!fallbackQuery) return results;
+
+    return this.searchGamesQuery(fallbackQuery, limit);
+  }
+
+  private searchGamesQuery = async (
+    query: string,
+    limit: number,
+  ): Promise<IgdbGame[]> => {
+    const sanitized = query.replace(/"/g, '');
+    const searchQuery = `
+search "${sanitized}";
+fields ${GAME_FIELDS};
+limit ${limit};
+`;
+
+    return (await this.postGames(searchQuery)) ?? [];
+  };
+
+  async getGamesByIds(ids: number[]): Promise<IgdbGame[]> {
+    if (ids.length === 0) return [];
+
+    const query = `
+fields ${GAME_FIELDS};
+where id = (${ids.join(',')});
+`;
+
+    return (await this.postGames(query)) ?? [];
+  }
+
+  async getTimeToBeats(ids: number[]): Promise<Map<number, CompletionTime>> {
+    if (ids.length === 0) return new Map();
+
+    const query = `
+fields game_id,hastily,normally,completely;
+where game_id = (${ids.join(',')});
+`;
+
+    const data = await this.post(IGDB_TIME_TO_BEAT_ENDPOINT, query);
+    if (!data) return new Map();
+
+    const parsed = z.array(IgdbTimeToBeatSchema).safeParse(data);
+    if (!parsed.success) {
+      this.logger.error(
+        'Failed to parse IGDB game_time_to_beats response',
+        parsed.error,
       );
-
-      const parsed = z.array(IgdbGameSchema).safeParse(data);
-      if (!parsed.success) {
-        this.logger.error(
-          'Failed to parse IGDB upcoming games response',
-          parsed.error,
-        );
-        return [];
-      }
-
-      return parsed.data.map(this.mapToDto);
-    } catch (e) {
-      this.logger.error('Error fetching games from IGDB', e);
-      return [];
+      return new Map();
     }
+
+    const times = new Map<number, CompletionTime>();
+    for (const entry of parsed.data) {
+      times.set(entry.game_id, {
+        main: entry.hastily ?? null,
+        mainExtra: entry.normally ?? null,
+        completionist: entry.completely ?? null,
+      });
+    }
+    return times;
+  }
+
+  async getGameRatings(
+    igdbId: number,
+  ): Promise<IgdbGameRatingsResponse | null> {
+    const query = `
+fields aggregated_rating, aggregated_rating_count, rating, rating_count, url;
+where id = ${igdbId};
+`;
+
+    const data = await this.post(IGDB_GAMES_ENDPOINT, query);
+    if (!data) return null;
+
+    const parsed = z.array(IgdbGameRatingsResponseSchema).safeParse(data);
+    if (!parsed.success) {
+      this.logger.error('Failed to parse IGDB ratings response', parsed.error);
+      return null;
+    }
+
+    return parsed.data[0] ?? null;
   }
 
   async getTokenFromOAuth(): Promise<string> {
     const now = Date.now();
+    const refreshMarginMs = TOKEN_REFRESH_MARGIN_SECONDS * 1000;
 
-    if (this.accessToken && this.tokenExpiration > now + 3600 * 1000) {
+    if (this.accessToken && this.tokenExpiration > now + refreshMarginMs) {
       return this.accessToken;
     }
+
     this.logger.log('Refreshing IGDB Access Token...');
     try {
       const { data } = await firstValueFrom<AxiosResponse<OAuthTokenDto>>(
-        this.httpService.post('https://id.twitch.tv/oauth2/token', null, {
+        this.httpService.post(TWITCH_TOKEN_ENDPOINT, null, {
           params: {
             client_id: this.configService.get('IGDB_CLIENT_ID'),
             client_secret: this.configService.get('IGDB_CLIENT_SECRET'),
@@ -101,144 +182,40 @@ export class IgdbService implements IGamesProvider {
     }
   }
 
-  private mapToDto(game: IgdbGame): ExternalGameDTO {
-    return {
-      id: game.id.toString(),
-      name: game.name,
-      url: game.url || '',
-      coverUrl: game.cover?.url
-        ? `https:${game.cover.url.replace('t_thumb', 't_cover_big')}`
-        : '',
-      backgroundUrl: game.screenshots?.[0]?.url
-        ? `https:${game.screenshots[0].url.replace(
-            't_thumb',
-            't_screenshot_big',
-          )}`
-        : '',
-      releaseDate: game.first_release_date
-        ? new Date(game.first_release_date * 1000)
-        : new Date(0),
-      platforms:
-        game.platforms?.map((p) => ({
-          id: p.id.toString(),
-          name: p.name,
-        })) || [],
-    };
-  }
+  private postGames = async (query: string): Promise<IgdbGame[] | null> => {
+    const data = await this.post(IGDB_GAMES_ENDPOINT, query);
+    if (!data) return null;
 
-  async searchGameByName(
-    name: string,
-    slug: string,
-  ): Promise<IgdbGameSearchResult | null> {
-    const token = await this.getTokenFromOAuth();
-
-    const query = `
-search "${name.replace(/"/g, '')}";
-fields id, name, slug, url;
-limit 5;
-`;
-
-    try {
-      const { data } = await firstValueFrom(
-        this.httpService.post('https://api.igdb.com/v4/games', query, {
-          headers: {
-            'Client-ID': this.configService.get('IGDB_CLIENT_ID'),
-            Authorization: `Bearer ${token}`,
-          },
-        }),
-      );
-
-      const parsed = z.array(IgdbGameSearchResultSchema).safeParse(data);
-      if (!parsed.success) {
-        this.logger.error('Failed to parse IGDB search results', parsed.error);
-        return null;
-      }
-
-      const exactMatch = parsed.data.find((g) => g.slug === slug);
-
-      return exactMatch || parsed.data[0] || null;
-    } catch (e) {
-      this.logger.error('Error searching game on IGDB', e);
+    const parsed = z.array(IgdbGameSchema).safeParse(data);
+    if (!parsed.success) {
+      this.logger.error('Failed to parse IGDB games response', parsed.error);
       return null;
     }
-  }
 
-  async getGameRatings(
-    igdbId: number,
-  ): Promise<IgdbGameRatingsResponse | null> {
+    return parsed.data;
+  };
+
+  private post = async (
+    endpoint: string,
+    query: string,
+  ): Promise<unknown | null> => {
     const token = await this.getTokenFromOAuth();
 
-    const query = `
-fields aggregated_rating, aggregated_rating_count, rating, rating_count, url;
-where id = ${igdbId};
-`;
-
     try {
-      const { data } = await firstValueFrom(
-        this.httpService.post('https://api.igdb.com/v4/games', query, {
-          headers: {
-            'Client-ID': this.configService.get('IGDB_CLIENT_ID'),
-            Authorization: `Bearer ${token}`,
-          },
-        }),
+      const { data } = await this.rateLimiter.run(() =>
+        firstValueFrom<AxiosResponse<unknown>>(
+          this.httpService.post(endpoint, query, {
+            headers: {
+              'Client-ID': this.configService.get('IGDB_CLIENT_ID'),
+              Authorization: `Bearer ${token}`,
+            },
+          }),
+        ),
       );
-
-      const parsed = z.array(IgdbGameRatingsResponseSchema).safeParse(data);
-      if (!parsed.success) {
-        this.logger.error(
-          'Failed to parse IGDB ratings response',
-          parsed.error,
-        );
-        return null;
-      }
-
-      return parsed.data[0] || null;
+      return data;
     } catch (e) {
-      this.logger.error('Error fetching game ratings from IGDB', e);
+      this.logger.error('Error communicating with IGDB', e);
       return null;
     }
-  }
+  };
 }
-
-type IgdbGameSearchResult = z.infer<typeof IgdbGameSearchResultSchema>;
-
-type IgdbGameRatingsResponse = z.infer<typeof IgdbGameRatingsResponseSchema>;
-
-const IgdbGameSchema = z.object({
-  id: z.union([z.number(), z.string()]),
-  name: z.string(),
-  cover: z.object({ id: z.number(), url: z.string() }).optional(),
-  first_release_date: z.number().optional(),
-  platforms: z
-    .array(
-      z.object({ id: z.union([z.number(), z.string()]), name: z.string() }),
-    )
-    .optional(),
-  screenshots: z
-    .array(z.object({ id: z.number(), url: z.string() }))
-    .optional(),
-  url: z.string().optional(),
-  slug: z.string().optional(),
-  aggregated_rating: z.number().optional(),
-  aggregated_rating_count: z.number().optional(),
-  rating: z.number().optional(),
-  rating_count: z.number().optional(),
-});
-
-type IgdbGame = z.infer<typeof IgdbGameSchema>;
-
-const IgdbGameSearchResultSchema = z.object({
-  id: z.number(),
-  name: z.string(),
-  slug: z.string(),
-  url: z.string().optional(),
-});
-
-const IgdbGameRatingsResponseSchema = z.object({
-  id: z.number(),
-  aggregated_rating: z.number().optional(),
-  aggregated_rating_count: z.number().optional(),
-  rating: z.number().optional(),
-  rating_count: z.number().optional(),
-  url: z.string().optional(),
-});

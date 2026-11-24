@@ -3,7 +3,7 @@ import { View } from "react-native";
 
 import { Text } from "@/ui/typography/text";
 
-type GameStatusHLTBComparisonProps = {
+type GameStatusCompletionTimeComparisonProps = {
   myHours: number | null;
   myMinutes: number | null;
   mainStoryHours: number | null;
@@ -13,12 +13,12 @@ type GameStatusHLTBComparisonProps = {
 const ROUNDING_PRECISION = 10;
 const HOURS_PER_MINUTE = 60;
 
-export const GameStatusHLTBComparison = ({
+export const GameStatusCompletionTimeComparison = ({
   myHours,
   myMinutes,
   mainStoryHours,
   completionistHours,
-}: GameStatusHLTBComparisonProps) => {
+}: GameStatusCompletionTimeComparisonProps) => {
   if (myHours == null && myMinutes == null) return null;
   if (mainStoryHours == null && completionistHours == null) return null;
 
@@ -34,7 +34,7 @@ export const GameStatusHLTBComparison = ({
       <View className="flex-row items-center gap-2">
         <Clock size={20} color="#3B82F6" />
         <Text size="large" weight="bold" color="primary">
-          Twój czas vs HLTB
+          Twój czas vs średnia
         </Text>
       </View>
       <View className="mt-2 gap-1">
@@ -43,12 +43,12 @@ export const GameStatusHLTBComparison = ({
         </Text>
         {mainStoryHours != null && (
           <Text size="medium" weight="normal" color="secondary">
-            HLTB Main Story: {mainStoryHours}h
+            Fabuła: {mainStoryHours}h
           </Text>
         )}
         {completionistHours != null && (
           <Text size="medium" weight="normal" color="secondary">
-            HLTB Completionist: {completionistHours}h
+            100%: {completionistHours}h
           </Text>
         )}
         {diff != null && (

@@ -13,7 +13,6 @@ query UserGameStatus($gameStatusId: Float!, $oauthId: String!) {
         }
         game {
             id
-            hltbId
             name
             cover {
                 id

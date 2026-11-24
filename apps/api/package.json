@@ -21,7 +21,9 @@
     "start:db": "docker-compose up -d",
     "prisma-generate": "prisma generate",
     "prisma-migrate-dev": "prisma migrate dev --name",
-    "prisma-seed": "ts-node prisma/seeders/seed.ts"
+    "prisma-seed": "ts-node prisma/seeders/seed.ts",
+    "backfill-igdb-source-ids": "ts-node -r tsconfig-paths/register src/scripts/backfill_igdb_source_ids.ts",
+    "probe-igdb-coverage": "ts-node -r tsconfig-paths/register src/scripts/probe_igdb_coverage.ts"
   },
   "dependencies": {
     "@apollo/server": "^4.13.0",

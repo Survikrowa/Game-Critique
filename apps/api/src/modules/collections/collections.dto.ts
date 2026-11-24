@@ -42,7 +42,7 @@ export class AddGameToCollectionDTO {
   @Field(() => Number)
   collectionId: number;
   @Field(() => Number)
-  hltbGameId: number;
+  gameId: number;
 }
 
 @InputType({ description: 'Required arguments to remove a collection' })

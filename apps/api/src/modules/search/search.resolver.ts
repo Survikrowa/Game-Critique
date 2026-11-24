@@ -1,24 +1,20 @@
 import { Resolver, Query, Args } from '@nestjs/graphql';
 import { SearchResult } from './search.model';
 import { SearchService } from './search.service';
-import { GamesService } from '../games/games.service';
 
 @Resolver(() => SearchResult)
 export class SearchResolver {
-  constructor(
-    private readonly searchService: SearchService,
-    private readonly gamesService: GamesService,
-  ) {}
+  constructor(private readonly searchService: SearchService) {}
 
   @Query(() => SearchResult)
   async search(@Args('input') input: string) {
     const games = await this.searchService.search(input);
-    await this.gamesService.addGamesToDatabase(games);
     return {
       games: games.map((game) => ({
-        ...game,
+        id: game.id,
+        name: game.name,
         cover: {
-          small_url: game.coverSmallUrl,
+          small_url: game.cover?.smallUrl ?? '',
         },
       })),
     };

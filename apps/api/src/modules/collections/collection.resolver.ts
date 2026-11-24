@@ -91,7 +91,7 @@ export class CollectionsResolver {
     try {
       await this.collectionsService.addGameToCollection(
         collection.collectionId,
-        collection.hltbGameId,
+        collection.gameId,
       );
       return {
         success: true,

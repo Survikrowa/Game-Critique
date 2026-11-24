@@ -1,4 +1,4 @@
-import { Args, Mutation, Resolver } from '@nestjs/graphql';
+import { Args, Int, Mutation, Resolver } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { JwtAuthGuard } from '../../../auth/infrastructure/guards/auth-jwt.guard';
@@ -10,7 +10,9 @@ export class GameMetadataResolver {
 
   @UseGuards(JwtAuthGuard)
   @Mutation(() => Boolean)
-  async fetchDoesItPlayData(@Args('hltbId') hltbId: number): Promise<boolean> {
-    return this.commandBus.execute(new FetchDoesItPlayDataCommand(hltbId));
+  async fetchDoesItPlayData(
+    @Args('gameId', { type: () => Int }) gameId: number,
+  ): Promise<boolean> {
+    return this.commandBus.execute(new FetchDoesItPlayDataCommand(gameId));
   }
 }

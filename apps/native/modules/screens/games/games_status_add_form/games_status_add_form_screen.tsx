@@ -17,9 +17,9 @@ import { Separator } from "@/ui/layout/separator/separator";
 import { Card } from "@/ui/panels/card/card";
 
 export const GamesStatusAddFormScreen = () => {
-  const { hltb_id } = useLocalSearchParams<{ hltb_id: string }>();
-  const gameQuery = useGetGameInfo(hltb_id);
-  if (!hltb_id || !gameQuery.data) {
+  const { game_id } = useLocalSearchParams<{ game_id: string }>();
+  const gameQuery = useGetGameInfo(game_id);
+  if (!game_id || !gameQuery.data) {
     return null;
   }
   if (gameQuery.loading) {
@@ -38,7 +38,7 @@ export const GamesStatusAddFormScreen = () => {
           keyboardShouldPersistTaps="handled"
         >
           <Card>
-            <HStack className="items-center gap-2 justify-center">
+            <HStack className="items-center justify-center gap-2">
               <Text size="medium" weight="semiBold" color="primary">
                 Aktualnie dodajesz:
               </Text>

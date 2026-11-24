@@ -14,7 +14,7 @@ export class FetchDoesItPlayDataHandler
 
   async execute(command: FetchDoesItPlayDataCommand): Promise<boolean> {
     const game = await this.prisma.game.findUnique({
-      where: { hltbId: command.hltbId },
+      where: { id: command.gameId },
     });
     if (!game) return false;
 

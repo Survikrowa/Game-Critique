@@ -9,7 +9,7 @@ export type PushNotificationType =
 
 export interface PushNotificationData {
   type: PushNotificationType;
-  hltbId?: number;
+  gameId?: number;
   oauthId?: string;
   gamesStatusId?: number;
   igdbId?: number;

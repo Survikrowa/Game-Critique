@@ -25,16 +25,9 @@ export class HowLongToBeatMigrationConsumer {
         data.games,
       );
 
-      const searchResults = await Promise.all(
-        gamesTitles.map(
-          async (title) => await this.searchService.search(title),
-        ),
+      await Promise.all(
+        gamesTitles.map((title) => this.searchService.searchForImport(title)),
       );
-
-      const job = await this.gamesService.addGamesToDatabase(
-        searchResults.flat(),
-      );
-      await job.isCompleted();
       for (const gameData of data.games) {
         await this.prismaService.$transaction(async () => {
           const game = await this.gamesService.findGameByName(gameData.title);

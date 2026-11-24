@@ -14,5 +14,4 @@ export type GetGamesQueryResponse = {
   id: number;
   name: string;
   slug: string;
-  hltbId: number;
 };

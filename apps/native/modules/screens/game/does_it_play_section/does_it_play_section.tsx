@@ -17,20 +17,20 @@ type PhysicalMediaEntry = {
 
 type DoesItPlaySectionProps = {
   entries: PhysicalMediaEntry[] | null | undefined;
-  hltbId: number | undefined;
+  gameId: number | undefined;
   onDataFetched: () => void;
 };
 
 export const DoesItPlaySection = ({
   entries,
-  hltbId,
+  gameId,
   onDataFetched,
 }: DoesItPlaySectionProps) => {
   const [fetchMutation, { loading }] = useFetchDoesItPlayDataMutation();
 
   const handleFetch = async () => {
-    if (!hltbId) return;
-    await fetchMutation({ variables: { hltbId } });
+    if (!gameId) return;
+    await fetchMutation({ variables: { gameId } });
     onDataFetched();
   };
 

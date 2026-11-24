@@ -26,7 +26,6 @@ export type GetUserReturn = {
       id: number;
       name: string;
       slug: string;
-      hltbId: number;
     };
     updatedAt: Date;
   }[];
